@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Rendering Engine (Direct3D 9)
+    Rendering Engine (Direct3D 9)
 
     --- GERenderingObjects.h ---
 */
@@ -115,9 +115,9 @@ class GEMesh : public GERenderingObject
 private:
     // mesh data
     LPD3DXMESH mMesh;
-	D3DMATERIAL9* mMaterials;
-	LPDIRECT3DTEXTURE9* mTextures;
-	DWORD iNumMaterials;
+    D3DMATERIAL9* mMaterials;
+    LPDIRECT3DTEXTURE9* mTextures;
+    DWORD iNumMaterials;
 
     // matrices
     D3DXMATRIX mScale;
@@ -163,9 +163,9 @@ private:
     LPDIRECT3DDEVICE9 d3ddev;
 
     // camera vectors
-	D3DXVECTOR3 vEye;
-	D3DXVECTOR3 vLookAt;
-	D3DXVECTOR3 vUp;
+    D3DXVECTOR3 vEye;
+    D3DXVECTOR3 vLookAt;
+    D3DXVECTOR3 vUp;
     D3DXVECTOR3 vRight;
 
 public:

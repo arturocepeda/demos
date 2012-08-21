@@ -18,27 +18,27 @@
 class CLine
 {
 private:
-	double px0;
-	double py0;
+    double px0;
+    double py0;
 
-	double Dx;
-	double Dy;
+    double Dx;
+    double Dy;
 
-	double m;
-	double b;
+    double m;
+    double b;
 
-	bool vertical;
-	bool horizontal;
+    bool vertical;
+    bool horizontal;
 
 public:
-	CLine(double x0, double y0, double x1, double y1);
-	~CLine();
+    CLine(double x0, double y0, double x1, double y1);
+    ~CLine();
 
-	bool can_calculate_y();
-	double y(double x);
+    bool can_calculate_y();
+    double y(double x);
 
-	bool can_calculate_x();
-	double x(double y);
+    bool can_calculate_x();
+    double x(double y);
 };
 
 

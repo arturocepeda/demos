@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Audio engine (FMOD)
+    Audio engine (FMOD)
 
     --- GEAudio.h ---
 */

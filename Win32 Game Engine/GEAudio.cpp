@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Audio Engine (FMOD)
+    Audio Engine (FMOD)
 
     --- GEAudio.cpp ---
 */
@@ -30,13 +30,13 @@ GEAudio::~GEAudio()
 
 void GEAudio::ERRCHECK(FMOD_RESULT result)
 {
-	char sString[256];
+    char sString[256];
 
-	sprintf(sString, "FMOD error! (%d)", result, FMOD_ErrorString(result));
+    sprintf(sString, "FMOD error! (%d)", result, FMOD_ErrorString(result));
 
     if(result != FMOD_OK)
     {
-		MessageBox(NULL, sString, "FMOD error", 0);
+        MessageBox(NULL, sString, "FMOD error", 0);
         exit(-1);
     }
 }
@@ -58,8 +58,8 @@ void GEAudio::init()
 
     if(version < FMOD_VERSION)
     {
-		sprintf(name, "Error! You are using an old version of FMOD %08x. This program requires %08x\n", version, FMOD_VERSION);
-		MessageBox(NULL, name, "FMOD error", 0);
+        sprintf(name, "Error! You are using an old version of FMOD %08x. This program requires %08x\n", version, FMOD_VERSION);
+        MessageBox(NULL, name, "FMOD error", 0);
         return;
     }
 
@@ -123,7 +123,7 @@ void GEAudio::update()
 
 void GEAudio::release()
 {    
-	sSystem->close();
+    sSystem->close();
     sSystem->release();
 }
 

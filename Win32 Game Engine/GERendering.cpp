@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Rendering Engine (Direct3D)
+    Rendering Engine (Direct3D)
 
     --- GERendering.cpp ---
 */
@@ -26,25 +26,25 @@ GERendering::GERendering(HWND DeviceWindow, bool Windowed, unsigned int ScreenSi
     // default view port
     defineViewPort(0, 0, 0, iScreenSizeX, iScreenSizeY);
 
-	// Direct3D system
-	d3d = Direct3DCreate9(D3D_SDK_VERSION);
+    // Direct3D system
+    d3d = Direct3DCreate9(D3D_SDK_VERSION);
 
-	// Direct3D device
+    // Direct3D device
     D3DPRESENT_PARAMETERS d3dpp;
 
     ZeroMemory(&d3dpp, sizeof(d3dpp));
     d3dpp.hDeviceWindow = DeviceWindow;
-	d3dpp.Windowed = Windowed;
+    d3dpp.Windowed = Windowed;
 
     d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.EnableAutoDepthStencil = TRUE;
+    d3dpp.EnableAutoDepthStencil = TRUE;
     d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
     //d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
     d3dpp.MultiSampleType = D3DMULTISAMPLE_2_SAMPLES;
     d3dpp.MultiSampleQuality = 0;
 
-	d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+    d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
     d3dpp.BackBufferWidth = iScreenSizeX;
     d3dpp.BackBufferHeight = iScreenSizeY;
 
@@ -57,8 +57,8 @@ GERendering::GERendering(HWND DeviceWindow, bool Windowed, unsigned int ScreenSi
         exit(1);
     }
 
-	// lighting settings
-	d3ddev->SetRenderState(D3DRS_LIGHTING, TRUE);
+    // lighting settings
+    d3ddev->SetRenderState(D3DRS_LIGHTING, TRUE);
     iNumLights = 0;
 
     // Z-buffer
@@ -79,7 +79,7 @@ GERendering::GERendering(HWND DeviceWindow, bool Windowed, unsigned int ScreenSi
     // anti-aliasing
     d3ddev->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
 
-	// set projection matrix
+    // set projection matrix
     setupProjectionMatrix();
 }
 
@@ -179,13 +179,13 @@ void GERendering::clearBuffers()
 
 void GERendering::setupProjectionMatrix()
 {
-	FLOAT fAspect = (FLOAT)iScreenSizeX / iScreenSizeY;
+    FLOAT fAspect = (FLOAT)iScreenSizeX / iScreenSizeY;
     FLOAT fMinViewDistance = 0.1f;
     FLOAT fMaxViewDistance = 1000.0f;
 
     D3DXMATRIX matProjection;
-	D3DXMatrixPerspectiveFovLH(&matProjection, D3DX_PI / 4, fAspect, fMinViewDistance, fMaxViewDistance);
-	d3ddev->SetTransform(D3DTS_PROJECTION, &matProjection);
+    D3DXMatrixPerspectiveFovLH(&matProjection, D3DX_PI / 4, fAspect, fMinViewDistance, fMaxViewDistance);
+    d3ddev->SetTransform(D3DTS_PROJECTION, &matProjection);
 }
 
 void GERendering::setAmbientLight(unsigned char R, unsigned char G, unsigned char B)
@@ -387,8 +387,8 @@ void GERendering::defineFont(unsigned int Font, unsigned int Height, unsigned in
     if(Font >= FONTS)
         return;
 
-	D3DXCreateFontA(d3ddev, Height, Width, Bold? FW_BOLD: FW_NORMAL, 0, Italic, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, 
-				    DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT(FontName), &fFonts[Font]);
+    D3DXCreateFontA(d3ddev, Height, Width, Bold? FW_BOLD: FW_NORMAL, 0, Italic, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, 
+                    DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT(FontName), &fFonts[Font]);
 }
 
 void GERendering::releaseFont(unsigned int Font)

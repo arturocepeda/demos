@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Timer (Win32)
+    Timer (Win32)
 
     --- GETimer.cpp ---
 */

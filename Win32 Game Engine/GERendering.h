@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Rendering Engine (Direct3D 9)
+    Rendering Engine (Direct3D 9)
 
     --- GERendering.h ---
 */
@@ -35,8 +35,8 @@
 class GERendering
 {
 private:
-	LPDIRECT3D9 d3d;
-	LPDIRECT3DDEVICE9 d3ddev;
+    LPDIRECT3D9 d3d;
+    LPDIRECT3DDEVICE9 d3ddev;
 
     unsigned int iScreenSizeX;
     unsigned int iScreenSizeY;
@@ -52,8 +52,8 @@ private:
     void clearBuffers();
 
 public:
-	GERendering(HWND DeviceWindow, bool Windowed, unsigned int ScreenSizeX, unsigned int ScreenSizeY);
-	~GERendering();
+    GERendering(HWND DeviceWindow, bool Windowed, unsigned int ScreenSizeX, unsigned int ScreenSizeY);
+    ~GERendering();
 
     // meshes
     void createMesh(GEMesh** Mesh);
@@ -101,7 +101,7 @@ public:
     void releaseFont(unsigned int Font);
 
     // rendering
-	void renderBegin();
+    void renderBegin();
     void renderMesh(GEMesh* Mesh);
     void renderSprite(GESprite* Sprite);
     void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned char Opacity,

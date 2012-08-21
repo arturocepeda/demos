@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Timer (Win32)
+    Timer (Win32)
 
     --- GETimer.h ---
 */
@@ -30,7 +30,7 @@ public:
 
     void start();
     void stop();
-    double getTime();	// microseconds
+    double getTime();    // microseconds
 };
 
 #endif

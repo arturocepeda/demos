@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Rendering Engine (Direct3D)
+    Rendering Engine (Direct3D)
 
     --- GERenderingObjects.cpp ---
 */
@@ -198,7 +198,7 @@ void GEMesh::loadFromFile(const char* Filename)
 void GEMesh::loadFromFile(const char* Filename, const char* TexturesPath)
 {
     LPD3DXBUFFER pD3DXMtrlBuffer;
-	D3DXMATERIAL* d3dxMaterials;
+    D3DXMATERIAL* d3dxMaterials;
     char sTextureFilename[256];
 
     // load mesh
@@ -232,7 +232,7 @@ void GEMesh::loadFromFile(const char* Filename, const char* TexturesPath)
 void GEMesh::loadFromMemory(void* Data, unsigned int SizeOfData)
 {
     LPD3DXBUFFER pD3DXMtrlBuffer;
-	D3DXMATERIAL* d3dxMaterials;
+    D3DXMATERIAL* d3dxMaterials;
 
     // load mesh
     D3DXLoadMeshFromXInMemory(Data, SizeOfData, D3DXMESH_SYSTEMMEM, d3ddev, NULL, &pD3DXMtrlBuffer, NULL, 
@@ -291,7 +291,7 @@ void GEMesh::render()
     mTransform = mScale * mRotationX * mRotationY * mRotationZ * mTranslation;
     d3ddev->SetTransform(D3DTS_WORLD, &mTransform);
 
-	for(DWORD i = 0; i < iNumMaterials; i++)
+    for(DWORD i = 0; i < iNumMaterials; i++)
     {
         d3ddev->SetMaterial(&mMaterials[i]);
         d3ddev->SetTexture(0, mTextures[i]);
@@ -446,5 +446,5 @@ void GECamera::use()
 {
     D3DXMATRIXA16 mView;
     D3DXMatrixLookAtLH(&mView, &vEye, &vLookAt, &vUp);
-	d3ddev->SetTransform(D3DTS_VIEW, &mView);
+    d3ddev->SetTransform(D3DTS_VIEW, &mView);
 }

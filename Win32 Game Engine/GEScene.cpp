@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Scene Management
+    Scene Management
 
     --- GEScene.cpp ---
 */

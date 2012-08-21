@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Multiplayer (Win32)
+    Multiplayer (Win32)
 
     --- GEMultiplayer.cpp ---
 */

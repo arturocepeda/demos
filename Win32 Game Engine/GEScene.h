@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	Scene Management
+    Scene Management
 
     --- GEScene.h ---
 */
@@ -54,9 +54,9 @@ protected:
 public:
     GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData);
 
-	virtual void init() = 0;
-	virtual void update() = 0;
-	virtual void release() = 0;
+    virtual void init() = 0;
+    virtual void update() = 0;
+    virtual void release() = 0;
 
     virtual void inputKey(char Key) = 0;
     virtual void inputMouse(int X, int Y);
