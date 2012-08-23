@@ -12,7 +12,12 @@
 #include "main.h"
 #include "GEScene.h"
 #include "GEMultiplayer.h"
+
+#ifdef _KINECT_OPENNI_
 #include "kinect.openni.h"
+#else
+#include "kinect.ms.h"
+#endif
 
 #ifndef _SCENEMATCH_H_
 #define _SCENEMATCH_H_

@@ -2,7 +2,7 @@
 /*
     Arturo Cepeda Pérez
 
-	AirHockey3d - Using the Air Hockey Game Library
+    AirHockey3d - Using the Air Hockey Game Library
 
     --- kinect.ms.cpp ---
 */
@@ -19,7 +19,7 @@
 KinectHandPosition* pHandTracking;
 
 //
-//	Thread function
+//    Thread function
 //
 DWORD WINAPI KinectTracking(LPVOID HandTracking)
 {
@@ -27,16 +27,16 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
 
     pHandTracking->Exit = false;
     pHandTracking->Error = false;
-	pHandTracking->KinectReady = false;
+    pHandTracking->KinectReady = false;
 
     for(int i = 0; i < KINECT_NUM_PLAYERS; i++)
     {
-	    pHandTracking->PlayerReady[i] = false;
+        pHandTracking->PlayerReady[i] = false;
         pHandTracking->PlayerSkeleton[i] = -1;
 
-	    pHandTracking->x[i] = 0.0f;
-	    pHandTracking->y[i] = 0.0f;
-	    pHandTracking->z[i] = 0.0f;
+        pHandTracking->x[i] = 0.0f;
+        pHandTracking->y[i] = 0.0f;
+        pHandTracking->z[i] = 0.0f;
     }
 
 #ifndef _KINECT_
@@ -134,17 +134,17 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
         }
     }
 
-	// release the objects
+    // release the objects
     CloseHandle(hSkeletonEvent);
 
     for(j = 0; j < KINECT_NUM_PLAYERS; j++)
-	    pHandTracking->PlayerReady[j] = false;
+        pHandTracking->PlayerReady[j] = false;
 
-	pHandTracking->KinectReady = false;
+    pHandTracking->KinectReady = false;
 
     // shut down Kinect
     NuiSkeletonTrackingDisable();
     NuiShutdown();
 #endif
-	return 0;
+    return 0;
 }

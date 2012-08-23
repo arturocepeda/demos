@@ -53,12 +53,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>\Games\SDK\FMOD\api\inc;\Games\SDK\DirectX\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>D:\Games\SDK\DirectX\lib\x86\d3d9.lib;D:\Games\SDK\DirectX\lib\x86\d3dx9.lib;D:\Games\SDK\FMOD\api\lib\fmodex_vc.lib;ws2_32.lib;C:\Program Files (x86)\OpenNI\Lib\OpenNI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>\Games\SDK\DirectX\lib\x86\d3d9.lib;\Games\SDK\DirectX\lib\x86\d3dx9.lib;\Games\SDK\FMOD\api\lib\fmodex_vc.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -88,7 +88,7 @@
     <ClCompile Include="GEMultiplayer.cpp" />
     <ClCompile Include="GERenderingObjects.cpp" />
     <ClCompile Include="GEScene.cpp" />
-    <ClCompile Include="kinect.openni.cpp" />
+    <ClCompile Include="kinect.ms.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="sceneMatch.cpp" />
     <ClCompile Include="GERendering.cpp" />
@@ -104,7 +104,7 @@
     <ClInclude Include="GEMultiplayer.h" />
     <ClInclude Include="GERenderingObjects.h" />
     <ClInclude Include="GEScene.h" />
-    <ClInclude Include="kinect.openni.h" />
+    <ClInclude Include="kinect.ms.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="sceneMatch.h" />
     <ClInclude Include="GERendering.h" />

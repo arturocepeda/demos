@@ -100,7 +100,7 @@ void CSceneMatch::init()
     // Kinect management
     if(sGlobal->bKinect)
     {
-#ifdef _KINECT_SDK_
+#ifndef _KINECT_OPENNI_
         kHandPosition.PlayerRightHanded[0] = sGlobal->bPlayer1RightHanded;
         kHandPosition.PlayerRightHanded[1] = sGlobal->bPlayer2RightHanded;
 #endif

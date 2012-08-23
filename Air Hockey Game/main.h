@@ -14,8 +14,10 @@
 #include <windows.h>
 #include "AHAI.h"
 
-//#define _DEBUG_
-//#define _KINECT_
+//#define _DEBUG_             // defined: debug mode
+
+//#define _KINECT_            // defined: use sensor Kinect, undefined: don't use sensor Kinect
+//#define _KINECT_OPENNI_     // defined: OpenNI, undefined: Kinect SDK
 
 #define SCENE_MENU      1
 #define SCENE_MATCH     2

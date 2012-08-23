@@ -9,6 +9,7 @@
 
 #include "sceneMenu.h"
 
+#ifdef _KINECT_OPENNI_
 char CSceneMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
                                   "1) When the message \"Waiting for player\" appears, wave to\n"
                                   "the sensor with the hand you want to use to play, moving it\n"
@@ -19,6 +20,19 @@ char CSceneMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
                                   "backward: just imagine that you are playing on a real air\n"
                                   "hockey table!\n\n"
                                   "Press any key to start..."};
+#else
+char CSceneMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
+                                  "1) When the message \"Waiting for player\" appears, place\n"
+                                  "yourself in front of the sensor.\n\n"
+                                  "2) Remember to select the appropriate hand for each player\n"
+                                  "in the Settings menu (right-handed or left-handed).\n\n"
+                                  "3) Try to keep the hand separated from your body while you\n"
+                                  "are playing.\n\n"
+                                  "4) Don't move your hand up and down to play, but forward and\n"
+                                  "backward: just imagine that you are playing on a real air\n"
+                                  "hockey table!\n\n"
+                                  "Press any key to start..."};
+#endif
 
 CSceneMenu::CSceneMenu(GERendering* Render, GEAudio* Audio, void* GlobalData) : 
             GEScene(Render, Audio, GlobalData)
@@ -454,6 +468,16 @@ void CSceneMenu::inputKey(char Key)
                         sGlobal->fKinectMinimumDistance = sGlobal->fKinectMaximumDistance;
                 }
                 break;
+
+            // player 1 hand
+            case 3:
+                sGlobal->bPlayer1RightHanded = !sGlobal->bPlayer1RightHanded;
+                break;
+
+            // player 2 hand
+            case 4:
+                sGlobal->bPlayer2RightHanded = !sGlobal->bPlayer2RightHanded;
+                break;
             }
 
             break;
@@ -572,6 +596,16 @@ void CSceneMenu::inputKey(char Key)
                 if(sGlobal->fKinectMaximumDistance < KINECT_MAXDIST_MAX)
                     sGlobal->fKinectMaximumDistance += 10.0f;
                 break;
+
+            // player 1 hand
+            case 3:
+                sGlobal->bPlayer1RightHanded = !sGlobal->bPlayer1RightHanded;
+                break;
+
+            // player 2 hand
+            case 4:
+                sGlobal->bPlayer2RightHanded = !sGlobal->bPlayer2RightHanded;
+                break;
             }
 
             break;
@@ -614,7 +648,7 @@ void CSceneMenu::enterMenu(int iMenu)
         strcpy(sOption[5], "CPU difficulty...");
 #ifdef _KINECT_
         iNumOptions = 7;
-        strcpy(sOption[6], "Kinect calibration...");
+        strcpy(sOption[6], "Kinect settings...");
 #endif
         break;
 
@@ -647,6 +681,9 @@ void CSceneMenu::enterMenu(int iMenu)
 
     case MENU_SETTINGS_KINECT:
         iNumOptions = 3;
+#ifndef _KINECT_OPENNI_
+        iNumOptions = 5;
+#endif
         refreshSettings();
         break;
 
@@ -829,6 +866,10 @@ void CSceneMenu::refreshSettings()
         sprintf(sOption[0], "< Table width: %.0f cm >", sGlobal->fKinectWidth / 10 * 2);
         sprintf(sOption[1], "< Minimum distance: %.0f cm >", sGlobal->fKinectMinimumDistance / 10);
         sprintf(sOption[2], "< Maximum distance: %.0f cm >", sGlobal->fKinectMaximumDistance / 10);
+#ifndef _KINECT_OPENNI_
+        sprintf(sOption[3], "< Player 1: %s >", (sGlobal->bPlayer1RightHanded)? "right-handed": "left-handed");
+        sprintf(sOption[4], "< Player 2: %s >", (sGlobal->bPlayer2RightHanded)? "right-handed": "left-handed");
+#endif
         break;
     }
 }

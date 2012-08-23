@@ -157,7 +157,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-    if(iMsg == WM_KEYDOWN)
+    if(iMsg == WM_KEYDOWN && cCurrentScene)
     {
         cCurrentScene->inputKey((char)wParam);
         return 0;

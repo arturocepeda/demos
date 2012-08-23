@@ -36,9 +36,9 @@ be installed:
 
    - DirectX: http://www.microsoft.com/en-us/download/details.aspx?id=35
    - Kinect sensor (hardware)
-   - OpenNI: http://www.openni.org/Downloads/OpenNIModules.aspx
-   - SensorKinect: https://github.com/avin2/SensorKinect/tree/unstable/Bin
-   - PrimeSense NITE: http://www.openni.org/Downloads/OpenNIModules.aspx
+   - OpenNI (Win32): http://www.openni.org/Downloads/OpenNIModules.aspx
+   - SensorKinect (Win32): https://github.com/avin2/SensorKinect/tree/unstable/Bin
+   - PrimeSense NITE (Win32): http://www.openni.org/Downloads/OpenNIModules.aspx
 
 
  [Air Hockey (Kinect SDK).exe]
