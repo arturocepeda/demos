@@ -5,14 +5,17 @@
 #import <OpenGLES/ES1/glext.h>
 #import "GEScene.h"
 
-#define MAX_FINGERS 5
+#define _USE_ACCELEROMETER_
+
+#define MAX_FINGERS           5
+#define ACCELEROMETER_UPDATE  0.05
 
 /*
 This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
 The view content is basically an EAGL surface you render your OpenGL scene into.
 Note that setting the view non-opaque will only work if the EAGL surface has an alpha channel.
 */
-@interface EAGLView : UIView {
+@interface EAGLView : UIView <UIAccelerometerDelegate> {
     
 @private
    /* The pixel dimensions of the backbuffer */
@@ -50,6 +53,7 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
    
    // Input management
    int iFingerID[MAX_FINGERS];
+   UIAccelerometer *uiAccel;
 }
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
@@ -58,5 +62,6 @@ Note that setting the view non-opaque will only work if the EAGL surface has an 
 - (void)startAnimation;
 - (void)stopAnimation;
 - (void)render;
+- (void)accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration;
 
 @end

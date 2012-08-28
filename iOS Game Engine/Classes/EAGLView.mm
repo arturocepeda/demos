@@ -27,7 +27,7 @@
 }
 
 //The GL view is stored in the nib file. When it's unarchived it's sent -initWithCoder:
--(id) initWithCoder :(NSCoder*)coder 
+-(id) initWithCoder:(NSCoder*)coder 
 {    
    if((self = [super initWithCoder:coder])) 
    {
@@ -59,14 +59,20 @@
       
 		if([currSysVer compare:reqSysVer options:NSNumericSearch] != NSOrderedAscending)
 			displayLinkSupported = TRUE;
-		
-		//mode = 1;      
+  
       cgBounds = [self bounds];
            
       // enable multiple touch
       self.userInteractionEnabled = YES;
       self.multipleTouchEnabled = YES;
       self.exclusiveTouch = YES;
+      
+#ifdef _USE_ACCELEROMETER_
+      // accelerometer
+      uiAccel = [UIAccelerometer sharedAccelerometer];
+      uiAccel.updateInterval = ACCELEROMETER_UPDATE;
+      uiAccel.delegate = self;
+#endif
       
       // IDs for touch management
       for(int i = 0; i < MAX_FINGERS; i++)
@@ -76,13 +82,18 @@
    return self;
 }
 
--(void) render 
+-(void) render
 {
    cScenes[iCurrentScene]->update();
    
    // scene change request
    if(cScenes[iCurrentScene]->getNextScene() >= 0)
       [self selectScene :cScenes[iCurrentScene]->getNextScene()];
+}
+
+-(void) accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
+{
+   cScenes[iCurrentScene]->updateAccelerometerStatus(acceleration.x, acceleration.y, acceleration.z);
 }
 
 -(void) layoutSubviews 
@@ -110,7 +121,7 @@
    [self render];
 }
 
--(void) selectScene :(unsigned int) iScene
+-(void) selectScene:(unsigned int)iScene
 {
    cScenes[iCurrentScene]->release();
    iCurrentScene = iScene;

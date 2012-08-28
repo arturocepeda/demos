@@ -107,9 +107,9 @@ bool positive(float number)
 
 bool same_sign(float a, float b)
 {
-	if(a >= 0.0 && b >= 0.0)
+	if(a >= 0.0f && b >= 0.0f)
 		return true;
-	else if(a < 0.0 && b < 0.0)
+	else if(a < 0.0f && b < 0.0f)
 		return true;
 	else
 		return false;

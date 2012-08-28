@@ -29,7 +29,7 @@ protected:
    CLine* cPixelToPositionY;
    
    // scene management
-   int iNextScene;   
+   int iNextScene;
    void sceneChange(unsigned int iNewScene);
 
 public:
@@ -43,7 +43,9 @@ public:
    virtual void inputTouchBegin(int ID, CGPoint* Point) = 0;
    virtual void inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint) = 0;
    virtual void inputTouchEnd(int ID, CGPoint* Point) = 0;
-
+   
+   virtual void updateAccelerometerStatus(float X, float Y, float Z) = 0;
+   
    int getNextScene();
 };
 

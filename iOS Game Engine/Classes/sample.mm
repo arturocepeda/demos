@@ -9,6 +9,7 @@
 #include "sample.h"
 #include "banana.h"
 #include "cube.h"
+#include "Utils.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData) :
                GEScene(Render, Audio, GlobalData)
@@ -52,9 +53,8 @@ void GESceneSample::init()
    
    // sprites
    cSpriteBall = new GESprite(cRender->getTexture(2), cRender->getTextureSize(2));
-   cSpriteBall->setPosition(2.0f, 0.9f, 0.0f);
-   cSpriteBall->rotate(0.0f, 0.0f, 0.0f);
-   cSpriteBall->scale(0.4f, 0.4f, 0.4f);
+   cSpriteBall->setPosition(0.0f, 0.0f, 0.0f);
+   cSpriteBall->scale(0.2f, 0.2f, 0.2f);
    
    for(int i = 0; i < FINGERS; i++)
    {
@@ -84,15 +84,70 @@ void GESceneSample::init()
 
 void GESceneSample::update()
 {
-   render();   
-  
-   cMeshBanana->rotate(0.1f, 0.1f, 0.1f);
-   cMeshCube->rotate(0.4f, 0.6f, 0.8f);
+   updateText();
+   updateBanana();
+   updateCube();
+   updateBall();
    
-   cSpriteBall->move(-0.005f, -0.003f, 0.0f);
-   cSpriteBall->rotate(0.0f, 0.0f, 4.5f);
-   
+   render();
+}
+
+void GESceneSample::updateText()
+{
    cText->setOpacity(cText->getOpacity() + 0.001f);
+}
+
+void GESceneSample::updateBanana()
+{
+   cMeshBanana->rotate(0.1f, 0.1f, 0.1f);
+}
+
+void GESceneSample::updateCube()
+{
+   cMeshCube->rotate(0.4f, 0.6f, 0.8f);
+}
+
+void GESceneSample::updateBall()
+{
+   // get ball position
+   cSpriteBall->getPosition(&vBallPosition);
+   
+   // bounds control (left/right)
+   if((vBallPosition.X < BOUNDS_LEFT) ||
+      (vBallPosition.X > BOUNDS_RIGHT))
+   {
+      // correct position
+      if(vBallPosition.X < 0.0f)
+         vBallPosition.X = BOUNDS_LEFT;
+      else
+         vBallPosition.X = BOUNDS_RIGHT;
+      
+      cSpriteBall->setPosition(vBallPosition);
+      
+      // bounce
+      vBallVelocity.X = (fabs(vBallVelocity.X) > STOPPED)? -vBallVelocity.X * BOUNCE: 0.0f;
+   }
+   
+   // bounds control (top/bottom)
+   if((vBallPosition.Y > BOUNDS_TOP) ||
+      (vBallPosition.Y < BOUNDS_BOTTOM))
+   {
+      // correct position
+      if(vBallPosition.Y < 0.0f)
+         vBallPosition.Y = BOUNDS_BOTTOM;
+      else
+         vBallPosition.Y = BOUNDS_TOP;
+      
+      cSpriteBall->setPosition(vBallPosition);
+      
+      // bounce
+      vBallVelocity.Y = (fabs(vBallVelocity.Y) > STOPPED)? -vBallVelocity.Y * BOUNCE: 0.0f;
+   }
+   
+   // move and rotate the ball
+   cSpriteBall->move(vBallVelocity);
+   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.Y < 0.0f)? -1: 1) * vBallVelocity.X * ROTATION);
+   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);   
 }
 
 void GESceneSample::render()
@@ -147,8 +202,6 @@ void GESceneSample::release()
 
 void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 {
-   NSLog(@"\nFinger %d on:  (%.0f, %.0f)", ID, Point->x, Point->y);
-   
    cAudio->playSound(1, 1);
    cSpriteInfo[ID]->setPosition(cPixelToPositionX->y(Point->x), cPixelToPositionY->y(Point->y), 0.0f);
    cSpriteInfo[ID]->show();
@@ -163,7 +216,11 @@ void GESceneSample::inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* Curr
 
 void GESceneSample::inputTouchEnd(int ID, CGPoint* Point)
 {
-   NSLog(@"\nFinger %d off: (%.0f, %.0f)", ID, Point->x, Point->y);
-   
    cSpriteInfo[ID]->hide();
+}
+
+void GESceneSample::updateAccelerometerStatus(float X, float Y, float Z)
+{
+   vBallVelocity.X += X * ACC_SCALE;
+   vBallVelocity.Y += Y * ACC_SCALE;
 }
