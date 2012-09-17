@@ -844,21 +844,21 @@ void CSceneMatch::render()
         // score
         fPosX += 50.0f;
 
-        sDisplay[cGame->getGoalsPlayer1() / 10]->setScale(0.22f, 0.22f, 1.0f);
-        sDisplay[cGame->getGoalsPlayer1() / 10]->setPosition(fPosX - 39.0f, fPosY - 125.0f, 0.0f);
-        cRender->renderSprite(sDisplay[cGame->getGoalsPlayer1() / 10]);
-
-        sDisplay[cGame->getGoalsPlayer1() % 10]->setScale(0.22f, 0.22f, 1.0f);
-        sDisplay[cGame->getGoalsPlayer1() % 10]->setPosition(fPosX - 9.0f, fPosY - 125.0f, 0.0f);
-        cRender->renderSprite(sDisplay[cGame->getGoalsPlayer1() % 10]);
-
         sDisplay[cGame->getGoalsPlayer2() / 10]->setScale(0.22f, 0.22f, 1.0f);
-        sDisplay[cGame->getGoalsPlayer2() / 10]->setPosition(fPosX - 39.0f, fPosY + 140.0f, 0.0f);
+        sDisplay[cGame->getGoalsPlayer2() / 10]->setPosition(fPosX - 39.0f, fPosY - 125.0f, 0.0f);
         cRender->renderSprite(sDisplay[cGame->getGoalsPlayer2() / 10]);
 
         sDisplay[cGame->getGoalsPlayer2() % 10]->setScale(0.22f, 0.22f, 1.0f);
-        sDisplay[cGame->getGoalsPlayer2() % 10]->setPosition(fPosX - 9.0f, fPosY + 140.0f, 0.0f);
+        sDisplay[cGame->getGoalsPlayer2() % 10]->setPosition(fPosX - 9.0f, fPosY - 125.0f, 0.0f);
         cRender->renderSprite(sDisplay[cGame->getGoalsPlayer2() % 10]);
+
+        sDisplay[cGame->getGoalsPlayer1() / 10]->setScale(0.22f, 0.22f, 1.0f);
+        sDisplay[cGame->getGoalsPlayer1() / 10]->setPosition(fPosX - 39.0f, fPosY + 140.0f, 0.0f);
+        cRender->renderSprite(sDisplay[cGame->getGoalsPlayer1() / 10]);
+
+        sDisplay[cGame->getGoalsPlayer1() % 10]->setScale(0.22f, 0.22f, 1.0f);
+        sDisplay[cGame->getGoalsPlayer1() % 10]->setPosition(fPosX - 9.0f, fPosY + 140.0f, 0.0f);
+        cRender->renderSprite(sDisplay[cGame->getGoalsPlayer1() % 10]);
 
         // time
         fPosX += 10.0f;
