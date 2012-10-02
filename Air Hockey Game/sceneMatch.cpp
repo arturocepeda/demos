@@ -208,15 +208,21 @@ void CSceneMatch::initRenderObjects()
 
     // fonts
     iFontText = 1;
+    iFontDebug = 2;
 
     cRender->defineFont(iFontText, 50, 0, true, true, "Courier New");
+    cRender->defineFont(iFontDebug, 20, 0, false, false, "Courier New");
 
     // colors
     cColorMessage.set(140, 33, 27);
+    cColorDebug.set(255, 255, 255);
 
     // regions
     iRectText = 0;
+    iRectDebug = 1;
+
     cRender->defineRegion(iRectText, 40, 160, 0, sGlobal->ScreenSizeX);
+    cRender->defineRegion(iRectDebug, 0, sGlobal->ScreenSizeY, 0, sGlobal->ScreenSizeX);
 }
 
 void CSceneMatch::releaseRenderObjects()
@@ -266,9 +272,11 @@ void CSceneMatch::releaseRenderObjects()
 
     // fonts
     cRender->releaseFont(iFontText);
+    cRender->releaseFont(iFontDebug);
 
     // regions
     cRender->releaseRegion(iRectText);
+    cRender->releaseRegion(iRectDebug);
 }
 
 void CSceneMatch::initSoundObjects()
@@ -731,6 +739,14 @@ void CSceneMatch::inputKey(char Key)
     }
 }
 
+void CSceneMatch::inputMouseLeftButton()
+{
+}
+
+void CSceneMatch::inputMouseRightButton()
+{
+}
+
 void CSceneMatch::render()
 {
     cRender->renderBegin();
@@ -754,10 +770,31 @@ void CSceneMatch::render()
     mMeshMallet1->setPosition(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
     cRender->renderMesh(mMeshMallet1);
 
+#ifdef _DEBUG_
+    GEVector vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
+    GEVector vDebug;
+
+    cRender->worldToScreen(&vPlayer1, &vDebug);
+    cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
+
+    sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer1.X, vPlayer1.Y, vPlayer1.Z);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+#endif
+
     // player 2
     pPlayer2Position = cGame->getRenderPositionPlayer2();
     mMeshMallet2->setPosition(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
     cRender->renderMesh(mMeshMallet2);
+
+#ifdef _DEBUG_
+    GEVector vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
+
+    cRender->worldToScreen(&vPlayer2, &vDebug);
+    cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
+
+    sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer2.X, vPlayer2.Y, vPlayer2.Z);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+#endif
 
     // puck
     if(bPuckVisible)
@@ -765,6 +802,16 @@ void CSceneMatch::render()
         pPuckPosition = cGame->getRenderPositionPuck();
         mMeshPuck->setPosition(pPuckPosition.x, 0.0f, -pPuckPosition.y);
         cRender->renderMesh(mMeshPuck);
+
+#ifdef _DEBUG_
+        GEVector vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
+
+        cRender->worldToScreen(&vPuck, &vDebug);
+        cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
+
+        sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPuck.X, vPuck.Y, vPuck.Z);
+        cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+#endif
     }
 
     if(sGlobal->bSplit)
@@ -993,7 +1040,7 @@ void CSceneMatch::playSounds(int iEvent)
     case AH_EVENT_GOAL_P2:
 
         cAudio->setPosition(iChannelPuck, cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
-                            cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+                            -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
         cAudio->playSound(iSoundGoal[rand() % SOUNDS_GOAL], iChannelPuck);
 
         break;
@@ -1015,7 +1062,7 @@ void CSceneMatch::playSounds(int iEvent)
             iSoundPlay = 2 + rand() % (SOUNDS_PUCK - 2);
         
         cAudio->setPosition(iChannelMallet1, cGame->getRenderPositionPlayer1().x / AUDIO_RATIO, 0.0f,
-                            cGame->getRenderPositionPlayer1().y / AUDIO_RATIO);
+                            -cGame->getRenderPositionPlayer1().y / AUDIO_RATIO);
         cAudio->playSound(iSoundPuckMallet[iSoundPlay], iChannelMallet1);
 
         break;
@@ -1035,7 +1082,7 @@ void CSceneMatch::playSounds(int iEvent)
             iSoundPlay = 2 + rand() % (SOUNDS_PUCK - 2);
 
         cAudio->setPosition(iChannelMallet2, cGame->getRenderPositionPlayer2().x / AUDIO_RATIO, 0.0f,
-                            cGame->getRenderPositionPlayer2().y / AUDIO_RATIO);
+                            -cGame->getRenderPositionPlayer2().y / AUDIO_RATIO);
         cAudio->playSound(iSoundPuckMallet[iSoundPlay], iChannelMallet2);
 
         break;
@@ -1055,7 +1102,7 @@ void CSceneMatch::playSounds(int iEvent)
             iSoundPlay = 2 + rand() % (SOUNDS_TABLE - 2);
 
         cAudio->setPosition(iChannelPuck, cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
-                            cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+                            -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
         cAudio->playSound(iSoundPuckTable[iSoundPlay], iChannelPuck);
 
         break;

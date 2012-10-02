@@ -129,6 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
         }
 
         GetCursorPos(&pMouse);
+        ScreenToClient(hWnd, &pMouse);
 
         if(cCurrentScene)
             cCurrentScene->inputMouse(pMouse.x, pMouse.y);
@@ -157,10 +158,22 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-    if(iMsg == WM_KEYDOWN && cCurrentScene)
+    if(cCurrentScene)
     {
-        cCurrentScene->inputKey((char)wParam);
-        return 0;
+        switch(iMsg)
+        {
+        case WM_KEYDOWN:
+            cCurrentScene->inputKey((char)wParam);
+            return 0;
+
+        case WM_LBUTTONDOWN:
+            cCurrentScene->inputMouseLeftButton();
+            return 0;
+
+        case WM_RBUTTONDOWN:
+            cCurrentScene->inputMouseRightButton();
+            return 0;
+        }
     }
     
     return DefWindowProc(hWnd, iMsg, wParam, lParam);

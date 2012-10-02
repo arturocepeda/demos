@@ -130,6 +130,7 @@ private:
 
     // fonts
     unsigned int iFontText;
+    unsigned int iFontDebug;
 
     // view ports (split)
     unsigned int iPortFullScreen;
@@ -140,6 +141,7 @@ private:
 
     // text region
     unsigned int iRectText;
+    unsigned int iRectDebug;
 
     // text buffers
     char sMessage[256];
@@ -148,6 +150,7 @@ private:
 
     // colors
     GEColor cColorMessage;
+    GEColor cColorDebug;
 
     // sound handlers
     unsigned int iChannelMallet1;
@@ -193,6 +196,8 @@ public:
     void release();
 
     void inputKey(char Key);
+    void inputMouseLeftButton();
+    void inputMouseRightButton();
 };
 
 #endif

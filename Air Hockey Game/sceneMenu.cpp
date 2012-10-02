@@ -617,6 +617,14 @@ void CSceneMenu::inputKey(char Key)
     }
 }
 
+void CSceneMenu::inputMouseLeftButton()
+{
+}
+
+void CSceneMenu::inputMouseRightButton()
+{
+}
+
 void CSceneMenu::enterMenu(int iMenu)
 {
     iCurrentMenu = iMenu;

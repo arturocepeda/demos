@@ -180,10 +180,9 @@ void GERendering::clearBuffers()
 void GERendering::setupProjectionMatrix()
 {
     FLOAT fAspect = (FLOAT)iScreenSizeX / iScreenSizeY;
-    FLOAT fMinViewDistance = 0.1f;
+    FLOAT fMinViewDistance = 1.0f;
     FLOAT fMaxViewDistance = 1000.0f;
 
-    D3DXMATRIX matProjection;
     D3DXMatrixPerspectiveFovLH(&matProjection, D3DX_PI / 4, fAspect, fMinViewDistance, fMaxViewDistance);
     d3ddev->SetTransform(D3DTS_PROJECTION, &matProjection);
 }
@@ -398,6 +397,57 @@ void GERendering::releaseFont(unsigned int Font)
         fFonts[Font]->Release();
         fFonts[Font] = NULL;
     }
+}
+
+void GERendering::worldToScreen(const GEPoint* PositionWorld, GEPoint* PositionScreen)
+{
+    D3DXMATRIX matProjection;
+    d3ddev->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+    D3DXMATRIX matView;
+    d3ddev->GetTransform(D3DTS_VIEW, &matView);
+
+    D3DXMATRIX matIdentity;
+    D3DXMatrixIdentity(&matIdentity);
+    
+    D3DVIEWPORT9 vPort;
+    d3ddev->GetViewport(&vPort);
+
+    D3DXVECTOR3 vPositionWorld(PositionWorld->X, PositionWorld->Y, PositionWorld->Z);
+
+    D3DXVECTOR3 vPositionScreen;
+    D3DXVec3Project(&vPositionScreen, &vPositionWorld, &vPort, &matProjection, &matView, &matIdentity);
+
+    PositionScreen->X = vPositionScreen.x;
+    PositionScreen->Y = vPositionScreen.y;
+    PositionScreen->Z = vPositionScreen.z;  // if < 1.0f, then the world position is in the screen
+}
+
+void GERendering::screenToWorld(const GEPoint* PositionScreen, GEPoint* WorldPointNear, GEPoint* WorldPointFar)
+{
+    D3DXMATRIX matProjection;
+    d3ddev->GetTransform(D3DTS_PROJECTION, &matProjection);
+
+    D3DXMATRIX matView;
+    d3ddev->GetTransform(D3DTS_VIEW, &matView);
+
+    D3DXMATRIX matIdentity;
+    D3DXMatrixIdentity(&matIdentity);
+    
+    D3DVIEWPORT9 vPort;
+    d3ddev->GetViewport(&vPort);
+
+    D3DXVECTOR3 vPositionScreen1(PositionScreen->X, PositionScreen->Y, 0.0f);
+    D3DXVECTOR3 vPositionScreen2(PositionScreen->X, PositionScreen->Y, 1.0f);
+
+    D3DXVECTOR3 vPositionWorld1;
+    D3DXVec3Unproject(&vPositionWorld1, &vPositionScreen1, &vPort, &matProjection, &matView, &matIdentity);
+
+    D3DXVECTOR3 vPositionWorld2;
+    D3DXVec3Unproject(&vPositionWorld2, &vPositionScreen2, &vPort, &matProjection, &matView, &matIdentity);
+
+    WorldPointNear->set(vPositionWorld1.x, vPositionWorld1.y, vPositionWorld1.z);
+    WorldPointFar->set(vPositionWorld2.x, vPositionWorld2.y, vPositionWorld2.z);
 }
 
 void GERendering::renderBegin()

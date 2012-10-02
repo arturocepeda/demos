@@ -392,6 +392,20 @@ GECamera::~GECamera()
 {
 }
 
+void GECamera::getPosition(GEVector* Position)
+{
+    Position->X = vEye.x;
+    Position->Y = vEye.y;
+    Position->Z = vEye.z;
+}
+
+void GECamera::getLookAt(GEVector* LookAt)
+{
+    LookAt->X = vLookAt.x;
+    LookAt->Y = vLookAt.y;
+    LookAt->Z = vLookAt.z;
+}
+
 void GECamera::setPosition(float x, float y, float z)
 {
     vEye.x = x;
@@ -444,7 +458,6 @@ void GECamera::orbit(const GEVector& ReferencePoint, float Distance, float Theta
 
 void GECamera::use()
 {
-    D3DXMATRIXA16 mView;
     D3DXMatrixLookAtLH(&mView, &vEye, &vLookAt, &vUp);
     d3ddev->SetTransform(D3DTS_VIEW, &mView);
 }

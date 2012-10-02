@@ -39,12 +39,32 @@ struct GEColor
     }
 };
 
-struct GEVector
+struct GEPoint
 {
     float X;
     float Y;
     float Z;
 
+    GEPoint()
+    {
+        set(0.0f, 0.0f, 0.0f);
+    }
+
+    GEPoint(float vX, float vY, float vZ)
+    {
+        set(vX, vY, vZ);
+    }
+
+    void set(float vX, float vY, float vZ)
+    {
+        X = vX;
+        Y = vY;
+        Z = vZ;
+    }
+};
+
+struct GEVector : public GEPoint
+{
     GEVector()
     {
         set(0.0f, 0.0f, 0.0f);
@@ -55,11 +75,13 @@ struct GEVector
         set(vX, vY, vZ);
     }
 
-    void set(float vX, float vY, float vZ)
+    void normalize()
     {
-        X = vX;
-        Y = vY;
-        Z = vZ;
+        float fLength = sqrt(X * X + Y * Y + Z * Z);
+
+        X /= fLength;
+        Y /= fLength;
+        Z /= fLength;
     }
 };
 
@@ -168,12 +190,19 @@ private:
     D3DXVECTOR3 vUp;
     D3DXVECTOR3 vRight;
 
+    // view matrix
+    D3DXMATRIX mView;
+
 public:
     GECamera(LPDIRECT3DDEVICE9 D3DDevice);
     ~GECamera();
 
+    void getPosition(GEVector* Position);
+    void getLookAt(GEVector* LookAt);
+
     void setPosition(float X, float Y, float Z);
     void setPosition(const GEVector& Position);
+
     void move(float X, float Y, float Z);
     void move(const GEVector& Move);
     void lookAt(float X, float Y, float Z);

@@ -118,6 +118,8 @@ public:
     void release();
 
     void inputKey(char Key);
+    void inputMouseLeftButton();
+    void inputMouseRightButton();
 };
 
 #endif
