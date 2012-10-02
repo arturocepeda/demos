@@ -48,6 +48,8 @@ private:
     LPRECT rRegions[REGIONS];
     LPD3DXFONT fFonts[FONTS];
 
+    D3DXMATRIX matProjection;
+
     void setupProjectionMatrix();
     void clearBuffers();
 
@@ -99,6 +101,10 @@ public:
     void defineFont(unsigned int Font, unsigned int Height, unsigned int Width, bool Bold, bool Italic,
                     const char* FontName);
     void releaseFont(unsigned int Font);
+
+    // transformations
+    void worldToScreen(const GEPoint* PositionWorld, GEPoint* PositionScreen);
+    void screenToWorld(const GEPoint* PositionScreen, GEPoint* WorldPointNear, GEPoint* WorldPointFar);
 
     // rendering
     void renderBegin();

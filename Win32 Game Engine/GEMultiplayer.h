@@ -25,11 +25,12 @@ struct SRemoteAddress
 class GEMultiplayer
 {
 protected:
+    SOCKET hSocket;
     int iStatus;
 
 public:
-    virtual void init() = 0;
-    virtual void release() = 0;
+    void init();
+    void release();
 
     int getStatus();
 };
@@ -37,15 +38,11 @@ public:
 class GEClient : public GEMultiplayer
 {
 private:
-    SOCKET hSocket;
     sockaddr_in sServerAddress;
 
 public:
     GEClient();
     ~GEClient();
-
-    void init();
-    void release();
 
     void connectToServer(const char* IP, unsigned int Port);
 
@@ -55,15 +52,9 @@ public:
 
 class GEServer : public GEMultiplayer
 {
-private:
-    SOCKET hSocket;
-
 public:
     GEServer();
     ~GEServer();
-
-    void init();
-    void release();
 
     void activeServer(unsigned int Port);
 

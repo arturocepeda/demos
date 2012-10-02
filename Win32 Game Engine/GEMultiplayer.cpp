@@ -14,27 +14,7 @@
 //
 //  GEMultiplayer
 //
-int GEMultiplayer::getStatus()
-{
-    return iStatus;
-}
-
-
-//
-//  GEClient
-//
-GEClient::GEClient()
-{
-    iStatus = 0;
-    hSocket = INVALID_SOCKET;
-    memset(&sServerAddress, 0, sizeof(sServerAddress));
-}
-
-GEClient::~GEClient()
-{
-}
-
-void GEClient::init()
+void GEMultiplayer::init()
 {
     // initialize winsock
     WSADATA wsaData;
@@ -54,10 +34,30 @@ void GEClient::init()
     ioctlsocket(hSocket, FIONBIO, &iMode);
 }
 
-void GEClient::release()
+void GEMultiplayer::release()
 {
     closesocket(hSocket);
     WSACleanup();
+}
+
+int GEMultiplayer::getStatus()
+{
+    return iStatus;
+}
+
+
+//
+//  GEClient
+//
+GEClient::GEClient()
+{
+    iStatus = 0;
+    hSocket = INVALID_SOCKET;
+    memset(&sServerAddress, 0, sizeof(sServerAddress));
+}
+
+GEClient::~GEClient()
+{
 }
 
 void GEClient::connectToServer(const char* IP, unsigned int Port)
@@ -101,32 +101,6 @@ GEServer::GEServer()
 
 GEServer::~GEServer()
 {
-}
-
-void GEServer::init()
-{
-    // initialize winsock
-    WSADATA wsaData;
-    WSAStartup(MAKEWORD(2, 2), &wsaData);
-
-    // create socket
-    hSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-
-    if(hSocket == INVALID_SOCKET)
-    {
-        iStatus = -1;
-        return;
-    }
-
-    // set non-blocking mode
-    u_long iMode = 1;
-    ioctlsocket(hSocket, FIONBIO, &iMode);
-}
-
-void GEServer::release()
-{
-    closesocket(hSocket);
-    WSACleanup();
 }
 
 void GEServer::activeServer(unsigned int Port)
