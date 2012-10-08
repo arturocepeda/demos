@@ -103,8 +103,8 @@ public:
     void releaseFont(unsigned int Font);
 
     // transformations
-    void worldToScreen(const GEPoint* PositionWorld, GEPoint* PositionScreen);
-    void screenToWorld(const GEPoint* PositionScreen, GEPoint* WorldPointNear, GEPoint* WorldPointFar);
+    void worldToScreen(const GEVector* PositionWorld, GEVector* PositionScreen);
+    void screenToWorld(const GEVector* PositionScreen, GEVector* WorldPointNear, GEVector* WorldPointFar);
 
     // rendering
     void renderBegin();

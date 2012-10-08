@@ -399,7 +399,7 @@ void GERendering::releaseFont(unsigned int Font)
     }
 }
 
-void GERendering::worldToScreen(const GEPoint* PositionWorld, GEPoint* PositionScreen)
+void GERendering::worldToScreen(const GEVector* PositionWorld, GEVector* PositionScreen)
 {
     D3DXMATRIX matProjection;
     d3ddev->GetTransform(D3DTS_PROJECTION, &matProjection);
@@ -423,7 +423,7 @@ void GERendering::worldToScreen(const GEPoint* PositionWorld, GEPoint* PositionS
     PositionScreen->Z = vPositionScreen.z;  // if < 1.0f, then the world position is in the screen
 }
 
-void GERendering::screenToWorld(const GEPoint* PositionScreen, GEPoint* WorldPointNear, GEPoint* WorldPointFar)
+void GERendering::screenToWorld(const GEVector* PositionScreen, GEVector* WorldPointNear, GEVector* WorldPointFar)
 {
     D3DXMATRIX matProjection;
     d3ddev->GetTransform(D3DTS_PROJECTION, &matProjection);

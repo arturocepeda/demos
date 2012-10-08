@@ -39,18 +39,18 @@ struct GEColor
     }
 };
 
-struct GEPoint
+struct GEVector
 {
     float X;
     float Y;
     float Z;
 
-    GEPoint()
+    GEVector()
     {
         set(0.0f, 0.0f, 0.0f);
     }
 
-    GEPoint(float vX, float vY, float vZ)
+    GEVector(float vX, float vY, float vZ)
     {
         set(vX, vY, vZ);
     }
@@ -60,19 +60,6 @@ struct GEPoint
         X = vX;
         Y = vY;
         Z = vZ;
-    }
-};
-
-struct GEVector : public GEPoint
-{
-    GEVector()
-    {
-        set(0.0f, 0.0f, 0.0f);
-    }
-
-    GEVector(float vX, float vY, float vZ)
-    {
-        set(vX, vY, vZ);
     }
 
     void normalize()
