@@ -4,10 +4,10 @@
  
    Sample Scene
  
-   --- sample.mm ---
+   --- SceneSample.mm ---
  */
 
-#include "sample.h"
+#include "SceneSample.h"
 #include "banana.h"
 #include "cube.h"
 #include "GEUtils.h"
@@ -49,7 +49,6 @@ void GESceneSample::init()
    cMeshCube->setPosition(0.0f, -1.0f, 0.0f);
    cMeshCube->scale(0.5f, 0.5f, 0.5f);
    cMeshCube->setColor(0.75f, 0.25f, 0.25f);
-   cMeshCube->setOpacity(0.75f);
    
    // sprites
    cSpriteBackground = new GESprite(cRender->getTexture(Textures.Background),
@@ -72,14 +71,14 @@ void GESceneSample::init()
    // sounds
    cAudio->loadSound(Sounds.Music, @"song.caf");
    cAudio->loadSound(Sounds.Touch, @"touch.wav");   
-   cAudio->setSourceVolume(1, 0.25f);
+   cAudio->setSourceVolume(1, 0.2f);
    cAudio->playSound(Sounds.Music, 0);
    
    // text
    cText = new GELabel(@"ARTURO CEPEDA\niOS Game Engine", @"Optima-ExtraBlack", 44.0f,
-                       UITextAlignmentCenter, 512);
-   cText->setPosition(-0.5f, -0.5f, 0.0f);
-   cText->setScale(2.4f, 2.4f, 2.4f);
+                       UITextAlignmentCenter, 512, 128);
+   cText->setPosition(0.0f, 1.3f, 0.0f);
+   cText->setScale(2.0f, 2.0f, 2.0f);
    cText->setOpacity(0.0f);
 }
 
@@ -105,7 +104,25 @@ void GESceneSample::updateBanana()
 
 void GESceneSample::updateCube()
 {
+   static float fOpacity = 1.0f;
+   static float fOpacityIncrement = -0.005f;
+   
    cMeshCube->rotate(0.4f, 0.6f, 0.8f);
+   
+   fOpacity += fOpacityIncrement;
+   
+   if(fOpacity <= 0.0f)
+   {
+      fOpacity = 0.0f;
+      fOpacityIncrement = -fOpacityIncrement;
+   }
+   else if(fOpacity >= 1.0f)
+   {
+      fOpacity = 1.0f;
+      fOpacityIncrement = -fOpacityIncrement;
+   }
+   
+   cMeshCube->setOpacity(fOpacity);
 }
 
 void GESceneSample::updateBall()
@@ -167,18 +184,21 @@ void GESceneSample::render()
    cRender->renderMesh(cMeshBanana);
    cRender->renderMesh(cMeshCube);
    
-   // sprites and text
+   // sprites
    cRender->set2D();
    cRender->renderSprite(cSpriteBall);
    
    for(int i = 0; i < FINGERS; i++)
       cRender->renderSprite(cSpriteInfo[i]);
    
-   cText->setColor(0.1f, 0.1f, 0.1f);
-   cText->move(0.005f, 0.005f, 0.0f);
+   // text shadow
+   cText->setColor(0.2f, 0.2f, 0.2f);
+   cText->move(0.015f, 0.015f, 0.0f);
    cRender->renderLabel(cText);
-   cText->setColor(0.75f, 0.0f, 0.0f);
-   cText->move(-0.005f, -0.005f, 0.0f);
+   
+   // text
+   cText->setColor(0.8f, 0.2f, 0.2f);
+   cText->move(-0.015f, -0.015f, 0.0f);
    cRender->renderLabel(cText);
    
    cRender->renderEnd();

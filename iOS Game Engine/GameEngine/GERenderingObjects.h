@@ -16,56 +16,77 @@
 #include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>
 
-#define ZNEAR  0.1f
-#define ZFAR   1000.0f
-#define PI     3.14159f
+#define ZNEAR     0.1f
+#define ZFAR      1000.0f
+
+#define PI        3.14159f
+#define DEG2RAD   57.2958f    // 180/PI
 
 struct GEColor
 {
-    float R;
-    float G;
-    float B;
+   float R;
+   float G;
+   float B;
 
-    GEColor()
-    {
-        set(1.0f, 1.0f, 1.0f);
-    }
+   GEColor()
+   {
+      set(1.0f, 1.0f, 1.0f);
+   }
 
-    GEColor(float cR, float cG, float cB)
-    {
-        set(cR, cG, cB);
-    }
+   GEColor(float cR, float cG, float cB)
+   {
+      set(cR, cG, cB);
+   }
 
-    void set(float cR, float cG, float cB)
-    {
-       R = cR;
-       G = cG;
-       B = cB;
-    }
+   void set(float cR, float cG, float cB)
+   {
+      R = cR;
+      G = cG;
+      B = cB;
+   }
 };
 
 struct GEVector
 {
-    float X;
-    float Y;
-    float Z;
+   float X;
+   float Y;
+   float Z;
 
-    GEVector()
-    {
-        set(0.0f, 0.0f, 0.0f);
-    }
+   GEVector()
+   {
+      set(0.0f, 0.0f, 0.0f);
+   }
 
-    GEVector(float vX, float vY, float vZ)
-    {
-        set(vX, vY, vZ);
-    }
+   GEVector(float vX, float vY, float vZ)
+   {
+      set(vX, vY, vZ);
+   }
 
-    void set(float vX, float vY, float vZ)
-    {
-        X = vX;
-        Y = vY;
-        Z = vZ;
-    }
+   void set(float vX, float vY, float vZ)
+   {
+      X = vX;
+      Y = vY;
+      Z = vZ;
+   }
+   
+   const GEVector operator +(const GEVector& vVector)
+   {
+      return GEVector(X + vVector.X, Y + vVector.Y, Z + vVector.Z);
+   }
+   
+   const GEVector operator -(const GEVector& vVector)
+   {
+      return GEVector(X - vVector.X, Y - vVector.Y, Z - vVector.Z);
+   }
+   
+   void normalize()
+   {
+      float fLength = sqrt(X * X + Y * Y + Z * Z);
+      
+      X /= fLength;
+      Y /= fLength;
+      Z /= fLength;
+   }
 };
 
 struct GETextureSize
@@ -87,9 +108,9 @@ protected:
    void loadTexture(GLuint iTexture, NSString* sName);
 
 public:
-   void move(float DX, float DY, float DZ);
+   void move(float DX, float DY, float DZ = 0.0f);
    void move(const GEVector& Move);
-   void scale(float SX, float SY, float SZ);
+   void scale(float SX, float SY, float SZ = 1.0f);
    void scale(const GEVector& Scale);
    void rotate(float RX, float RY, float RZ);
    void rotate(const GEVector& Rotate);
@@ -167,14 +188,26 @@ class GELabel : public GERenderingObject
 {
 private:
    Texture2D* tTexture;
+   
+   NSString* sText;
+   NSString* sFont;
    UITextAlignment tAligment;
+   float fFontSize;
+   
+   unsigned int iWidth;
+   unsigned int iHeight;
+   
+   void create();
+   void release();
    
 public:
    GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlignment TextAligment,
-           unsigned int TextureSize);
+           unsigned int Width, unsigned int Height);
    ~GELabel();
    
    void render();
+   
+   void setText(NSString* Text);
 };
 
 

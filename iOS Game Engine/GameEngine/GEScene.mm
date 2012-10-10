@@ -14,9 +14,9 @@ GEScene::GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
    cRender = Render;
    cAudio = Audio;
 
-   cPixelToPositionX = new CLine(0, -1.0f, GEDevice::getTouchPadSizeX(), 1.0f);   
-   cPixelToPositionY = new CLine(0, GEDevice::getAspectRatio(), 
-                                 GEDevice::getTouchPadSizeY(), -GEDevice::getAspectRatio());
+   cPixelToPositionX = new GELine(0.0f, -1.0f, GEDevice::getTouchPadSizeX(), 1.0f);   
+   cPixelToPositionY = new GELine(0.0f, GEDevice::getAspectRatio(), 
+                                  GEDevice::getTouchPadSizeY(), -GEDevice::getAspectRatio());
 }
 
 GEScene::~GEScene()

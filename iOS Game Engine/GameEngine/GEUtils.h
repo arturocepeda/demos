@@ -11,11 +11,10 @@
 #include <stdlib.h>
 #include <cmath>
 
-// -------------------------------------------
-// class CLine
-// -------------------------------------------
-
-class CLine
+//
+//  GELine
+//
+class GELine
 {
 private:
 	double px0;
@@ -31,8 +30,8 @@ private:
 	bool horizontal;
 
 public:
-	CLine(double x0, double y0, double x1, double y1);
-	~CLine();
+	GELine(double x0, double y0, double x1, double y1);
+	~GELine();
 
 	bool can_calculate_y();
 	double y(double x);
@@ -42,10 +41,9 @@ public:
 };
 
 
-// -------------------------------------------
-// some simple numerical functions
-// -------------------------------------------
-
+//
+//  Some simple numerical functions
+//
 int max(int a, int b);
 int min(int a, int b);
 
@@ -57,12 +55,10 @@ bool same_sign(float a, float b);
 int round(float Value);
 
 
-// ------------------------------------------
-// random functions
-// ------------------------------------------
-
+//
+//  Random functions
+//
 int random(int Min, int Max);
 bool eventOccurs(int Percentage);
-
 
 #endif

@@ -25,8 +25,8 @@ protected:
    unsigned int iCurrentFrame;
 
    // input management
-   CLine* cPixelToPositionX;
-   CLine* cPixelToPositionY;
+   GELine* cPixelToPositionX;
+   GELine* cPixelToPositionY;
    
    // scene management
    int iNextScene;

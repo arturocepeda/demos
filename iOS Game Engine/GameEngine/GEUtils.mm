@@ -7,12 +7,10 @@
 
 #include "GEUtils.h"
 
-
-// -------------------------------------------
-// class Line
-// -------------------------------------------
-
-CLine::CLine(double x0, double y0, double x1, double y1)
+//
+//  GELine
+//
+GELine::GELine(double x0, double y0, double x1, double y1)
 {
 	Dx = x1 - x0;
 	Dy = y1 - y0;
@@ -37,11 +35,11 @@ CLine::CLine(double x0, double y0, double x1, double y1)
 	}
 }
 
-CLine::~CLine()
+GELine::~GELine()
 {
 }
 
-bool CLine::can_calculate_y()
+bool GELine::can_calculate_y()
 {
 	// it doesn't exist any solution if Dx = 0 (no solution or infinite)
 	if(vertical)
@@ -50,7 +48,7 @@ bool CLine::can_calculate_y()
 		return true;
 }
 
-double CLine::y(double x)
+double GELine::y(double x)
 {
 	if(horizontal)
 		return py0;
@@ -58,7 +56,7 @@ double CLine::y(double x)
 	return (m * x) + b;
 }
 
-bool CLine::can_calculate_x()
+bool GELine::can_calculate_x()
 {
 	// it doesn't exist any solution if Dy = 0 (no solution or infinite)
 	if(horizontal)
@@ -67,7 +65,7 @@ bool CLine::can_calculate_x()
 		return true;
 }
 
-double CLine::x(double y)
+double GELine::x(double y)
 {
 	if(vertical)
 		return px0;
@@ -76,10 +74,9 @@ double CLine::x(double y)
 }
 
 
-// -------------------------------------------
-// some simple numerical functions
-// -------------------------------------------
-
+//
+//  Some simple numerical functions
+//
 int max(int a, int b)
 {
 	return (a >= b)? a: b;
@@ -121,10 +118,9 @@ int round(float Value)
 }
 
 
-// ------------------------------------------
-// random functions
-// ------------------------------------------
-
+//
+//  Random functions
+//
 int random(int Min, int Max)
 {
     return (rand() % (Max - Min + 1) + Min);

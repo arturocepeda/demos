@@ -1,0 +1,89 @@
+
+/*
+   Arturo Cepeda Pérez
+ 
+   Sample Scene
+ 
+   --- SceneSample.h ---
+ */
+
+#ifndef _SCENESAMPLE_H_
+#define _SCENESAMPLE_H_
+
+#include "GEScene.h"
+#include <vector>
+
+#define BOUNDS_TOP      GEDevice::getAspectRatio()
+#define BOUNDS_BOTTOM  -GEDevice::getAspectRatio()
+#define BOUNDS_LEFT    -1.0f
+#define BOUNDS_RIGHT    1.0f
+
+#define FINGERS         5
+#define PROB_CHANGE     1000
+
+#define BUG_TYPES       3
+#define BUG_STEPS       3
+#define BUG_SIZE_MIN    8
+#define BUG_SIZE_MAX    15
+#define BUG_SPEED_MIN   20
+#define BUG_SPEED_MAX   50
+
+struct SBug
+{
+   GEVector Position;
+   GEVector Destiny;
+   GEVector Direction;
+   
+   int Type;
+   float Speed;
+   float Size;
+   
+   float Angle;
+   float Opacity;
+   int CurrentStep;
+};
+
+class GESceneSample : public GEScene
+{
+private:
+   GESprite* cSpriteBackground;
+   GESprite* cSpriteBug[BUG_TYPES][BUG_STEPS];
+   
+   GELabel* cTextEscaped;
+   GELabel* cTextHunted;
+   
+   int iEscaped;
+   int iHunted;
+   
+   struct
+   {
+      enum {BugA1, BugA2, BugA3,
+            BugB1, BugB2, BugB3,
+            BugC1, BugC2, BugC3,
+            Floor};
+   } 
+   Textures;
+   
+   // bugs
+   std::vector<SBug> vBugs;
+   std::vector<SBug> vBugsHunted;
+   int iProbability;
+   
+   void generateBug();
+   void render();
+   
+public:
+   GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   
+   void init();
+	void update();
+	void release();
+   
+   void inputTouchBegin(int ID, CGPoint* Point);
+   void inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint);
+   void inputTouchEnd(int ID, CGPoint* Point);
+   
+   void updateAccelerometerStatus(float X, float Y, float Z);
+};
+
+#endif

@@ -4,11 +4,11 @@
  
    Sample Scene
  
-   --- sample.h ---
+   --- SceneSample.h ---
  */
 
-#ifndef _SAMPLE_H_
-#define _SAMPLE_H_
+#ifndef _SCENESAMPLE_H_
+#define _SCENESAMPLE_H_
 
 #include "GEScene.h"
 
@@ -18,7 +18,7 @@
 #define BOUNDS_RIGHT    (1.0f * 0.83f)
 
 #define FINGERS      5
-#define TOUCH_SCALE  0.001f
+#define TOUCH_SCALE  0.002f
 #define ACC_SCALE    0.004f
 #define STOPPED      0.004f
 #define BOUNCE       0.55f
