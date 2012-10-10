@@ -1,0 +1,1 @@
+g++ -I./../../../include/ -I./../../../soundgen/ main.cpp ./../audio/audio.fmod.cpp ./../../../soundgen/FMOD/mxsoundgenfmod.cpp -o ./../bin/07_AccelRit ./../../../lib/Linux/modus.a ./../../../soundgen/externals/FMOD/lib.linux/libfmodex.so -pthread -ldl -fpermissive
