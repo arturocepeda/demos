@@ -25,7 +25,6 @@
 		CE74ECC3162557BD003E4F10 /* pianokey_press_back.png in Resources */ = {isa = PBXBuildFile; fileRef = CE74ECC2162557BD003E4F10 /* pianokey_press_back.png */; };
 		CEA6EE401621C5F500C1512D /* audio.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE3F1621C5F500C1512D /* audio.mm */; };
 		CEA6EE581621C63500C1512D /* mxopenalsourcemanager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE541621C63500C1512D /* mxopenalsourcemanager.cpp */; };
-		CEA6EE591621C63500C1512D /* mxsoundgenopenal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE561621C63500C1512D /* mxsoundgenopenal.cpp */; };
 		CEA6EE711621C6A700C1512D /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE661621C6A700C1512D /* Texture2D.m */; };
 		CEA6EE731621C6A700C1512D /* GERendering.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE6A1621C6A700C1512D /* GERendering.mm */; };
 		CEA6EE741621C6A700C1512D /* GERenderingObjects.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEA6EE6C1621C6A700C1512D /* GERenderingObjects.mm */; };
@@ -34,9 +33,8 @@
 		CEA6EE7A1621C6CA00C1512D /* score.piano.chopin.txt in Resources */ = {isa = PBXBuildFile; fileRef = CEA6EE791621C6CA00C1512D /* score.piano.chopin.txt */; };
 		CEA6EE971621CD6800C1512D /* libModus.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA6EE961621CD6800C1512D /* libModus.a */; };
 		CEB43E7616237DA8005A5F4F /* note.png in Resources */ = {isa = PBXBuildFile; fileRef = CEB43E7516237DA8005A5F4F /* note.png */; };
-		CEB43E7916238271005A5F4F /* PianoWav.msp in Resources */ = {isa = PBXBuildFile; fileRef = CEB43E7816238271005A5F4F /* PianoWav.msp */; };
-		CED112A81622E1570015FAF4 /* libogg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CED112A61622E1570015FAF4 /* libogg.a */; };
-		CED112A91622E1570015FAF4 /* libvorbis.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CED112A71622E1570015FAF4 /* libvorbis.a */; };
+		CEC4A1B816270F490017FDC1 /* PianoAAC.msp in Resources */ = {isa = PBXBuildFile; fileRef = CEC4A1B716270F490017FDC1 /* PianoAAC.msp */; };
+		CEC4A1BB16270FC00017FDC1 /* mxsoundgenopenal.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEC4A1BA16270FC00017FDC1 /* mxsoundgenopenal.mm */; };
 		CED112B31622E6140015FAF4 /* pianokey_black.png in Resources */ = {isa = PBXBuildFile; fileRef = CED112B21622E6140015FAF4 /* pianokey_black.png */; };
 		CED112B61622E61E0015FAF4 /* pianokey_white.png in Resources */ = {isa = PBXBuildFile; fileRef = CED112B51622E61E0015FAF4 /* pianokey_white.png */; };
 		CED112BA1622F3710015FAF4 /* pianokey_press.png in Resources */ = {isa = PBXBuildFile; fileRef = CED112B91622F3710015FAF4 /* pianokey_press.png */; };
@@ -89,8 +87,6 @@
 		CEA6EE511621C61200C1512D /* mutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutils.h; path = ../../../include/mutils.h; sourceTree = "<group>"; };
 		CEA6EE541621C63500C1512D /* mxopenalsourcemanager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mxopenalsourcemanager.cpp; path = ../../../soundgen/OpenAL/mxopenalsourcemanager.cpp; sourceTree = "<group>"; };
 		CEA6EE551621C63500C1512D /* mxopenalsourcemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mxopenalsourcemanager.h; path = ../../../soundgen/OpenAL/mxopenalsourcemanager.h; sourceTree = "<group>"; };
-		CEA6EE561621C63500C1512D /* mxsoundgenopenal.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mxsoundgenopenal.cpp; path = ../../../soundgen/OpenAL/mxsoundgenopenal.cpp; sourceTree = "<group>"; };
-		CEA6EE571621C63500C1512D /* mxsoundgenopenal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mxsoundgenopenal.h; path = ../../../soundgen/OpenAL/mxsoundgenopenal.h; sourceTree = "<group>"; };
 		CEA6EE651621C6A700C1512D /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2D.h; sourceTree = "<group>"; };
 		CEA6EE661621C6A700C1512D /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture2D.m; sourceTree = "<group>"; };
 		CEA6EE691621C6A700C1512D /* GERendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GERendering.h; path = ../rendering/GERendering.h; sourceTree = "<group>"; };
@@ -104,9 +100,9 @@
 		CEA6EE791621C6CA00C1512D /* score.piano.chopin.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = score.piano.chopin.txt; path = ../../common/scripts/score.piano.chopin.txt; sourceTree = "<group>"; };
 		CEA6EE961621CD6800C1512D /* libModus.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libModus.a; path = ../../../lib/iOS/libModus.a; sourceTree = "<group>"; };
 		CEB43E7516237DA8005A5F4F /* note.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = note.png; path = ../../common/images/note.png; sourceTree = "<group>"; };
-		CEB43E7816238271005A5F4F /* PianoWav.msp */ = {isa = PBXFileReference; lastKnownFileType = file; name = PianoWav.msp; path = ../../common/instruments/PianoWav.msp; sourceTree = "<group>"; };
-		CED112A61622E1570015FAF4 /* libogg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libogg.a; path = ../../../soundgen/externals/OggVorbis/lib.ios/libogg.a; sourceTree = "<group>"; };
-		CED112A71622E1570015FAF4 /* libvorbis.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvorbis.a; path = ../../../soundgen/externals/OggVorbis/lib.ios/libvorbis.a; sourceTree = "<group>"; };
+		CEC4A1B716270F490017FDC1 /* PianoAAC.msp */ = {isa = PBXFileReference; lastKnownFileType = file; name = PianoAAC.msp; path = ../../common/instruments/PianoAAC.msp; sourceTree = "<group>"; };
+		CEC4A1B916270FC00017FDC1 /* mxsoundgenopenal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mxsoundgenopenal.h; path = ../../../soundgen/OpenAL/mxsoundgenopenal.h; sourceTree = "<group>"; };
+		CEC4A1BA16270FC00017FDC1 /* mxsoundgenopenal.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = mxsoundgenopenal.mm; path = ../../../soundgen/OpenAL/mxsoundgenopenal.mm; sourceTree = "<group>"; };
 		CED112B21622E6140015FAF4 /* pianokey_black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pianokey_black.png; path = ../../common/images/pianokey_black.png; sourceTree = "<group>"; };
 		CED112B51622E61E0015FAF4 /* pianokey_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pianokey_white.png; path = ../../common/images/pianokey_white.png; sourceTree = "<group>"; };
 		CED112B91622F3710015FAF4 /* pianokey_press.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pianokey_press.png; path = ../../common/images/pianokey_press.png; sourceTree = "<group>"; };
@@ -130,8 +126,6 @@
 				AF74CA570F8D8D1300A8C113 /* CoreGraphics.framework in Frameworks */,
 				69C516111557D57000E72A50 /* OpenAL.framework in Frameworks */,
 				CEA6EE971621CD6800C1512D /* libModus.a in Frameworks */,
-				CED112A81622E1570015FAF4 /* libogg.a in Frameworks */,
-				CED112A91622E1570015FAF4 /* libvorbis.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,16 +229,6 @@
 			name = Scripts;
 			sourceTree = "<group>";
 		};
-		CE72D8EE1620FA9300F35F9E /* OggVorbis */ = {
-			isa = PBXGroup;
-			children = (
-				CED112A61622E1570015FAF4 /* libogg.a */,
-				CED112A71622E1570015FAF4 /* libvorbis.a */,
-			);
-			name = OggVorbis;
-			path = ../../soundgen/OggVorbis;
-			sourceTree = "<group>";
-		};
 		CE72D9091621048000F35F9E /* OpenAL */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,7 +251,7 @@
 		CEDF88FC1620460200BF2F7A /* Instruments */ = {
 			isa = PBXGroup;
 			children = (
-				CEB43E7816238271005A5F4F /* PianoWav.msp */,
+				CEC4A1B716270F490017FDC1 /* PianoAAC.msp */,
 			);
 			name = Instruments;
 			sourceTree = "<group>";
@@ -335,11 +319,10 @@
 		CEDF892116204A1100BF2F7A /* soundgen */ = {
 			isa = PBXGroup;
 			children = (
-				CE72D8EE1620FA9300F35F9E /* OggVorbis */,
-				CEA6EE541621C63500C1512D /* mxopenalsourcemanager.cpp */,
 				CEA6EE551621C63500C1512D /* mxopenalsourcemanager.h */,
-				CEA6EE561621C63500C1512D /* mxsoundgenopenal.cpp */,
-				CEA6EE571621C63500C1512D /* mxsoundgenopenal.h */,
+				CEA6EE541621C63500C1512D /* mxopenalsourcemanager.cpp */,
+				CEC4A1B916270FC00017FDC1 /* mxsoundgenopenal.h */,
+				CEC4A1BA16270FC00017FDC1 /* mxsoundgenopenal.mm */,
 			);
 			name = soundgen;
 			sourceTree = "<group>";
@@ -406,16 +389,30 @@
 				CED112BA1622F3710015FAF4 /* pianokey_press.png in Resources */,
 				CED112BE1622FAF90015FAF4 /* pianopedal_on.png in Resources */,
 				CEB43E7616237DA8005A5F4F /* note.png in Resources */,
-				CEB43E7916238271005A5F4F /* PianoWav.msp in Resources */,
 				CE738C72162433520011F2C6 /* pianopedal_off.png in Resources */,
 				CE738C8D16244A8E0011F2C6 /* score.piano.chopin2.txt in Resources */,
 				CE74ECC3162557BD003E4F10 /* pianokey_press_back.png in Resources */,
+				CEC4A1B816270F490017FDC1 /* PianoAAC.msp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
-
+/* Begin PBXShellScriptBuildPhase section */
+		50524F424C454D533F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Library/JailCoder/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ]; then\n/Library/JailCoder/Entitlements/Entitlements.py \"my.company.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -424,7 +421,6 @@
 			files = (
 				CEA6EE401621C5F500C1512D /* audio.mm in Sources */,
 				CEA6EE581621C63500C1512D /* mxopenalsourcemanager.cpp in Sources */,
-				CEA6EE591621C63500C1512D /* mxsoundgenopenal.cpp in Sources */,
 				CEA6EE711621C6A700C1512D /* Texture2D.m in Sources */,
 				CEA6EE731621C6A700C1512D /* GERendering.mm in Sources */,
 				CEA6EE741621C6A700C1512D /* GERenderingObjects.mm in Sources */,
@@ -435,6 +431,7 @@
 				CE738C85162436410011F2C6 /* main.m in Sources */,
 				CE738C8B1624366F0011F2C6 /* SceneSample.mm in Sources */,
 				CEF4E1A41624A5D500D6382E /* GEDevice.mm in Sources */,
+				CEC4A1BB16270FC00017FDC1 /* mxsoundgenopenal.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

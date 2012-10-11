@@ -18,6 +18,7 @@
 //  global data
 //
 MCTimer* mTimer;
+pthread_mutex_t pMutex;
 bool bSamplesLoaded = false;
 bool bThreadEnd = false;
 
@@ -30,8 +31,10 @@ void* GESceneSampleThreads::LoadSamplesThread(void* lp)
    GESceneSample* cScene = (GESceneSample*)lp;
    MCSoundGenOpenAL* mSoundGen = cScene->getSoundGen();
    
-   mSoundGen->loadSamplePack(GEDevice::getResourcePath(@"PianoWav.msp"), 
-                             GESceneSampleCallbacks::SampleLoaded, lp);   
+   mSoundGen->loadSamplePack(GEDevice::getResourcePath(@"PianoAAC.msp"), 
+                             GESceneSampleCallbacks::SampleLoaded, lp); 
+   
+   pthread_mutex_init(&pMutex, NULL);
    mTimer->start();
    bSamplesLoaded = true;
    
@@ -41,7 +44,11 @@ void* GESceneSampleThreads::LoadSamplesThread(void* lp)
 void* GESceneSampleThreads::MusicTimerThread(void* lp)
 {
    while(!bThreadEnd)
+   {
+      pthread_mutex_lock(&pMutex);
       mTimer->update();
+      pthread_mutex_unlock(&pMutex);
+   }
    
    return NULL;
 }
@@ -188,15 +195,16 @@ void GESceneSample::init()
    mPiano->setCallbackDamper(GESceneSampleCallbacks::Damper, this);
    
    // create music threads
-   pthread_create(&hLoadSamples, NULL, GESceneSampleThreads::LoadSamplesThread, this);
-   pthread_create(&hMusicTimerThread, NULL, GESceneSampleThreads::MusicTimerThread, NULL);
+   pthread_create(&pLoadSamples, NULL, GESceneSampleThreads::LoadSamplesThread, this);
+   pthread_create(&pMusicTimerThread, NULL, GESceneSampleThreads::MusicTimerThread, NULL);
 }
 
 void GESceneSample::release()
 {
    // wait until the music timer thread finishes
    bThreadEnd = true;
-   pthread_join(hMusicTimerThread, NULL);
+   pthread_join(pMusicTimerThread, NULL);
+   pthread_mutex_destroy(&pMutex);   
    
    // release Modus objects
    delete mSoundGen;
@@ -399,6 +407,9 @@ void GESceneSample::render()
 
 void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 {
+   if(!bSamplesLoaded)
+      return;
+   
    iCurrentScore++;
    
    if(iCurrentScore == SCORES)
@@ -408,8 +419,10 @@ void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
    mPiano->releaseAll();
    mPiano->setScore(&mScore[iCurrentScore]);
    
+   pthread_mutex_lock(&pMutex);
    mTimer->reset();
    mTimer->start();
+   pthread_mutex_unlock(&pMutex);
 }
 
 void GESceneSample::inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint)

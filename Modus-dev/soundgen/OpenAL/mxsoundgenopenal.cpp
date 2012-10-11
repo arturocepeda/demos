@@ -1,7 +1,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 //
-//  Modus v0.51
+//  Modus v0.52
 //  C++ Music Library
 //  [Sound Generator]
 //
@@ -549,6 +549,9 @@ void MCSoundGenOpenAL::loadWAVData(const char* sData, unsigned int iSize, ALuint
     sBuffer[4] = '\0';
     sData += 4;
 
+    if(strcmp(sBuffer, "RIFF") != 0)
+        return;
+
     // "RIFF" chunk size
     sData += 4;
 
@@ -557,16 +560,21 @@ void MCSoundGenOpenAL::loadWAVData(const char* sData, unsigned int iSize, ALuint
     sBuffer[4] = '\0';
     sData += 4;
 
+    if(strcmp(sBuffer, "WAVE") != 0)
+        return;
+
     // "fmt "
     strncpy(sBuffer, sData, 4);
     sBuffer[4] = '\0';
     sData += 4;
 
+    if(strcmp(sBuffer, "fmt ") != 0)
+        return;
+
     // "fmt " chunk size
     sData += 4;
 
     // audio format (2 bytes)
-    short iAudioFormat = *(short*)sData;
     sData += 2;
 
     // channels (2 bytes)
@@ -584,7 +592,6 @@ void MCSoundGenOpenAL::loadWAVData(const char* sData, unsigned int iSize, ALuint
     sData += 2;
 
     // bits per sample (2 bytes)
-    short iBitsPerSample = *(short*)sData;
     sData += 2;
 
     // "data" 

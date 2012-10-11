@@ -30,7 +30,7 @@ void* GESceneSampleThreads::LoadSamplesThread(void* lp)
    GESceneSample* cScene = (GESceneSample*)lp;
    MCSoundGenOpenAL* mSoundGen = cScene->getSoundGen();
    
-   mSoundGen->loadSamplePack(GEDevice::getResourcePath(@"PianoWav.msp"), 
+   mSoundGen->loadSamplePack(GEDevice::getResourcePath(@"PianoAAC.msp"), 
                              GESceneSampleCallbacks::SampleLoaded, lp);   
    mTimer->start();
    bSamplesLoaded = true;
@@ -100,6 +100,7 @@ void GESceneSample::init()
    iSamplesLoaded = 0;
    fKeyboardOffset = 0.0f;
    fSlideSpeed = 0.0f;
+   bKeyboardSlide = true;
 
    // textures
    cRender->loadTexture(Textures.KeyWhite, @"pianokey_white.png");
@@ -108,6 +109,8 @@ void GESceneSample::init()
    cRender->loadTexture(Textures.KeyBlackPressed, @"pianokey_black_root.png");
    cRender->loadTexture(Textures.PedalOn, @"pianopedal_on.png");
    cRender->loadTexture(Textures.PedalOff, @"pianopedal_off.png");
+   cRender->loadTexture(Textures.PadlockOpen, @"padlock_open.png");
+   cRender->loadTexture(Textures.PadlockClosed, @"padlock_closed.png");
    cRender->loadTexture(Textures.Loading, @"note.png");
    
    // sprites
@@ -125,15 +128,21 @@ void GESceneSample::init()
                                          cRender->getTextureSize(Textures.KeyBlackPressed));
    cSpriteKeyBlackPressed->setScale(1.0f, 0.75f);
    
-   cSpritePedalOn = new GESprite(cRender->getTexture(Textures.PedalOn),
-                                 cRender->getTextureSize(Textures.PedalOn));
-   cSpritePedalOn->setScale(0.6f, 0.6f);
-   
-   cSpritePedalOff = new GESprite(cRender->getTexture(Textures.PedalOff),
+   cSpritePedal[0] = new GESprite(cRender->getTexture(Textures.PedalOff),
                                   cRender->getTextureSize(Textures.PedalOff));
-   cSpritePedalOff->setScale(0.6f, 0.6f);
+   cSpritePedal[0]->setScale(0.6f, 0.6f);
    
-   cSpritePedal = cSpritePedalOff;
+   cSpritePedal[1] = new GESprite(cRender->getTexture(Textures.PedalOn),
+                                 cRender->getTextureSize(Textures.PedalOn));
+   cSpritePedal[1]->setScale(0.6f, 0.6f);
+   
+   cSpritePadlock[0] = new GESprite(cRender->getTexture(Textures.PadlockClosed),
+                                    cRender->getTextureSize(Textures.PadlockClosed));
+   cSpritePadlock[0]->setScale(0.15f, 0.15f);
+   
+   cSpritePadlock[1] = new GESprite(cRender->getTexture(Textures.PadlockOpen),
+                                    cRender->getTextureSize(Textures.PadlockOpen));
+   cSpritePadlock[1]->setScale(0.15f, 0.15f);
    
    cSpriteLoading = new GESprite(cRender->getTexture(Textures.Loading),
                                  cRender->getTextureSize(Textures.Loading));
@@ -174,15 +183,15 @@ void GESceneSample::init()
    mPiano->setCallbackDamper(GESceneSampleCallbacks::Damper, this);
    
    // create music threads
-   pthread_create(&hLoadSamples, NULL, GESceneSampleThreads::LoadSamplesThread, this);
-   pthread_create(&hMusicTimerThread, NULL, GESceneSampleThreads::MusicTimerThread, NULL);
+   pthread_create(&pLoadSamplesThread, NULL, GESceneSampleThreads::LoadSamplesThread, this);
+   pthread_create(&pMusicTimerThread, NULL, GESceneSampleThreads::MusicTimerThread, NULL);
 }
 
 void GESceneSample::release()
 {
    // wait until the music timer thread finishes
    bThreadEnd = true;
-   pthread_join(hMusicTimerThread, NULL);
+   pthread_join(pMusicTimerThread, NULL);
    
    // release Modus objects
    delete mSoundGen;
@@ -198,9 +207,13 @@ void GESceneSample::release()
    delete cSpriteKeyBlack;
    delete cSpriteKeyWhitePressed;
    delete cSpriteKeyBlackPressed;
-   delete cSpritePedalOn;
-   delete cSpritePedalOff;
    delete cSpriteLoading;
+   
+   for(int i = 0; i < 2; i++)
+   {
+      delete cSpritePedal[i];
+      delete cSpritePadlock[i];
+   }
    
    // release labels
    delete cTextModus;   
@@ -248,7 +261,6 @@ void GESceneSample::setIntensity(unsigned char Pitch, unsigned char Intensity)
 void GESceneSample::setDamper(bool On)
 {
    bDamper = On;
-   cSpritePedal = bDamper? cSpritePedalOn: cSpritePedalOff;
 }
 
 void GESceneSample::render()
@@ -380,55 +392,72 @@ void GESceneSample::render()
    }
    
    // piano pedal
-   cSpritePedal->setPosition(fPosY - 0.87f, 0.0f);
-   cRender->renderSprite(cSpritePedal);
+   cSpritePedal[bDamper]->setPosition(fPosY - 0.87f, 0.0f);
+   cRender->renderSprite(cSpritePedal[bDamper]);
+   
+   // padlock
+   cSpritePadlock[bKeyboardSlide]->setPosition(0.7f, -1.1f);
+   cRender->renderSprite(cSpritePadlock[bKeyboardSlide]);
     
    cRender->renderEnd();
 }
 
+unsigned char GESceneSample::findKey(float fTouchX, float fTouchY)
+{
+   float fKeyNumber = (fFirstKeyWhitePosX - fTouchY) / (KEY_WIDTH * KEY_SCALE);
+   unsigned char iKeyNumber = (unsigned char)fKeyNumber;
+   
+   // when the finger is under the black keys, it must be a white key
+   if(fTouchX < ((BOUNDS_TOP + BOUNDS_BOTTOM) / 2) && !MCNotes::isNatural(iKeyNumber + LOWEST_NOTE))
+   {
+      // check only decimal value
+      fKeyNumber -= (float)iKeyNumber;
+      
+      if(fKeyNumber > 0.5f)
+         iKeyNumber++;
+      else
+         iKeyNumber--;
+   }
+   
+   return iKeyNumber;
+}
+
 void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 {
+   if(!bSamplesLoaded)
+      return;
+    
    // stop sliding
    fSlideSpeed = 0.0f;
 
    // check position
    float fTouchX = cPixelToPositionX->y(Point->x);
    float fTouchY = cPixelToPositionY->y(Point->y);
+   
+   // padlock
+   if(fTouchX < 0.9f && fTouchX > 0.5f && fTouchY > -1.3f && fTouchY < -0.9f)
+   {
+      bKeyboardSlide = !bKeyboardSlide;
+      return;
+   }
 
    // pedal
    if(fTouchX < BOUNDS_BOTTOM)
+   {
       mPiano->setDamper(!bDamper);
+      return;
+   }
    
    // key
    else if(fTouchX < BOUNDS_TOP)
    {
-      float fKeyNumber = (fFirstKeyWhitePosX - fTouchY) / (KEY_WIDTH * KEY_SCALE);
-      
       MSNote mNote;      
-      mNote.Channel = (unsigned char)fKeyNumber;
+      mNote.Channel = findKey(fTouchX, fTouchY);
       mNote.Pitch = mNote.Channel + LOWEST_NOTE;
       mNote.Intensity = 127;
       mNote.Mode = 0;
       mNote.Duration = 0;
-      
-      // when the finger is under the black keys, it must be a white key
-      if(fTouchX < ((BOUNDS_TOP + BOUNDS_BOTTOM) / 2) && !MCNotes::isNatural(mNote.Pitch))
-      {
-         // check only decimal value
-         fKeyNumber -= mNote.Channel;
-         
-         if(fKeyNumber > 0.5f)
-         {
-            mNote.Channel++;
-            mNote.Pitch++;
-         }
-         else 
-         {
-            mNote.Channel--;
-            mNote.Pitch--;
-         }
-      }
-      
+            
       iFingerChannel[ID] = mNote.Channel;      
       mPiano->playNote(mNote);
    }
@@ -436,9 +465,40 @@ void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 
 void GESceneSample::inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint)
 {
-   // only the first finger can slide the keyboard
-   if(ID == 0)
-      fSlideSpeed = (PreviousPoint->y - CurrentPoint->y) * SLIDE_RATIO;
+   if(bKeyboardSlide)
+   {
+      // only the first finger can slide the keyboard
+      if(ID == 0)
+         fSlideSpeed = (PreviousPoint->y - CurrentPoint->y) * SLIDE_RATIO;
+   }
+   else
+   {
+      // check position
+      float fTouchX = cPixelToPositionX->y(CurrentPoint->x);
+      float fTouchY = cPixelToPositionY->y(CurrentPoint->y);
+      
+      if(fTouchX > BOUNDS_TOP || fTouchX < BOUNDS_BOTTOM)
+         return;
+      
+      unsigned char iCurrentChannel = findKey(fTouchX, fTouchY);
+      
+      if(iFingerChannel[ID] != iCurrentChannel)
+      {
+         // release previous note
+         mPiano->release(iFingerChannel[ID]);
+         
+         // play new note
+         MSNote mNote;      
+         mNote.Channel = iCurrentChannel;
+         mNote.Pitch = mNote.Channel + LOWEST_NOTE;
+         mNote.Intensity = 127;
+         mNote.Mode = 0;
+         mNote.Duration = 0;
+         
+         iFingerChannel[ID] = mNote.Channel;      
+         mPiano->playNote(mNote);
+      }
+   }
 }
 
 void GESceneSample::inputTouchEnd(int ID, CGPoint* Point)

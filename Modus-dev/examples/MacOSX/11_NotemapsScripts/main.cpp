@@ -29,7 +29,7 @@
 using namespace std;
 
 bool bThreadEnd = false;
-pthread_mutex_t mMutex;
+pthread_mutex_t pMutex;
 
 void* MusicTimerThread(void* lp);
 void TimerTick(const MSTimePosition& mTimePosition, void* pData);
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     mTimer.start();
 
     // create music timer thread
-    pthread_mutex_init(&mMutex, NULL);
+    pthread_mutex_init(&pMutex, NULL);
     pthread_t hMusicTimerThread;
     pthread_create(&hMusicTimerThread, NULL, MusicTimerThread, &mTimer);
 
@@ -155,15 +155,16 @@ int main(int argc, char* argv[])
         // load score data and play
         mScore->loadScriptFromString(sScript);
 
-        pthread_mutex_lock(&mMutex);
+        pthread_mutex_lock(&pMutex);
         mTimer.reset();
         mTimer.start();
-        pthread_mutex_unlock(&mMutex);
+        pthread_mutex_unlock(&pMutex);
     }
 
     // wait until the music timer thread finishes
     bThreadEnd = true;
     pthread_join(hMusicTimerThread, NULL);
+    pthread_mutex_destroy(&pMutex);
 
     delete mScore;
     delete mTenorSax;
@@ -185,7 +186,7 @@ void* MusicTimerThread(void* lp)
 
     while(!bThreadEnd)
     {
-        pthread_mutex_lock(&mMutex);
+        pthread_mutex_lock(&pMutex);
 
 #ifdef REDUCE_CPU_USAGE
         if(!mTimer->update())
@@ -194,7 +195,7 @@ void* MusicTimerThread(void* lp)
         mTimer->update();
 #endif
 
-        pthread_mutex_unlock(&mMutex);
+        pthread_mutex_unlock(&pMutex);
     }
 }
 

@@ -1,7 +1,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 //
-//  Modus v0.51
+//  Modus v0.52
 //  C++ Music Library
 //  [Sound Generator]
 //
@@ -43,11 +43,21 @@
 
 #include "msoundgen.h"
 #include "mxopenalsourcemanager.h"
-#include "./../externals/OggVorbis/include/vorbisfile.h"
+
+#ifdef __APPLE__
+#include "TargetConditionals.h"
+#if defined TARGET_OS_IPHONE || defined TARGET_IPHONE_SIMULATOR
+#define __iOS__
+#endif
+#endif
+
 
 //
-//  Ogg Vorbis
+//  Ogg Vorbis (Win32, MacOSX, Linux)
 //
+#ifndef __iOS__
+#include "./../externals/OggVorbis/include/vorbisfile.h"
+
 #define OV_BUFFER_SIZE 1024
 
 struct SOGGFile
@@ -60,6 +70,15 @@ struct SOGGFile
 size_t ovRead(void* pDestination, size_t iSize, size_t iNumMembers, void* pDataSource);
 int ovSeek(void* pDataSource, ogg_int64_t iOffset, int iWhence);
 long ovTell(void* pDataSource);
+
+
+//
+//  AudioToolbox (iOS)
+//
+#else
+#include <AudioToolbox/AudioToolbox.h>
+#include <AudioToolbox/ExtendedAudioFile.h>
+#endif
 
 
 //
@@ -78,12 +97,16 @@ private:
     ALfloat al3DDirection[3];
 
     void releaseChannel(unsigned char iChannel, bool bQuickly);
-
+#ifndef __iOS__
     void loadWAVData(const char* sData, unsigned int iSize, ALuint alBuffer);
     void loadWAVFile(const char* sFilename, ALuint alBuffer);
 
     void loadOGGData(const char* sData, unsigned int iSize, ALuint alBuffer);
     void loadOGGFile(const char* sFilename, ALuint alBuffer);
+#else
+    void loadAudioData(const char* sData, unsigned int iSize, ALuint alBuffer);
+    void loadAudioFile(NSString* sFilename, ALuint alBuffer, bool bFromResources = true);
+#endif
 
 public:
     MCSoundGenOpenAL(unsigned int NumberOfChannels, bool Sound3D, int ID, MCOpenALSourceManager* OpenALSourceManager);

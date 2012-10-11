@@ -25,14 +25,19 @@
 #include <iostream>
 #include <fstream>
 
+#define AUDIO_FORMATS  3
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
+    const char* sAudioFormats[] = {"wav", "ogg", "ima4"};
+
     char sMSamplePackVersion[16];
     char sSamplePack[64];
     char sPath[256];
     char sFormat[8];
+    char sExtension[8];
 
     unsigned int iTotalNumberOfSamples = 0;
     unsigned int iNumSampleSets;
@@ -56,15 +61,29 @@ int main(int argc, char* argv[])
     cout << "\n  SamplePack tool\n";
 
     // general settings
-    cout << "\n  Name for the sample pack: ";
+    cout << "\n  Name for the sample-pack: ";
     cin >> sSamplePack;
     strcat(sSamplePack, ".msp");
 
     cout << "  Samples path (with '/' or '\\' at the end): ";
     cin >> sPath;
 
+    memset(sExtension, 0, 8);
+    cout << "  Extension (without '.' at the beginning): ";
+    cin >> sExtension;
+
     memset(sFormat, 0, 8);
-    cout << "  Samples format: ";
+    cout << "  Audio format (";
+
+    for(i = 0; i < AUDIO_FORMATS; i++)
+    {
+        cout << sAudioFormats[i];
+
+        if(i < (AUDIO_FORMATS - 1))
+            cout << ", ";
+    }
+
+    cout << "): ";
     cin >> sFormat;
 
     cout << "  Number of sample sets: ";
@@ -173,7 +192,7 @@ int main(int argc, char* argv[])
 
         for(j = 0; j < iNumberOfSamples[i]; j++)
         {
-            sprintf(sSampleFilename, "%s%02d_%03d.%s", sPath, i, j + iRangeLow[i], sFormat);
+            sprintf(sSampleFilename, "%s%02d_%03d.%s", sPath, i, j + iRangeLow[i], sExtension);
             fSampleFile = new ifstream(sSampleFilename, ios::in | ios::binary | ios::ate);
 
             if(fSampleFile->is_open())

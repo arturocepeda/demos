@@ -85,8 +85,8 @@ private:
    int iCurrentScore;
    
    // music threads
-   pthread_t hMusicTimerThread;
-   pthread_t hLoadSamples;
+   pthread_t pMusicTimerThread;
+   pthread_t pLoadSamples;
      
    void render();
    

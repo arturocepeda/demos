@@ -58,9 +58,8 @@ private:
    GESprite* cSpriteKeyBlack;
    GESprite* cSpriteKeyWhitePressed;
    GESprite* cSpriteKeyBlackPressed;
-   GESprite* cSpritePedalOn;
-   GESprite* cSpritePedalOff;
-   GESprite* cSpritePedal;
+   GESprite* cSpritePedal[2];
+   GESprite* cSpritePadlock[2];
    GESprite* cSpriteLoading;
    
    // labels
@@ -70,7 +69,8 @@ private:
    // textures
    struct
    {
-      enum {KeyWhite, KeyBlack, KeyWhitePressed, KeyBlackPressed, PedalOn, PedalOff, Loading};      
+      enum {KeyWhite, KeyBlack, KeyWhitePressed, KeyBlackPressed, PedalOn, PedalOff, 
+            PadlockOpen, PadlockClosed, Loading};      
    } 
    Textures;
    
@@ -91,15 +91,17 @@ private:
    float fSlideSpeed;
    float fFirstKeyWhitePosX;
    float fFirstKeyBlackPosX;
+   bool bKeyboardSlide;
    
    unsigned char iFingerChannel[FINGERS];
    unsigned char iIntensity[88];
    bool bDamper;
    
    // music threads
-   pthread_t hMusicTimerThread;
-   pthread_t hLoadSamples;
+   pthread_t pMusicTimerThread;
+   pthread_t pLoadSamplesThread;
      
+   unsigned char findKey(float fTouchX, float fTouchY);
    void render();
    
 public:

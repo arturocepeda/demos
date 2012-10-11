@@ -248,5 +248,42 @@
          landmarkName = "MCSoundGenOpenAL::loadWAVData(const char* sData, unsigned int iSize, ALuint alBuffer)"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../../soundgen/OpenAL/mxsoundgenopenal.mm"
+         timestampString = "371650041.938344"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "126"
+         endingLineNumber = "126"
+         landmarkName = "MCSoundGenOpenAL::loadSamplePack(const char* Filename, void (*callback)(unsigned int TotalSamples, unsigned int Loaded, void* Data), void* Data)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../../soundgen/OpenAL/mxsoundgenopenal.mm"
+         timestampString = "371660451.195709"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "521"
+         endingLineNumber = "521"
+         landmarkName = "MCSoundGenOpenAL::loadAudioFile(NSString* sFilename, ALuint alBuffer, bool bFromResources)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../../soundgen/OpenAL/mxsoundgenopenal.mm"
+         timestampString = "371660451.195709"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "503"
+         endingLineNumber = "503">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

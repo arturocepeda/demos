@@ -12,7 +12,7 @@
 
 #include "GERenderingObjects.h"
 
-#define TEXTURES 256
+#define TEXTURES 65536
 
 class GERendering
 {
