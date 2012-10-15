@@ -30,7 +30,6 @@ void GESceneSample::init()
    // cameras
    cCamera = new GECamera();
    cCamera->setPosition(0.0f, 0.0f, -3.0f);
-   cCamera->use();
    
    // textures
    cRender->loadTexture(Textures.Background, @"background.jpg");
@@ -178,7 +177,7 @@ void GESceneSample::render()
    
    // camera
    cRender->set3D();
-   cCamera->use();
+   cRender->useCamera(cCamera);
    
    // meshes
    cRender->renderMesh(cMeshBanana);

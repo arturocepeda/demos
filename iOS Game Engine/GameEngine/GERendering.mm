@@ -41,7 +41,7 @@ GERendering::GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint Vi
    glGenTextures(TEXTURES, tTextures);
    memset(tTextureSize, 0, sizeof(GETextureSize) * TEXTURES);
    
-   // set 3D mode
+   // 3D mode
    set3D();
 }
 
@@ -193,6 +193,44 @@ void GERendering::setBackgroundColor(float R, float G, float B)
 
 
 //
+//  Camera
+//
+void GERendering::useCamera(GECamera* Camera)
+{
+   glMatrixMode(GL_PROJECTION);   
+   glLoadIdentity();
+   
+   float fLeft, fRight;
+   float fTop, fBottom;
+   
+   //
+   // Distance to the projection plane = 1 / tan(FOVangle / 2)
+   // Taking FOVangle = PI / 4, then distance = 1 / tan(PI / 8)
+   //
+   float fDistance = 1 / tan(PI * 0.125);
+   
+   fRight = ZNEAR / fDistance;
+   fLeft = -fRight;
+   
+   fBottom = GEDevice::getAspectRatio() * fLeft;
+   fTop = GEDevice::getAspectRatio() * fRight;
+   
+   glFrustumf(fLeft, fRight, fBottom, fTop, ZNEAR, ZFAR);
+   
+   GEVector vRotation;
+   Camera->getRotation(&vRotation);
+   
+   GEVector vEye;
+   Camera->getPosition(&vEye);
+   
+   glRotatef(vRotation.X, 1.0f, 0.0f, 0.0f);
+   glRotatef(vRotation.Y, 0.0f, 1.0f, 0.0f);
+   glRotatef(vRotation.Z + fOrientationAngle, 0.0f, 0.0f, 1.0f);
+   glTranslatef(vEye.X, vEye.Y, vEye.Z);   
+}
+
+
+//
 //  Rendering
 //
 void GERendering::renderBegin()
@@ -232,8 +270,8 @@ void GERendering::set2D()
    
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   glOrthof(-1.0f, 1.0f, -GEDevice::getAspectRatio(), GEDevice::getAspectRatio(), -1.0f, 1.0f);   
-   glMatrixMode(GL_MODELVIEW);
+   glRotatef(fOrientationAngle, 0.0f, 0.0f, 1.0f);
+   glOrthof(-1.0f, 1.0f, -GEDevice::getAspectRatio(), GEDevice::getAspectRatio(), -1.0f, 1.0f);
 }
 
 void GERendering::set3D()

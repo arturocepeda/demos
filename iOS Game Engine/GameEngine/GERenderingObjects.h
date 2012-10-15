@@ -20,7 +20,8 @@
 #define ZFAR      1000.0f
 
 #define PI        3.14159f
-#define DEG2RAD   57.2958f    // 180/PI
+#define DEG2RAD   57.2958f    // (180/PI)
+
 
 struct GEColor
 {
@@ -45,6 +46,7 @@ struct GEColor
       B = cB;
    }
 };
+
 
 struct GEVector
 {
@@ -87,7 +89,19 @@ struct GEVector
       Y /= fLength;
       Z /= fLength;
    }
+   
+   GEVector crossProduct(const GEVector& vVector)
+   {
+      GEVector vCrossProduct;
+      
+      vCrossProduct.X = Y * vVector.Z - Z * vVector.Y;
+      vCrossProduct.Y = Z * vVector.X - X * vVector.Z;
+      vCrossProduct.Z = X * vVector.Y - Y * vVector.X;
+      
+      return vCrossProduct;
+   }
 };
+
 
 struct GETextureSize
 {
@@ -95,18 +109,14 @@ struct GETextureSize
    unsigned int Height;
 };
 
+
 class GERenderingObject
 {
 protected:
    GEVector vPosition;
    GEVector vRotation;
    GEVector vScale;
-   GEColor cColor;
-   float fOpacity;
-   bool bVisible;
    
-   void loadTexture(GLuint iTexture, NSString* sName);
-
 public:
    void move(float DX, float DY, float DZ = 0.0f);
    void move(const GEVector& Move);
@@ -114,16 +124,10 @@ public:
    void scale(const GEVector& Scale);
    void rotate(float RX, float RY, float RZ);
    void rotate(const GEVector& Rotate);
-   void show();
-   void hide();
-   
-   virtual void render() = 0;
 
    void getPosition(GEVector* Position);
    void getRotation(GEVector* Rotation);
-   void getScale(GEVector* Scale);
-   float getOpacity();
-   bool getVisible();   
+   void getScale(GEVector* Scale);  
 
    void setPosition(float X, float Y, float Z = 0.0f);
    void setPosition(const GEVector& Position);
@@ -131,13 +135,46 @@ public:
    void setScale(const GEVector& Scale);
    void setRotation(float X, float Y, float Z);
    void setRotation(const GEVector& Rotation);
+};
+
+
+class GECamera : public GERenderingObject
+{
+public:
+   GECamera();
+   ~GECamera();
+   
+   void lookAt(float X, float Y, float Z);
+   void lookAt(const GEVector& LookAt);
+};
+
+
+class GERenderingObjectVisible : public GERenderingObject
+{
+protected:
+   GEColor cColor;
+   float fOpacity;
+   bool bVisible;
+   
+   void loadTexture(GLuint iTexture, NSString* sName);
+   
+public:
+   void show();
+   void hide();
+   
+   virtual void render() = 0;
+   
+   float getOpacity();
+   bool getVisible(); 
+   
    void setColor(float R, float G, float B);
    void setColor(const GEColor& Color);
    void setOpacity(float Opacity);
    void setVisible(bool Visible);
 };
 
-class GEMesh : public GERenderingObject
+
+class GEMesh : public GERenderingObjectVisible
 {
 private:
    unsigned int iNumVertices;
@@ -162,7 +199,7 @@ public:
 };
 
 
-class GESprite : public GERenderingObject
+class GESprite : public GERenderingObjectVisible
 {
 private:
    GLuint tTexture;
@@ -184,7 +221,7 @@ public:
 };
 
 
-class GELabel : public GERenderingObject
+class GELabel : public GERenderingObjectVisible
 {
 private:
    Texture2D* tTexture;
@@ -208,33 +245,6 @@ public:
    void render();
    
    void setText(NSString* Text);
-};
-
-
-class GECamera
-{
-private:
-    // camera vectors
-	GEVector vEye;
-	GEVector vAngle;
-
-public:
-   GECamera();
-   ~GECamera();
-   
-   void move(float DX, float DY, float DZ);
-   void move(const GEVector& Move);
-   
-   void lookAt(float X, float Y, float Z);
-   void lookAt(const GEVector& LookAt);
-   
-   void setPosition(float X, float Y, float Z);
-   void setPosition(const GEVector& Position);    
-   
-   void setAngle(float X, float Y, float Z);
-   void setAngle(const GEVector& Angle);
-
-   void use();
 };
 
 #endif

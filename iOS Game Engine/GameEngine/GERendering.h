@@ -63,6 +63,9 @@ public:
    
    // background
    void setBackgroundColor(float R, float G, float B);
+   
+   // camera
+   void useCamera(GECamera* Camera);
 
    // rendering
    void renderBegin();
@@ -71,6 +74,7 @@ public:
    void renderLabel(GELabel* Label);
    void renderEnd();
    
+   // rendering mode
    void set2D();
    void set3D();
 };

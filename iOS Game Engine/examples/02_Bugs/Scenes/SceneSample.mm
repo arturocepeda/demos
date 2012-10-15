@@ -68,12 +68,15 @@ void GESceneSample::init()
    cTextHunted->setColor(0.25f, 0.25f, 0.5f);
    
    cTextEscaped = new GELabel(@"", @"Papyrus", 24.0f, UITextAlignmentLeft, 256, 32);
-   cTextEscaped->setPosition(0.1f, 1.3f);
+   cTextEscaped->setPosition(0.0f, 1.3f);
    cTextEscaped->setScale(1.5f, 1.5f);
    cTextEscaped->setColor(0.5f, 0.25f, 0.25f);
    
    // sound
    cAudio->loadSound(0, @"hit.wav");
+   
+   // randomize
+   srand(time(0));
 }
 
 void GESceneSample::release()
@@ -141,11 +144,8 @@ void GESceneSample::update()
    }
    
    // probability
-   if(iCurrentFrame % PROB_CHANGE == 0)
-   {    
+   if(iCurrentFrame % PROB_CHANGE == 0) 
       iProbability++;
-      NSLog(@"Prob: %d%%", iProbability);
-   }
 
    // rendering
    render();

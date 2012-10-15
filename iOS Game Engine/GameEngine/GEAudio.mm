@@ -53,7 +53,7 @@ void GEAudio::loadSound(unsigned int SoundIndex, NSString* SoundFile)
 
    ALenum alFormat;
    ALsizei alSize;
-	ALsizei alFrequency;
+   ALsizei alFrequency;
    ALchar* alData = NULL;
    bool bSuccess;
 
@@ -251,10 +251,7 @@ bool GEAudio::loadAudioFile(CFURLRef cfURL, ALenum* alFormat, ALvoid** alData, A
    osError = ExtAudioFileSetProperty(sAudioFileRef, kExtAudioFileProperty_ClientDataFormat,
                                      iSize, &sDescription);
    if(osError != noErr)
-   {
-      free(*alData);
       return false;
-   }
 
    // load audio data from the file
    UInt32 iStreamSizeInBytes = (UInt32)(sDescription.mBytesPerFrame * iFileLengthFrames);

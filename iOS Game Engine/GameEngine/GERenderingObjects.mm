@@ -55,16 +55,6 @@ void GERenderingObject::rotate(const GEVector& Rotate)
    vRotation.Z += Rotate.Z;
 }
 
-void GERenderingObject::show()
-{
-   bVisible = true;
-}
-
-void GERenderingObject::hide()
-{
-   bVisible = false;
-}
-
 void GERenderingObject::getPosition(GEVector* Position)
 {
    Position->X = vPosition.X;
@@ -84,16 +74,6 @@ void GERenderingObject::getScale(GEVector* Scale)
    Scale->X = vScale.X;
    Scale->Y = vScale.Y;
    Scale->Z = vScale.Z;
-}
-
-float GERenderingObject::getOpacity()
-{
-   return fOpacity;
-}
-
-bool GERenderingObject::getVisible()
-{
-    return bVisible;
 }
 
 void GERenderingObject::setPosition(float X, float Y, float Z)
@@ -138,28 +118,81 @@ void GERenderingObject::setRotation(const GEVector& Rotation)
    vRotation.Z = Rotation.Z;
 }
 
-void GERenderingObject::setColor(float R, float G, float B)
+
+//
+//  GECamera
+//
+GECamera::GECamera()
+{
+   memset(&vPosition, 0, sizeof(GEVector));
+   memset(&vRotation, 0, sizeof(GEVector));
+}
+
+GECamera::~GECamera()
+{
+}
+
+void GECamera::lookAt(float X, float Y, float Z)
+{
+   GEVector vLookAt(X, Y, Z);
+   lookAt(vLookAt);
+}
+
+void GECamera::lookAt(const GEVector& LookAt)
+{
+   GEVector vRotationX, vRotationY, vRotationZ;
+   
+   vRotationZ.set(vPosition.X - LookAt.X, vPosition.Y - LookAt.Y, vPosition.Z - LookAt.Z);
+   vRotationZ.normalize();
+   
+   
+}
+
+
+//
+//  GERenderingObjectVisible
+//
+void GERenderingObjectVisible::show()
+{
+   bVisible = true;
+}
+
+void GERenderingObjectVisible::hide()
+{
+   bVisible = false;
+}
+
+float GERenderingObjectVisible::getOpacity()
+{
+   return fOpacity;
+}
+
+bool GERenderingObjectVisible::getVisible()
+{
+   return bVisible;
+}
+
+void GERenderingObjectVisible::setColor(float R, float G, float B)
 {
    cColor.R = R;
    cColor.G = G;
    cColor.B = B;
 }
 
-void GERenderingObject::setColor(const GEColor& Color)
+void GERenderingObjectVisible::setColor(const GEColor& Color)
 {
    cColor = Color;
 }
 
-void GERenderingObject::setOpacity(float Opacity)
+void GERenderingObjectVisible::setOpacity(float Opacity)
 {
    fOpacity = Opacity;
 }
 
-void GERenderingObject::setVisible(bool Visible)
+void GERenderingObjectVisible::setVisible(bool Visible)
 {
    bVisible = Visible;
 }
-
 
 
 //
@@ -287,6 +320,8 @@ void GESprite::render()
                                       -1 + vCenter.X,  1 + vCenter.Y, vCenter.Z,  
                                        1 + vCenter.X,  1 + vCenter.Y, vCenter.Z};
    
+   glMatrixMode(GL_MODELVIEW);
+   
 	glVertexPointer(3, GL_FLOAT, 0, fSpriteVertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, fTextureCoordinates);
         
@@ -404,6 +439,8 @@ void GELabel::render()
          break;
    }
 	
+   glMatrixMode(GL_MODELVIEW);
+   
 	glVertexPointer(3, GL_FLOAT, 0, fTextVertices);
 	glTexCoordPointer(2, GL_FLOAT, 0, fTextTextureCoordinates);   
    
@@ -426,99 +463,4 @@ void GELabel::setText(NSString *Text)
    sText = Text;
    release();
    create();
-}
-
-
-
-//
-//  GECamera
-//
-GECamera::GECamera()
-{
-   memset(&vEye, 0, sizeof(GEVector));
-   memset(&vAngle, 0, sizeof(GEVector));
-}
-
-GECamera::~GECamera()
-{
-}
-
-void GECamera::move(float DX, float DY, float DZ)
-{
-   vEye.X += DX;
-   vEye.Y += DY;
-   vEye.Z += DZ;
-}
-
-void GECamera::move(const GEVector& Move)
-{
-   vEye.X += Move.X;
-   vEye.Y += Move.Y;
-   vEye.Z += Move.Z;
-}
-
-void GECamera::lookAt(float X, float Y, float Z)
-{
-   // TODO
-}
-
-void GECamera::lookAt(const GEVector& LookAt)
-{
-   // TODO
-}
-
-void GECamera::setPosition(float X, float Y, float Z)
-{
-   vEye.X = X;
-   vEye.Y = Y;
-   vEye.Z = Z;
-}
-
-void GECamera::setPosition(const GEVector& Position)
-{
-   vEye.X = Position.X;
-   vEye.Y = Position.Y;
-   vEye.Z = Position.Z;
-}
-
-void GECamera::setAngle(float X, float Y, float Z)
-{
-   vAngle.X = X;
-   vAngle.Y = Y;
-   vAngle.Z = Z;
-}
-
-void GECamera::setAngle(const GEVector& Angle)
-{
-   vAngle.X = Angle.X;
-   vAngle.Y = Angle.Y;
-   vAngle.Z = Angle.Z;
-}
-
-void GECamera::use()
-{   
-   glMatrixMode(GL_PROJECTION);   
-   glLoadIdentity();
-   
-   float fLeft, fRight;
-   float fTop, fBottom;
-   
-   //
-   // Distance to the projection plane = 1 / tan(FOVangle / 2)
-   // Taking FOVangle = PI / 4, then distance = 1 / tan(PI / 8)
-   //
-   float fDistance = 1 / tan(PI * 0.125);
-   
-   fRight = ZNEAR / fDistance;
-   fLeft = -fRight;
-   
-   fBottom = GEDevice::getAspectRatio() * fLeft;
-   fTop = GEDevice::getAspectRatio() * fRight;
-
-   glFrustumf(fLeft, fRight, fBottom, fTop, ZNEAR, ZFAR);
-      
-   glRotatef(vAngle.X, 1.0f, 0.0f, 0.0f);
-   glRotatef(vAngle.Y, 0.0f, 1.0f, 0.0f);
-   glRotatef(vAngle.Z, 0.0f, 0.0f, 1.0f);
-   glTranslatef(vEye.X, vEye.Y, vEye.Z);
 }

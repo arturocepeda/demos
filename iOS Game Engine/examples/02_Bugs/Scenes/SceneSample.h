@@ -19,7 +19,7 @@
 #define BOUNDS_RIGHT    1.0f
 
 #define FINGERS         5
-#define PROB_CHANGE     1000
+#define PROB_CHANGE     1200
 
 #define BUG_TYPES       3
 #define BUG_STEPS       3
