@@ -19,6 +19,7 @@ GERendering::GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint Vi
    glViewFrameBuffer = ViewFrameBuffer;
    glViewRenderBuffer = ViewRenderBuffer;
    
+   bOrientation180 = false;
    cBackground.set(0.0f, 0.0f, 0.0f);
    iNumLights = 0;
    
@@ -42,18 +43,34 @@ GERendering::GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint Vi
    
    // set 2D mode
    glDisable(GL_DEPTH_TEST);
-    
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   glOrthof(-1.0f, 1.0f, -GEDevice::getAspectRatio(), GEDevice::getAspectRatio(), -1.0f, 1.0f);
-    
-   glMatrixMode(GL_MODELVIEW);
+   setProjectionMatrix();
 }
 
 GERendering::~GERendering()
 {
    // release textures
    glDeleteTextures(TEXTURES, tTextures);
+}
+
+void GERendering::setProjectionMatrix()
+{
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+   
+   if(bOrientation180)
+      glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
+   
+   glOrthof(-1.0f, 1.0f, -GEDevice::getAspectRatio(), GEDevice::getAspectRatio(), -1.0f, 1.0f);   
+   glMatrixMode(GL_MODELVIEW);
+}
+
+void GERendering::setOrientation180(bool Orientation180)
+{
+   if(bOrientation180 != Orientation180)
+   {
+      bOrientation180 = Orientation180;
+      setProjectionMatrix();
+   }
 }
 
 void GERendering::loadTexture(unsigned int TextureIndex, NSString* Name)

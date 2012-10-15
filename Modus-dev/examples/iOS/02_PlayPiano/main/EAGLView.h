@@ -5,10 +5,10 @@
 #import <OpenGLES/ES1/glext.h>
 #import "GEScene.h"
 
-//#define _USE_ACCELEROMETER_
+#define _USE_ACCELEROMETER_
 
 #define MAX_FINGERS           5
-#define ACCELEROMETER_UPDATE  0.05
+#define ACCELEROMETER_UPDATE  1
 
 /*
 This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.

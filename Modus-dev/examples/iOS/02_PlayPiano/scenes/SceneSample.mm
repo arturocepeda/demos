@@ -426,13 +426,19 @@ void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 {
    if(!bSamplesLoaded)
       return;
-    
+   
    // stop sliding
    fSlideSpeed = 0.0f;
 
    // check position
    float fTouchX = cPixelToPositionX->y(Point->x);
    float fTouchY = cPixelToPositionY->y(Point->y);
+   
+   if(bOrientation180)
+   {
+      fTouchX *= -1;
+      fTouchY *= -1;
+   }
    
    // padlock
    if(fTouchX < 0.9f && fTouchX > 0.5f && fTouchY > -1.3f && fTouchY < -0.9f)
@@ -469,13 +475,24 @@ void GESceneSample::inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* Curr
    {
       // only the first finger can slide the keyboard
       if(ID == 0)
+      {
          fSlideSpeed = (PreviousPoint->y - CurrentPoint->y) * SLIDE_RATIO;
+         
+         if(bOrientation180)
+            fSlideSpeed *= -1;
+      }      
    }
    else
    {
       // check position
       float fTouchX = cPixelToPositionX->y(CurrentPoint->x);
       float fTouchY = cPixelToPositionY->y(CurrentPoint->y);
+      
+      if(bOrientation180)
+      {
+         fTouchX *= -1;
+         fTouchY *= -1;
+      }
       
       if(fTouchX > BOUNDS_TOP || fTouchX < BOUNDS_BOTTOM)
          return;
@@ -508,4 +525,16 @@ void GESceneSample::inputTouchEnd(int ID, CGPoint* Point)
 
 void GESceneSample::updateAccelerometerStatus(float X, float Y, float Z)
 {
+   float fRotationAngle = atan2(Y, X);
+   
+   if(!bOrientation180 && fRotationAngle >= -0.75 && fRotationAngle <= 0.75)
+   {
+      bOrientation180 = true;
+      cRender->setOrientation180(true);
+   }
+   else if(bOrientation180 && (fRotationAngle <= -2.25 || fRotationAngle >= 2.25))
+   {
+      bOrientation180 = false;
+      cRender->setOrientation180(false);
+   }
 }

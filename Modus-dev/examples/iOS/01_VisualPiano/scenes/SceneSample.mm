@@ -435,4 +435,10 @@ void GESceneSample::inputTouchEnd(int ID, CGPoint* Point)
 
 void GESceneSample::updateAccelerometerStatus(float X, float Y, float Z)
 {
+   float fRotationAngle = atan2(Y, X);
+   
+   if(fRotationAngle >= -0.75 && fRotationAngle <= 0.75)
+      cRender->setOrientation180(true);
+   else if(fRotationAngle <= -2.25 || fRotationAngle >= 2.25)
+      cRender->setOrientation180(false);
 }

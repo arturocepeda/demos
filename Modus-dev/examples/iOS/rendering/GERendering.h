@@ -24,13 +24,20 @@ private:
    GLuint tTextures[TEXTURES];
    GETextureSize tTextureSize[TEXTURES];
    
+   bool bOrientation180;
+   
    GEColor cBackground;
    unsigned int iNumLights;
+   
+   void setProjectionMatrix();
 
 public:
 	GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint ViewRenderBuffer);
 	~GERendering();
 
+   // projection matrix
+   void setOrientation180(bool Orientation180);
+   
    // textures
    void loadTexture(unsigned int TextureIndex, NSString* Name);
    GLuint getTexture(unsigned int TextureIndex);

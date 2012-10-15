@@ -77,6 +77,9 @@ private:
    // sound system
    CAudio* cAudio;
    
+   // device orientation
+   bool bOrientation180;
+   
    // Modus objects
    MCInstrument* mPiano;
    MCOpenALSourceManager* mSourceManager;
