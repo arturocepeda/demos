@@ -1,1 +1,0 @@
-g++ -I./../../../include/ -I./../../../soundgen/ -D__MACOSX_CORE__ main.cpp ./../../../soundgen/MIDI/mxsoundgenmidi.cpp ./../../../soundgen/externals/RtMidi/RtMidi.cpp -o ./../bin/01_PolonaiseMIDI ./../../../lib/MacOSX/modus.a -framework CoreMidi -framework CoreAudio -framework CoreFoundation
