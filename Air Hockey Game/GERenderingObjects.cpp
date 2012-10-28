@@ -44,16 +44,16 @@ void GERenderingObject::scale(const GEVector& Scale)
 
 void GERenderingObject::rotate(float RX, float RY, float RZ)
 {
-    qRotation.x += RX;
-    qRotation.y += RY;
-    qRotation.z += RZ;
+    D3DXQUATERNION qAux;
+    D3DXQuaternionRotationYawPitchRoll(&qAux, RY, RX, RZ);
+    qRotation = qAux * qRotation;
 }
 
 void GERenderingObject::rotate(const GEVector& Rotate)
 {
-    qRotation.x += Rotate.X;
-    qRotation.y += Rotate.Y;
-    qRotation.z += Rotate.Z;
+    D3DXQUATERNION qAux;
+    D3DXQuaternionRotationYawPitchRoll(&qAux, Rotate.Y, Rotate.X, Rotate.Z);
+    qRotation = qAux * qRotation;
 }
 
 void GERenderingObject::show()
@@ -134,16 +134,12 @@ void GERenderingObject::setScale(const GEVector& Scale)
 
 void GERenderingObject::setRotation(float X, float Y, float Z)
 {
-    qRotation.x = X;
-    qRotation.y = Y;
-    qRotation.z = Z;
+    D3DXQuaternionRotationYawPitchRoll(&qRotation, Y, X, Z);
 }
 
 void GERenderingObject::setRotation(const GEVector& Rotation)
 {
-    qRotation.x = Rotation.X;
-    qRotation.y = Rotation.Y;
-    qRotation.z = Rotation.Z;
+    D3DXQuaternionRotationYawPitchRoll(&qRotation, Rotation.Y, Rotation.X, Rotation.Z);
 }
 
 void GERenderingObject::setColor(const GEColor& Color)
@@ -283,12 +279,10 @@ void GEMesh::render()
         return;
 
     D3DXMatrixScaling(&mScale, vScale.x, vScale.y, vScale.z);
-    D3DXMatrixRotationX(&mRotationX, qRotation.x);
-    D3DXMatrixRotationY(&mRotationY, qRotation.y);
-    D3DXMatrixRotationZ(&mRotationZ, qRotation.z);
+    D3DXMatrixRotationQuaternion(&mRotation, &qRotation);
     D3DXMatrixTranslation(&mTranslation, vPosition.x, vPosition.y, vPosition.z);
 
-    mTransform = mScale * mRotationX * mRotationY * mRotationZ * mTranslation;
+    mTransform = mScale * mRotation * mTranslation;
     d3ddev->SetTransform(D3DTS_WORLD, &mTransform);
 
     for(DWORD i = 0; i < iNumMaterials; i++)
@@ -450,9 +444,9 @@ void GECamera::lookAt(const GEVector& LookAt)
 
 void GECamera::orbit(const GEVector& ReferencePoint, float Distance, float Theta, float Phi)
 {
-    setPosition(Distance * cosf(Theta) * sinf(Phi),
-                Distance * -cosf(Phi), 
-                Distance * sinf(Theta) * sinf(Phi));
+    setPosition(ReferencePoint.X + (Distance * cosf(Theta) * sinf(Phi)),
+                ReferencePoint.Y + (Distance * -cosf(Phi)), 
+                ReferencePoint.Z + (Distance * sinf(Theta) * sinf(Phi)));
     lookAt(ReferencePoint.X, ReferencePoint.Y, ReferencePoint.Z);
 }
 
