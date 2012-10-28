@@ -39,32 +39,12 @@ struct GEColor
     }
 };
 
-struct GEPoint
+struct GEVector
 {
     float X;
     float Y;
     float Z;
 
-    GEPoint()
-    {
-        set(0.0f, 0.0f, 0.0f);
-    }
-
-    GEPoint(float vX, float vY, float vZ)
-    {
-        set(vX, vY, vZ);
-    }
-
-    void set(float vX, float vY, float vZ)
-    {
-        X = vX;
-        Y = vY;
-        Z = vZ;
-    }
-};
-
-struct GEVector : public GEPoint
-{
     GEVector()
     {
         set(0.0f, 0.0f, 0.0f);
@@ -75,6 +55,18 @@ struct GEVector : public GEPoint
         set(vX, vY, vZ);
     }
 
+    void set(float vX, float vY, float vZ)
+    {
+        X = vX;
+        Y = vY;
+        Z = vZ;
+    }
+
+    float getLength()
+    {
+        return sqrt(X * X + Y * Y + Z * Z);
+    }
+
     void normalize()
     {
         float fLength = sqrt(X * X + Y * Y + Z * Z);
@@ -82,6 +74,44 @@ struct GEVector : public GEPoint
         X /= fLength;
         Y /= fLength;
         Z /= fLength;
+    }
+
+    GEVector operator+(const GEVector& v)
+    {
+        return GEVector(X + v.X, Y + v.Y, Z + v.Z);
+    }
+
+    GEVector& operator+=(const GEVector& v)
+    {
+        X += v.X; Y += v.Y; Z += v.Z;
+        return *this;
+    }
+
+    GEVector operator-(const GEVector& v)
+    {
+        return GEVector(X - v.X, Y - v.Y, Z - v.Z);
+    }
+
+    GEVector& operator-=(const GEVector& v)
+    {
+        X -= v.X; Y -= v.Y; Z -= v.Z;
+        return *this;
+    }
+
+    GEVector operator*(const float fValue)
+    {
+        return GEVector(X * fValue, Y * fValue, Z * fValue);
+    }
+
+    GEVector& operator*=(const float fValue)
+    {
+        X *= fValue; Y *= fValue; Z *= fValue;
+        return *this;
+    }
+
+    float operator*(const GEVector& v)
+    {
+        return (X * v.X + Y * v.Y + Z * v.Z);
     }
 };
 
@@ -143,7 +173,7 @@ private:
 
     // matrices
     D3DXMATRIX mScale;
-    D3DXMATRIX mRotationX, mRotationY, mRotationZ;
+    D3DXMATRIX mRotation;
     D3DXMATRIX mTranslation;
 
 public:
