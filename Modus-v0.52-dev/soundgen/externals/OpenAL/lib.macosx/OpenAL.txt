@@ -1,0 +1,7 @@
+
+
+ - Xcode: include the OpenAL framework in your project
+
+ - g++: add "-framework OpenAL" as a parameter
+
+

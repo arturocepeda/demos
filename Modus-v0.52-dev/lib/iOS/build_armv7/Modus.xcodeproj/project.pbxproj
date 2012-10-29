@@ -1,0 +1,352 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE72D8631620D50200F35F9E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE72D8621620D50200F35F9E /* Foundation.framework */; };
+		CE72D8801620D52900F35F9E /* mband.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D86F1620D52900F35F9E /* mband.h */; };
+		CE72D8811620D52900F35F9E /* mchords.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8701620D52900F35F9E /* mchords.h */; };
+		CE72D8821620D52900F35F9E /* mconstants.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8711620D52900F35F9E /* mconstants.h */; };
+		CE72D8831620D52900F35F9E /* mharmonypattern.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8721620D52900F35F9E /* mharmonypattern.h */; };
+		CE72D8841620D52900F35F9E /* minstrument.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8731620D52900F35F9E /* minstrument.h */; };
+		CE72D8851620D52900F35F9E /* mlist.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8741620D52900F35F9E /* mlist.h */; };
+		CE72D8861620D52900F35F9E /* mmidireceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8751620D52900F35F9E /* mmidireceiver.h */; };
+		CE72D8871620D52900F35F9E /* modus.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8761620D52900F35F9E /* modus.h */; };
+		CE72D8881620D52900F35F9E /* mscalepattern.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8771620D52900F35F9E /* mscalepattern.h */; };
+		CE72D8891620D52900F35F9E /* mscales.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8781620D52900F35F9E /* mscales.h */; };
+		CE72D88A1620D52900F35F9E /* mscore.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8791620D52900F35F9E /* mscore.h */; };
+		CE72D88B1620D52900F35F9E /* mscript.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87A1620D52900F35F9E /* mscript.h */; };
+		CE72D88C1620D52900F35F9E /* msong.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87B1620D52900F35F9E /* msong.h */; };
+		CE72D88D1620D52900F35F9E /* msoundgen.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87C1620D52900F35F9E /* msoundgen.h */; };
+		CE72D88E1620D52900F35F9E /* mtimer.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87D1620D52900F35F9E /* mtimer.h */; };
+		CE72D88F1620D52900F35F9E /* mtypes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87E1620D52900F35F9E /* mtypes.h */; };
+		CE72D8901620D52900F35F9E /* mutils.h in Headers */ = {isa = PBXBuildFile; fileRef = CE72D87F1620D52900F35F9E /* mutils.h */; };
+		CE72D89F1620D53300F35F9E /* mband.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8911620D53300F35F9E /* mband.cpp */; };
+		CE72D8A01620D53300F35F9E /* mchords.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8921620D53300F35F9E /* mchords.cpp */; };
+		CE72D8A11620D53300F35F9E /* mharmonypattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8931620D53300F35F9E /* mharmonypattern.cpp */; };
+		CE72D8A21620D53300F35F9E /* minstrument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8941620D53300F35F9E /* minstrument.cpp */; };
+		CE72D8A31620D53300F35F9E /* mmidireceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8951620D53300F35F9E /* mmidireceiver.cpp */; };
+		CE72D8A41620D53300F35F9E /* mscalepattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8961620D53300F35F9E /* mscalepattern.cpp */; };
+		CE72D8A51620D53300F35F9E /* mscales.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8971620D53300F35F9E /* mscales.cpp */; };
+		CE72D8A61620D53300F35F9E /* mscore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8981620D53300F35F9E /* mscore.cpp */; };
+		CE72D8A71620D53300F35F9E /* mscript.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D8991620D53300F35F9E /* mscript.cpp */; };
+		CE72D8A81620D53300F35F9E /* msong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D89A1620D53300F35F9E /* msong.cpp */; };
+		CE72D8A91620D53300F35F9E /* msoundgen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D89B1620D53300F35F9E /* msoundgen.cpp */; };
+		CE72D8AA1620D53300F35F9E /* mtimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D89C1620D53300F35F9E /* mtimer.cpp */; };
+		CE72D8AB1620D53300F35F9E /* mtypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D89D1620D53300F35F9E /* mtypes.cpp */; };
+		CE72D8AC1620D53300F35F9E /* mutils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CE72D89E1620D53300F35F9E /* mutils.cpp */; };
+		CE72D8D21620DE1A00F35F9E /* Modus-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE72D8D11620DE1A00F35F9E /* Modus-Prefix.pch */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CE72D85F1620D50200F35F9E /* libModus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libModus.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE72D8621620D50200F35F9E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CE72D86F1620D52900F35F9E /* mband.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mband.h; path = ../../../include/mband.h; sourceTree = "<group>"; };
+		CE72D8701620D52900F35F9E /* mchords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mchords.h; path = ../../../include/mchords.h; sourceTree = "<group>"; };
+		CE72D8711620D52900F35F9E /* mconstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mconstants.h; path = ../../../include/mconstants.h; sourceTree = "<group>"; };
+		CE72D8721620D52900F35F9E /* mharmonypattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mharmonypattern.h; path = ../../../include/mharmonypattern.h; sourceTree = "<group>"; };
+		CE72D8731620D52900F35F9E /* minstrument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = minstrument.h; path = ../../../include/minstrument.h; sourceTree = "<group>"; };
+		CE72D8741620D52900F35F9E /* mlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mlist.h; path = ../../../include/mlist.h; sourceTree = "<group>"; };
+		CE72D8751620D52900F35F9E /* mmidireceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mmidireceiver.h; path = ../../../include/mmidireceiver.h; sourceTree = "<group>"; };
+		CE72D8761620D52900F35F9E /* modus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = modus.h; path = ../../../include/modus.h; sourceTree = "<group>"; };
+		CE72D8771620D52900F35F9E /* mscalepattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mscalepattern.h; path = ../../../include/mscalepattern.h; sourceTree = "<group>"; };
+		CE72D8781620D52900F35F9E /* mscales.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mscales.h; path = ../../../include/mscales.h; sourceTree = "<group>"; };
+		CE72D8791620D52900F35F9E /* mscore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mscore.h; path = ../../../include/mscore.h; sourceTree = "<group>"; };
+		CE72D87A1620D52900F35F9E /* mscript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mscript.h; path = ../../../include/mscript.h; sourceTree = "<group>"; };
+		CE72D87B1620D52900F35F9E /* msong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msong.h; path = ../../../include/msong.h; sourceTree = "<group>"; };
+		CE72D87C1620D52900F35F9E /* msoundgen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = msoundgen.h; path = ../../../include/msoundgen.h; sourceTree = "<group>"; };
+		CE72D87D1620D52900F35F9E /* mtimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mtimer.h; path = ../../../include/mtimer.h; sourceTree = "<group>"; };
+		CE72D87E1620D52900F35F9E /* mtypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mtypes.h; path = ../../../include/mtypes.h; sourceTree = "<group>"; };
+		CE72D87F1620D52900F35F9E /* mutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mutils.h; path = ../../../include/mutils.h; sourceTree = "<group>"; };
+		CE72D8911620D53300F35F9E /* mband.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mband.cpp; path = ../../../src/mband.cpp; sourceTree = "<group>"; };
+		CE72D8921620D53300F35F9E /* mchords.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mchords.cpp; path = ../../../src/mchords.cpp; sourceTree = "<group>"; };
+		CE72D8931620D53300F35F9E /* mharmonypattern.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mharmonypattern.cpp; path = ../../../src/mharmonypattern.cpp; sourceTree = "<group>"; };
+		CE72D8941620D53300F35F9E /* minstrument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = minstrument.cpp; path = ../../../src/minstrument.cpp; sourceTree = "<group>"; };
+		CE72D8951620D53300F35F9E /* mmidireceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mmidireceiver.cpp; path = ../../../src/mmidireceiver.cpp; sourceTree = "<group>"; };
+		CE72D8961620D53300F35F9E /* mscalepattern.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mscalepattern.cpp; path = ../../../src/mscalepattern.cpp; sourceTree = "<group>"; };
+		CE72D8971620D53300F35F9E /* mscales.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mscales.cpp; path = ../../../src/mscales.cpp; sourceTree = "<group>"; };
+		CE72D8981620D53300F35F9E /* mscore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mscore.cpp; path = ../../../src/mscore.cpp; sourceTree = "<group>"; };
+		CE72D8991620D53300F35F9E /* mscript.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mscript.cpp; path = ../../../src/mscript.cpp; sourceTree = "<group>"; };
+		CE72D89A1620D53300F35F9E /* msong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msong.cpp; path = ../../../src/msong.cpp; sourceTree = "<group>"; };
+		CE72D89B1620D53300F35F9E /* msoundgen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = msoundgen.cpp; path = ../../../src/msoundgen.cpp; sourceTree = "<group>"; };
+		CE72D89C1620D53300F35F9E /* mtimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mtimer.cpp; path = ../../../src/mtimer.cpp; sourceTree = "<group>"; };
+		CE72D89D1620D53300F35F9E /* mtypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mtypes.cpp; path = ../../../src/mtypes.cpp; sourceTree = "<group>"; };
+		CE72D89E1620D53300F35F9E /* mutils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mutils.cpp; path = ../../../src/mutils.cpp; sourceTree = "<group>"; };
+		CE72D8D11620DE1A00F35F9E /* Modus-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Modus-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE72D85C1620D50200F35F9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE72D8631620D50200F35F9E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE72D8541620D50200F35F9E = {
+			isa = PBXGroup;
+			children = (
+				CE72D8641620D50200F35F9E /* Modus */,
+				CE72D8611620D50200F35F9E /* Frameworks */,
+				CE72D8601620D50200F35F9E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE72D8601620D50200F35F9E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE72D85F1620D50200F35F9E /* libModus.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE72D8611620D50200F35F9E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE72D8621620D50200F35F9E /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CE72D8641620D50200F35F9E /* Modus */ = {
+			isa = PBXGroup;
+			children = (
+				CE72D8911620D53300F35F9E /* mband.cpp */,
+				CE72D8921620D53300F35F9E /* mchords.cpp */,
+				CE72D8931620D53300F35F9E /* mharmonypattern.cpp */,
+				CE72D8941620D53300F35F9E /* minstrument.cpp */,
+				CE72D8951620D53300F35F9E /* mmidireceiver.cpp */,
+				CE72D8961620D53300F35F9E /* mscalepattern.cpp */,
+				CE72D8971620D53300F35F9E /* mscales.cpp */,
+				CE72D8981620D53300F35F9E /* mscore.cpp */,
+				CE72D8991620D53300F35F9E /* mscript.cpp */,
+				CE72D89A1620D53300F35F9E /* msong.cpp */,
+				CE72D89B1620D53300F35F9E /* msoundgen.cpp */,
+				CE72D89C1620D53300F35F9E /* mtimer.cpp */,
+				CE72D89D1620D53300F35F9E /* mtypes.cpp */,
+				CE72D89E1620D53300F35F9E /* mutils.cpp */,
+				CE72D86F1620D52900F35F9E /* mband.h */,
+				CE72D8701620D52900F35F9E /* mchords.h */,
+				CE72D8711620D52900F35F9E /* mconstants.h */,
+				CE72D8721620D52900F35F9E /* mharmonypattern.h */,
+				CE72D8731620D52900F35F9E /* minstrument.h */,
+				CE72D8741620D52900F35F9E /* mlist.h */,
+				CE72D8751620D52900F35F9E /* mmidireceiver.h */,
+				CE72D8761620D52900F35F9E /* modus.h */,
+				CE72D8771620D52900F35F9E /* mscalepattern.h */,
+				CE72D8781620D52900F35F9E /* mscales.h */,
+				CE72D8791620D52900F35F9E /* mscore.h */,
+				CE72D87A1620D52900F35F9E /* mscript.h */,
+				CE72D87B1620D52900F35F9E /* msong.h */,
+				CE72D87C1620D52900F35F9E /* msoundgen.h */,
+				CE72D87D1620D52900F35F9E /* mtimer.h */,
+				CE72D87E1620D52900F35F9E /* mtypes.h */,
+				CE72D87F1620D52900F35F9E /* mutils.h */,
+				CE72D8651620D50200F35F9E /* Supporting Files */,
+			);
+			path = Modus;
+			sourceTree = "<group>";
+		};
+		CE72D8651620D50200F35F9E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE72D8D11620DE1A00F35F9E /* Modus-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		CE72D85D1620D50200F35F9E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE72D8801620D52900F35F9E /* mband.h in Headers */,
+				CE72D8811620D52900F35F9E /* mchords.h in Headers */,
+				CE72D8821620D52900F35F9E /* mconstants.h in Headers */,
+				CE72D8831620D52900F35F9E /* mharmonypattern.h in Headers */,
+				CE72D8841620D52900F35F9E /* minstrument.h in Headers */,
+				CE72D8851620D52900F35F9E /* mlist.h in Headers */,
+				CE72D8861620D52900F35F9E /* mmidireceiver.h in Headers */,
+				CE72D8871620D52900F35F9E /* modus.h in Headers */,
+				CE72D8881620D52900F35F9E /* mscalepattern.h in Headers */,
+				CE72D8891620D52900F35F9E /* mscales.h in Headers */,
+				CE72D88A1620D52900F35F9E /* mscore.h in Headers */,
+				CE72D88B1620D52900F35F9E /* mscript.h in Headers */,
+				CE72D88C1620D52900F35F9E /* msong.h in Headers */,
+				CE72D88D1620D52900F35F9E /* msoundgen.h in Headers */,
+				CE72D88E1620D52900F35F9E /* mtimer.h in Headers */,
+				CE72D88F1620D52900F35F9E /* mtypes.h in Headers */,
+				CE72D8901620D52900F35F9E /* mutils.h in Headers */,
+				CE72D8D21620DE1A00F35F9E /* Modus-Prefix.pch in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		CE72D85E1620D50200F35F9E /* Modus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE72D86C1620D50200F35F9E /* Build configuration list for PBXNativeTarget "Modus" */;
+			buildPhases = (
+				CE72D85B1620D50200F35F9E /* Sources */,
+				CE72D85C1620D50200F35F9E /* Frameworks */,
+				CE72D85D1620D50200F35F9E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Modus;
+			productName = Modus;
+			productReference = CE72D85F1620D50200F35F9E /* libModus.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE72D8561620D50200F35F9E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = CE72D8591620D50200F35F9E /* Build configuration list for PBXProject "Modus" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CE72D8541620D50200F35F9E;
+			productRefGroup = CE72D8601620D50200F35F9E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE72D85E1620D50200F35F9E /* Modus */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE72D85B1620D50200F35F9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE72D89F1620D53300F35F9E /* mband.cpp in Sources */,
+				CE72D8A01620D53300F35F9E /* mchords.cpp in Sources */,
+				CE72D8A11620D53300F35F9E /* mharmonypattern.cpp in Sources */,
+				CE72D8A21620D53300F35F9E /* minstrument.cpp in Sources */,
+				CE72D8A31620D53300F35F9E /* mmidireceiver.cpp in Sources */,
+				CE72D8A41620D53300F35F9E /* mscalepattern.cpp in Sources */,
+				CE72D8A51620D53300F35F9E /* mscales.cpp in Sources */,
+				CE72D8A61620D53300F35F9E /* mscore.cpp in Sources */,
+				CE72D8A71620D53300F35F9E /* mscript.cpp in Sources */,
+				CE72D8A81620D53300F35F9E /* msong.cpp in Sources */,
+				CE72D8A91620D53300F35F9E /* msoundgen.cpp in Sources */,
+				CE72D8AA1620D53300F35F9E /* mtimer.cpp in Sources */,
+				CE72D8AB1620D53300F35F9E /* mtypes.cpp in Sources */,
+				CE72D8AC1620D53300F35F9E /* mutils.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		CE72D86A1620D50200F35F9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CE72D86B1620D50200F35F9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE72D86D1620D50200F35F9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/Modus.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Modus/Modus-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CE72D86E1620D50200F35F9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/Modus.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Modus/Modus-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE72D8591620D50200F35F9E /* Build configuration list for PBXProject "Modus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE72D86A1620D50200F35F9E /* Debug */,
+				CE72D86B1620D50200F35F9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE72D86C1620D50200F35F9E /* Build configuration list for PBXNativeTarget "Modus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE72D86D1620D50200F35F9E /* Debug */,
+				CE72D86E1620D50200F35F9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE72D8561620D50200F35F9E /* Project object */;
+}

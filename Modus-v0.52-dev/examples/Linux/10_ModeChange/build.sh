@@ -1,0 +1,1 @@
+g++ -I./../../../include/ -I./../../../soundgen/ main.cpp ./../audio/audio.openal.cpp ./../../../soundgen/OpenAL/mxsoundgenopenal.cpp ./../../../soundgen/OpenAL/mxopenalsourcemanager.cpp -o ./../bin/10_ModeChange ./../../../lib/Linux/modus.a -lopenal -logg -lvorbis -lvorbisfile -lasound -fpermissive

@@ -1,0 +1,1 @@
+g++ -I./../../../include/ -I./../../../soundgen/ -lpthread main.cpp ./../audio/audio.fmod.cpp ./../../../soundgen/FMOD/mxsoundgenfmod.cpp -o ./../bin/03_PolonaiseThread ./../../../lib/MacOSX/modus.a ./../../../soundgen/externals/FMOD/lib.macosx/libfmodex.dylib
