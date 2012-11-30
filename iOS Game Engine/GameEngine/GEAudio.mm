@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda Pérez
- 
-   Audio System (OpenAL)
- 
-   --- GEAudio.mm ---
- */
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
+//
+//  Audio System (OpenAL)
+//
+//  --- GEAudio.mm ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #include "GEAudio.h"
 #include <iostream>

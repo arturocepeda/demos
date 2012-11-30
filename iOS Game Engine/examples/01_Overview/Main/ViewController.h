@@ -1,10 +1,15 @@
+
+//////////////////////////////////////////////////////////////////
 //
-//  ViewController.h
-//  01_Overview
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
 //
-//  Created by Lion User on 29/11/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Sample application
 //
+//  --- ViewController.h ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>

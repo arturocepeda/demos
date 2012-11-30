@@ -1,10 +1,15 @@
+
+//////////////////////////////////////////////////////////////////
 //
-//  ViewController.mm
-//  01_Overview
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
 //
-//  Created by Lion User on 29/11/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Sample application
 //
+//  --- ViewController.mm ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #import "ViewController.h"
 
@@ -163,8 +168,6 @@
    iCurrentScene = iScene;
    cScenes[iCurrentScene]->init();
 }
-
-#pragma mark - GLKView and GLKViewController delegate methods
 
 -(void) update
 {

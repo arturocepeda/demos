@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda PŽrez
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda PŽrez
+//  iOS Game Engine
+//
+//  Rendering Engine (OpenGL ES)
+//
+//  --- GERendering.h ---
+//
+//////////////////////////////////////////////////////////////////
 
-	Rendering Engine (OpenGL)
-
-   --- GERendering.h ---
-*/
 
 #ifndef _GERENDERING_H_
 #define _GERENDERING_H_

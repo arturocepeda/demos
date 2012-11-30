@@ -1,15 +1,20 @@
+
+//////////////////////////////////////////////////////////////////
 //
-//  AppDelegate.h
-//  01_Overview
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
 //
-//  Created by Lion User on 29/11/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Sample application
 //
+//  --- AppDelegate.h ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UIWindow* window;
 
 @end

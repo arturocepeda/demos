@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda Pérez
- 
-   Sample Scene
- 
-   --- SceneSample.h ---
- */
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
+//
+//  Sample application
+//
+//  --- SceneSample.h ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #ifndef _SCENESAMPLE_H_
 #define _SCENESAMPLE_H_

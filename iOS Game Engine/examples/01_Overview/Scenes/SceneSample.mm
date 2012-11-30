@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda Pérez
- 
-   Sample Scene
- 
-   --- SceneSample.mm ---
- */
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
+//
+//  Sample application
+//
+//  --- SceneSample.mm ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #include "SceneSample.h"
 #include "banana.h"

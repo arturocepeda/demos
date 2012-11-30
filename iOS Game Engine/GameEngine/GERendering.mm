@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda PŽrez
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda PŽrez
+//  iOS Game Engine
+//
+//  Rendering Engine (OpenGL ES)
+//
+//  --- GERendering.mm ---
+//
+//////////////////////////////////////////////////////////////////
 
-	Rendering Engine (OpenGL)
-   
-   --- GERendering.mm ---
-*/
 
 #include "GERendering.h"
 
@@ -253,7 +257,7 @@ void GERendering::renderLabel(GELabel* Label)
 void GERendering::renderEnd()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
-   [glContext presentRenderbuffer:GL_RENDERBUFFER];
+   [glContext presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
 void GERendering::set2D()

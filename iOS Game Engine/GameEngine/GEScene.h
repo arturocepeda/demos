@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda PŽrez
-   
-	Scene Management
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda PŽrez
+//  iOS Game Engine
+//
+//  Scene Management
+//
+//  --- GEScene.h ---
+//
+//////////////////////////////////////////////////////////////////
 
-   --- GEScene.h ---
-*/
 
 #ifndef _GESCENE_H_
 #define _GESCENE_H_

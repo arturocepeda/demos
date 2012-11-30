@@ -1,11 +1,15 @@
 
-/*
-   Arturo Cepeda Pérez
- 
-   Device static class
- 
-   --- GEDevice.mm ---
-*/
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
+//
+//  Device static class
+//
+//  --- GEDevice.mm ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #include "GEDevice.h"
 

@@ -1,18 +1,24 @@
+
+//////////////////////////////////////////////////////////////////
 //
-//  main.m
-//  01_Overview
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
 //
-//  Created by Lion User on 29/11/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Sample application
 //
+//  --- main.m ---
+//
+//////////////////////////////////////////////////////////////////
+
 
 #import <UIKit/UIKit.h>
 
 #import "AppDelegate.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-   @autoreleasepool {
-       return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+   @autoreleasepool 
+   {
+      return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
    }
 }
