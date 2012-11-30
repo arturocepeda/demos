@@ -1,16 +1,15 @@
+//
+//  AppDelegate.h
+//  01_Overview
+//
+//  Created by Lion User on 29/11/2012.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
-@class EAGLView;
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> 
-{
-    UIWindow* window;
-    EAGLView* glView;
-}
-
-@property (nonatomic, retain) IBOutlet UIWindow* window;
-@property (nonatomic, retain) IBOutlet EAGLView* glView;
+@property (strong, nonatomic) UIWindow *window;
 
 @end
-

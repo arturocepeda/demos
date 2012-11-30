@@ -12,6 +12,7 @@
 
 #include "GEDevice.h"
 #include "Texture2D.h"
+
 #include <OpenGLES/EAGL.h>
 #include <OpenGLES/ES1/gl.h>
 #include <OpenGLES/ES1/glext.h>

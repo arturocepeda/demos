@@ -18,9 +18,7 @@ class GERendering
 {
 private:
    EAGLContext* glContext;
-   GLuint glViewFrameBuffer;
-   GLuint glViewRenderBuffer;
-
+   
    GLuint tTextures[TEXTURES];
    GETextureSize tTextureSize[TEXTURES];
    
@@ -29,7 +27,7 @@ private:
    unsigned int iNumLights;
 
 public:
-	GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint ViewRenderBuffer);
+	GERendering(EAGLContext* Context);
 	~GERendering();
 
    // textures

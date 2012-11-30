@@ -146,9 +146,6 @@ void GESceneSample::update()
    // probability
    if(iCurrentFrame % PROB_CHANGE == 0) 
       iProbability++;
-
-   // rendering
-   render();
 }
 
 void GESceneSample::generateBug()

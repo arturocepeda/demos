@@ -18,7 +18,6 @@
 #define BOUNDS_LEFT    -1.0f
 #define BOUNDS_RIGHT    1.0f
 
-#define FINGERS         5
 #define PROB_CHANGE     1200
 
 #define BUG_TYPES       3
@@ -70,13 +69,13 @@ private:
    int iProbability;
    
    void generateBug();
-   void render();
    
 public:
    GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void init();
 	void update();
+   void render();
 	void release();
    
    void inputTouchBegin(int ID, CGPoint* Point);

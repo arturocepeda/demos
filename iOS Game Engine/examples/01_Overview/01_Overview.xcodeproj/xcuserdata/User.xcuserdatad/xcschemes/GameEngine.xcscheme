@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+               BlueprintIdentifier = "CEE82F6616679399004FBB96"
                BuildableName = "01_Overview.app"
                BlueprintName = "01_Overview"
                ReferencedContainer = "container:01_Overview.xcodeproj">
@@ -31,7 +31,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "CEE82F6616679399004FBB96"
             BuildableName = "01_Overview.app"
             BlueprintName = "01_Overview"
             ReferencedContainer = "container:01_Overview.xcodeproj">
@@ -46,11 +46,12 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      enablesOpenGLESFrameCapture = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "CEE82F6616679399004FBB96"
             BuildableName = "01_Overview.app"
             BlueprintName = "01_Overview"
             ReferencedContainer = "container:01_Overview.xcodeproj">
@@ -68,7 +69,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "1D6058900D05DD3D006BFB54"
+            BlueprintIdentifier = "CEE82F6616679399004FBB96"
             BuildableName = "01_Overview.app"
             BlueprintName = "01_Overview"
             ReferencedContainer = "container:01_Overview.xcodeproj">

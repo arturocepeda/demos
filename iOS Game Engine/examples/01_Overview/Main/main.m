@@ -1,10 +1,18 @@
+//
+//  main.m
+//  01_Overview
+//
+//  Created by Lion User on 29/11/2012.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
 
-int main(int argc, char *argv[]) 
+#import "AppDelegate.h"
+
+int main(int argc, char *argv[])
 {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
-    return retVal;
+   @autoreleasepool {
+       return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+   }
 }

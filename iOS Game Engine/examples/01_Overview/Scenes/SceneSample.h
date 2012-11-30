@@ -58,13 +58,12 @@ private:
    void updateCube();
    void updateBall();
    
-   void render();
-   
 public:
    GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void init();
 	void update();
+   void render();
 	void release();
    
    void inputTouchBegin(int ID, CGPoint* Point);

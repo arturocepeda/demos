@@ -13,18 +13,13 @@
 //
 //  GERendering
 //
-GERendering::GERendering(EAGLContext* Context, GLuint ViewFrameBuffer, GLuint ViewRenderBuffer)
-{
+GERendering::GERendering(EAGLContext* Context)
+{   
    glContext = Context;
-   glViewFrameBuffer = ViewFrameBuffer;
-   glViewRenderBuffer = ViewRenderBuffer;
    
    cBackgroundColor.set(1.0f, 1.0f, 1.0f);
    fOrientationAngle = 0.0f;
    iNumLights = 0;
-   
-   // set OpenGL context
-   [EAGLContext setCurrentContext:glContext];
    
 	// enable OpenGL texturing
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -226,7 +221,7 @@ void GERendering::useCamera(GECamera* Camera)
    glRotatef(vRotation.X, 1.0f, 0.0f, 0.0f);
    glRotatef(vRotation.Y, 0.0f, 1.0f, 0.0f);
    glRotatef(vRotation.Z + fOrientationAngle, 0.0f, 0.0f, 1.0f);
-   glTranslatef(vEye.X, vEye.Y, vEye.Z);   
+   glTranslatef(vEye.X, vEye.Y, vEye.Z);
 }
 
 
@@ -235,11 +230,9 @@ void GERendering::useCamera(GECamera* Camera)
 //
 void GERendering::renderBegin()
 {
-   glBindFramebufferOES(GL_FRAMEBUFFER_OES, glViewFrameBuffer);             
    glClearColor(cBackgroundColor.R, cBackgroundColor.G, cBackgroundColor.B, 1.0f);
 	glClearDepthf(1.0f);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   
 }
 
 void GERendering::renderMesh(GEMesh* Mesh)
@@ -260,8 +253,7 @@ void GERendering::renderLabel(GELabel* Label)
 void GERendering::renderEnd()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
-   glBindRenderbufferOES(GL_RENDERBUFFER_OES, glViewRenderBuffer);
-   [glContext presentRenderbuffer: GL_RENDERBUFFER_OES]; 
+   [glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 void GERendering::set2D()

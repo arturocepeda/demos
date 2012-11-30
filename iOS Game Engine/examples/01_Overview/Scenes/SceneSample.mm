@@ -87,8 +87,6 @@ void GESceneSample::update()
    updateBanana();
    updateCube();
    updateBall();
-   
-   render();
 }
 
 void GESceneSample::updateText()
@@ -169,12 +167,10 @@ void GESceneSample::updateBall()
 
 void GESceneSample::render()
 {
-   cRender->renderBegin();
-   
    // background
    cRender->set2D();
    cRender->renderSprite(cSpriteBackground);
-   
+
    // camera
    cRender->set3D();
    cRender->useCamera(cCamera);
@@ -182,7 +178,7 @@ void GESceneSample::render()
    // meshes
    cRender->renderMesh(cMeshBanana);
    cRender->renderMesh(cMeshCube);
-   
+
    // sprites
    cRender->set2D();
    cRender->renderSprite(cSpriteBall);
@@ -199,8 +195,6 @@ void GESceneSample::render()
    cText->setColor(0.8f, 0.2f, 0.2f);
    cText->move(-0.015f, -0.015f, 0.0f);
    cRender->renderLabel(cText);
-   
-   cRender->renderEnd();
 }
 
 void GESceneSample::release()
