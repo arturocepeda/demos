@@ -1,1 +1,0 @@
-g++ -I./../../../include/ -I./../../../soundgen/ -lpthread main.cpp ./../audio/audio.fmod.cpp ./../../../soundgen/FMOD/mxsoundgenfmod.cpp -o ./../bin/11_NotemapsScripts ./../../../lib/MacOSX/modus.a ./../../../soundgen/externals/FMOD/lib.macosx/libfmodex.dylib

@@ -1,1 +1,0 @@
-g++ -I./../../../include/ -I./../../../soundgen/ main.cpp ./../audio/audio.fmod.cpp ./../../../soundgen/FMOD/mxsoundgenfmod.cpp -o ./../bin/02_PolonaiseAudio ./../../../lib/Linux/modus.a ./../../../soundgen/externals/FMOD/lib.linux/libfmodex.so -pthread -ldl -fpermissive
