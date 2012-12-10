@@ -77,7 +77,7 @@ public:
    void renderEnd();
    
    // rendering mode
-   void set2D();
+   void set2D(bool Portrait = true);
    void set3D();
 };
 
