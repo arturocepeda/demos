@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		69310D5516A8B666006C16F8 /* hud.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D4F16A8B666006C16F8 /* hud.fsh */; };
+		69310D5616A8B666006C16F8 /* hud.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5016A8B666006C16F8 /* hud.vsh */; };
+		69310D5916A8B666006C16F8 /* text.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5316A8B666006C16F8 /* text.fsh */; };
+		69310D5A16A8B666006C16F8 /* text.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5416A8B666006C16F8 /* text.vsh */; };
+		69310D5D16A8B6B0006C16F8 /* mesh_color.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5B16A8B6B0006C16F8 /* mesh_color.fsh */; };
+		69310D5E16A8B6B0006C16F8 /* mesh_color.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5C16A8B6B0006C16F8 /* mesh_color.vsh */; };
+		69310D5F16A8B6CC006C16F8 /* hud.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5016A8B666006C16F8 /* hud.vsh */; };
+		69310D6016A8B6CC006C16F8 /* hud.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D4F16A8B666006C16F8 /* hud.fsh */; };
+		69310D6116A8B6CC006C16F8 /* text.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5416A8B666006C16F8 /* text.vsh */; };
+		69310D6216A8B6CC006C16F8 /* text.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5316A8B666006C16F8 /* text.fsh */; };
+		69310D6316A8B6CC006C16F8 /* mesh_color.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5C16A8B6B0006C16F8 /* mesh_color.vsh */; };
+		69310D6416A8B6CC006C16F8 /* mesh_color.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5B16A8B6B0006C16F8 /* mesh_color.fsh */; };
+		69310D6916A8BCA7006C16F8 /* mesh_texture.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */; };
+		69310D6A16A8BCA7006C16F8 /* mesh_texture.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */; };
+		69310D6B16A8BCCB006C16F8 /* mesh_texture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */; };
+		69310D6C16A8BCCB006C16F8 /* mesh_texture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */; };
+		693935C216A972B20061C256 /* banana.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 693935C116A972B20061C256 /* banana.pvrtc */; };
+		CECE4715167C651800B9D86F /* GERenderingShaders.mm in Sources */ = {isa = PBXBuildFile; fileRef = CECE4714167C651800B9D86F /* GERenderingShaders.mm */; };
 		CEE82F6C16679399004FBB96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6B16679399004FBB96 /* UIKit.framework */; };
 		CEE82F6E16679399004FBB96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6D16679399004FBB96 /* Foundation.framework */; };
 		CEE82F7016679399004FBB96 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6F16679399004FBB96 /* CoreGraphics.framework */; };
@@ -24,11 +42,9 @@
 		CEE82FA3166797D1004FBB96 /* song.caf in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FA1166797D1004FBB96 /* song.caf */; };
 		CEE82FA4166797D1004FBB96 /* touch.wav in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FA2166797D1004FBB96 /* touch.wav */; };
 		CEE82FAC166797EF004FBB96 /* background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FA8166797EF004FBB96 /* background.jpg */; };
-		CEE82FAD166797EF004FBB96 /* banana.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FA9166797EF004FBB96 /* banana.jpg */; };
 		CEE82FAE166797EF004FBB96 /* basketball.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FAA166797EF004FBB96 /* basketball.png */; };
 		CEE82FAF166797EF004FBB96 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FAB166797EF004FBB96 /* info.png */; };
 		CEE82FB416679817004FBB96 /* SceneSample.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEE82FB316679817004FBB96 /* SceneSample.mm */; };
-		CEE82FC51667983F004FBB96 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE82FB81667983F004FBB96 /* Texture2D.m */; };
 		CEE82FC61667983F004FBB96 /* GEAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEE82FBA1667983F004FBB96 /* GEAudio.mm */; };
 		CEE82FC71667983F004FBB96 /* GEDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEE82FBC1667983F004FBB96 /* GEDevice.mm */; };
 		CEE82FC81667983F004FBB96 /* GERendering.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEE82FBE1667983F004FBB96 /* GERendering.mm */; };
@@ -38,7 +54,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		69310D4F16A8B666006C16F8 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = hud.fsh; sourceTree = "<group>"; };
+		69310D5016A8B666006C16F8 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = hud.vsh; sourceTree = "<group>"; };
+		69310D5316A8B666006C16F8 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.fsh; sourceTree = "<group>"; };
+		69310D5416A8B666006C16F8 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.vsh; sourceTree = "<group>"; };
+		69310D5B16A8B6B0006C16F8 /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_color.fsh; sourceTree = "<group>"; };
+		69310D5C16A8B6B0006C16F8 /* mesh_color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_color.vsh; sourceTree = "<group>"; };
+		69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_texture.fsh; sourceTree = "<group>"; };
+		69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_texture.vsh; sourceTree = "<group>"; };
+		693935C116A972B20061C256 /* banana.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = banana.pvrtc; path = Resources/Textures/banana.pvrtc; sourceTree = "<group>"; };
 		CE25611A16682CFC00611968 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CEC1A80816937F75006E3F90 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		CECE4713167C651800B9D86F /* GERenderingShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GERenderingShaders.h; path = ../../GameEngine/GERenderingShaders.h; sourceTree = "<group>"; };
+		CECE4714167C651800B9D86F /* GERenderingShaders.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GERenderingShaders.mm; path = ../../GameEngine/GERenderingShaders.mm; sourceTree = "<group>"; };
 		CEE82F6716679399004FBB96 /* 01_Overview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 01_Overview.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE82F6B16679399004FBB96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CEE82F6D16679399004FBB96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -62,13 +90,10 @@
 		CEE82FA5166797DB004FBB96 /* banana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = banana.h; path = Resources/Models/banana.h; sourceTree = "<group>"; };
 		CEE82FA6166797DB004FBB96 /* cube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cube.h; path = Resources/Models/cube.h; sourceTree = "<group>"; };
 		CEE82FA8166797EF004FBB96 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = Resources/Textures/background.jpg; sourceTree = "<group>"; };
-		CEE82FA9166797EF004FBB96 /* banana.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = banana.jpg; path = Resources/Textures/banana.jpg; sourceTree = "<group>"; };
 		CEE82FAA166797EF004FBB96 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = basketball.png; path = Resources/Textures/basketball.png; sourceTree = "<group>"; };
 		CEE82FAB166797EF004FBB96 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/Textures/info.png; sourceTree = "<group>"; };
 		CEE82FB216679817004FBB96 /* SceneSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneSample.h; path = Scenes/SceneSample.h; sourceTree = "<group>"; };
 		CEE82FB316679817004FBB96 /* SceneSample.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = SceneSample.mm; path = Scenes/SceneSample.mm; sourceTree = "<group>"; };
-		CEE82FB71667983F004FBB96 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2D.h; sourceTree = "<group>"; };
-		CEE82FB81667983F004FBB96 /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture2D.m; sourceTree = "<group>"; };
 		CEE82FB91667983F004FBB96 /* GEAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEAudio.h; path = ../../GameEngine/GEAudio.h; sourceTree = "<group>"; };
 		CEE82FBA1667983F004FBB96 /* GEAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GEAudio.mm; path = ../../GameEngine/GEAudio.mm; sourceTree = "<group>"; };
 		CEE82FBB1667983F004FBB96 /* GEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEDevice.h; path = ../../GameEngine/GEDevice.h; sourceTree = "<group>"; };
@@ -102,6 +127,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CEA86F531685CD6F008C93C0 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				69310D5016A8B666006C16F8 /* hud.vsh */,
+				69310D4F16A8B666006C16F8 /* hud.fsh */,
+				69310D5416A8B666006C16F8 /* text.vsh */,
+				69310D5316A8B666006C16F8 /* text.fsh */,
+				69310D5C16A8B6B0006C16F8 /* mesh_color.vsh */,
+				69310D5B16A8B6B0006C16F8 /* mesh_color.fsh */,
+				69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */,
+				69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */,
+			);
+			name = Shaders;
+			path = ../../GameEngine/shaders;
+			sourceTree = "<group>";
+		};
 		CEE82F5C16679399004FBB96 = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +181,7 @@
 		CEE82F7516679399004FBB96 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				CEC1A80816937F75006E3F90 /* config.h */,
 				CEE82F7B16679399004FBB96 /* main.m */,
 				CE25611A16682CFC00611968 /* AppDelegate.h */,
 				CEE82F7F16679399004FBB96 /* AppDelegate.m */,
@@ -165,9 +207,10 @@
 		CEE82F9E166797AE004FBB96 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CEA86F531685CD6F008C93C0 /* Shaders */,
 				CEE82FA7166797E4004FBB96 /* Textures */,
-				CEE82FA0166797BD004FBB96 /* Sounds */,
 				CEE82F9F166797B7004FBB96 /* Models */,
+				CEE82FA0166797BD004FBB96 /* Sounds */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -193,8 +236,8 @@
 		CEE82FA7166797E4004FBB96 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				693935C116A972B20061C256 /* banana.pvrtc */,
 				CEE82FA8166797EF004FBB96 /* background.jpg */,
-				CEE82FA9166797EF004FBB96 /* banana.jpg */,
 				CEE82FAA166797EF004FBB96 /* basketball.png */,
 				CEE82FAB166797EF004FBB96 /* info.png */,
 			);
@@ -204,7 +247,6 @@
 		CEE82FB0166797F7004FBB96 /* Game Engine */ = {
 			isa = PBXGroup;
 			children = (
-				CEE82FB61667983F004FBB96 /* externals */,
 				CEE82FB91667983F004FBB96 /* GEAudio.h */,
 				CEE82FBA1667983F004FBB96 /* GEAudio.mm */,
 				CEE82FBB1667983F004FBB96 /* GEDevice.h */,
@@ -213,6 +255,8 @@
 				CEE82FBE1667983F004FBB96 /* GERendering.mm */,
 				CEE82FBF1667983F004FBB96 /* GERenderingObjects.h */,
 				CEE82FC01667983F004FBB96 /* GERenderingObjects.mm */,
+				CECE4713167C651800B9D86F /* GERenderingShaders.h */,
+				CECE4714167C651800B9D86F /* GERenderingShaders.mm */,
 				CEE82FC11667983F004FBB96 /* GEScene.h */,
 				CEE82FC21667983F004FBB96 /* GEScene.mm */,
 				CEE82FC31667983F004FBB96 /* GEUtils.h */,
@@ -228,16 +272,6 @@
 				CEE82FB316679817004FBB96 /* SceneSample.mm */,
 			);
 			name = Scenes;
-			sourceTree = "<group>";
-		};
-		CEE82FB61667983F004FBB96 /* externals */ = {
-			isa = PBXGroup;
-			children = (
-				CEE82FB71667983F004FBB96 /* Texture2D.h */,
-				CEE82FB81667983F004FBB96 /* Texture2D.m */,
-			);
-			name = externals;
-			path = ../../GameEngine/externals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,15 +325,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69310D6B16A8BCCB006C16F8 /* mesh_texture.vsh in Resources */,
+				69310D6C16A8BCCB006C16F8 /* mesh_texture.fsh in Resources */,
+				69310D5F16A8B6CC006C16F8 /* hud.vsh in Resources */,
+				69310D6016A8B6CC006C16F8 /* hud.fsh in Resources */,
+				69310D6116A8B6CC006C16F8 /* text.vsh in Resources */,
+				69310D6216A8B6CC006C16F8 /* text.fsh in Resources */,
+				69310D6316A8B6CC006C16F8 /* mesh_color.vsh in Resources */,
+				69310D6416A8B6CC006C16F8 /* mesh_color.fsh in Resources */,
 				CEE82F7A16679399004FBB96 /* InfoPlist.strings in Resources */,
 				CEE82F8316679399004FBB96 /* iPhone.storyboard in Resources */,
 				CEE82F8616679399004FBB96 /* iPad.storyboard in Resources */,
 				CEE82FA3166797D1004FBB96 /* song.caf in Resources */,
 				CEE82FA4166797D1004FBB96 /* touch.wav in Resources */,
 				CEE82FAC166797EF004FBB96 /* background.jpg in Resources */,
-				CEE82FAD166797EF004FBB96 /* banana.jpg in Resources */,
 				CEE82FAE166797EF004FBB96 /* basketball.png in Resources */,
 				CEE82FAF166797EF004FBB96 /* info.png in Resources */,
+				693935C216A972B20061C256 /* banana.pvrtc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,13 +358,21 @@
 				CEE82F8016679399004FBB96 /* AppDelegate.m in Sources */,
 				CEE82F8D16679399004FBB96 /* ViewController.mm in Sources */,
 				CEE82FB416679817004FBB96 /* SceneSample.mm in Sources */,
-				CEE82FC51667983F004FBB96 /* Texture2D.m in Sources */,
 				CEE82FC61667983F004FBB96 /* GEAudio.mm in Sources */,
 				CEE82FC71667983F004FBB96 /* GEDevice.mm in Sources */,
 				CEE82FC81667983F004FBB96 /* GERendering.mm in Sources */,
 				CEE82FC91667983F004FBB96 /* GERenderingObjects.mm in Sources */,
 				CEE82FCA1667983F004FBB96 /* GEScene.mm in Sources */,
 				CEE82FCB1667983F004FBB96 /* GEUtils.mm in Sources */,
+				CECE4715167C651800B9D86F /* GERenderingShaders.mm in Sources */,
+				69310D5516A8B666006C16F8 /* hud.fsh in Sources */,
+				69310D5616A8B666006C16F8 /* hud.vsh in Sources */,
+				69310D5916A8B666006C16F8 /* text.fsh in Sources */,
+				69310D5A16A8B666006C16F8 /* text.vsh in Sources */,
+				69310D5D16A8B6B0006C16F8 /* mesh_color.fsh in Sources */,
+				69310D5E16A8B6B0006C16F8 /* mesh_color.vsh in Sources */,
+				69310D6916A8BCA7006C16F8 /* mesh_texture.fsh in Sources */,
+				69310D6A16A8BCA7006C16F8 /* mesh_texture.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

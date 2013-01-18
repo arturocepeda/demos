@@ -1,0 +1,22 @@
+
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  iOS Game Engine
+//
+//  Sample application
+//
+//  --- ViewController.h ---
+//
+//////////////////////////////////////////////////////////////////
+
+
+#import "config.h"
+
+#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
+
+
+@interface ViewController : GLKViewController
+
+@end

@@ -41,9 +41,10 @@ public:
    ~GEScene();
 
    virtual void init() = 0;      // IMPORTANT: always begin with [iNextScene = -1]
+   virtual void release() = 0;
+   
 	virtual void update() = 0;
    virtual void render() = 0;
-	virtual void release() = 0;
 
    virtual void inputTouchBegin(int ID, CGPoint* Point) = 0;
    virtual void inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint) = 0;

@@ -23,10 +23,10 @@
 
 #define FINGERS      5
 #define TOUCH_SCALE  0.002f
-#define ACC_SCALE    0.004f
+#define ACC_SCALE    0.006f
 #define STOPPED      0.004f
 #define BOUNCE       0.55f
-#define ROTATION     280
+#define ROTATION     2.8f
 
 class GESceneSample : public GEScene
 {
@@ -66,9 +66,10 @@ public:
    GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void init();
+   void release();
+   
 	void update();
    void render();
-	void release();
    
    void inputTouchBegin(int ID, CGPoint* Point);
    void inputTouchMove(int ID, CGPoint* PreviousPoint, CGPoint* CurrentPoint);

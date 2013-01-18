@@ -53,10 +53,10 @@ private:
    GESprite* cSpriteBug[BUG_TYPES][BUG_STEPS];
    
    GELabel* cTextEscaped;
-   GELabel* cTextHunted;
+   GELabel* cTextSmashed;
    
    int iEscaped;
-   int iHunted;
+   int iSmashed;
    
    struct
    {
@@ -69,7 +69,7 @@ private:
    
    // bugs
    std::vector<SBug> vBugs;
-   std::vector<SBug> vBugsHunted;
+   std::vector<SBug> vBugsSmashed;
    int iProbability;
    
    void generateBug();

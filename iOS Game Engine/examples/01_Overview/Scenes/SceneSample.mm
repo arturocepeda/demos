@@ -23,49 +23,57 @@ GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalDa
 
 void GESceneSample::init()
 {   
-   iNextScene = -1;
+   iNextScene = -1;   
+   cRender->setBackgroundColor(0.1f, 0.1f, 0.3f);
+   
+   // lighting
+   cRender->setAmbientLightColor(1.0f, 1.0f, 1.0f);
+   cRender->setAmbientLightIntensity(0.25f);
+   
+   cRender->setNumberOfActiveLights(1);
+   cRender->setLightPosition(GELights.PointLight1, 0.0f, 0.0f, 1.0f);
+   cRender->setLightColor(GELights.PointLight1, 1.0f, 1.0f, 1.0f);
+   cRender->setLightIntensity(GELights.PointLight1, 0.6f);
    
    // device info
    NSLog(@"\nDevice type: %s", (GEDevice::iPhone())? "iPhone": "iPad");
-   
-   if(!GEDevice::iPhone())
-      NSLog(@"\nRetina display: %s", (GEDevice::displayRetina())? "yes": "no");
+   NSLog(@"\nRetina display: %s", (GEDevice::displayRetina())? "yes": "no");
    
    // cameras
    cCamera = new GECamera();
-   cCamera->setPosition(0.0f, 0.0f, -3.0f);
-   
+   cCamera->setPosition(0.0f, 0.0f, -4.0f);
+
    // textures
    cRender->loadTexture(Textures.Background, @"background.jpg");
-   cRender->loadTexture(Textures.Banana, @"banana.jpg");
+   cRender->loadTextureCompressed(Textures.Banana, @"banana.pvrtc", 512, 2);
    cRender->loadTexture(Textures.Info, @"info.png");
    cRender->loadTexture(Textures.Basketball, @"basketball.png");
    
    // meshes
    cMeshBanana = new GEMesh();
-   cMeshBanana->loadFromHeader(bananaNumVerts, bananaVerts, bananaNormals, 
-                               cRender->getTexture(Textures.Banana), bananaTexCoords);
-   cMeshBanana->scale(1.5f, 1.5f, 1.5f);
-   
+   cMeshBanana->loadFromHeader(bananaNumVerts, bananaVerts, bananaNormals, bananaTexCoords);
+   cMeshBanana->setTexture(cRender->getTexture(Textures.Banana));
+   cMeshBanana->scale(2.5f, 2.5f, 2.5f);
+
    cMeshCube = new GEMesh();
    cMeshCube->loadFromHeader(cubeNumVerts, cubeVerts, cubeNormals);
-   cMeshCube->setPosition(0.0f, -1.0f, 0.0f);
-   cMeshCube->scale(0.5f, 0.5f, 0.5f);
-   cMeshCube->setColor(0.75f, 0.25f, 0.25f);
-   
+   cMeshCube->setPosition(0.0f, -1.5f, 0.0f);
+   cMeshCube->scale(0.75f, 0.75f, 0.75f);
+   cMeshCube->setColor(1.0f, 0.5f, 0.2f);
+
    // sprites
-   cSpriteBackground = new GESprite(cRender->getTexture(Textures.Background),
-                                    cRender->getTextureSize(Textures.Background));
+   cSpriteBackground = new GESprite();
+   cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
    cSpriteBackground->scale(1.0f, 1.5f, 1.0f);
    
-   cSpriteBall = new GESprite(cRender->getTexture(Textures.Basketball), 
-                              cRender->getTextureSize(Textures.Basketball));
+   cSpriteBall = new GESprite();
+   cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
    cSpriteBall->scale(0.2f, 0.2f, 0.2f);
    
    for(int i = 0; i < FINGERS; i++)
    {
-      cSpriteInfo[i] = new GESprite(cRender->getTexture(Textures.Info), 
-                                    cRender->getTextureSize(Textures.Info));
+      cSpriteInfo[i] = new GESprite();
+      cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
       cSpriteInfo[i]->scale(0.15f, 0.15f, 0.15f);
       cSpriteInfo[i]->rotate(0.0f, 0.0f, 90.0f);
       cSpriteInfo[i]->setVisible(false);
@@ -87,43 +95,26 @@ void GESceneSample::init()
 
 void GESceneSample::update()
 {
-   updateText();
-   updateBanana();
    updateCube();
+   updateBanana();
    updateBall();
+   updateText();
 }
 
 void GESceneSample::updateText()
 {
-   cText->setOpacity(cText->getOpacity() + 0.001f);
+   if(cText->getOpacity() < 1.0f)   
+      cText->setOpacity(cText->getOpacity() + 0.005f);
 }
 
 void GESceneSample::updateBanana()
 {
-   cMeshBanana->rotate(0.1f, 0.1f, 0.1f);
+   cMeshBanana->rotate(-0.01f, -0.01f, -0.01f);
 }
 
 void GESceneSample::updateCube()
 {
-   static float fOpacity = 1.0f;
-   static float fOpacityIncrement = -0.005f;
-   
-   cMeshCube->rotate(0.4f, 0.6f, 0.8f);
-   
-   fOpacity += fOpacityIncrement;
-   
-   if(fOpacity <= 0.0f)
-   {
-      fOpacity = 0.0f;
-      fOpacityIncrement = -fOpacityIncrement;
-   }
-   else if(fOpacity >= 1.0f)
-   {
-      fOpacity = 1.0f;
-      fOpacityIncrement = -fOpacityIncrement;
-   }
-   
-   cMeshCube->setOpacity(fOpacity);
+   cMeshCube->rotate(0.01f, 0.01f, 0.01f);
 }
 
 void GESceneSample::updateBall()
@@ -166,35 +157,42 @@ void GESceneSample::updateBall()
    // move and rotate the ball
    cSpriteBall->move(vBallVelocity);
    cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.Y < 0.0f)? -1: 1) * vBallVelocity.X * ROTATION);
-   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);   
+   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);
 }
 
 void GESceneSample::render()
 {
    // background
    cRender->set2D();
+   cRender->useProgram(GEPrograms.HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
    cRender->set3D();
    cRender->useCamera(cCamera);
-   
+
    // meshes
-   cRender->renderMesh(cMeshBanana);
+   cRender->useProgram(GEPrograms.MeshColor);
    cRender->renderMesh(cMeshCube);
+   cRender->useProgram(GEPrograms.MeshTexture);
+   cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
+   cRender->useProgram(GEPrograms.HUD);
    cRender->renderSprite(cSpriteBall);
-   
+    
    for(int i = 0; i < FINGERS; i++)
       cRender->renderSprite(cSpriteInfo[i]);
-   
+    
    // text shadow
+   cRender->set2D();
+   cRender->useProgram(GEPrograms.Text);
+    
    cText->setColor(0.2f, 0.2f, 0.2f);
    cText->move(0.015f, 0.015f, 0.0f);
    cRender->renderLabel(cText);
-   
+    
    // text
    cText->setColor(0.8f, 0.2f, 0.2f);
    cText->move(-0.015f, -0.015f, 0.0f);
@@ -212,18 +210,20 @@ void GESceneSample::release()
    delete cCamera;
    delete cMeshBanana;
    delete cMeshCube;
+
    delete cSpriteBackground;
    delete cSpriteBall;
    
    for(int i = 0; i < FINGERS; i++)
       delete cSpriteInfo[i];
-   
+
    delete cText;
 }
 
 void GESceneSample::inputTouchBegin(int ID, CGPoint* Point)
 {
    cAudio->playSound(Sounds.Touch, 1);
+
    cSpriteInfo[ID]->setPosition(cPixelToPositionX->y(Point->x), cPixelToPositionY->y(Point->y), 0.0f);
    cSpriteInfo[ID]->show();
 }

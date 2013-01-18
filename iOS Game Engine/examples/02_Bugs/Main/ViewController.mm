@@ -22,8 +22,6 @@
 
 @interface ViewController () <UIAccelerometerDelegate>
 {
-   GLuint _program;
-   
    // Rendering system
    GERendering* cRender;
    
@@ -55,16 +53,16 @@
 
 -(void) dealloc
 {
-    [_context release];
-    [_effect release];
-    [super dealloc];
+   [_context release];
+   [_effect release];
+   [super dealloc];
 }
 
 -(void) viewDidLoad
 {
    [super viewDidLoad];
     
-   self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+   self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
    if(!self.context) 
        NSLog(@"Failed to create ES context");
@@ -117,22 +115,22 @@
    [super viewDidUnload];
    
    [EAGLContext setCurrentContext:self.context];
-   
-   if(_program) 
-   {
-      glDeleteProgram(_program);
-      _program = 0;
-   }
     
    if([EAGLContext currentContext] == self.context) 
       [EAGLContext setCurrentContext:nil];
 
    self.context = nil;
+   
+   // release rendering system
+   delete cRender;
+   
+   // release audio system
+   delete cAudio;
 }
 
 -(void) didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
+   [super didReceiveMemoryWarning];
 }
 
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

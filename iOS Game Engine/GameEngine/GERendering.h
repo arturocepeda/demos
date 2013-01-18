@@ -15,6 +15,7 @@
 #define _GERENDERING_H_
 
 #include "GERenderingObjects.h"
+#include "GERenderingShaders.h"
 
 #define TEXTURES 256
 
@@ -22,13 +23,41 @@ class GERendering
 {
 private:
    EAGLContext* glContext;
+   GEColor cBackgroundColor;
+   GEColor cColor;
    
+   // matrices
+   GLKMatrix4 matProjection;
+   GLKMatrix4 matView;
+   GLKMatrix4 matModel;
+   
+   GLKMatrix3 matNormal;
+   GLKMatrix4 matModelView;
+   GLKMatrix4 matModelViewProjection;
+
+   // textures
    GLuint tTextures[TEXTURES];
    GETextureSize tTextureSize[TEXTURES];
+
+   // camera
+   GEVector vCameraPosition;
+   GEVector vCameraRotation;
    
-   GEColor cBackgroundColor;
-   float fOrientationAngle;
-   unsigned int iNumLights;
+   // lighting
+   unsigned int iNumberOfActiveLights;
+   GELight sAmbientLight;
+   GELight sLights[GELights.Count];
+   
+   // shaders
+   GEProgram sPrograms[GEPrograms.Count];
+   GLuint iUniforms[GEPrograms.Count][GEUniforms.Count];
+   unsigned int iActiveProgram;
+   
+   void loadShaders();   
+   void attachShaders(unsigned int iProgramIndex, GEVertexShader& cVertexShader, GEFragmentShader& cFragmentShader);
+   void linkProgram(unsigned int iProgramIndex);
+   bool checkProgram(unsigned int iProgramIndex);
+   void getUniformsLocation(unsigned int iProgramIndex);
 
 public:
 	GERendering(EAGLContext* Context);
@@ -36,39 +65,17 @@ public:
 
    // textures
    void loadTexture(unsigned int TextureIndex, NSString* Name);
+   void loadTextureCompressed(unsigned int TextureIndex, NSString* Name,
+                              unsigned int Size, unsigned int BPP, bool Alpha = false);
    GLuint getTexture(unsigned int TextureIndex);
    GETextureSize& getTextureSize(unsigned int TextureIndex);
-   
-   // lighting (TODO)
-   void switchLighting(bool On);
-   
-   void setAmbientLight(unsigned char R, unsigned char G, unsigned char B);
-
-   unsigned int createDirectionalLight(float R, float G, float B, float A, float Range,
-                                       float DirX, float DirY, float DirZ);
-   unsigned int createPointLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                 float PosX, float PosY, float PosZ);
-   unsigned int createSpotLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                float PosX, float PosY, float PosZ, 
-                                float DirX, float DirY, float DirZ,
-                                float Theta, float Phi, float Falloff);
-
-   void switchLight(unsigned int Light, bool On);
-   void moveLight(unsigned int Light, float DX, float DY, float DZ);
-   void setLightColor(unsigned int Light, float R, float G, float B, float A);
-   void setLightRange(unsigned int Light, float Range);
-   void setLightPosition(unsigned int Light, float PosX, float PosY, float PosZ);
-   void setLightDirection(unsigned int Light, float DirX, float DirY, float DirZ);
-   
-   // device orientation
-   void setOrientationAngle(float Angle);
    
    // background
    void setBackgroundColor(float R, float G, float B);
    
    // camera
    void useCamera(GECamera* Camera);
-
+   
    // rendering
    void renderBegin();
    void renderMesh(GEMesh* Mesh);
@@ -78,7 +85,22 @@ public:
    
    // rendering mode
    void set2D(bool Portrait = true);
-   void set3D();
+   void set3D(bool Portrait = true);
+   void useProgram(unsigned int iProgramIndex);
+   
+   // lighting
+   void setAmbientLightColor(float R, float G, float B);
+   void setAmbientLightColor(const GEColor& Color);
+   void setAmbientLightIntensity(float Intensity);
+   
+   void setNumberOfActiveLights(unsigned int N);
+   void moveLight(unsigned int LightIndex, float DX, float DY, float DZ);
+   void moveLight(unsigned int LightIndex, const GEVector& D);
+   void setLightPosition(unsigned int LightIndex, float PosX, float PosY, float PosZ);
+   void setLightPosition(unsigned int LightIndex, const GEVector& Position);
+   void setLightColor(unsigned int LightIndex, float R, float G, float B);
+   void setLightColor(unsigned int LightIndex, const GEColor& Color);
+   void setLightIntensity(unsigned int LightIndex, float Intensity);
 };
 
 #endif
