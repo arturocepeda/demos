@@ -770,7 +770,7 @@ void CSceneMatch::render()
     mMeshMallet1->setPosition(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
     cRender->renderMesh(mMeshMallet1);
 
-#ifdef _DEBUG_
+#ifdef _DEBUG
     GEVector vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
     GEVector vDebug;
 
@@ -786,7 +786,7 @@ void CSceneMatch::render()
     mMeshMallet2->setPosition(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
     cRender->renderMesh(mMeshMallet2);
 
-#ifdef _DEBUG_
+#ifdef _DEBUG
     GEVector vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
 
     cRender->worldToScreen(&vPlayer2, &vDebug);
@@ -803,7 +803,7 @@ void CSceneMatch::render()
         mMeshPuck->setPosition(pPuckPosition.x, 0.0f, -pPuckPosition.y);
         cRender->renderMesh(mMeshPuck);
 
-#ifdef _DEBUG_
+#ifdef _DEBUG
         GEVector vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
 
         cRender->worldToScreen(&vPuck, &vDebug);
@@ -1042,8 +1042,6 @@ void CSceneMatch::playSounds(int iEvent)
         cAudio->setPosition(iChannelPuck, cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
                             -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
         cAudio->playSound(iSoundGoal[rand() % SOUNDS_GOAL], iChannelPuck);
-
-        break;
 
         break;
 

@@ -14,8 +14,6 @@
 #include <windows.h>
 #include "AHAI.h"
 
-//#define _DEBUG_             // defined: debug mode
-
 //#define _KINECT_            // defined: use Kinect sensor, undefined: don't use Kinect sensor
 //#define _KINECT_OPENNI_     // defined: OpenNI, undefined: Kinect SDK
 

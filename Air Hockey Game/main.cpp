@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     sGlobal.ScreenSizeX = GetSystemMetrics(SM_CXSCREEN);
     sGlobal.ScreenSizeY = GetSystemMetrics(SM_CYSCREEN);
 
-#ifdef _DEBUG_
+#ifdef _DEBUG
     sGlobal.ScreenSizeX = 1024;
     sGlobal.ScreenSizeY = 768;
 #endif
@@ -78,7 +78,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     sGlobal.hWnd = hWnd;
 
     // initialize rendering and sound systems
-#ifndef _DEBUG_
+#ifndef _DEBUG
     cRender = new GERendering(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #else
     cRender = new GERendering(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);

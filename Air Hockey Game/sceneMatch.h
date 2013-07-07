@@ -32,7 +32,7 @@
 #define SQSPEED_VERYSLOW    100.0f
 #define SQSPEED_SLOW        500.0f
 
-#define MULTIPLAYER_DATA_RATE   2
+#define MULTIPLAYER_DATA_RATE   1
 
 #define MSG_SIZE        16
 #define MSG_REQ         1
