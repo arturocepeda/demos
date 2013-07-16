@@ -10,678 +10,23 @@
 #include "AHAI.h"
 #include "utils.h"
 #include <cmath>
+#include <iostream>
 #include <stdlib.h>
 
-AHAI::AHAI(AHGame* Game, const AHAILevel& Level, bool Player1)
+//
+//  AHAIData
+//
+bool AHAIData::targetPositionReached()
 {
-    cGame = Game;
-    cLevel = Level;
-    iState = AH_STATE_NOTHING;
-    iStateStep = AH_STATE_STEP_ENTER;
-
-    if(Player1)
-    {
-        iPlayer = 1;
-        pTargetPosition = cGame->getTablePositionPlayer1();
-        pTargetPosition.y = (AH_TABLE_HEIGHT / 2) - pTargetPosition.y;
-    }
-    else
-    {
-        iPlayer = 2;
-        pTargetPosition = cGame->getTablePositionPlayer2();
-        pTargetPosition.y = pTargetPosition.y + (AH_TABLE_HEIGHT / 2);
-    }
-
-    fMinimumGoalDistance = AH_TABLE_HEIGHT / 10;
-    fAlertZoneHeight = AH_TABLE_HEIGHT / 6;
-    fBackSpace = AH_TABLE_HEIGHT / 20;
-    fNearSideBorder = AH_TABLE_WIDTH / 8;
-    fNearBackBorder = AH_TABLE_WIDTH / 8;
-    fHoleToShoot = AH_TABLE_WIDTH / 5;
-
-    fStopped = 10.0;
-    fHighSpeed = 80.0;
-    fLowSpeed = 20.0;
+    return ((abs(pTargetPosition.x - pMyPosition.x) + abs(pTargetPosition.y - pMyPosition.y)) <= fSpeed);
 }
 
-AHAI::~AHAI()
-{
-}
-
-AHPoint AHAI::update()
-{
-    // table positions --> player positions
-    if(iPlayer == 1)
-    {
-        pMyPosition = cGame->getTablePositionPlayer1();
-        pMyPosition.y = (AH_TABLE_HEIGHT / 2) - pMyPosition.y;
-
-        pOpponentPosition = cGame->getTablePositionPlayer2();
-        pOpponentPosition.y = AH_TABLE_HEIGHT - ((AH_TABLE_HEIGHT / 2) + pOpponentPosition.y);
-
-        pPuckPosition = cGame->getTablePositionPuck();
-        pPuckPosition.y -= AH_TABLE_HEIGHT / 2;
-        pPuckPosition.y = -pPuckPosition.y;
-
-        vPuckVelocity = cGame->getVelocityPuck();
-        vPuckVelocity.y = -vPuckVelocity.y;
-    }
-    else
-    {
-        pMyPosition = cGame->getTablePositionPlayer2();
-        pMyPosition.x = -pMyPosition.x;
-        pMyPosition.y = pMyPosition.y + (AH_TABLE_HEIGHT / 2);
-
-        pOpponentPosition = cGame->getTablePositionPlayer1();
-        pOpponentPosition.x = -pOpponentPosition.x;
-        pOpponentPosition.y = AH_TABLE_HEIGHT - ((AH_TABLE_HEIGHT / 2) - pOpponentPosition.y);
-
-        pPuckPosition = cGame->getTablePositionPuck();
-        pPuckPosition.x = -pPuckPosition.x;
-        pPuckPosition.y += AH_TABLE_HEIGHT / 2;
-
-        vPuckVelocity = cGame->getVelocityPuck();
-        vPuckVelocity.x = -vPuckVelocity.x;
-    }
-
-    if(cGame->checkEvent() == AH_EVENT_GOAL_P1 || cGame->checkEvent() == AH_EVENT_GOAL_P2)
-    {
-        selectState(AH_STATE_NOTHING);
-        pShotPoint = pMyPosition;
-        return myPointToTable(pMyPosition);
-    }
-
-    // default speed
-    fSpeed = cLevel.DefaultSpeed;
-
-    // state execution
-    ++iStateTime;
-
-    // timeout
-    if(iState == AH_STATE_NOTHING && iStateTime > 200)
-        selectState(AH_STATE_GO_TO_PUCK);
-
-    switch(iState)
-    {
-    case AH_STATE_NOTHING:
-        executeNothing();
-        break;
-    case AH_STATE_GO_TO_PUCK:
-        executeGoToPuck();
-        break;
-    case AH_STATE_BE_ALERT:
-        executeBeAlert();
-        break;
-    case AH_STATE_GO_TO_BACK:
-        executeGoToBack();
-        break;
-    case AH_STATE_AVOID_GOAL:
-        executeAvoidGoal();
-        break;
-    case AH_STATE_CLEAR_PUCK:
-        executeClearPuck();
-        break;
-    case AH_STATE_SHOOT_TO_CLEAR:
-        executeShootToClear();
-        break;
-    case AH_STATE_PREPARE_SHOOT:
-        executePrepareShoot();
-        break;
-    case AH_STATE_SHOOT_TO_GOAL:
-        executeShootToGoal();
-        break;
-    default:
-        break;
-    }
-
-    // go to the target position
-    return myPointToTable(go());
-}
-
-int AHAI::getState()
-{
-    return iState;
-}
-
-void AHAI::selectState(int State)
-{
-    iState = State;
-    iStateStep = AH_STATE_STEP_ENTER;
-    iStateTime = 0;
-}
-
-void AHAI::chooseNewState()
-{
-    // PUCK IN MY ZONE
-    if(pPuckPosition.y <= (AH_TABLE_HEIGHT / 2))
-    {
-        // high priority: if the puck is going to enter into my goal, I clear it
-        if(pPuckPosition.y < fNearBackBorder && abs(pPuckPosition.x) < (AH_TABLE_WIDTH / 8) && vPuckVelocity.y < 0.0)
-        {
-            selectState(AH_STATE_CLEAR_PUCK);
-        }
-
-        // puck is stopped or almost
-        else if(abs(vPuckVelocity.x) < fStopped && abs(vPuckVelocity.y) < fStopped)
-        {
-            // there is enough space to shoot
-            if(pPuckPosition.y > fNearBackBorder && (pPuckPosition.y - pMyPosition.y) > AH_MALLET_RADIUS)
-            {
-                selectState(AH_STATE_PREPARE_SHOOT);
-            }
-
-            // there's not enough space to shoot
-            else
-            {
-                if(pMyPosition.y > fNearBackBorder)
-                    selectState(AH_STATE_GO_TO_BACK);
-            }
-        }
-
-        // puck is going towards the opponent
-        else if(vPuckVelocity.y >= 0.0)
-        {
-            // low speed
-            if(vPuckVelocity.y < fLowSpeed && abs(pPuckPosition.x) < (AH_TABLE_WIDTH / 2 - fNearSideBorder))
-            {
-                selectState(AH_STATE_PREPARE_SHOOT);
-            }
-
-            // normal or high speed
-            else
-            {
-                selectState(AH_STATE_BE_ALERT);
-            }
-        }
-
-        // puck is coming towards my goal
-        else if(vPuckVelocity.y < 0.0)
-        {
-            // high speed
-            if(abs(vPuckVelocity.y) > cLevel.AttackThresholdSpeed)
-            {
-                selectState(AH_STATE_AVOID_GOAL);
-            }
-
-            // normal or low speed
-            else if(abs(pPuckPosition.x) < (AH_TABLE_WIDTH / 2 - fNearSideBorder) && 
-                    (pPuckPosition.y - pMyPosition.y) > fHoleToShoot)
-            {
-                selectState(AH_STATE_PREPARE_SHOOT);
-            }
-        }
-    }
-
-    // PUCK OUT OF MY ZONE
-    else
-    {
-        // puck is stopped or going towards the opponent
-        if(vPuckVelocity.y >= 0.0)
-            selectState(AH_STATE_BE_ALERT);
-
-        // puck is coming to me
-        else 
-        {
-            // high speed
-            if(abs(vPuckVelocity.y) > fHighSpeed)
-                selectState(AH_STATE_AVOID_GOAL);
-
-            // low speed
-            else
-                selectState(AH_STATE_BE_ALERT);
-        }
-    }
-}
-
-void AHAI::executeNothing()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        fSpeed = cLevel.DefaultSpeed / 2;
-        pTargetPosition.x = 0.0;
-        pTargetPosition.y = fNearBackBorder / 2;
-        chooseNewState();
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeGoToPuck()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        pTargetPosition.x = pPuckPosition.x;
-        pTargetPosition.y = pPuckPosition.y;
-
-        fSpeed = cLevel.DefaultSpeed * 2.0f;
-
-        if(cGame->checkEvent() == AH_EVENT_PUCK_MALLET1_COLLISION ||
-           cGame->checkEvent() == AH_EVENT_PUCK_MALLET2_COLLISION)
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeBeAlert()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        // average point between puck and goal in my zone
-        pTargetPosition.x = pPuckPosition.x / 4.0f;
-        pTargetPosition.y = fMinimumGoalDistance + rand() % round(fAlertZoneHeight);
-        fSpeed = cLevel.DefaultSpeed;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        if((targetPositionReached() && (vPuckVelocity.x != 0.0 || vPuckVelocity.y != 0.0)) ||
-            vPuckVelocity.y < 0.0)
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeGoToBack()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        pTargetPosition.x = 0.0;
-        pTargetPosition.y = fNearBackBorder;
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        fSpeed = cLevel.SpeedForDefending;
-
-        if(targetPositionReached() ||
-           (pPuckPosition.y < pMyPosition.y && abs(pPuckPosition.x) < (AH_TABLE_WIDTH / 6)))
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeAvoidGoal()
-{
-    float fTimeForThePuckToCome;
-    float fDistanceToTarget;
-    float fSpeedSlow = 5.0f;
-
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-        
-        // target position
-        pTargetPosition.y = max(pMyPosition.y - fBackSpace, fMinimumGoalDistance);
-        pTargetPosition.x = predictPositionX(pTargetPosition.y);
-        
-        // error
-        pTargetPosition.x += rand() % 50;
-        pTargetPosition.y += rand() % 50;
-
-        // speed
-        fTimeForThePuckToCome = (pTargetPosition.y - pPuckPosition.y) / vPuckVelocity.y;
-        fTimeForThePuckToCome = abs(fTimeForThePuckToCome);
-        fTimeForThePuckToCome -= 2.0;        // state change frames
-
-        if(fTimeForThePuckToCome < 0.0)
-        {
-            fCalculatedSpeed = cLevel.SpeedForDefending;
-        }
-        else
-        {
-            fDistanceToTarget = (pTargetPosition.x - pMyPosition.x) * (pTargetPosition.x - pMyPosition.x);
-            fDistanceToTarget += (pTargetPosition.y - pMyPosition.y) * (pTargetPosition.y - pMyPosition.y);
-            fDistanceToTarget = sqrt(fDistanceToTarget);
-
-            fCalculatedSpeed = fDistanceToTarget / fTimeForThePuckToCome;
-            fCalculatedSpeed = min(fCalculatedSpeed, cLevel.SpeedForDefending);
-        }
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        fSpeed = fCalculatedSpeed;
-
-        if(pPuckPosition.y <= pMyPosition.y || vPuckVelocity.y >= -fSpeedSlow)
-            iStateStep = AH_STATE_STEP_EXIT;
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeClearPuck()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        pTargetPosition.x = (pMyPosition.x < 0)? -AH_TABLE_WIDTH / 6.0f: AH_TABLE_WIDTH / 6.0f;
-        pTargetPosition.y = AH_MALLET_RADIUS;
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        if(targetPositionReached() || 
-           pPuckPosition.y > fNearBackBorder ||
-           abs(pPuckPosition.x) > (AH_TABLE_WIDTH / 6))
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-
-        fSpeed = cLevel.SpeedForClearing;
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_SHOOT_TO_CLEAR);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeShootToClear()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        pTargetPosition.y = pMyPosition.y;
-        pTargetPosition.x = (pMyPosition.x > 0)? -AH_TABLE_WIDTH / 3.0f: AH_TABLE_WIDTH / 3.0f;
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        fSpeed = cLevel.SpeedForClearing;
-        
-        if(targetPositionReached())           
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-        
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executePrepareShoot()
-{
-    AHPoint pPuckFuturePosition;
-    CLine* cShotLine;
-
-    float fTimeForThePuckToCome;
-    float fDistanceToTarget;
-
-    int iChoice;
-
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        // default: direct shot
-        pShotPoint = calculateGoalPoint();
-        iChoice = rand() % 2;
-
-        // with bounce
-        if(iChoice == 1)
-        {
-            // against the left wall
-            if(pMyPosition.x >= 0.0 && pPuckPosition.x < -fHoleToShoot)
-                pShotPoint.x -= AH_TABLE_WIDTH * (1 + rand() % 2);    // one or two bounces
-
-            // against the right wall
-            else if(pMyPosition.x < 0.0 && pPuckPosition.x > fHoleToShoot)
-                pShotPoint.x += AH_TABLE_WIDTH * (1 + rand() % 2);
-        }
-
-        // puck's future position
-        fImpulseDistance = fBackSpace;
-        pPuckFuturePosition.y = pMyPosition.y + fImpulseDistance;
-        pPuckFuturePosition.x = predictPositionX(pPuckFuturePosition.y);
-
-        // shot line
-        cShotLine = new CLine(pShotPoint.x, pShotPoint.y, pPuckFuturePosition.x, pPuckFuturePosition.y);
-        pTargetPosition = pMyPosition;
-
-        if(cShotLine->can_calculate_x())
-            pTargetPosition.x = (float)cShotLine->x(pTargetPosition.y);
-
-        // speed
-        if(abs(vPuckVelocity.y) > fStopped)
-        {
-            fTimeForThePuckToCome = (pPuckFuturePosition.y - pPuckPosition.y) / vPuckVelocity.y;
-            fTimeForThePuckToCome = abs(fTimeForThePuckToCome);
-            fTimeForThePuckToCome -= 2.0;        // state change frames
-
-            if(fTimeForThePuckToCome < 0.0)
-            {
-                fCalculatedSpeed = cLevel.SpeedForShooting;
-            }
-            else
-            {
-                fDistanceToTarget = (pTargetPosition.x - pMyPosition.x) * (pTargetPosition.x - pMyPosition.x);
-                fDistanceToTarget += (pTargetPosition.y - pMyPosition.y) * (pTargetPosition.y - pMyPosition.y);
-                fDistanceToTarget = sqrt(fDistanceToTarget);
-
-                fCalculatedSpeed = fDistanceToTarget / fTimeForThePuckToCome;
-                fCalculatedSpeed = min(cLevel.SpeedForShooting, fCalculatedSpeed);
-            }
-        }
-        else
-        {
-            fCalculatedSpeed = cLevel.DefaultSpeed;
-        }
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        fSpeed = fCalculatedSpeed;
-
-        if(targetPositionReached() ||                        // ready for the shot
-           pPuckPosition.y <= pMyPosition.y ||                 // the puck has escaped
-           pPuckPosition.y > (AH_TABLE_HEIGHT / 2) ||        // the puck is out of my zone
-           abs(vPuckVelocity.y) < fStopped)                    // the puck is stopped
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        if(pPuckPosition.y > pMyPosition.y)
-            selectState(AH_STATE_SHOOT_TO_GOAL);
-        else
-            selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-void AHAI::executeShootToGoal()
-{
-    switch(iStateStep)
-    {
-    case AH_STATE_STEP_ENTER:
-
-        iStateStep = AH_STATE_STEP_EXECUTE;
-
-        break;
-
-    case AH_STATE_STEP_EXECUTE:
-
-        pTargetPosition = pPuckPosition;
-        fSpeed = cLevel.SpeedForShooting;
-
-        if(pPuckPosition.y < pMyPosition.y ||                                            // the puck is behind me
-           (cGame->checkEvent() == AH_EVENT_PUCK_MALLET2_COLLISION && iPlayer == 2) ||    // the puck collides with the mallet
-           (cGame->checkEvent() == AH_EVENT_PUCK_MALLET1_COLLISION && iPlayer == 1) ||
-           pPuckPosition.y > (AH_TABLE_HEIGHT / 2) ||                                    // the puck is out of my zone
-           abs(pPuckPosition.x) > (AH_TABLE_WIDTH / 2 + fNearSideBorder) ||                // the puck is too near from a side border
-           pPuckPosition.y < fNearBackBorder)                                            // the puck is too near from the back border
-        {
-            iStateStep = AH_STATE_STEP_EXIT;
-        }
-        
-        break;
-
-    case AH_STATE_STEP_EXIT:
-
-        selectState(AH_STATE_NOTHING);
-
-        break;
-
-    default:
-        break;
-    }
-}
-
-bool AHAI::targetPositionReached()
-{
-    if((abs(pTargetPosition.x - pMyPosition.x) + abs(pTargetPosition.y - pMyPosition.y)) <= fSpeed)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
-AHPoint AHAI::myPointToTable(AHPoint pPoint)
-{
-    AHPoint pTablePosition;
-
-    pTablePosition.x = pPoint.x;
-
-    // my positions --> table positions
-    if(iPlayer == 1)
-    {
-        pTablePosition.y = (AH_TABLE_HEIGHT / 2) - pPoint.y;
-    }
-    else
-    {
-        pTablePosition.x = -pTablePosition.x;
-        pTablePosition.y = pPoint.y - (AH_TABLE_HEIGHT / 2);
-    }
-
-    return pTablePosition;
-}
-
-AHPoint AHAI::calculateGoalPoint()
-{
-    AHPoint pGoal;
-
-    pGoal.x = (float)(rand() % (AH_TABLE_WIDTH / 3) - AH_TABLE_WIDTH / 6);
-    pGoal.y = AH_TABLE_HEIGHT;
-
-    return pGoal;
-}
-
-float AHAI::predictPositionX(float Y)
+float AHAIData::predictPositionX(float Y)
 {
     double dX;
-    CLine cLine(pPuckPosition.x, pPuckPosition.y, pPuckPosition.x + vPuckVelocity.x, pPuckPosition.y + vPuckVelocity.y);
+    CLine cLine(pPuckPosition.x, pPuckPosition.y,
+                pPuckPosition.x + vPuckVelocity.x,
+                pPuckPosition.y + vPuckVelocity.y);
 
     if(!cLine.can_calculate_x())
         return pMyPosition.x;
@@ -710,22 +55,578 @@ float AHAI::predictPositionX(float Y)
     return (float)dX;
 }
 
+
+//
+//  AHAIState
+//
+void AHAIState::select()
+{
+    iTime = 0;
+    iNextState = -1;
+}
+
+void AHAIState::incrementTime()
+{
+    iTime++;
+}
+
+int AHAIState::getCurrentTime()
+{
+    return iTime;
+}
+
+int AHAIState::getNextState()
+{
+    return iNextState;
+}
+
+
+//
+//  AHAI
+//
+AHAI::AHAI(AHGame* Game, const AHAILevel& Level, bool Player1)
+{
+    sData.cGame = Game;
+    sData.cLevel = Level;
+    iStateStep = AHAIStateSteps::Enter;
+
+    cStates = new AHAIState*[AHAIStates::Count];
+    initializeStates();
+    selectState(AHAIStates::Nothing);
+
+    if(Player1)
+    {
+        sData.iPlayer = 1;
+        sData.pTargetPosition = sData.cGame->getTablePositionPlayer1();
+        sData.pTargetPosition.y = (AH_TABLE_HEIGHT / 2) - sData.pTargetPosition.y;
+    }
+    else
+    {
+        sData.iPlayer = 2;
+        sData.pTargetPosition = sData.cGame->getTablePositionPlayer2();
+        sData.pTargetPosition.y = sData.pTargetPosition.y + (AH_TABLE_HEIGHT / 2);
+    }
+
+    sData.fMinimumGoalDistance = AH_TABLE_HEIGHT / 10;
+    sData.fAlertZoneHeight = AH_TABLE_HEIGHT / 6;
+    sData.fBackSpace = AH_TABLE_HEIGHT / 20;
+    sData.fNearSideBorder = AH_TABLE_WIDTH / 8;
+    sData.fNearBackBorder = AH_TABLE_WIDTH / 8;
+    sData.fHoleToShoot = AH_TABLE_WIDTH / 5;
+
+    sData.fStopped = 10.0;
+    sData.fHighSpeed = 80.0;
+    sData.fLowSpeed = 20.0;
+}
+
+AHAI::~AHAI()
+{
+    releaseStates();
+    delete[] cStates;
+}
+
+void AHAI::initializeStates()
+{
+    cStates[AHAIStates::Nothing] = new AHAIStateNothing(&sData);
+    cStates[AHAIStates::GoToPuck] = new AHAIStateGoToPuck(&sData);
+    cStates[AHAIStates::BeAlert] = new AHAIStateBeAlert(&sData);
+    cStates[AHAIStates::GoToBack] = new AHAIStateGoToBack(&sData);
+    cStates[AHAIStates::AvoidGoal] = new AHAIStateAvoidGoal(&sData);
+    cStates[AHAIStates::PrepareShot] = new AHAIStatePrepareShot(&sData);
+    cStates[AHAIStates::ShootToGoal] = new AHAIStateShootToGoal(&sData);
+    cStates[AHAIStates::ClearPuck] = new AHAIStateClearPuck(&sData);
+    cStates[AHAIStates::ShootToClear] = new AHAIStateShootToClear(&sData);
+}
+
+void AHAI::releaseStates()
+{
+    for(int i = 0; i < AHAIStates::Count; i++)
+        delete cStates[i];
+}
+
+AHPoint AHAI::update()
+{
+    // table positions --> player positions
+    if(sData.iPlayer == 1)
+    {
+        sData.pMyPosition = sData.cGame->getTablePositionPlayer1();
+        sData.pMyPosition.y = (AH_TABLE_HEIGHT / 2) - sData.pMyPosition.y;
+
+        sData.pOpponentPosition = sData.cGame->getTablePositionPlayer2();
+        sData.pOpponentPosition.y = AH_TABLE_HEIGHT - ((AH_TABLE_HEIGHT / 2) + sData.pOpponentPosition.y);
+
+        sData.pPuckPosition = sData.cGame->getTablePositionPuck();
+        sData.pPuckPosition.y -= AH_TABLE_HEIGHT / 2;
+        sData.pPuckPosition.y = -sData.pPuckPosition.y;
+
+        sData.vPuckVelocity = sData.cGame->getVelocityPuck();
+        sData.vPuckVelocity.y = -sData.vPuckVelocity.y;
+    }
+    else
+    {
+        sData.pMyPosition = sData.cGame->getTablePositionPlayer2();
+        sData.pMyPosition.x = -sData.pMyPosition.x;
+        sData.pMyPosition.y = sData.pMyPosition.y + (AH_TABLE_HEIGHT / 2);
+
+        sData.pOpponentPosition = sData.cGame->getTablePositionPlayer1();
+        sData.pOpponentPosition.x = -sData.pOpponentPosition.x;
+        sData.pOpponentPosition.y = AH_TABLE_HEIGHT - ((AH_TABLE_HEIGHT / 2) - sData.pOpponentPosition.y);
+
+        sData.pPuckPosition = sData.cGame->getTablePositionPuck();
+        sData.pPuckPosition.x = -sData.pPuckPosition.x;
+        sData.pPuckPosition.y += AH_TABLE_HEIGHT / 2;
+
+        sData.vPuckVelocity = sData.cGame->getVelocityPuck();
+        sData.vPuckVelocity.x = -sData.vPuckVelocity.x;
+    }
+
+    if(sData.cGame->checkEvent() == AH_EVENT_GOAL_P1 || sData.cGame->checkEvent() == AH_EVENT_GOAL_P2)
+    {
+        selectState(AHAIStates::Nothing);
+        sData.pShotPoint = sData.pMyPosition;
+        return myPointToTable(sData.pMyPosition);
+    }
+
+    // default speed
+    sData.fSpeed = sData.cLevel.DefaultSpeed;
+
+    // state execution
+    cStates[iState]->incrementTime();
+
+    if(iState == AHAIStates::Nothing)
+    {
+        // timeout
+        if(cStates[iState]->getCurrentTime() > 200)
+            selectState(AHAIStates::GoToPuck);
+
+        // select new state
+        else
+            chooseNewState();
+    }
+
+    switch(iStateStep)
+    {
+    case AHAIStateSteps::Execute:
+        cStates[iState]->run();
+        if(cStates[iState]->getNextState() > -1)
+            selectState(cStates[iState]->getNextState());
+        break;
+
+    case AHAIStateSteps::Enter:
+        cStates[iState]->enter();
+        iStateStep = AHAIStateSteps::Execute;    
+    }
+
+    // go to the target position
+    return myPointToTable(go());
+}
+
+void AHAI::selectState(int State)
+{
+    iState = State;
+    iStateStep = AHAIStateSteps::Enter;
+    cStates[iState]->select();
+}
+
+void AHAI::chooseNewState()
+{
+    // PUCK IN MY ZONE
+    if(sData.pPuckPosition.y <= (AH_TABLE_HEIGHT / 2))
+    {
+        // high priority: if the puck is going to enter into my goal, I clear it
+        if(sData.pPuckPosition.y < sData.fNearBackBorder &&
+           abs(sData.pPuckPosition.x) < (AH_TABLE_WIDTH / 8) && sData.vPuckVelocity.y < 0.0)
+        {
+            selectState(AHAIStates::ClearPuck);
+        }
+
+        // puck is stopped or almost
+        else if(abs(sData.vPuckVelocity.x) < sData.fStopped && abs(sData.vPuckVelocity.y) < sData.fStopped)
+        {
+            // there is enough space to shoot
+            if(sData.pPuckPosition.y > sData.fNearBackBorder &&
+               (sData.pPuckPosition.y - sData.pMyPosition.y) > AH_MALLET_RADIUS)
+            {
+                selectState(AHAIStates::PrepareShot);
+            }
+
+            // there's not enough space to shoot
+            else
+            {
+                if(sData.pMyPosition.y > sData.fNearBackBorder)
+                    selectState(AHAIStates::GoToBack);
+            }
+        }
+
+        // puck is going towards the opponent
+        else if(sData.vPuckVelocity.y >= 0.0)
+        {
+            // low speed
+            if(sData.vPuckVelocity.y < sData.fLowSpeed &&
+               abs(sData.pPuckPosition.x) < (AH_TABLE_WIDTH / 2 - sData.fNearSideBorder))
+            {
+                selectState(AHAIStates::PrepareShot);
+            }
+
+            // normal or high speed
+            else
+            {
+                selectState(AHAIStates::BeAlert);
+            }
+        }
+
+        // puck is coming towards my goal
+        else if(sData.vPuckVelocity.y < 0.0)
+        {
+            // high speed
+            if(abs(sData.vPuckVelocity.y) > sData.cLevel.AttackThresholdSpeed)
+            {
+                selectState(AHAIStates::AvoidGoal);
+            }
+
+            // normal or low speed
+            else if(abs(sData.pPuckPosition.x) < (AH_TABLE_WIDTH / 2 - sData.fNearSideBorder) && 
+                    (sData.pPuckPosition.y - sData.pMyPosition.y) > sData.fHoleToShoot)
+            {
+                selectState(AHAIStates::PrepareShot);
+            }
+        }
+    }
+
+    // PUCK OUT OF MY ZONE
+    else
+    {
+        // puck is stopped or going towards the opponent
+        if(sData.vPuckVelocity.y >= 0.0)
+            selectState(AHAIStates::BeAlert);
+
+        // puck is coming to me
+        else 
+        {
+            // high speed
+            if(abs(sData.vPuckVelocity.y) > sData.fHighSpeed)
+                selectState(AHAIStates::AvoidGoal);
+
+            // low speed
+            else
+                selectState(AHAIStates::BeAlert);
+        }
+    }
+}
+
+AHPoint AHAI::myPointToTable(AHPoint pPoint)
+{
+    AHPoint pTablePosition;
+
+    pTablePosition.x = pPoint.x;
+
+    // my positions --> table positions
+    if(sData.iPlayer == 1)
+    {
+        pTablePosition.y = (AH_TABLE_HEIGHT / 2) - pPoint.y;
+    }
+    else
+    {
+        pTablePosition.x = -pTablePosition.x;
+        pTablePosition.y = pPoint.y - (AH_TABLE_HEIGHT / 2);
+    }
+
+    return pTablePosition;
+}
+
 AHPoint AHAI::go()
 {
-    if(targetPositionReached())
-        return pMyPosition;
+    if(sData.targetPositionReached())
+        return sData.pMyPosition;
 
     AHPoint pNewPosition;
     AHVector vTargetDirection;
 
-    vTargetDirection.x = pTargetPosition.x - pMyPosition.x;
-    vTargetDirection.y = pTargetPosition.y - pMyPosition.y;
+    vTargetDirection.x = sData.pTargetPosition.x - sData.pMyPosition.x;
+    vTargetDirection.y = sData.pTargetPosition.y - sData.pMyPosition.y;
 
-    setVectorLength(&vTargetDirection, fSpeed);
+    setVectorLength(&vTargetDirection, sData.fSpeed);
 
-    pNewPosition = pMyPosition;
+    pNewPosition = sData.pMyPosition;
     pNewPosition.x += vTargetDirection.x;
     pNewPosition.y += vTargetDirection.y;
 
     return pNewPosition;
+}
+
+
+//
+//  AHAIStateNothing
+//
+void AHAIStateNothing::enter()
+{
+}
+
+void AHAIStateNothing::run()
+{
+    sData->fSpeed = sData->cLevel.DefaultSpeed * 0.5f;
+    sData->pTargetPosition.x = 0.0f;
+    sData->pTargetPosition.y = sData->fNearBackBorder * 0.5f;    
+}
+
+
+//
+//  AHAIStateGoToPuck
+//
+void AHAIStateGoToPuck::enter()
+{
+}
+
+void AHAIStateGoToPuck::run()
+{
+    sData->pTargetPosition.x = sData->pPuckPosition.x;
+    sData->pTargetPosition.y = sData->pPuckPosition.y;
+
+    sData->fSpeed = sData->cLevel.DefaultSpeed * 2.0f;
+
+    if(sData->pPuckPosition.y >= (AH_TABLE_HEIGHT * 0.5f) ||                // puck out of my zone
+        sData->cGame->checkEvent() == AH_EVENT_PUCK_MALLET1_COLLISION ||    // puck reached
+        sData->cGame->checkEvent() == AH_EVENT_PUCK_MALLET2_COLLISION)
+    {
+        iNextState = AHAIStates::Nothing;
+    }
+}
+
+
+//
+//  AHAIStateBeAlert
+//
+void AHAIStateBeAlert::enter()
+{
+    // average point between puck and goal in my zone
+    sData->pTargetPosition.x = sData->pPuckPosition.x * 0.25f;
+    sData->pTargetPosition.y = sData->fMinimumGoalDistance + rand() % round(sData->fAlertZoneHeight);
+    sData->fSpeed = sData->cLevel.DefaultSpeed;
+}
+
+void AHAIStateBeAlert::run()
+{
+    if((sData->targetPositionReached() && (sData->vPuckVelocity.x != 0.0 || sData->vPuckVelocity.y != 0.0)) ||
+        sData->vPuckVelocity.y < 0.0)
+    {
+        iNextState = AHAIStates::Nothing;
+    }
+}
+
+
+//
+//  AHAIStateGoToBack
+//
+void AHAIStateGoToBack::enter()
+{
+    sData->pTargetPosition.x = 0.0f;
+    sData->pTargetPosition.y = sData->fNearBackBorder;
+}
+
+void AHAIStateGoToBack::run()
+{
+    sData->fSpeed = sData->cLevel.SpeedForDefending;
+
+    if(sData->targetPositionReached() ||
+       (sData->pPuckPosition.y < sData->pMyPosition.y && abs(sData->pPuckPosition.x) < (AH_TABLE_WIDTH / 6)))
+    {
+        iNextState = AHAIStates::Nothing;
+    }
+}
+
+
+//
+//  AHAIStateAvoidGoal
+//
+float AHAIStateAvoidGoal::fSpeedSlow = 5.0f;
+
+void AHAIStateAvoidGoal::enter()
+{
+    // target position
+    sData->pTargetPosition.y = std::max(sData->pMyPosition.y - sData->fBackSpace, sData->fMinimumGoalDistance);
+    sData->pTargetPosition.x = sData->predictPositionX(sData->pTargetPosition.y);
+        
+    // error
+    sData->pTargetPosition.x += rand() % 50;
+    sData->pTargetPosition.y += rand() % 50;
+
+    // speed
+    fTimeForThePuckToCome = (sData->pTargetPosition.y - sData->pPuckPosition.y) / sData->vPuckVelocity.y;
+    fTimeForThePuckToCome = abs(fTimeForThePuckToCome);
+    fTimeForThePuckToCome -= 2.0;        // state change frames
+
+    if(fTimeForThePuckToCome < 0.0)
+    {
+        sData->fCalculatedSpeed = sData->cLevel.SpeedForDefending;
+    }
+    else
+    {
+        fDistanceToTarget = (sData->pTargetPosition.x - sData->pMyPosition.x) * (sData->pTargetPosition.x - sData->pMyPosition.x);
+        fDistanceToTarget += (sData->pTargetPosition.y - sData->pMyPosition.y) * (sData->pTargetPosition.y - sData->pMyPosition.y);
+        fDistanceToTarget = sqrt(fDistanceToTarget);
+
+        sData->fCalculatedSpeed = fDistanceToTarget / fTimeForThePuckToCome;
+        sData->fCalculatedSpeed = std::min(sData->fCalculatedSpeed, sData->cLevel.SpeedForDefending);
+    }
+}
+
+void AHAIStateAvoidGoal::run()
+{
+    sData->fSpeed = sData->fCalculatedSpeed;
+
+    if(sData->pPuckPosition.y <= sData->pMyPosition.y || sData->vPuckVelocity.y >= -fSpeedSlow)
+        iNextState = AHAIStates::Nothing;
+}
+
+
+//
+//  AHAIStateClearPuck
+//
+void AHAIStateClearPuck::enter()
+{
+    sData->pTargetPosition.x = (sData->pMyPosition.x < 0)? -AH_TABLE_WIDTH / 6.0f: AH_TABLE_WIDTH / 6.0f;
+    sData->pTargetPosition.y = AH_MALLET_RADIUS;
+}
+
+void AHAIStateClearPuck::run()
+{
+    if(sData->targetPositionReached() || 
+        sData->pPuckPosition.y > sData->fNearBackBorder ||
+        abs(sData->pPuckPosition.x) > (AH_TABLE_WIDTH / 6))
+    {
+        iNextState = AHAIStates::ShootToClear;
+    }
+
+    sData->fSpeed = sData->cLevel.SpeedForClearing;
+}
+
+
+//
+//  AHAIStateShootToClear
+//
+void AHAIStateShootToClear::enter()
+{
+    sData->pTargetPosition.y = sData->pMyPosition.y;
+    sData->pTargetPosition.x = (sData->pMyPosition.x > 0)? -AH_TABLE_WIDTH / 3.0f: AH_TABLE_WIDTH / 3.0f;
+}
+
+void AHAIStateShootToClear::run()
+{
+    sData->fSpeed = sData->cLevel.SpeedForClearing;
+        
+    if(sData->targetPositionReached())           
+        iNextState = AHAIStates::Nothing;
+}
+
+
+//
+//  AHAIStatePrepareShot
+//
+AHPoint AHAIStatePrepareShot::calculateGoalPoint()
+{
+    AHPoint pGoal;
+
+    pGoal.x = (float)(rand() % (AH_TABLE_WIDTH / 3) - AH_TABLE_WIDTH / 6);
+    pGoal.y = AH_TABLE_HEIGHT;
+
+    return pGoal;
+}
+
+void AHAIStatePrepareShot::enter()
+{
+    // default: direct shot
+    sData->pShotPoint = calculateGoalPoint();
+    iChoice = rand() % 2;
+
+    // with bounce
+    if(iChoice == 1)
+    {
+        // against the left wall
+        if(sData->pMyPosition.x >= 0.0 && sData->pPuckPosition.x < -sData->fHoleToShoot)
+            sData->pShotPoint.x -= AH_TABLE_WIDTH * (1 + rand() % 2);    // one or two bounces
+
+        // against the right wall
+        else if(sData->pMyPosition.x < 0.0 && sData->pPuckPosition.x > sData->fHoleToShoot)
+            sData->pShotPoint.x += AH_TABLE_WIDTH * (1 + rand() % 2);
+    }
+
+    // puck's future position
+    sData->fImpulseDistance = sData->fBackSpace;
+    pPuckFuturePosition.y = sData->pMyPosition.y + sData->fImpulseDistance;
+    pPuckFuturePosition.x = sData->predictPositionX(pPuckFuturePosition.y);
+
+    // shot line
+    cShotLine = new CLine(sData->pShotPoint.x, sData->pShotPoint.y, pPuckFuturePosition.x, pPuckFuturePosition.y);
+    sData->pTargetPosition = sData->pMyPosition;
+
+    if(cShotLine->can_calculate_x())
+        sData->pTargetPosition.x = (float)cShotLine->x(sData->pTargetPosition.y);
+
+    // speed
+    if(abs(sData->vPuckVelocity.y) > sData->fStopped)
+    {
+        fTimeForThePuckToCome = (pPuckFuturePosition.y - sData->pPuckPosition.y) / sData->vPuckVelocity.y;
+        fTimeForThePuckToCome = abs(fTimeForThePuckToCome);
+        fTimeForThePuckToCome -= 2.0;        // state change frames
+
+        if(fTimeForThePuckToCome < 0.0)
+        {
+            sData->fCalculatedSpeed = sData->cLevel.SpeedForShooting;
+        }
+        else
+        {
+            fDistanceToTarget = (sData->pTargetPosition.x - sData->pMyPosition.x) * (sData->pTargetPosition.x - sData->pMyPosition.x);
+            fDistanceToTarget += (sData->pTargetPosition.y - sData->pMyPosition.y) * (sData->pTargetPosition.y - sData->pMyPosition.y);
+            fDistanceToTarget = sqrt(fDistanceToTarget);
+
+            sData->fCalculatedSpeed = fDistanceToTarget / fTimeForThePuckToCome;
+            sData->fCalculatedSpeed = std::min(sData->cLevel.SpeedForShooting, sData->fCalculatedSpeed);
+        }
+    }
+    else
+    {
+        sData->fCalculatedSpeed = sData->cLevel.DefaultSpeed;
+    }
+}
+
+void AHAIStatePrepareShot::run()
+{
+    sData->fSpeed = sData->fCalculatedSpeed;
+
+    if(sData->targetPositionReached() ||                       // ready for the shot
+        sData->pPuckPosition.y <= sData->pMyPosition.y ||             // the puck has escaped
+        sData->pPuckPosition.y > (AH_TABLE_HEIGHT / 2) ||      // the puck is out of my zone
+        abs(sData->vPuckVelocity.y) < sData->fStopped)                // the puck is stopped
+    {
+        delete cShotLine;
+
+        if(sData->pPuckPosition.y > sData->pMyPosition.y)
+            iNextState = AHAIStates::ShootToGoal;
+        else
+            iNextState = AHAIStates::Nothing;
+    }    
+}
+
+
+//
+//  AHAIStateShootToGoal
+//
+void AHAIStateShootToGoal::enter()
+{
+}
+
+void AHAIStateShootToGoal::run()
+{
+    sData->pTargetPosition = sData->pPuckPosition;
+    sData->fSpeed = sData->cLevel.SpeedForShooting;
+
+    if(sData->pPuckPosition.y < sData->pMyPosition.y ||                                               // the puck is behind me
+        (sData->cGame->checkEvent() == AH_EVENT_PUCK_MALLET2_COLLISION && sData->iPlayer == 2) ||     // the puck collides with the mallet
+        (sData->cGame->checkEvent() == AH_EVENT_PUCK_MALLET1_COLLISION && sData->iPlayer == 1) ||
+        sData->pPuckPosition.y > (AH_TABLE_HEIGHT / 2) ||                                             // the puck is out of my zone
+        abs(sData->pPuckPosition.x) > (AH_TABLE_WIDTH / 2 + sData->fNearSideBorder) ||                // the puck is too near from a side border
+        sData->pPuckPosition.y < sData->fNearBackBorder)                                              // the puck is too near from the back border
+    {
+        iNextState = AHAIStates::Nothing;
+    }
 }

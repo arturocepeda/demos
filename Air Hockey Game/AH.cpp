@@ -10,6 +10,7 @@
 #include "AH.h"
 #include "utils.h"
 #include <cmath>
+#include <iostream>
 #include <stdlib.h>
 
 
@@ -402,7 +403,7 @@ void AHGame::makeCollision(CircularEntity* cePuck, CircularEntity* cePlayer, AHP
     pSeparatedPosition.y = pPlayerTablePosition.y + vSeparatedPosition.y;
     cePuck->setPosition(pSeparatedPosition);
 
-    setVectorLength(&vSeparation, min(fPuckSpeed + fPlayerSpeed, AH_PUCK_MAXSPEED));
+    setVectorLength(&vSeparation, std::min(fPuckSpeed + fPlayerSpeed, AH_PUCK_MAXSPEED));
     cePuck->setVelocity(vSeparation);
 }
 

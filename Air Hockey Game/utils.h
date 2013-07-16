@@ -46,12 +46,6 @@ public:
 // some simple numerical functions
 // -------------------------------------------
 
-int max(int a, int b);
-int min(int a, int b);
-
-float max(float a, float b);
-float min(float a, float b);
-
 bool positive(float number);
 bool same_sign(float a, float b);
 int round(float Value);

@@ -11,20 +11,7 @@
 #define _AHAI_H_
 
 #include "AH.h"
-
-#define AH_STATE_NOTHING            0
-#define AH_STATE_GO_TO_PUCK            1
-#define AH_STATE_BE_ALERT            2
-#define AH_STATE_GO_TO_BACK            3
-#define AH_STATE_AVOID_GOAL            4
-#define AH_STATE_PREPARE_SHOOT        5
-#define AH_STATE_SHOOT_TO_GOAL        6
-#define AH_STATE_CLEAR_PUCK            7
-#define AH_STATE_SHOOT_TO_CLEAR        8
-
-#define AH_STATE_STEP_ENTER            0
-#define AH_STATE_STEP_EXECUTE        1
-#define AH_STATE_STEP_EXIT            2
+#include "utils.h"
 
 struct AHAILevel
 {
@@ -35,27 +22,38 @@ struct AHAILevel
     float AttackThresholdSpeed;
 };
 
-class AHAIState
+struct AHAIStates
 {
-private:
-    int iStep;
-    int iTime;
-
-public:
-    virtual void enter() = 0;
-    virtual void run() = 0;
-    virtual void exit() = 0;
+    enum
+    {
+        Nothing,
+        GoToPuck,
+        BeAlert,
+        GoToBack,
+        AvoidGoal,
+        PrepareShot,
+        ShootToGoal,
+        ClearPuck,
+        ShootToClear,
+        Count
+    };
 };
 
-class AHAI
+struct AHAIStateSteps
 {
-private:
+    enum
+    {
+        Enter,
+        Execute,
+        Exit
+    };
+};
+
+struct AHAIData
+{
     AHGame* cGame;
     AHAILevel cLevel;
     int iPlayer;
-    int iState;
-    int iStateStep;
-    int iStateTime;
 
     float fSpeed;
     float fCalculatedSpeed;
@@ -79,24 +77,44 @@ private:
     float fHighSpeed;
     float fLowSpeed;
 
+    float predictPositionX(float Y);
+    bool targetPositionReached();
+};
+
+class AHAIState
+{
+protected:
+    AHAIData* sData;
+    int iTime;
+    int iNextState;
+
+public:
+    AHAIState(AHAIData* Data) : sData(Data) { iTime = 0; iNextState = AHAIStates::Nothing; }
+    virtual ~AHAIState() {}
+
+    void select();
+    void incrementTime();
+    int getCurrentTime();
+    int getNextState();
+
+    virtual void enter() = 0;
+    virtual void run() = 0;
+};
+
+class AHAI
+{
+private:
+    AHAIData sData;
+    AHAIState** cStates;
+    int iState;
+    int iStateStep;
+
+    void initializeStates();
+    void releaseStates();
     void selectState(int State);
     void chooseNewState();
 
-    void executeNothing();
-    void executeGoToPuck();
-    void executeBeAlert();
-    void executeGoToBack();
-    void executeAvoidGoal();
-    void executeClearPuck();
-    void executeShootToClear();
-    void executePrepareShoot();
-    void executeShootToGoal();
-
-    bool targetPositionReached();
-    float predictPositionX(float Y);
-
     AHPoint go();
-    AHPoint calculateGoalPoint();
     AHPoint myPointToTable(AHPoint pPoint);
 
 public:
@@ -105,6 +123,104 @@ public:
 
     AHPoint update();
     int getState();
+};
+
+class AHAIStateNothing : public AHAIState
+{
+public:
+    AHAIStateNothing(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateGoToPuck : public AHAIState
+{
+public:
+    AHAIStateGoToPuck(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateBeAlert : public AHAIState
+{
+public:
+    AHAIStateBeAlert(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateGoToBack : public AHAIState
+{
+public:
+    AHAIStateGoToBack(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateAvoidGoal : public AHAIState
+{
+private:
+    float fTimeForThePuckToCome;
+    float fDistanceToTarget;
+
+    static float fSpeedSlow;
+
+public:
+    AHAIStateAvoidGoal(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateClearPuck : public AHAIState
+{
+public:
+    AHAIStateClearPuck(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateShootToClear : public AHAIState
+{
+public:
+    AHAIStateShootToClear(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStatePrepareShot : public AHAIState
+{
+private:
+    AHPoint pPuckFuturePosition;
+    CLine* cShotLine;
+
+    float fTimeForThePuckToCome;
+    float fDistanceToTarget;
+
+    int iChoice;
+
+    AHPoint calculateGoalPoint();
+
+public:
+    AHAIStatePrepareShot(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
+};
+
+class AHAIStateShootToGoal : public AHAIState
+{
+public:
+    AHAIStateShootToGoal(AHAIData* Data) : AHAIState(Data) {}
+
+    void enter();
+    void run();
 };
 
 #endif
