@@ -36,6 +36,13 @@ private:
    GEMesh* cMeshBanana;
    GEMesh* cMeshCube;
    
+   float fMeshCubeR;
+   float fMeshCubeRInc;
+   float fMeshCubeG;
+   float fMeshCubeGInc;
+   float fMeshCubeB;
+   float fMeshCubeBInc;
+   
    GESprite* cSpriteBackground;
    GESprite* cSpriteBall;
    GESprite* cSpriteInfo[FINGERS];

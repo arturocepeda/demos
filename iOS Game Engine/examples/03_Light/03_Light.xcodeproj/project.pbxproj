@@ -7,15 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		69310D5516A8B666006C16F8 /* hud.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D4F16A8B666006C16F8 /* hud.fsh */; };
-		69310D5616A8B666006C16F8 /* hud.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D5016A8B666006C16F8 /* hud.vsh */; };
 		69310D5F16A8B6CC006C16F8 /* hud.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D5016A8B666006C16F8 /* hud.vsh */; };
 		69310D6016A8B6CC006C16F8 /* hud.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D4F16A8B666006C16F8 /* hud.fsh */; };
-		69310D6916A8BCA7006C16F8 /* mesh_texture.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */; };
-		69310D6A16A8BCA7006C16F8 /* mesh_texture.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */; };
 		69310D6B16A8BCCB006C16F8 /* mesh_texture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */; };
 		69310D6C16A8BCCB006C16F8 /* mesh_texture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */; };
 		69310D9216A8CA8A006C16F8 /* bulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 69310D9116A8CA8A006C16F8 /* bulb.png */; };
+		699B47791789418800F36BBF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 699B47781789418800F36BBF /* Default-568h@2x.png */; };
 		CECE4715167C651800B9D86F /* GERenderingShaders.mm in Sources */ = {isa = PBXBuildFile; fileRef = CECE4714167C651800B9D86F /* GERenderingShaders.mm */; };
 		CEE82F6C16679399004FBB96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6B16679399004FBB96 /* UIKit.framework */; };
 		CEE82F6E16679399004FBB96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6D16679399004FBB96 /* Foundation.framework */; };
@@ -47,6 +44,7 @@
 		69310D6716A8BCA7006C16F8 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_texture.fsh; sourceTree = "<group>"; };
 		69310D6816A8BCA7006C16F8 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = mesh_texture.vsh; sourceTree = "<group>"; };
 		69310D9116A8CA8A006C16F8 /* bulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bulb.png; path = Resources/Textures/bulb.png; sourceTree = "<group>"; };
+		699B47781789418800F36BBF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CE25611A16682CFC00611968 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CEC1A80816937F75006E3F90 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CECE4713167C651800B9D86F /* GERenderingShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GERenderingShaders.h; path = ../../GameEngine/GERenderingShaders.h; sourceTree = "<group>"; };
@@ -121,6 +119,7 @@
 		CEE82F5C16679399004FBB96 = {
 			isa = PBXGroup;
 			children = (
+				699B47781789418800F36BBF /* Default-568h@2x.png */,
 				CEE82F7516679399004FBB96 /* Main */,
 				CEE82FB0166797F7004FBB96 /* Game Engine */,
 				CEE82FB1166797FD004FBB96 /* Scenes */,
@@ -263,7 +262,7 @@
 		CEE82F5E16679399004FBB96 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = CEE82F6116679399004FBB96 /* Build configuration list for PBXProject "03_Light" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -296,6 +295,7 @@
 				CEE82F8616679399004FBB96 /* iPad.storyboard in Resources */,
 				CEE82FAD166797EF004FBB96 /* banana.jpg in Resources */,
 				69310D9216A8CA8A006C16F8 /* bulb.png in Resources */,
+				699B47791789418800F36BBF /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,10 +319,6 @@
 				CEE82FCA1667983F004FBB96 /* GEScene.mm in Sources */,
 				CEE82FCB1667983F004FBB96 /* GEUtils.mm in Sources */,
 				CECE4715167C651800B9D86F /* GERenderingShaders.mm in Sources */,
-				69310D5516A8B666006C16F8 /* hud.fsh in Sources */,
-				69310D5616A8B666006C16F8 /* hud.vsh in Sources */,
-				69310D6916A8BCA7006C16F8 /* mesh_texture.fsh in Sources */,
-				69310D6A16A8BCA7006C16F8 /* mesh_texture.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +357,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -386,6 +386,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

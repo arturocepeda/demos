@@ -45,7 +45,7 @@ void GESceneSample::init()
    // sprites
    cSpriteBackground = new GESprite();
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Floor));
-   cSpriteBackground->setScale(1.5f, 1.5f, 1.0f);
+   cSpriteBackground->setScale(1.5f, 1.8f, 1.0f);
    
    cSpriteBug[0][0] = new GESprite();
    cSpriteBug[0][0]->setTexture(cRender->getTexture(Textures.BugA1));
