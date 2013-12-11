@@ -16,8 +16,14 @@
 #include "cube.h"
 #include "GEUtils.h"
 
-GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData) :
-               GEScene(Render, Audio, GlobalData)
+GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
+   : GEScene(Render, Audio, GlobalData)
+   , fMeshCubeR(1.0f)
+   , fMeshCubeRInc(-0.01f)
+   , fMeshCubeG(0.5f)
+   , fMeshCubeGInc(0.005f)
+   , fMeshCubeB(0.2f)
+   , fMeshCubeBInc(0.015f)
 {
 }
 
@@ -64,7 +70,7 @@ void GESceneSample::init()
    // sprites
    cSpriteBackground = new GESprite();
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
-   cSpriteBackground->scale(1.0f, 1.5f, 1.0f);
+   cSpriteBackground->scale(1.0f, 1.8f, 1.0f);
    
    cSpriteBall = new GESprite();
    cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
@@ -115,6 +121,44 @@ void GESceneSample::updateBanana()
 void GESceneSample::updateCube()
 {
    cMeshCube->rotate(0.01f, 0.01f, 0.01f);
+   cMeshCube->setColor(fMeshCubeR, fMeshCubeG, fMeshCubeB);
+   
+   fMeshCubeR += fMeshCubeRInc;
+   fMeshCubeG += fMeshCubeGInc;
+   fMeshCubeB += fMeshCubeBInc;
+   
+   if(fMeshCubeR >= 1.0f)
+   {
+      fMeshCubeR = 0.99f;
+      fMeshCubeRInc = -fMeshCubeRInc;
+   }
+   else if(fMeshCubeR <= 0.0f)
+   {
+      fMeshCubeR = 0.01f;
+      fMeshCubeRInc = -fMeshCubeRInc;
+   }
+   
+   if(fMeshCubeG >= 1.0f)
+   {
+      fMeshCubeG = 0.99f;
+      fMeshCubeGInc = -fMeshCubeGInc;
+   }
+   else if(fMeshCubeG <= 0.0f)
+   {
+      fMeshCubeG = 0.01f;
+      fMeshCubeGInc = -fMeshCubeGInc;
+   }
+   
+   if(fMeshCubeB >= 1.0f)
+   {
+      fMeshCubeB = 0.99f;
+      fMeshCubeBInc = -fMeshCubeBInc;
+   }
+   else if(fMeshCubeB <= 0.0f)
+   {
+      fMeshCubeB = 0.01f;
+      fMeshCubeBInc = -fMeshCubeBInc;
+   }
 }
 
 void GESceneSample::updateBall()
