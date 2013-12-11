@@ -18,14 +18,14 @@ protected:
     static const int LineWeight;
     static const int DiagonalWeight;
 
-	int nodesColumns;
-	int nodesRows;
+    int nodesColumns;
+    int nodesRows;
     
     void setConnections(int nodeIndex, int column, int row);
 
 public:
-	MeshGraph(int nodesColumns, int nodesRows);
-	~MeshGraph();
+    MeshGraph(int nodesColumns, int nodesRows);
+    ~MeshGraph();
 
     int getNumberOfColumns();
     int getNumberOfRows();
@@ -33,5 +33,5 @@ public:
     void setConnections();
     void resetConnections();
 
-	void setNodePositions(float firstX, float firstY, float incrementX, float incrementY);
+    void setNodePositions(float firstX, float firstY, float incrementX, float incrementY);
 };

@@ -37,16 +37,16 @@ bool contains(const std::vector<int>& path, int node);
 int main(int argc, char* argv[])
 {
     MeshGraph meshGraph(MeshColumns, MeshRows);
-	ParserMeshGraph parserMeshGraph;
+    ParserMeshGraph parserMeshGraph;
 
-	parserMeshGraph.loadUnreachableNodesFromFile(&meshGraph, ".\\..\\testobstacles.txt");
+    parserMeshGraph.loadUnreachableNodesFromFile(&meshGraph, ".\\..\\testobstacles.txt");
     meshGraph.setNodePositions(0.0f, 0.0f, 1.0f, 1.0f);
-	meshGraph.setConnections();
+    meshGraph.setConnections();
 
     GraphSearch* searchAlgorithm = new AStar();
     std::vector<int> path;
 
-	int start = 0;
+    int start = 0;
     int lastNode = (MeshColumns * MeshRows) - 1;
     int end = lastNode;
 
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 
         drawGraph(meshGraph, path);
 
-	    std::cout << "\n\n   0) Exit  1) Select route  2) Open node  3) Close node -> ";
+        std::cout << "\n\n   0) Exit  1) Select route  2) Open node  3) Close node -> ";
         std::cin >> option;
 
         if(option == 1)
@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 
     delete searchAlgorithm;
 
-	return 0;
+    return 0;
 }
 
 void drawGraph(MeshGraph& graph, const std::vector<int>& path)
@@ -132,24 +132,24 @@ void drawGraph(MeshGraph& graph, const std::vector<int>& path)
 
 std::vector<int> tryAlgorithm(Graph& graph, int nodeStart, int nodeTarget, GraphSearch* algorithm)
 {
-	std::cout << "\n   Path from " << nodeStart << " to " << nodeTarget << ":";
-	bool pathFound = algorithm->search(&graph, nodeStart, nodeTarget);
+    std::cout << "\n   Path from " << nodeStart << " to " << nodeTarget << ":";
+    bool pathFound = algorithm->search(&graph, nodeStart, nodeTarget);
     std::vector<int> path;
 
-	if(pathFound)
-	{
-		path = algorithm->getPath();
+    if(pathFound)
+    {
+        path = algorithm->getPath();
         int currentNode = path.size() - 1;
 
-		while(currentNode >= 0)
+        while(currentNode >= 0)
             std::cout << " " << path[currentNode--];
 
         std::cout << "\n   " << algorithm->getNumberOfVisitedNodes() << " nodes visited\n";
-	}
-	else
-	{
-		std::cout << " no path\n";
-	}
+    }
+    else
+    {
+        std::cout << " no path\n";
+    }
 
     return path;
 }

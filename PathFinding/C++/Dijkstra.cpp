@@ -12,5 +12,5 @@
 
 int Dijkstra::estimateDistance(int nodeFrom, int nodeTo)
 {
-	return 0;
+    return 0;
 }

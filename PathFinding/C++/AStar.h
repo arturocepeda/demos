@@ -18,5 +18,5 @@ class AStar : public GraphSearch
 protected:
     static const float HeuristicWeight;
 
-	int estimateDistance(int nodeFrom, int nodeTo);
+    int estimateDistance(int nodeFrom, int nodeTo);
 };

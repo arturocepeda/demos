@@ -12,33 +12,33 @@
 
 Graph::Graph(int numberOfNodes)
 {
-	NumberOfNodes = numberOfNodes;
-	Nodes = new GraphNode[numberOfNodes];
-	AdjacencyList = new std::vector<GraphConnection>[numberOfNodes];
-	unreachableNodes = new bool[numberOfNodes];
-	memset(unreachableNodes, 0, numberOfNodes);
+    NumberOfNodes = numberOfNodes;
+    Nodes = new GraphNode[numberOfNodes];
+    AdjacencyList = new std::vector<GraphConnection>[numberOfNodes];
+    unreachableNodes = new bool[numberOfNodes];
+    memset(unreachableNodes, 0, numberOfNodes);
 }
 
 Graph::~Graph()
 {
-	delete[] Nodes;
-	delete[] AdjacencyList;
-	delete[] unreachableNodes;
+    delete[] Nodes;
+    delete[] AdjacencyList;
+    delete[] unreachableNodes;
 }
 
 void Graph::setReachableNode(int nodeIndex)
 {
-	unreachableNodes[nodeIndex] = false;
+    unreachableNodes[nodeIndex] = false;
 }
 
 void Graph::setUnreachableNode(int nodeIndex)
 {
-	unreachableNodes[nodeIndex] = true;
+    unreachableNodes[nodeIndex] = true;
 }
 
 bool Graph::isUnreachableNode(int nodeIndex)
 {
-	return unreachableNodes[nodeIndex];
+    return unreachableNodes[nodeIndex];
 }
 
 void Graph::connect(int nodeA, int nodeB, int weight, bool bidirectional)
@@ -46,28 +46,28 @@ void Graph::connect(int nodeA, int nodeB, int weight, bool bidirectional)
     if(unreachableNodes[nodeB])
         return;
 
-	if(!alreadyConnected(nodeA, nodeB))
-	{
-		GraphConnection connection(nodeB, weight);
-		AdjacencyList[nodeA].push_back(connection);
-	}
+    if(!alreadyConnected(nodeA, nodeB))
+    {
+        GraphConnection connection(nodeB, weight);
+        AdjacencyList[nodeA].push_back(connection);
+    }
 
-	if(bidirectional && !alreadyConnected(nodeB, nodeA))
-	{
-		GraphConnection connection(nodeA, weight);
-		AdjacencyList[nodeB].push_back(connection);
-	}
+    if(bidirectional && !alreadyConnected(nodeB, nodeA))
+    {
+        GraphConnection connection(nodeA, weight);
+        AdjacencyList[nodeB].push_back(connection);
+    }
 }
 
 bool Graph::alreadyConnected(int nodeA, int nodeB)
 {
-	for(unsigned int i = 0; i < AdjacencyList[nodeA].size(); i++)
-	{
-		if(AdjacencyList[nodeA][i].DestinyNode == nodeB)
-			return true;
-	}
+    for(unsigned int i = 0; i < AdjacencyList[nodeA].size(); i++)
+    {
+        if(AdjacencyList[nodeA][i].DestinyNode == nodeB)
+            return true;
+    }
 
-	return false;
+    return false;
 }
 
 void Graph::setConnectionActive(int nodeA, int nodeB, bool active)
@@ -80,10 +80,10 @@ void Graph::setConnectionActive(int nodeA, int nodeB, bool active)
 GraphConnection* Graph::getConnection(int nodeA, int nodeB)
 {
     for(unsigned int i = 0; i < AdjacencyList[nodeA].size(); i++)
-	{
-		if(AdjacencyList[nodeA][i].DestinyNode == nodeB)
+    {
+        if(AdjacencyList[nodeA][i].DestinyNode == nodeB)
             return &AdjacencyList[nodeA][i];
-	}
+    }
 
     return NULL;
 }
@@ -103,6 +103,6 @@ void Graph::activateConnection(int nodeA, int nodeB)
 
 void Graph::deactivateConnection(int nodeA, int nodeB)
 {
-	setConnectionActive(nodeA, nodeB, false);
+    setConnectionActive(nodeA, nodeB, false);
     setConnectionActive(nodeB, nodeA, false);
 }
