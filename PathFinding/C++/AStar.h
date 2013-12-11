@@ -1,4 +1,13 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- AStar.h ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 #include "GraphSearch.h"
@@ -6,11 +15,8 @@
 
 class AStar : public GraphSearch
 {
-private:
+protected:
     static const float HeuristicWeight;
 
-	int EstimateDistance(int nodeFrom, int nodeTo);
-
-public:
-	bool Search(Graph* graph, int startNode, int targetNode);
+	int estimateDistance(int nodeFrom, int nodeTo);
 };

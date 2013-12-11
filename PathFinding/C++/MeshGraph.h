@@ -1,4 +1,13 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- MeshGraph.h ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 #include "Graph.h"
@@ -6,16 +15,23 @@
 class MeshGraph : public Graph
 {
 protected:
+    static const int LineWeight;
+    static const int DiagonalWeight;
+
 	int nodesColumns;
 	int nodesRows;
-	bool* unreachableNodes;
+    
+    void setConnections(int nodeIndex, int column, int row);
 
 public:
 	MeshGraph(int nodesColumns, int nodesRows);
 	~MeshGraph();
 
-	void SetUnreachableNode(int nodeIndex);
-	void Connect(int nodeA, int nodeB, int weight, bool bidirectional = true);
-	void SetNodePositions(float firstX, float firstY, float incrementX, float incrementY);
-	void MakeConnections();
+    int getNumberOfColumns();
+    int getNumberOfRows();
+
+    void setConnections();
+    void resetConnections();
+
+	void setNodePositions(float firstX, float firstY, float incrementX, float incrementY);
 };

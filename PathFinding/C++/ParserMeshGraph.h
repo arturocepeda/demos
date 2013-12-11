@@ -1,4 +1,13 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- ParserMeshGraph.h ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 #include <string>
@@ -7,9 +16,9 @@
 class ParserMeshGraph
 {
 private:
-	std::string LoadTextContents(std::string filename);
-	std::vector<std::string> SplitString(const std::string& str, char delimiter);
+	std::string loadTextContents(std::string filename);
+	std::vector<std::string> splitString(const std::string& str, char delimiter);
 
 public:
-	void LoadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename);
+	void loadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename);
 };

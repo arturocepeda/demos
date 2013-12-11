@@ -1,9 +1,18 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- ParserMeshGraph.cpp ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #include "ParserMeshGraph.h"
 #include <sstream>
 #include <fstream>
 
-std::string ParserMeshGraph::LoadTextContents(std::string filename)
+std::string ParserMeshGraph::loadTextContents(std::string filename)
 {
 	std::ifstream file(filename, std::ifstream::in);
 	std::string contents;
@@ -19,7 +28,7 @@ std::string ParserMeshGraph::LoadTextContents(std::string filename)
 	return contents;
 }
 
-std::vector<std::string> ParserMeshGraph::SplitString(const std::string& str, char delimiter)
+std::vector<std::string> ParserMeshGraph::splitString(const std::string& str, char delimiter)
 {
 	std::stringstream ss(str);
 	std::vector<std::string> stringElements;
@@ -30,9 +39,9 @@ std::vector<std::string> ParserMeshGraph::SplitString(const std::string& str, ch
 	return stringElements;
 }
 
-void ParserMeshGraph::LoadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename)
+void ParserMeshGraph::loadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename)
 {
-	std::vector<std::string> nodeList = SplitString(LoadTextContents(filename), ',');
+	std::vector<std::string> nodeList = splitString(loadTextContents(filename), ',');
 	for(unsigned int i = 0; i < nodeList.size(); i++)
-		meshGraph->SetUnreachableNode(atoi(nodeList[i].c_str()));
+		meshGraph->setUnreachableNode(atoi(nodeList[i].c_str()));
 }

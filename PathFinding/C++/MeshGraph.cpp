@@ -1,32 +1,40 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- MeshGraph.cpp ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #include "MeshGraph.h"
+
+const int MeshGraph::LineWeight = 100;
+const int MeshGraph::DiagonalWeight = 141;
 
 MeshGraph::MeshGraph(int nodesColumns, int nodesRows) 
     : Graph(nodesColumns * nodesRows)
 {
 	this->nodesColumns = nodesColumns;
 	this->nodesRows = nodesRows;
-	unreachableNodes = new bool[NumberOfNodes];
-	memset(unreachableNodes, 0, NumberOfNodes);
 }
 
 MeshGraph::~MeshGraph()
 {
-	delete[] unreachableNodes;
 }
 
-void MeshGraph::SetUnreachableNode(int nodeIndex)
+int MeshGraph::getNumberOfColumns()
 {
-	unreachableNodes[nodeIndex] = true;
+    return nodesColumns;
 }
 
-void MeshGraph::Connect(int nodeA, int nodeB, int weight, bool bidirectional)
+int MeshGraph::getNumberOfRows()
 {
-	if(!unreachableNodes[nodeB])
-		Graph::Connect(nodeA, nodeB, weight, bidirectional);
+    return nodesRows;
 }
 
-void MeshGraph::SetNodePositions(float firstX, float firstY, float incrementX, float incrementY)
+void MeshGraph::setNodePositions(float firstX, float firstY, float incrementX, float incrementY)
 {
 	int nodeIndex = 0;
 	float nodePositionX;
@@ -48,7 +56,7 @@ void MeshGraph::SetNodePositions(float firstX, float firstY, float incrementX, f
 	}
 }
 
-void MeshGraph::MakeConnections()
+void MeshGraph::setConnections()
 {
 	int nodeIndex = 0;
 
@@ -56,87 +64,95 @@ void MeshGraph::MakeConnections()
 	{
 		for(int column = 0; column < nodesColumns; column++)
 		{
-			if(!unreachableNodes[nodeIndex])
-			{
-				if(row == 0)
-				{
-					if(column == 0)
-					{
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down
-						Connect(nodeIndex, nodeIndex + nodesColumns + 1, 14); // down right
-					}
-					else if(column == (nodesColumns - 1))
-					{
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-						Connect(nodeIndex, nodeIndex + nodesColumns - 1, 14); // down left
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down							
-					}
-					else
-					{
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-						Connect(nodeIndex, nodeIndex + nodesColumns - 1, 14); // down left
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down
-						Connect(nodeIndex, nodeIndex + nodesColumns + 1, 14); // down right
-					}
-				}
-				else if(row == (nodesRows - 1))
-				{
-					if(column == 0)
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - nodesColumns + 1, 14); // up right
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-					}
-					else if(column == (nodesColumns - 1))
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns - 1, 14); // up left
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-					}
-					else
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns - 1, 14); // up left
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - nodesColumns + 1, 14); // up right
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-					}
-				}
-				else
-				{
-					if(column == 0)
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - nodesColumns + 1, 14); // up right
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down
-						Connect(nodeIndex, nodeIndex + nodesColumns + 1, 14); // down right
-					}
-					else if(column == (nodesColumns - 1))
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns - 1, 14); // up left
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-						Connect(nodeIndex, nodeIndex + nodesColumns - 1, 14); // down left
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down
-					}
-					else
-					{
-						Connect(nodeIndex, nodeIndex - nodesColumns - 1, 14); // up left
-						Connect(nodeIndex, nodeIndex - nodesColumns, 10);     // up
-						Connect(nodeIndex, nodeIndex - nodesColumns + 1, 14); // up right
-						Connect(nodeIndex, nodeIndex - 1, 10);                // left
-						Connect(nodeIndex, nodeIndex + 1, 10);                // right
-						Connect(nodeIndex, nodeIndex + nodesColumns - 1, 14); // down left
-						Connect(nodeIndex, nodeIndex + nodesColumns, 10);     // down
-						Connect(nodeIndex, nodeIndex + nodesColumns + 1, 14); // down right
-					}
-				}
-			}
-
+            setConnections(nodeIndex, column, row);
 			nodeIndex++;
 		}
 	}
+}
+
+void MeshGraph::setConnections(int nodeIndex, int column, int row)
+{
+    if(row == 0)
+	{
+		if(column == 0)
+		{
+            connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down
+			connect(nodeIndex, nodeIndex + nodesColumns + 1, DiagonalWeight);   // down right
+		}
+		else if(column == (nodesColumns - 1))
+		{
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+			connect(nodeIndex, nodeIndex + nodesColumns - 1, DiagonalWeight);   // down left
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down							
+		}
+		else
+		{
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+			connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+			connect(nodeIndex, nodeIndex + nodesColumns - 1, DiagonalWeight);   // down left
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down
+			connect(nodeIndex, nodeIndex + nodesColumns + 1, DiagonalWeight);   // down right
+		}
+	}
+	else if(row == (nodesRows - 1))
+	{
+		if(column == 0)
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - nodesColumns + 1, DiagonalWeight);   // up right
+			connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+		}
+		else if(column == (nodesColumns - 1))
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns - 1, DiagonalWeight);   // up left
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+		}
+		else
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns - 1, DiagonalWeight);   // up left
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - nodesColumns + 1, DiagonalWeight);   // up right
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+			connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+		}
+	}
+	else
+	{
+		if(column == 0)
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - nodesColumns + 1, DiagonalWeight);   // up right
+			connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down
+			connect(nodeIndex, nodeIndex + nodesColumns + 1, DiagonalWeight);   // down right
+		}
+		else if(column == (nodesColumns - 1))
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns - 1, DiagonalWeight);   // up left
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+			connect(nodeIndex, nodeIndex + nodesColumns - 1, DiagonalWeight);   // down left
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down
+		}
+		else
+		{
+			connect(nodeIndex, nodeIndex - nodesColumns - 1, DiagonalWeight);   // up left
+			connect(nodeIndex, nodeIndex - nodesColumns, LineWeight);           // up
+			connect(nodeIndex, nodeIndex - nodesColumns + 1, DiagonalWeight);   // up right
+			connect(nodeIndex, nodeIndex - 1, LineWeight);                      // left
+			connect(nodeIndex, nodeIndex + 1, LineWeight);                      // right
+			connect(nodeIndex, nodeIndex + nodesColumns - 1, DiagonalWeight);   // down left
+			connect(nodeIndex, nodeIndex + nodesColumns, LineWeight);           // down
+			connect(nodeIndex, nodeIndex + nodesColumns + 1, DiagonalWeight);   // down right
+		}
+	}
+}
+
+void MeshGraph::resetConnections()
+{
+    for (unsigned int i = 0; i < NumberOfNodes; i++)
+        AdjacencyList[i].clear();
+    setConnections();
 }

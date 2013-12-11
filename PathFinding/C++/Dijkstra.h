@@ -1,10 +1,19 @@
 
+////////////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Pathfinding
+//
+//  --- Dijkstra.h ---
+//
+////////////////////////////////////////////////////////////////////////
+
 #pragma once
 
 #include "GraphSearch.h"
 
 class Dijkstra : public GraphSearch
 {
-public:
-	bool Search(Graph* graph, int startNode, int targetNode);
+protected:
+    int estimateDistance(int nodeFrom, int nodeTo);
 };
