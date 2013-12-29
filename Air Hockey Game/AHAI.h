@@ -7,11 +7,10 @@
     --- AHAI.h ---
 */
 
-#ifndef _AHAI_H_
-#define _AHAI_H_
+#pragma once
 
 #include "AH.h"
-#include "utils.h"
+#include "Core/GEUtils.h"
 
 struct AHAILevel
 {
@@ -198,7 +197,7 @@ class AHAIStatePrepareShot : public AHAIState
 {
 private:
     AHPoint pPuckFuturePosition;
-    CLine* cShotLine;
+    GELine* cShotLine;
 
     float fTimeForThePuckToCome;
     float fDistanceToTarget;
@@ -222,5 +221,3 @@ public:
     void enter();
     void run();
 };
-
-#endif

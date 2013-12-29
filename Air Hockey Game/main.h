@@ -7,8 +7,7 @@
     --- main.h ---
 */
 
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#pragma once
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -59,5 +58,3 @@ struct SGlobal
     bool bPlayer1RightHanded;
     bool bPlayer2RightHanded;
 };
-
-#endif

@@ -1,105 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Kinect Support">
+      <UniqueIdentifier>{870a57f9-507b-4e89-bfe4-571b80ef3772}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Air Hockey Library">
+      <UniqueIdentifier>{43d25ee1-6fef-4b3e-af76-36f2a619bd7f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Game Code">
+      <UniqueIdentifier>{b80f4e6c-6496-40a0-a32d-52fe2a11cbfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AH.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClCompile>
     <ClCompile Include="AHAI.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClCompile>
     <ClCompile Include="AHEntity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Code</Filter>
     </ClCompile>
     <ClCompile Include="sceneMatch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GERendering.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GEAudio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GEScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GETimer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Code</Filter>
     </ClCompile>
     <ClCompile Include="sceneMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GEMultiplayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GERenderingObjects.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Game Code</Filter>
     </ClCompile>
     <ClCompile Include="kinect.ms.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Kinect Support</Filter>
+    </ClCompile>
+    <ClCompile Include="kinect.openni.cpp">
+      <Filter>Kinect Support</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AH.h">
-      <Filter>Header Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClInclude>
     <ClInclude Include="AHAI.h">
-      <Filter>Header Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClInclude>
     <ClInclude Include="AHEntity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Air Hockey Library</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Code</Filter>
     </ClInclude>
     <ClInclude Include="sceneMatch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GERendering.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GEAudio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GEScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GETimer.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Code</Filter>
     </ClInclude>
     <ClInclude Include="sceneMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Game Code</Filter>
     </ClInclude>
-    <ClInclude Include="GEMultiplayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GERenderingObjects.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="kinect.ms.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="kinect.h">
+      <Filter>Kinect Support</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

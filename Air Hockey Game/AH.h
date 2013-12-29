@@ -7,8 +7,7 @@
     --- AH.h ---
 */
 
-#ifndef _AH_H_
-#define _AH_H_
+#pragma once
 
 #include "AHEntity.h"
 
@@ -135,5 +134,3 @@ public:
     void setMousePositionPlayer1(float MouseX, float MouseY);
     void setMousePositionPlayer2(float MouseX, float MouseY);
 };
-
-#endif

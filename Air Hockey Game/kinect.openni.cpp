@@ -7,63 +7,52 @@
     --- kinect.openni.cpp ---
 */
 
-#include "kinect.openni.h"
+#ifdef _KINECT_OPENNI_
 
-KinectHandPosition *pHandTracking;
+#include "kinect.h"
+#include <NiTE.h>
 
-#ifdef _KINECT_
-xn::GestureGenerator kGestureGenerator;
-xn::HandsGenerator kHandsGenerator;
+//  Include directory:  C:\Program Files (x86)\OpenNI2\Include
+//  Include directory:  C:\Program Files (x86)\PrimeSense\NiTE2\Include
 
-//
-//    Callback functions
-//
-void XN_CALLBACK_TYPE Gesture_Recognized(xn::GestureGenerator& generator, const XnChar* strGesture, 
-                                         const XnPoint3D* pIDPosition, const XnPoint3D* pEndPosition, 
-                                         void* pCookie) 
-{ 
-    kHandsGenerator.StartTracking(*pEndPosition); 
-}
+#pragma comment(lib, "C:\\Program Files (x86)\\OpenNI2\\Lib\\OpenNI2.lib")
+#pragma comment(lib, "C:\\Program Files (x86)\\PrimeSense\\NiTE2\\Lib\\NiTE2.lib")
 
-void XN_CALLBACK_TYPE Gesture_Progress(xn::GestureGenerator& generator, const XnChar* strGesture, 
-                                       const XnPoint3D* pPosition, XnFloat fProgress, void* pCookie) 
-{
-}
+KinectHandPosition* pHandTracking;
 
-void XN_CALLBACK_TYPE Hand_Create(xn::HandsGenerator& generator, XnUserID nId, const XnPoint3D* pPosition, 
-                                  XnFloat fTime, void* pCookie)
+void HandCreate(const nite::HandData& hand)
 {
     for(int i = 0; i < KINECT_NUM_PLAYERS; i++)
     {
         if(pHandTracking->PlayerID[i] == 0)
         {
             pHandTracking->PlayerReady[i] = true;
-            pHandTracking->PlayerID[i] = nId;
+			pHandTracking->PlayerID[i] = hand.getId();
             return;
         }
     }
 }
 
-void XN_CALLBACK_TYPE Hand_Update(xn::HandsGenerator& generator, XnUserID nId, const XnPoint3D* pPosition, 
-                                  XnFloat fTime, void* pCookie)
+void HandUpdate(const nite::HandData& hand)
 {
     for(int i = 0; i < KINECT_NUM_PLAYERS; i++)
     {
-        if(pHandTracking->PlayerID[i] == nId)
+		if(pHandTracking->PlayerID[i] == hand.getId())
         {
-            pHandTracking->x[i] = pPosition->X;
-            pHandTracking->y[i] = pPosition->Y;
-            pHandTracking->z[i] = pPosition->Z;
+			const nite::Point3f& pPosition = hand.getPosition();
+            pHandTracking->x[i] = pPosition.x;
+            pHandTracking->y[i] = pPosition.y;
+            pHandTracking->z[i] = pPosition.z;
             return;
         }
     }
 }
 
-void XN_CALLBACK_TYPE Hand_Destroy(xn::HandsGenerator& generator, XnUserID nId, XnFloat fTime, void* pCookie)
+void HandDestroy(const nite::HandData& hand)
 {
     for(int i = 0; i < KINECT_NUM_PLAYERS; i++)
     {
-        if(pHandTracking->PlayerID[i] == nId)
+		if(pHandTracking->PlayerID[i] == hand.getId())
         {
             pHandTracking->PlayerReady[i] = false;
             pHandTracking->PlayerID[i] = 0;
@@ -71,7 +60,7 @@ void XN_CALLBACK_TYPE Hand_Destroy(xn::HandsGenerator& generator, XnUserID nId, 
         }
     }
 }
-#endif
+
 
 
 //
@@ -84,8 +73,6 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
 #ifndef _KINECT_
     pHandTracking->Error = true;
 #else
-    xn::Context kContext;
-
     pHandTracking->Exit = false;
     pHandTracking->Error = false;
     pHandTracking->KinectReady = false;
@@ -100,81 +87,65 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
         pHandTracking->z[i] = 0.0f;
     }
 
-    XnStatus rc = XN_STATUS_OK;
-    XnCallbackHandle chandle1, chandle2;
-    
-    // initialization
-    rc = kContext.Init();
-    kContext.SetGlobalMirror(true);
+	nite::HandTracker handTracker;
+	nite::Status niteRc;
 
-    if(rc != XN_STATUS_OK)
-    {
+	// NiTE initialization
+	niteRc = nite::NiTE::initialize();
+	if(niteRc != nite::STATUS_OK)
+	{
         pHandTracking->Error = true;
         return -1;
-    }
+	}
 
-    // gesture generator
-    rc = kGestureGenerator.Create(kContext);
-
-    if(rc != XN_STATUS_OK)
-    {
+	niteRc = handTracker.create();
+	if(niteRc != nite::STATUS_OK)
+	{
         pHandTracking->Error = true;
         return -1;
-    }
+	}
 
-    // hands generator
-    rc = kHandsGenerator.Create(kContext);
-
-    if(rc != XN_STATUS_OK)
-    {
-        pHandTracking->Error = true;
-        return -1;
-    }
-
-    // callback functions
-    rc = kGestureGenerator.RegisterGestureCallbacks(Gesture_Recognized, Gesture_Progress, NULL, chandle1);
-
-    if(rc != XN_STATUS_OK)
-    {
-        pHandTracking->Error = true;
-        return -1;
-    }
-
-    rc = kHandsGenerator.RegisterHandCallbacks(Hand_Create, Hand_Update, Hand_Destroy, NULL, chandle2);
-
-    if(rc != XN_STATUS_OK)
-    {
-        pHandTracking->Error = true;
-        return -1;
-    }
-
-    // make the context start to generate events
-    rc = kContext.StartGeneratingAll();
-
-    if(rc != XN_STATUS_OK)
-    {
-        pHandTracking->Error = true;
-        return -1;
-    }
-
-    // recognition gesture
-    kGestureGenerator.AddGesture("Wave", NULL);
-    pHandTracking->KinectReady = true;
+	// recognition gesture
+	handTracker.startGestureDetection(nite::GESTURE_WAVE);
 
     // tracking loop
-    while(!pHandTracking->Exit)
-        rc = kContext.WaitAndUpdateAll();
+	nite::HandTrackerFrameRef handTrackerFrame;
+	pHandTracking->KinectReady = true;
+
+	while(!pHandTracking->Exit)
+	{
+		niteRc = handTracker.readFrame(&handTrackerFrame);
+		if (niteRc != nite::STATUS_OK)
+			continue;
+
+		const nite::Array<nite::GestureData>& gestures = handTrackerFrame.getGestures();
+		for(int i = 0; i < gestures.getSize(); i++)
+		{
+			if(gestures[i].isComplete())
+			{
+				nite::HandId newId;
+				handTracker.startHandTracking(gestures[i].getCurrentPosition(), &newId);
+			}
+		}
+
+		const nite::Array<nite::HandData>& hands = handTrackerFrame.getHands();
+		for(int i = 0; i < hands.getSize(); i++)
+		{
+			if(hands[i].isTracking())
+				HandUpdate(hands[i]);
+		}
+	}
 
     // kinect global settings
     pHandTracking->PlayerReady[0] = false;
     pHandTracking->PlayerReady[1] = false;
     pHandTracking->KinectReady = false;
 
-    // release objects
-    kGestureGenerator.Release();
-    kHandsGenerator.Release();
-    kContext.Release();
+    // shutdown NiTE
+	nite::NiTE::shutdown();
 #endif
 
     return 0;
 }
+
+#endif

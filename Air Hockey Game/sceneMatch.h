@@ -7,20 +7,14 @@
     --- sceneMatch.h ---
 */
 
+#pragma once
+
 #include "AH.h"
 #include "AHAI.h"
 #include "main.h"
-#include "GEScene.h"
-#include "GEMultiplayer.h"
-
-#ifdef _KINECT_OPENNI_
-#include "kinect.openni.h"
-#else
-#include "kinect.ms.h"
-#endif
-
-#ifndef _SCENEMATCH_H_
-#define _SCENEMATCH_H_
+#include "Scenes/GEScene.h"
+#include "Multiplayer/GEMultiplayer.h"
+#include "kinect.h"
 
 #define SOUNDS_PUCK     10
 #define SOUNDS_TABLE    10
@@ -199,5 +193,3 @@ public:
     void inputMouseLeftButton();
     void inputMouseRightButton();
 };
-
-#endif

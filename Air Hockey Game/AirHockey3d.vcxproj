@@ -10,6 +10,25 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AH.cpp" />
+    <ClCompile Include="AHAI.cpp" />
+    <ClCompile Include="AHEntity.cpp" />
+    <ClCompile Include="kinect.ms.cpp" />
+    <ClCompile Include="kinect.openni.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="sceneMatch.cpp" />
+    <ClCompile Include="sceneMenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AH.h" />
+    <ClInclude Include="AHAI.h" />
+    <ClInclude Include="AHEntity.h" />
+    <ClInclude Include="kinect.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="sceneMatch.h" />
+    <ClInclude Include="sceneMenu.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A5FF139-EE60-4B3E-A16E-A8DDE8A5760E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -54,13 +73,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>\Code\SDK\FMOD\api\inc;\Code\SDK\DirectX\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_KINECT_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\..\Game Engine;\Code\SDK\DirectX\include;\Code\SDK\FMOD\API\inc;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;C:\Program Files (x86)\OpenNI2\Include;C:\Program Files (x86)\PrimeSense\NiTE2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>\Code\SDK\DirectX\lib\x86\d3d9.lib;\Code\SDK\DirectX\lib\x86\d3dx9.lib;\Code\SDK\FMOD\api\lib\fmodex_vc.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,48 +91,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>\Code\SDK\FMOD\API\inc;\Code\SDK\DirectX\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\..\Game Engine;\Code\SDK\DirectX\include;\Code\SDK\FMOD\API\inc;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;C:\Program Files (x86)\OpenNI2\Include;C:\Program Files (x86)\PrimeSense\NiTE2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>\Code\SDK\DirectX\lib\x86\d3d9.lib;\Code\SDK\DirectX\lib\x86\d3dx9.lib;\Code\SDK\FMOD\api\lib\fmodex_vc.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AH.cpp" />
-    <ClCompile Include="AHAI.cpp" />
-    <ClCompile Include="AHEntity.cpp" />
-    <ClCompile Include="GEAudio.cpp" />
-    <ClCompile Include="GEMultiplayer.cpp" />
-    <ClCompile Include="GERenderingObjects.cpp" />
-    <ClCompile Include="GEScene.cpp" />
-    <ClCompile Include="kinect.ms.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="sceneMatch.cpp" />
-    <ClCompile Include="GERendering.cpp" />
-    <ClCompile Include="GETimer.cpp" />
-    <ClCompile Include="sceneMenu.cpp" />
-    <ClCompile Include="utils.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AH.h" />
-    <ClInclude Include="AHAI.h" />
-    <ClInclude Include="AHEntity.h" />
-    <ClInclude Include="GEAudio.h" />
-    <ClInclude Include="GEMultiplayer.h" />
-    <ClInclude Include="GERenderingObjects.h" />
-    <ClInclude Include="GEScene.h" />
-    <ClInclude Include="kinect.ms.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="sceneMatch.h" />
-    <ClInclude Include="GERendering.h" />
-    <ClInclude Include="GETimer.h" />
-    <ClInclude Include="sceneMenu.h" />
-    <ClInclude Include="utils.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

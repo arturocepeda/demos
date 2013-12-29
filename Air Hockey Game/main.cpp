@@ -13,13 +13,22 @@
 
 #include "main.h"
 
-#include "GERendering.h"
-#include "GEAudio.h"
-#include "GETimer.h"
-#include "GEScene.h"
+#include "Core/GETimer.h"
+#include "Rendering/GERendering.h"
+#include "Audio/GEAudio.h"
+#include "Scenes/GEScene.h"
+
+#include "Core/Win32/GETimerWin32.h"
+#include "Audio/Win32/GEAudioFMOD.h"
 
 #include "sceneMenu.h"
 #include "sceneMatch.h"
+
+#pragma comment(lib, "..\\Game Engine\\GameEngine.D3D9.lib")
+#pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
+#pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3dx9.lib")
+#pragma comment(lib, "..\\..\\SDK\\FMOD\\api\\lib\\fmodex_vc.lib")
+#pragma comment(lib, "ws2_32.lib")
 
 SGlobal sGlobal;                    // global data
 GERendering* cRender;               // rendering system
@@ -83,7 +92,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 #else
     cRender = new GERendering(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #endif
-    cAudio = new GEAudio();
+    cAudio = new GEAudioFMOD();
     cAudio->init();
     cAudio->setListenerPosition(0.0f, 0.0f, 0.0f);
 
@@ -97,7 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     DefaultSettings();
 
     // timer
-    GETimer* cTimer = new GETimer();
+    GETimer* cTimer = new GETimerWin32();
     cTimer->start();
 
     bEnd = false;

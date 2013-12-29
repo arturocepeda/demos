@@ -1,0 +1,24 @@
+
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Game Engine
+//
+//  Core
+//
+//  --- GETimer.cpp ---
+//
+//////////////////////////////////////////////////////////////////
+
+#include "GETimer.h"
+
+GETimer::GETimer()
+	: bRunning(false)
+	, dStartTime(0.0)
+	, dEndTime(0.0)
+{
+}
+
+GETimer::~GETimer()
+{
+}

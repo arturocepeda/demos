@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{a751787e-09b3-44f5-86ff-a3ab2a9e3aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{32c8387e-f47b-4e52-be3c-b1325d86e4cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer">
+      <UniqueIdentifier>{2757644a-3ffb-48a7-bbaf-0103176865b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{be9f9bad-236b-41ff-a4f1-7d26c82504cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{845e5a0a-38a8-49a3-a509-97016b9b07e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio.Win32">
+      <UniqueIdentifier>{aa8b54c0-43e7-4def-9696-2006cf40e48a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core.Win32">
+      <UniqueIdentifier>{7dcff405-6531-4a8d-95bd-806ceab23000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Multiplayer.Win32">
+      <UniqueIdentifier>{977dcc41-8e4d-413e-94c3-88464e2e61e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Audio\GEAudio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GETimer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GEUtils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Multiplayer\GEMultiplayer.cpp">
+      <Filter>Multiplayer</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\GEScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GERendering.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GERenderingObjects.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Win32\GEAudioFMOD.cpp">
+      <Filter>Audio.Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Win32\GETimerWin32.cpp">
+      <Filter>Core.Win32</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio\GEAudio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GETimer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GEUtils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Multiplayer\GEMultiplayer.h">
+      <Filter>Multiplayer</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\GEScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GERendering.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GERenderingObjects.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Win32\GEAudioFMOD.h">
+      <Filter>Audio.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Win32\GETimerWin32.h">
+      <Filter>Core.Win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

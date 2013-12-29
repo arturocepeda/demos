@@ -7,8 +7,7 @@
     --- AHEntity.h ---
 */
 
-#ifndef _AHENTITY_H_
-#define _AHENTITY_H_
+#pragma once
 
 struct AHPoint
 {
@@ -75,5 +74,3 @@ public:
 
     float getRadius();
 };
-
-#endif

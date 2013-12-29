@@ -34,11 +34,12 @@ be installed:
 
  [Air Hockey (Kinect OpenNI).exe]
 
+   - Only for Windows 7/8
    - DirectX: http://www.microsoft.com/en-us/download/details.aspx?id=35
    - Kinect sensor (hardware)
-   - OpenNI (Win32): http://www.openni.org/Downloads/OpenNIModules.aspx
-   - SensorKinect (Win32): https://github.com/avin2/SensorKinect/tree/unstable/Bin
-   - PrimeSense NITE (Win32): http://www.openni.org/Downloads/OpenNIModules.aspx
+   - Kinect SDK: http://www.microsoft.com/en-us/download/details.aspx?id=40278
+   - OpenNI (Win32): http://www.openni.org/openni-sdk
+   - PrimeSense NITE (Win32): http://www.openni.org/files/nite
 
 
  [Air Hockey (Kinect SDK).exe]
@@ -46,8 +47,8 @@ be installed:
    - Only for Windows 7/8
    - DirectX: http://www.microsoft.com/en-us/download/details.aspx?id=35
    - Kinect sensor (hardware)
-   - Kinect SDK: http://www.microsoft.com/en-us/kinectforwindows/develop/overview.aspx
+   - Kinect SDK: http://www.microsoft.com/en-us/download/details.aspx?id=40278
 
 
-Feel free to contact me if you have any problem: acepeda@usal.es
+Feel free to contact me if you have any problem: arturocepedaperez@gmail.com
 

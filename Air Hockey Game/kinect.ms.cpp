@@ -7,13 +7,18 @@
     --- kinect.ms.cpp ---
 */
 
-#include "kinect.ms.h"
+#ifndef _KINECT_OPENNI_
+
+#include "kinect.h"
 #include <stdio.h>
 #include "main.h"
 
+//  Include directory:  C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc
+
 #ifdef _KINECT_
-#include <ole2.h>   // neccesary if WIN32_LEAN_AND_MEAN has been defined!
+#include <ole2.h>   // necessary if WIN32_LEAN_AND_MEAN has been defined!
 #include "NuiApi.h"
+#pragma comment(lib, "C:\\Program Files\\Microsoft SDKs\\Kinect\\v1.8\\lib\\x86\\Kinect10.lib")
 #endif
 
 KinectHandPosition* pHandTracking;
@@ -32,7 +37,7 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
     for(int i = 0; i < KINECT_NUM_PLAYERS; i++)
     {
         pHandTracking->PlayerReady[i] = false;
-        pHandTracking->PlayerSkeleton[i] = -1;
+        pHandTracking->PlayerID[i] = -1;
 
         pHandTracking->x[i] = 0.0f;
         pHandTracking->y[i] = 0.0f;
@@ -91,16 +96,16 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
                     for(j = 0; j < KINECT_NUM_PLAYERS; j++)
                     {
                         // skeleton already assigned
-                        if(pHandTracking->PlayerSkeleton[j] == i)
+                        if(pHandTracking->PlayerID[j] == i)
                         {
                             bPlayerReady[j] = true;
                             break;
                         }
                         
                         // first detection
-                        if(pHandTracking->PlayerSkeleton[j] == -1)
+                        if(pHandTracking->PlayerID[j] == -1)
                         {
-                            pHandTracking->PlayerSkeleton[j] = i;
+                            pHandTracking->PlayerID[j] = i;
                             bPlayerReady[j] = true;
                             break;
                         }
@@ -117,7 +122,7 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
 
             if(pHandTracking->PlayerReady[j])
             {
-                i = pHandTracking->PlayerSkeleton[j];
+                i = pHandTracking->PlayerID[j];
 
                 if(nSkeletonFrame.SkeletonData[i].eTrackingState == NUI_SKELETON_TRACKED &&
                    nSkeletonFrame.SkeletonData[i].eSkeletonPositionTrackingState[iHandID[j]] != NUI_SKELETON_POSITION_NOT_TRACKED)
@@ -127,9 +132,9 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
                     pHandTracking->z[j] = nSkeletonFrame.SkeletonData[i].SkeletonPositions[iHandID[j]].z * 1000;
                 }
             }
-            else if(pHandTracking->PlayerSkeleton[j] > -1)
+            else if(pHandTracking->PlayerID[j] > -1)
             {
-                pHandTracking->PlayerSkeleton[j] = -1;
+                pHandTracking->PlayerID[j] = -1;
             }
         }
     }
@@ -148,3 +153,5 @@ DWORD WINAPI KinectTracking(LPVOID HandTracking)
 #endif
     return 0;
 }
+
+#endif

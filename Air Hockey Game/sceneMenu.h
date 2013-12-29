@@ -7,11 +7,10 @@
     --- sceneMenu.h ---
 */
 
-#include "main.h"
-#include "GEScene.h"
+#pragma once
 
-#ifndef _SCENEMENU_H_
-#define _SCENEMENU_H_
+#include "main.h"
+#include "Scenes/GEScene.h"
 
 #define MAX_OPTIONS     8
 
@@ -121,5 +120,3 @@ public:
     void inputMouseLeftButton();
     void inputMouseRightButton();
 };
-
-#endif
