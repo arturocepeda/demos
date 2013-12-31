@@ -25,6 +25,9 @@
     <Filter Include="Multiplayer.Win32">
       <UniqueIdentifier>{977dcc41-8e4d-413e-94c3-88464e2e61e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Rendering.Win32">
+      <UniqueIdentifier>{eaea046e-76a0-41b4-8698-5929aeb09f45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Audio\GEAudio.cpp">
@@ -54,6 +57,21 @@
     <ClCompile Include="Core\Win32\GETimerWin32.cpp">
       <Filter>Core.Win32</Filter>
     </ClCompile>
+    <ClCompile Include="Rendering\Win32\GERenderingD3D9.cpp">
+      <Filter>Rendering.Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GEGraphicsDevice.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Win32\GEGraphicsDeviceD3D9.cpp">
+      <Filter>Rendering.Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Win32\GERenderingObjectsD3D9.cpp">
+      <Filter>Rendering.Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Multiplayer\Win32\GEMultiplayerWinSock2.cpp">
+      <Filter>Multiplayer.Win32</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Audio\GEAudio.h">
@@ -82,6 +100,24 @@
     </ClInclude>
     <ClInclude Include="Core\Win32\GETimerWin32.h">
       <Filter>Core.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Win32\GERenderingD3D9.h">
+      <Filter>Rendering.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GETypes.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Win32\GERenderingObjectsD3D9.h">
+      <Filter>Rendering.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GEGraphicsDevice.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Win32\GEGraphicsDeviceD3D9.h">
+      <Filter>Rendering.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Multiplayer\Win32\GEMultiplayerWinSock2.h">
+      <Filter>Multiplayer.Win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

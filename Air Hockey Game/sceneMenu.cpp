@@ -8,6 +8,9 @@
 */
 
 #include "sceneMenu.h"
+#include <stdio.h>
+
+#define PI 3.141592f
 
 #ifdef _KINECT_OPENNI_
 char CSceneMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
@@ -128,8 +131,8 @@ void CSceneMenu::render()
     cRender->renderBegin();
 
     // background
-    GEVector vRefPoint(0.0f, -0.5f, 0.0f);
-    cCamera->orbit(vRefPoint, 6.0f, fCameraOrbitTheta, (D3DX_PI * 0.5f) + 0.5f);
+    GEVector3 vRefPoint(0.0f, -0.5f, 0.0f);
+    cCamera->orbit(vRefPoint, 6.0f, fCameraOrbitTheta, (PI * 0.5f) + 0.5f);
     cCamera->use();
 
     mMeshRoom->setPosition(0.0f, -0.015f, 0.0f);
@@ -154,13 +157,13 @@ void CSceneMenu::render()
         cRender->renderText(sOption[i], 
                             (i == iSelectedOption)? iFontSelected: iFontOption,
                             (i == iSelectedOption)? cColorSelected: cColorOption, 
-                            0xFF, iRegionOption[iFirstRegion + i], ALIGN_CENTER_CENTER);
+                            0xFF, iRegionOption[iFirstRegion + i], GEAlignment::CenterCenter);
     }
 
 #ifdef _KINECT_
     // kinect text info
     if(iCurrentMenu == MENU_KINECT_INFO)
-        cRender->renderText(sKinectInfo, iFontText, cColorOption, 0xFF, iRegionFullScreen, ALIGN_CENTER_CENTER);
+        cRender->renderText(sKinectInfo, iFontText, cColorOption, 0xFF, iRegionFullScreen, GEAlignment::CenterCenter);
 #endif
 
     cRender->renderEnd();

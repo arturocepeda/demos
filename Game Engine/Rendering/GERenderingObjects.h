@@ -12,120 +12,16 @@
 
 #pragma once
 
-#include <d3d9.h>
-#include <d3dx9.h>
-
-struct GEColor
-{
-    unsigned char R;
-    unsigned char G;
-    unsigned char B;
-
-    GEColor()
-    {
-        set(0xFF, 0xFF, 0xFF);
-    }
-
-    GEColor(unsigned char cR, unsigned char cG, unsigned char cB)
-    {
-        set(cR, cG, cB);
-    }
-
-    void set(unsigned char cR, unsigned char cG, unsigned char cB)
-    {
-        R = cR;
-        G = cG;
-        B = cB;
-    }
-};
-
-struct GEVector
-{
-    float X;
-    float Y;
-    float Z;
-
-    GEVector()
-    {
-        set(0.0f, 0.0f, 0.0f);
-    }
-
-    GEVector(float vX, float vY, float vZ)
-    {
-        set(vX, vY, vZ);
-    }
-
-    void set(float vX, float vY, float vZ)
-    {
-        X = vX;
-        Y = vY;
-        Z = vZ;
-    }
-
-    float getLength()
-    {
-        return sqrt(X * X + Y * Y + Z * Z);
-    }
-
-    void normalize()
-    {
-        float fLength = sqrt(X * X + Y * Y + Z * Z);
-
-        X /= fLength;
-        Y /= fLength;
-        Z /= fLength;
-    }
-
-    GEVector operator+(const GEVector& v)
-    {
-        return GEVector(X + v.X, Y + v.Y, Z + v.Z);
-    }
-
-    GEVector& operator+=(const GEVector& v)
-    {
-        X += v.X; Y += v.Y; Z += v.Z;
-        return *this;
-    }
-
-    GEVector operator-(const GEVector& v)
-    {
-        return GEVector(X - v.X, Y - v.Y, Z - v.Z);
-    }
-
-    GEVector& operator-=(const GEVector& v)
-    {
-        X -= v.X; Y -= v.Y; Z -= v.Z;
-        return *this;
-    }
-
-    GEVector operator*(const float fValue)
-    {
-        return GEVector(X * fValue, Y * fValue, Z * fValue);
-    }
-
-    GEVector& operator*=(const float fValue)
-    {
-        X *= fValue; Y *= fValue; Z *= fValue;
-        return *this;
-    }
-
-    float operator*(const GEVector& v)
-    {
-        return (X * v.X + Y * v.Y + Z * v.Z);
-    }
-};
+#include "Core/GETypes.h"
+#include "GEGraphicsDevice.h"
 
 class GERenderingObject
 {
 protected:
-    LPDIRECT3DDEVICE9 d3ddev;
-
-    D3DXVECTOR3 vPosition;
-    D3DXVECTOR3 vScale;    
-    D3DXVECTOR3 vCenter;
-    D3DXQUATERNION qRotation;
-
-    D3DXMATRIX mTransform;
+    GEVector3 vPosition;
+    GEVector3 vScale;    
+    GEVector3 vCenter;
+    GEQuaternion qRotation;
 
     unsigned char iOpacity;
     GEColor cColor;
@@ -133,30 +29,31 @@ protected:
     bool bVisible;
 
 public:
+    virtual ~GERenderingObject();
+
     void move(float DX, float DY, float DZ);
-    void move(const GEVector& Move);
+    void move(const GEVector3& Move);
     void scale(float SX, float SY, float SZ);
-    void scale(const GEVector& Scale);
+    void scale(const GEVector3& Scale);
     void rotate(float RX, float RY, float RZ);
-    void rotate(const GEVector& Rotate);
+    void rotate(const GEVector3& Rotate);
     void show();
     void hide();
 
     virtual void render() = 0;
 
-    void getPosition(GEVector* Position);
-    void getRotation(GEVector* Rotation);
-    void getScale(GEVector* Scale);
+    void getPosition(GEVector3* Position);
+    void getScale(GEVector3* Scale);
     void getColor(GEColor* Color);
     unsigned char getOpacity();
     bool getVisible();
 
     void setPosition(float X, float Y, float Z);
-    void setPosition(const GEVector& Position);
+    void setPosition(const GEVector3& Position);
     void setScale(float X, float Y, float Z);
-    void setScale(const GEVector& Scale);
+    void setScale(const GEVector3& Scale);
     void setRotation(float X, float Y, float Z);
-    void setRotation(const GEVector& Rotation);
+    void setRotation(const GEVector3& Rotation);
     void setColor(const GEColor& Color);
     void setOpacity(unsigned char Opacity);
     void setVisible(bool Visible);
@@ -164,80 +61,48 @@ public:
 
 class GEMesh : public GERenderingObject
 {
-private:
-    // mesh data
-    LPD3DXMESH mMesh;
-    D3DMATERIAL9* mMaterials;
-    LPDIRECT3DTEXTURE9* mTextures;
-    DWORD iNumMaterials;
-
-    // matrices
-    D3DXMATRIX mScale;
-    D3DXMATRIX mRotation;
-    D3DXMATRIX mTranslation;
-
 public:
-    GEMesh(LPDIRECT3DDEVICE9 D3DDevice);
-    ~GEMesh();
-
-    void loadFromFile(const char* Filename);
-    void loadFromFile(const char* Filename, const char* TexturesPath);
-    void loadFromMemory(void* Data, unsigned int SizeOfData);
-    void unload();
-
-    void render();
+    virtual void loadFromFile(const char* Filename) = 0;
+    virtual void loadFromFile(const char* Filename, const char* TexturesPath) = 0;
+    virtual void loadFromMemory(void* Data, unsigned int SizeOfData) = 0;
+    virtual void unload() = 0;
 };
 
 
 class GESprite : public GERenderingObject
 {
-private:
-    // sprite data
-    LPD3DXSPRITE sSprite;
-    LPDIRECT3DTEXTURE9 sTexture;
-
 public:
-    GESprite(LPDIRECT3DDEVICE9 D3DDevice);
-    ~GESprite();
+    virtual void setCenter(float X, float Y, float Z) = 0;
 
-    void loadFromFile(const char* Filename);
-    void unload();
-
-    void render();
-
-    void setCenter(float X, float Y, float Z);
+    virtual void loadFromFile(const char* Filename) = 0;
+    virtual void unload() = 0;
 };
 
 
 class GECamera
 {
-private:
-    LPDIRECT3DDEVICE9 d3ddev;
-
+protected:
     // camera vectors
-    D3DXVECTOR3 vEye;
-    D3DXVECTOR3 vLookAt;
-    D3DXVECTOR3 vUp;
-    D3DXVECTOR3 vRight;
-
-    // view matrix
-    D3DXMATRIX mView;
+    GEVector3 vEye;
+    GEVector3 vLookAt;
+    GEVector3 vUp;
+    GEVector3 vRight;
 
 public:
-    GECamera(LPDIRECT3DDEVICE9 D3DDevice);
-    ~GECamera();
+    GECamera();
+    virtual ~GECamera();
 
-    void getPosition(GEVector* Position);
-    void getLookAt(GEVector* LookAt);
+    void getPosition(GEVector3* Position);
+    void getLookAt(GEVector3* LookAt);
 
     void setPosition(float X, float Y, float Z);
-    void setPosition(const GEVector& Position);
+    void setPosition(const GEVector3& Position);
 
     void move(float X, float Y, float Z);
-    void move(const GEVector& Move);
+    void move(const GEVector3& Move);
     void lookAt(float X, float Y, float Z);
-    void lookAt(const GEVector& LookAt);
-    void orbit(const GEVector& ReferencePoint, float Distance, float Theta, float Phi);
+    void lookAt(const GEVector3& LookAt);
+    void orbit(const GEVector3& ReferencePoint, float Distance, float Theta, float Phi);
 
-    void use();
+    virtual void use() = 0;
 };

@@ -19,6 +19,7 @@
 #include "Scenes/GEScene.h"
 
 #include "Core/Win32/GETimerWin32.h"
+#include "Rendering/Win32/GERenderingD3D9.h"
 #include "Audio/Win32/GEAudioFMOD.h"
 
 #include "sceneMenu.h"
@@ -88,9 +89,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
     // initialize rendering and sound systems
 #ifndef _DEBUG
-    cRender = new GERendering(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new GERenderingD3D9(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #else
-    cRender = new GERendering(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new GERenderingD3D9(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #endif
     cAudio = new GEAudioFMOD();
     cAudio->init();

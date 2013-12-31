@@ -12,54 +12,32 @@
 
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <winsock2.h>
-
 struct SRemoteAddress
 {
     unsigned int IP;
     unsigned int Port;
 };
 
-class GEMultiplayer
+class GEClient
 {
-protected:
-    SOCKET hSocket;
-    int iStatus;
-
 public:
-    void init();
-    void release();
+    virtual ~GEClient();
 
-    int getStatus();
+    virtual void connectToServer(const char* IP, unsigned int Port) = 0;
+
+    virtual void sendMessage(const char* Message, unsigned int Size) = 0;
+    virtual int receiveMessage(char* Buffer, unsigned int MaxSize) = 0;
 };
 
-class GEClient : public GEMultiplayer
-{
-private:
-    sockaddr_in sServerAddress;
-
-public:
-    GEClient();
-    ~GEClient();
-
-    void connectToServer(const char* IP, unsigned int Port);
-
-    void sendMessage(const char* Message, unsigned int Size);
-    int receiveMessage(char* Buffer, unsigned int MaxSize);
-};
-
-class GEServer : public GEMultiplayer
+class GEServer
 {
 public:
-    GEServer();
-    ~GEServer();
+    virtual ~GEServer();
 
-    void activeServer(unsigned int Port);
+    virtual void activeServer(unsigned int Port) = 0;
 
-    void sendMessage(const SRemoteAddress& ClientAddress, const char* Message, unsigned int Size);
-    int receiveMessage(SRemoteAddress* ClientAddress, char* Buffer, unsigned int MaxSize);
+    virtual void sendMessage(const SRemoteAddress& ClientAddress, const char* Message, unsigned int Size) = 0;
+    virtual int receiveMessage(SRemoteAddress* ClientAddress, char* Buffer, unsigned int MaxSize) = 0;
 
-    char* getClientIP(unsigned int Client);
+    virtual char* getClientIP(unsigned int Client) = 0;
 };

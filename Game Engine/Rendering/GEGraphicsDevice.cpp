@@ -4,26 +4,18 @@
 //  Arturo Cepeda Pérez
 //  Game Engine
 //
-//  Multiplayer
+//  Rendering
 //
-//  --- GEMultiplayer.cpp ---
+//  --- GEGraphicsDevice.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
-#include "GEMultiplayer.h"
+#include "GEGraphicsDevice.h"
 
-
-//
-//  GEClient
-//
-GEClient::~GEClient()
+GEGraphicsDevice::GEGraphicsDevice()
 {
 }
 
-
-//
-//  GEServer
-//
-GEServer::~GEServer()
+GEGraphicsDevice::~GEGraphicsDevice()
 {
 }

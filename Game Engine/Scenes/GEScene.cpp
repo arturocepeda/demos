@@ -11,6 +11,7 @@
 //////////////////////////////////////////////////////////////////
 
 #include "GEScene.h"
+#include <stdio.h>
 
 GEScene::GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
 {

@@ -9,9 +9,11 @@
 
 #include "sceneMatch.h"
 #include "AHAI.h"
+#include "Multiplayer/Win32/GEMultiplayerWinSock2.h"
+#include <stdio.h>
 
-CSceneMatch::CSceneMatch(GERendering* Render, GEAudio* Audio, void* GlobalData) :
-             GEScene(Render, Audio, GlobalData)
+CSceneMatch::CSceneMatch(GERendering* Render, GEAudio* Audio, void* GlobalData)
+    : GEScene(Render, Audio, GlobalData)
 {
     cRender = Render;
     cAudio = Audio;
@@ -70,8 +72,7 @@ void CSceneMatch::init()
             // I am the server
             if(sGlobal->bServer)
             {
-                cServer = new GEServer();
-                cServer->init();
+                cServer = new GEServerWinSock2();
                 cServer->activeServer(sGlobal->iPort);
                 bClientReady = false;
             }
@@ -79,8 +80,7 @@ void CSceneMatch::init()
             // I am the client
             else
             {
-                cClient = new GEClient();
-                cClient->init();
+                cClient = new GEClientWinSock2();
                 cClient->connectToServer(sGlobal->sIPServer, sGlobal->iPort);
                 bServerReady = false;
 
@@ -695,18 +695,12 @@ void CSceneMatch::release()
         if(sGlobal->bServer)
         {
             if(cServer)
-            {
-                cServer->release();
                 delete cServer;
-            }
         }
         else
         {
             if(cClient)
-            {
-                cClient->release();
                 delete cClient;
-            }
         }
     }
 
@@ -771,14 +765,14 @@ void CSceneMatch::render()
     cRender->renderMesh(mMeshMallet1);
 
 #ifdef _DEBUG
-    GEVector vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
-    GEVector vDebug;
+    GEVector3 vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
+    GEVector3 vDebug;
 
     cRender->worldToScreen(&vPlayer1, &vDebug);
     cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer1.X, vPlayer1.Y, vPlayer1.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
 #endif
 
     // player 2
@@ -787,13 +781,13 @@ void CSceneMatch::render()
     cRender->renderMesh(mMeshMallet2);
 
 #ifdef _DEBUG
-    GEVector vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
+    GEVector3 vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
 
     cRender->worldToScreen(&vPlayer2, &vDebug);
     cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer2.X, vPlayer2.Y, vPlayer2.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
 #endif
 
     // puck
@@ -804,13 +798,13 @@ void CSceneMatch::render()
         cRender->renderMesh(mMeshPuck);
 
 #ifdef _DEBUG
-        GEVector vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
+        GEVector3 vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
 
         cRender->worldToScreen(&vPuck, &vDebug);
         cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
         sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPuck.X, vPuck.Y, vPuck.Z);
-        cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, ALIGN_TOP_LEFT);
+        cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
 #endif
     }
 
@@ -938,7 +932,7 @@ void CSceneMatch::render()
     else
         cRender->useViewPort(iPortFullScreen);
 
-    cRender->renderText(sMessage, iFontText, cColorMessage, 0xFF, iRectText, ALIGN_TOP_CENTER);
+    cRender->renderText(sMessage, iFontText, cColorMessage, 0xFF, iRectText, GEAlignment::TopCenter);
 
     cRender->renderEnd();
 }
@@ -1012,7 +1006,7 @@ void CSceneMatch::renderReplay()
     }
 
     // "Replay" text
-    cRender->renderText("REPLAY", iFontText, cColorMessage, 0xFF, iRectText, ALIGN_TOP_CENTER);
+    cRender->renderText("REPLAY", iFontText, cColorMessage, 0xFF, iRectText, GEAlignment::TopCenter);
 
     cRender->renderEnd();
 
