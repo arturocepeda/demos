@@ -162,7 +162,6 @@ private:
     // rendering
     void initRenderObjects();
     void releaseRenderObjects();
-    void render();
 
     // sound
     void initSoundObjects();
@@ -187,6 +186,7 @@ public:
 
     void init();
     void update();
+    void render();
     void release();
 
     void inputKey(char Key);

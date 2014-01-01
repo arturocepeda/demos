@@ -339,10 +339,7 @@ void CSceneMatch::update()
 {
     // replay mode
     if(bReplayMode)
-    {
-        renderReplay();
         return;
-    }
 
     // multiplayer: wait for connection
     if(sGlobal->bMultiplayer)
@@ -360,7 +357,6 @@ void CSceneMatch::update()
             }
 
             sprintf(sMessage, "Waiting for client...");
-            render();
             return;
         }
 
@@ -381,7 +377,6 @@ void CSceneMatch::update()
             }
 
             sprintf(sMessage, "Waiting for server...");
-            render();
             return;
         }
     }
@@ -405,7 +400,6 @@ void CSceneMatch::update()
                 else
                     sprintf(sMessage, "Kinect: waiting for player 2...");
 
-                render();
                 return;
             }
         }
@@ -416,10 +410,7 @@ void CSceneMatch::update()
             sprintf(sMessage, "Kinect: waiting for player...");
 
             if(!kHandPosition.PlayerReady[0])
-            {
-                render();
                 return;
-            }
         }
 
         // Kinect (two players)
@@ -545,7 +536,6 @@ void CSceneMatch::update()
         sendDataToClient();
 
     // video and audio
-    render();
     playSounds(cGame->checkEvent());
 }
 
@@ -676,8 +666,7 @@ void CSceneMatch::updateClient()
         }
     }
 
-    // video and audio
-    render();
+    // audio
     playSounds(iEvent);
 }
 
@@ -743,6 +732,13 @@ void CSceneMatch::inputMouseRightButton()
 
 void CSceneMatch::render()
 {
+    // replay mode
+    if(bReplayMode)
+    {
+        renderReplay();
+        return;
+    }
+
     cRender->renderBegin();
     mCameraPlayer1->use();
 

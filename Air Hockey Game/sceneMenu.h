@@ -92,7 +92,6 @@ private:
     unsigned int* iRegionOption;
     unsigned int iRegionFullScreen;
 
-    void render();
     void playSounds();
 
     void initRenderObjects();
@@ -114,6 +113,7 @@ public:
 
     void init();
     void update();
+    void render();
     void release();
 
     void inputKey(char Key);

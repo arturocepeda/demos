@@ -153,7 +153,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
             dTimeBefore = dTimeNow;
 
             if(cCurrentScene)
+            {
+                cCurrentScene->setDeltaTime(dTimeDelta * 0.001);
                 cCurrentScene->update();
+                cCurrentScene->render();
+            }
         }
     }
 

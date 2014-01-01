@@ -41,6 +41,9 @@ protected:
     GERendering* cRender;
     GEAudio* cAudio;
 
+    // delta time
+    double dDeltaTime;
+
     // frame counter
     unsigned int iCurrentFrame;
 
@@ -58,6 +61,7 @@ public:
 
     virtual void init() = 0;
     virtual void update() = 0;
+    virtual void render() = 0;
     virtual void release() = 0;
 
     virtual void inputKey(char Key);
@@ -66,5 +70,6 @@ public:
     virtual void inputMouseLeftButton();
     virtual void inputMouseRightButton();
 
+    void setDeltaTime(double DeltaTime);
     void setCallback(void (*function)(unsigned int NewScene));
 };

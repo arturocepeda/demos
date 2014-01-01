@@ -122,8 +122,16 @@ void CSceneMenu::initSoundObjects()
 
 void CSceneMenu::update()
 {
-    fCameraOrbitTheta += 0.002f;
-    render();
+    // camera orbit
+    fCameraOrbitTheta += (float)dDeltaTime * 0.0002f;
+
+    // selected color animation
+    cColorSelected.R += (float)(bColorSelectedInc ? dDeltaTime : -dDeltaTime) * 0.001f;
+
+    if(cColorSelected.R > 0.95f)
+        bColorSelectedInc = false;
+    else if(cColorSelected.R < 0.6f)
+        bColorSelectedInc = true;
 }
 
 void CSceneMenu::render()
@@ -140,14 +148,6 @@ void CSceneMenu::render()
 
     mMeshTable->setPosition(0.0f, -0.015f, 0.0f);
     cRender->renderMesh(mMeshTable);
-
-    // selected color animation
-    cColorSelected.R += (bColorSelectedInc)? 5: -5;
-
-    if(cColorSelected.R > 250)
-        bColorSelectedInc = false;
-    else if(cColorSelected.R < 150)
-        bColorSelectedInc = true;
 
     // menu options
     int iFirstRegion = (MAX_OPTIONS - iNumOptions) / 2;
