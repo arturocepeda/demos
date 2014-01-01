@@ -14,10 +14,10 @@
 #include <stdio.h>
 
 GEScene::GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
+    : cRender(Render)
+    , cAudio(Audio)
+    , callbackScene(NULL)
 {
-    cRender = Render;
-    cAudio = Audio;
-    callbackScene = NULL;
 }
 
 void GEScene::sceneChange(unsigned int iNewScene)
@@ -26,10 +26,22 @@ void GEScene::sceneChange(unsigned int iNewScene)
         callbackScene(iNewScene);
 }
 
+void GEScene::inputKey(char Key)
+{
+}
+
 void GEScene::inputMouse(int X, int Y)
 {
     iMouseX = X;
     iMouseY = Y;
+}
+
+void GEScene::inputMouseLeftButton()
+{
+}
+
+void GEScene::inputMouseRightButton()
+{
 }
 
 void GEScene::setCallback(void (*function)(unsigned int NewScene))

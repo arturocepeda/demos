@@ -70,7 +70,7 @@ void CSceneMenu::init()
 void CSceneMenu::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLight(100, 100, 100);
+    cRender->setAmbientLight(GEColor((byte)100, 100, 100));
 
     // camera
     cRender->createCamera(&cCamera);
@@ -97,8 +97,8 @@ void CSceneMenu::initRenderObjects()
     cRender->defineFont(iFontSelected, 65, 0, true, false, "Courier New");
 
     // colors
-    cColorOption.set(140, 33, 27);
-    cColorSelected.set(252, 200, 200);
+    cColorOption.set((byte)140, 33, 27);
+    cColorSelected.set((byte)252, 200, 200);
     bColorSelectedInc = false;
 
     // regions
@@ -157,13 +157,13 @@ void CSceneMenu::render()
         cRender->renderText(sOption[i], 
                             (i == iSelectedOption)? iFontSelected: iFontOption,
                             (i == iSelectedOption)? cColorSelected: cColorOption, 
-                            0xFF, iRegionOption[iFirstRegion + i], GEAlignment::CenterCenter);
+                            iRegionOption[iFirstRegion + i], GEAlignment::CenterCenter);
     }
 
 #ifdef _KINECT_
     // kinect text info
     if(iCurrentMenu == MENU_KINECT_INFO)
-        cRender->renderText(sKinectInfo, iFontText, cColorOption, 0xFF, iRegionFullScreen, GEAlignment::CenterCenter);
+        cRender->renderText(sKinectInfo, iFontText, cColorOption, iRegionFullScreen, GEAlignment::CenterCenter);
 #endif
 
     cRender->renderEnd();

@@ -135,8 +135,8 @@ void CSceneMatch::init()
 void CSceneMatch::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLight(100, 100, 100);
-    iLightRoom = cRender->createDirectionalLight(0.3f, 0.3f, 0.3f, 1.0f, 1.0f, 0.3f, -1.0f, 0.4f);
+    cRender->setAmbientLight(GEColor((byte)100, 100, 100));
+    iLightRoom = cRender->createDirectionalLight(GEColor(0.3f, 0.3f, 0.3f), 1.0f, GEVector3(0.3f, -1.0f, 0.4f));
     cRender->switchLight(iLightRoom, true);
 
     // cameras
@@ -214,8 +214,8 @@ void CSceneMatch::initRenderObjects()
     cRender->defineFont(iFontDebug, 20, 0, false, false, "Courier New");
 
     // colors
-    cColorMessage.set(140, 33, 27);
-    cColorDebug.set(255, 255, 255);
+    cColorMessage.set((byte)140, 33, 27);
+    cColorDebug.set((byte)255, 255, 255);
 
     // regions
     iRectText = 0;
@@ -772,7 +772,7 @@ void CSceneMatch::render()
     cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer1.X, vPlayer1.Y, vPlayer1.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
 #endif
 
     // player 2
@@ -787,7 +787,7 @@ void CSceneMatch::render()
     cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer2.X, vPlayer2.Y, vPlayer2.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
+    cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
 #endif
 
     // puck
@@ -804,7 +804,7 @@ void CSceneMatch::render()
         cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
 
         sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPuck.X, vPuck.Y, vPuck.Z);
-        cRender->renderText(sBuffer, iFontDebug, cColorDebug, 255, iRectDebug, GEAlignment::TopLeft);
+        cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
 #endif
     }
 
@@ -932,7 +932,7 @@ void CSceneMatch::render()
     else
         cRender->useViewPort(iPortFullScreen);
 
-    cRender->renderText(sMessage, iFontText, cColorMessage, 0xFF, iRectText, GEAlignment::TopCenter);
+    cRender->renderText(sMessage, iFontText, cColorMessage, iRectText, GEAlignment::TopCenter);
 
     cRender->renderEnd();
 }
@@ -1006,7 +1006,7 @@ void CSceneMatch::renderReplay()
     }
 
     // "Replay" text
-    cRender->renderText("REPLAY", iFontText, cColorMessage, 0xFF, iRectText, GEAlignment::TopCenter);
+    cRender->renderText("REPLAY", iFontText, cColorMessage, iRectText, GEAlignment::TopCenter);
 
     cRender->renderEnd();
 

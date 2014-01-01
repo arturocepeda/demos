@@ -60,10 +60,11 @@ public:
     virtual void update() = 0;
     virtual void release() = 0;
 
-    virtual void inputKey(char Key) = 0;
+    virtual void inputKey(char Key);
+
     virtual void inputMouse(int X, int Y);
-    virtual void inputMouseLeftButton() = 0;
-    virtual void inputMouseRightButton() = 0;
+    virtual void inputMouseLeftButton();
+    virtual void inputMouseRightButton();
 
     void setCallback(void (*function)(unsigned int NewScene));
 };

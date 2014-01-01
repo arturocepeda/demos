@@ -12,29 +12,47 @@
 
 #include <cmath>
 
+typedef unsigned char byte;
+
 struct GEColor
 {
-    unsigned char R;
-    unsigned char G;
-    unsigned char B;
-    unsigned char A;
+    float R;
+    float G;
+    float B;
+    float A;
 
     GEColor()
+        : R(1.0f)
+        , G(1.0f)
+        , B(1.0f)
+        , A(1.0f)
     {
-        set(0xFF, 0xFF, 0xFF);
     }
 
-    GEColor(unsigned char cR, unsigned char cG, unsigned char cB, unsigned char cA = 0xFF)
+    GEColor(byte cR, byte cG, byte cB, byte cA = 0xFF)
     {
         set(cR, cG, cB, cA);
     }
 
-    void set(unsigned char cR, unsigned char cG, unsigned char cB, unsigned char cA = 0xFF)
+    GEColor(float fR, float fG, float fB, float fA = 1.0f)
     {
-        R = cR;
-        G = cG;
-        B = cB;
-        A = cA;
+        set(fR, fG, fB, fA);
+    }
+
+    void set(byte cR, byte cG, byte cB, byte cA = 0xFF)
+    {
+        R = cR / 255.0f;
+        G = cG / 255.0f;
+        B = cB / 255.0f;
+        A = cA / 255.0f;
+    }
+
+    void set(float fR, float fG, float fB, float fA = 1.0f)
+    {
+        R = fR;
+        G = fG;
+        B = fB;
+        A = fA;
     }
 };
 
@@ -45,8 +63,10 @@ struct GEVector3
     float Z;
 
     GEVector3()
+        : X(0.0f)
+        , Y(0.0f)
+        , Z(0.0f)
     {
-        set(0.0f, 0.0f, 0.0f);
     }
 
     GEVector3(float vX, float vY, float vZ)

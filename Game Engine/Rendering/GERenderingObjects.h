@@ -23,7 +23,7 @@ protected:
     GEVector3 vCenter;
     GEQuaternion qRotation;
 
-    unsigned char iOpacity;
+    byte iOpacity;
     GEColor cColor;
 
     bool bVisible;
@@ -45,7 +45,7 @@ public:
     void getPosition(GEVector3* Position);
     void getScale(GEVector3* Scale);
     void getColor(GEColor* Color);
-    unsigned char getOpacity();
+    byte getOpacity();
     bool getVisible();
 
     void setPosition(float X, float Y, float Z);
@@ -55,7 +55,7 @@ public:
     void setRotation(float X, float Y, float Z);
     void setRotation(const GEVector3& Rotation);
     void setColor(const GEColor& Color);
-    void setOpacity(unsigned char Opacity);
+    void setOpacity(byte Opacity);
     void setVisible(bool Visible);
 };
 

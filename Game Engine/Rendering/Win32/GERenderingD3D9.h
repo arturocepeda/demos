@@ -50,45 +50,46 @@ public:
     void createCamera(GECamera** Camera) override;
 
     // lighting
-    void setAmbientLight(unsigned char R, unsigned char G, unsigned char B);
+    void setAmbientLight(const GEColor& Color) override;
 
-    unsigned int createDirectionalLight(float R, float G, float B, float A, float Range,
-                                        float DirX, float DirY, float DirZ);
-    unsigned int createPointLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                  float PosX, float PosY, float PosZ);
-    unsigned int createSpotLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                 float PosX, float PosY, float PosZ, float DirX, float DirY, float DirZ,
-                                 float Theta, float Phi, float Falloff);
+    unsigned int createDirectionalLight(const GEColor& Color, float Range,
+                                        const GEVector3& Direction) override;
+    unsigned int createPointLight(const GEColor& Color, float Range, float Attenuation,
+                                  const GEVector3& Position) override;
+    unsigned int createSpotLight(const GEColor& Color, float Range, float Attenuation,
+                                 const GEVector3& Position, const GEVector3& Direction,
+                                 float Theta, float Phi, float Falloff) override;
 
-    void switchLight(unsigned int Light, bool On);
-    void moveLight(unsigned int Light, float DX, float DY, float DZ);
-    void releaseLight(unsigned int Light);
-    void setLightColor(unsigned int Light, float R, float G, float B, float A);
-    void setLightRange(unsigned int Light, float Range);
-    void setLightPosition(unsigned int Light, float PosX, float PosY, float PosZ);
-    void setLightDirection(unsigned int Light, float DirX, float DirY, float DirZ);
+    void switchLight(unsigned int Light, bool On) override;
+    void moveLight(unsigned int Light, const GEVector3& Delta) override;
+    void releaseLight(unsigned int Light) override;
+    void setLightColor(unsigned int Light, const GEColor& Color) override;
+    void setLightRange(unsigned int Light, float Range) override;
+    void setLightPosition(unsigned int Light, const GEVector3& Position) override;
+    void setLightDirection(unsigned int Light, const GEVector3& Direction) override;
 
     // view ports
-    void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height);
-    void useViewPort(unsigned int ViewPort);
-    void releaseViewPort(unsigned int ViewPort);
+    void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) override;
+    void useViewPort(unsigned int ViewPort) override;
+    void releaseViewPort(unsigned int ViewPort) override;
 
     // regions
-    void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right);
-    void releaseRegion(unsigned int Region);
+    void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right) override;
+    void releaseRegion(unsigned int Region) override;
 
     // fonts
     void defineFont(unsigned int Font, unsigned int Height, unsigned int Width, bool Bold, bool Italic,
-                    const char* FontName);
-    void releaseFont(unsigned int Font);
+                    const char* FontName) override;
+    void releaseFont(unsigned int Font) override;
 
     // transformations
-    void worldToScreen(const GEVector3* PositionWorld, GEVector3* PositionScreen);
-    void screenToWorld(const GEVector3* PositionScreen, GEVector3* WorldPointNear, GEVector3* WorldPointFar);
+    void worldToScreen(const GEVector3* PositionWorld, GEVector3* PositionScreen) override;
+    void screenToWorld(const GEVector3* PositionScreen, GEVector3* WorldPointNear,
+                       GEVector3* WorldPointFar) override;
 
     // rendering
-    void renderBegin();
-    void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned char Opacity,
-                    unsigned int Region, GEAlignment Alignment);
-    void renderEnd();
+    void renderBegin() override;
+    void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
+                    GEAlignment Alignment, float Opacity = 1.0f) override;
+    void renderEnd() override;
 };

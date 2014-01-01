@@ -58,23 +58,23 @@ public:
     void releaseCamera(GECamera** Camera);
 
     // lighting
-    virtual void setAmbientLight(unsigned char R, unsigned char G, unsigned char B) = 0;
+    virtual void setAmbientLight(const GEColor& Color) = 0;
 
-    virtual unsigned int createDirectionalLight(float R, float G, float B, float A, float Range,
-                                                float DirX, float DirY, float DirZ) = 0;
-    virtual unsigned int createPointLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                          float PosX, float PosY, float PosZ) = 0;
-    virtual unsigned int createSpotLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                         float PosX, float PosY, float PosZ, float DirX, float DirY, float DirZ,
+    virtual unsigned int createDirectionalLight(const GEColor& Color, float Range,
+                                                const GEVector3& Direction) = 0;
+    virtual unsigned int createPointLight(const GEColor& Color, float Range, float Attenuation,
+                                          const GEVector3& Position) = 0;
+    virtual unsigned int createSpotLight(const GEColor& Color, float Range, float Attenuation,
+                                         const GEVector3& Position, const GEVector3& Direction,
                                          float Theta, float Phi, float Falloff) = 0;
 
     virtual void switchLight(unsigned int Light, bool On) = 0;
-    virtual void moveLight(unsigned int Light, float DX, float DY, float DZ) = 0;
+    virtual void moveLight(unsigned int Light, const GEVector3& Delta) = 0;
     virtual void releaseLight(unsigned int Light) = 0;
-    virtual void setLightColor(unsigned int Light, float R, float G, float B, float A) = 0;
+    virtual void setLightColor(unsigned int Light, const GEColor& Color) = 0;
     virtual void setLightRange(unsigned int Light, float Range) = 0;
-    virtual void setLightPosition(unsigned int Light, float PosX, float PosY, float PosZ) = 0;
-    virtual void setLightDirection(unsigned int Light, float DirX, float DirY, float DirZ) = 0;
+    virtual void setLightPosition(unsigned int Light, const GEVector3& Position) = 0;
+    virtual void setLightDirection(unsigned int Light, const GEVector3& Direction) = 0;
 
     // view ports
     virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) = 0;
@@ -96,9 +96,9 @@ public:
 
     // rendering
     virtual void renderBegin() = 0;
-    void renderMesh(GEMesh* Mesh);
-    void renderSprite(GESprite* Sprite);
-    virtual void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned char Opacity,
-                            unsigned int Region, GEAlignment Alignment) = 0;
+    virtual void renderMesh(GEMesh* Mesh);
+    virtual void renderSprite(GESprite* Sprite);
+    virtual void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
+                            GEAlignment Alignment, float Opacity = 1.0f) = 0;
     virtual void renderEnd() = 0;
 };

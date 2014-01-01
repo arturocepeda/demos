@@ -122,13 +122,15 @@ void GERenderingD3D9::createCamera(GECamera** Camera)
     *Camera = new GECameraD3D9(d3ddev);
 }
 
-void GERenderingD3D9::setAmbientLight(unsigned char R, unsigned char G, unsigned char B)
+void GERenderingD3D9::setAmbientLight(const GEColor& Color)
 {
-    d3ddev->SetRenderState(D3DRS_AMBIENT, D3DCOLOR_XRGB(R, G, B));
+    DWORD dwColor = D3DCOLOR_XRGB((byte)(Color.R * 255.0f), (byte)(Color.G * 255.0f),
+                                  (byte)(Color.B * 255.0f));
+    d3ddev->SetRenderState(D3DRS_AMBIENT, dwColor);
 }
 
-unsigned int GERenderingD3D9::createDirectionalLight(float R, float G, float B, float A, float Range,
-                                                     float DirX, float DirY, float DirZ)
+unsigned int GERenderingD3D9::createDirectionalLight(const GEColor& Color, float Range,
+                                                     const GEVector3& Direction)
 {
     D3DLIGHT9 dLight;
     D3DXVECTOR3 vDir;
@@ -136,14 +138,14 @@ unsigned int GERenderingD3D9::createDirectionalLight(float R, float G, float B, 
     ZeroMemory(&dLight, sizeof(D3DLIGHT9));
 
     dLight.Type = D3DLIGHT_DIRECTIONAL;
-    dLight.Diffuse.r = R;
-    dLight.Diffuse.g = G;
-    dLight.Diffuse.b = B;
-    dLight.Diffuse.a = A;
+    dLight.Diffuse.r = Color.R;
+    dLight.Diffuse.g = Color.G;
+    dLight.Diffuse.b = Color.B;
+    dLight.Diffuse.a = Color.A;
     dLight.Specular = dLight.Diffuse;
     dLight.Range = Range;
 
-    vDir = D3DXVECTOR3(DirX, DirY, DirZ);
+    vDir = D3DXVECTOR3(Direction.X, Direction.Y, Direction.Z);
     D3DXVec3Normalize((D3DXVECTOR3*)&dLight.Direction, &vDir);
 
     d3ddev->SetLight(iNumLights, &dLight);
@@ -151,30 +153,30 @@ unsigned int GERenderingD3D9::createDirectionalLight(float R, float G, float B, 
     return iNumLights++;
 }
 
-unsigned int GERenderingD3D9::createPointLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                               float PosX, float PosY, float PosZ)
+unsigned int GERenderingD3D9::createPointLight(const GEColor& Color, float Range, float Attenuation,
+                                               const GEVector3& Position)
 {
     D3DLIGHT9 dLight;
 
     ZeroMemory(&dLight, sizeof(D3DLIGHT9));
 
     dLight.Type = D3DLIGHT_POINT;
-    dLight.Diffuse.r = R;
-    dLight.Diffuse.g = G;
-    dLight.Diffuse.b = B;
-    dLight.Diffuse.a = A;
+    dLight.Diffuse.r = Color.R;
+    dLight.Diffuse.g = Color.G;
+    dLight.Diffuse.b = Color.B;
+    dLight.Diffuse.a = Color.A;
     dLight.Specular = dLight.Diffuse;
     dLight.Range = Range;
     dLight.Attenuation0 = Attenuation;
-    dLight.Position = D3DXVECTOR3(PosX, PosY, PosZ);
+    dLight.Position = D3DXVECTOR3(Position.X, Position.Y, Position.Z);
 
     d3ddev->SetLight(iNumLights, &dLight);
 
     return iNumLights++;
 }
 
-unsigned int GERenderingD3D9::createSpotLight(float R, float G, float B, float A, float Range, float Attenuation,
-                                              float PosX, float PosY, float PosZ, float DirX, float DirY, float DirZ,
+unsigned int GERenderingD3D9::createSpotLight(const GEColor& Color, float Range, float Attenuation,
+                                              const GEVector3& Position, const GEVector3& Direction,
                                               float Theta, float Phi, float Falloff)
 {
     D3DLIGHT9 dLight;
@@ -182,15 +184,16 @@ unsigned int GERenderingD3D9::createSpotLight(float R, float G, float B, float A
     ZeroMemory(&dLight, sizeof(D3DLIGHT9));
 
     dLight.Type = D3DLIGHT_SPOT;
-    dLight.Diffuse.r = R;
-    dLight.Diffuse.g = G;
-    dLight.Diffuse.b = B;
-    dLight.Diffuse.a = A;
+    dLight.Diffuse.r = Color.R;
+    dLight.Diffuse.g = Color.G;
+    dLight.Diffuse.b = Color.B;
+    dLight.Diffuse.a = Color.A;
     dLight.Specular = dLight.Diffuse;
     dLight.Range = Range;
     dLight.Attenuation0 = Attenuation;
-    dLight.Position = D3DXVECTOR3(PosX, PosY, PosZ);
-    dLight.Direction = D3DXVECTOR3(DirX, DirY, DirZ);
+    dLight.Position = D3DXVECTOR3(Position.X, Position.Y, Position.Z);
+    D3DXVECTOR3 vDir(Direction.X, Direction.Y, Direction.Z);
+    D3DXVec3Normalize((D3DXVECTOR3*)&dLight.Direction, &vDir);
     dLight.Theta = Theta;
     dLight.Phi = Phi;
     dLight.Falloff = Falloff;
@@ -205,14 +208,14 @@ void GERenderingD3D9::switchLight(unsigned int Light, bool On)
     d3ddev->LightEnable(Light, On);
 }
 
-void GERenderingD3D9::moveLight(unsigned int Light, float DX, float DY, float DZ)
+void GERenderingD3D9::moveLight(unsigned int Light, const GEVector3& Delta)
 {
     D3DLIGHT9 dLight;
 
     d3ddev->GetLight(Light, &dLight);
-    dLight.Position.x += DX;
-    dLight.Position.x += DY;
-    dLight.Position.x += DZ;
+    dLight.Position.x += Delta.X;
+    dLight.Position.x += Delta.Y;
+    dLight.Position.x += Delta.Z;
     d3ddev->SetLight(Light, &dLight);
 }
 
@@ -221,15 +224,15 @@ void GERenderingD3D9::releaseLight(unsigned int Light)
     d3ddev->LightEnable(Light, false);
 }
 
-void GERenderingD3D9::setLightColor(unsigned int Light, float R, float G, float B, float A)
+void GERenderingD3D9::setLightColor(unsigned int Light, const GEColor& Color)
 {
     D3DLIGHT9 dLight;
 
     d3ddev->GetLight(Light, &dLight);
-    dLight.Diffuse.r = R;
-    dLight.Diffuse.g = G;
-    dLight.Diffuse.b = B;
-    dLight.Diffuse.a = A;
+    dLight.Diffuse.r = Color.R;
+    dLight.Diffuse.g = Color.G;
+    dLight.Diffuse.b = Color.B;
+    dLight.Diffuse.a = Color.A;
     d3ddev->SetLight(Light, &dLight);
 }
 
@@ -242,23 +245,22 @@ void GERenderingD3D9::setLightRange(unsigned int Light, float Range)
     d3ddev->SetLight(Light, &dLight);
 }
 
-void GERenderingD3D9::setLightPosition(unsigned int Light, float PosX, float PosY, float PosZ)
+void GERenderingD3D9::setLightPosition(unsigned int Light, const GEVector3& Position)
 {
     D3DLIGHT9 dLight;
 
     d3ddev->GetLight(Light, &dLight);
-    dLight.Position = D3DXVECTOR3(PosX, PosY, PosZ);
+    dLight.Position = D3DXVECTOR3(Position.X, Position.Y, Position.Z);
     d3ddev->SetLight(Light, &dLight);
 }
 
-void GERenderingD3D9::setLightDirection(unsigned int Light, float DirX, float DirY, float DirZ)
+void GERenderingD3D9::setLightDirection(unsigned int Light, const GEVector3& Direction)
 {
     D3DLIGHT9 dLight;
-    D3DXVECTOR3 vDir;
 
     d3ddev->GetLight(Light, &dLight);
-    vDir = D3DXVECTOR3(DirX, DirY, DirZ);
-    D3DXVec3Normalize((D3DXVECTOR3*)&dLight.Direction, &vDir);    
+    D3DXVECTOR3 vDir(Direction.X, Direction.Y, Direction.Z);
+    D3DXVec3Normalize((D3DXVECTOR3*)&dLight.Direction, &vDir);
     d3ddev->SetLight(Light, &dLight);
 }
 
@@ -391,8 +393,8 @@ void GERenderingD3D9::renderBegin()
     d3ddev->BeginScene();
 }
 
-void GERenderingD3D9::renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned char Opacity, 
-                                 unsigned int Region, GEAlignment Alignment)
+void GERenderingD3D9::renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
+                                 GEAlignment Alignment, float Opacity)
 {
     int iFormat;
 
@@ -429,8 +431,9 @@ void GERenderingD3D9::renderText(const char* Text, unsigned int Font, const GECo
         iFormat = 0;
     }
 
-    fFonts[Font]->DrawTextA(NULL, Text, -1, rRegions[Region], iFormat, 
-                            D3DCOLOR_ARGB(Opacity, Color.R, Color.G, Color.B));
+    DWORD dwColor = D3DCOLOR_ARGB((byte)(Opacity * 255.0f), (byte)(Color.R * 255.0f),
+                                  (byte)(Color.G * 255.0f), (byte)(Color.B * 255.0f));
+    fFonts[Font]->DrawTextA(NULL, Text, -1, rRegions[Region], iFormat, dwColor);
 }
 
 void GERenderingD3D9::renderEnd()

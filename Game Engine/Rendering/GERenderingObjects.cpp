@@ -93,7 +93,7 @@ void GERenderingObject::getColor(GEColor* Color)
     Color->A = cColor.A;
 }
 
-unsigned char GERenderingObject::getOpacity()
+byte GERenderingObject::getOpacity()
 {
     return iOpacity;
 }
@@ -146,7 +146,7 @@ void GERenderingObject::setColor(const GEColor& Color)
     cColor = Color;
 }
 
-void GERenderingObject::setOpacity(unsigned char Opacity)
+void GERenderingObject::setOpacity(byte Opacity)
 {
     iOpacity = Opacity;
 }
