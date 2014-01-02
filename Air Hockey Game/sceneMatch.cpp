@@ -156,7 +156,7 @@ void CSceneMatch::initRenderObjects()
     mCameraReplay[0]->setPosition(3.2f, 2.8f, -3.7f);
     mCameraReplay[0]->lookAt(0.0f, -0.75f, 0.0f);
 
-    mCameraReplay[1]->setPosition(0.0f, 8.5f, 0.0f);
+    mCameraReplay[1]->setPosition(0.0f, 7.5f, 0.0f);
     mCameraReplay[1]->lookAt(0.0f, 0.0f, 0.0001f);
 
     // view ports
