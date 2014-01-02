@@ -16,16 +16,16 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{845e5a0a-38a8-49a3-a509-97016b9b07e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audio.Win32">
-      <UniqueIdentifier>{aa8b54c0-43e7-4def-9696-2006cf40e48a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core.Win32">
       <UniqueIdentifier>{7dcff405-6531-4a8d-95bd-806ceab23000}</UniqueIdentifier>
     </Filter>
     <Filter Include="Multiplayer.Win32">
       <UniqueIdentifier>{977dcc41-8e4d-413e-94c3-88464e2e61e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Rendering.Win32">
+    <Filter Include="Audio.FMOD">
+      <UniqueIdentifier>{aa8b54c0-43e7-4def-9696-2006cf40e48a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering.Direct3D">
       <UniqueIdentifier>{eaea046e-76a0-41b4-8698-5929aeb09f45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -51,26 +51,26 @@
     <ClCompile Include="Rendering\GERenderingObjects.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Audio\Win32\GEAudioFMOD.cpp">
-      <Filter>Audio.Win32</Filter>
-    </ClCompile>
     <ClCompile Include="Core\Win32\GETimerWin32.cpp">
       <Filter>Core.Win32</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Win32\GERenderingD3D9.cpp">
-      <Filter>Rendering.Win32</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\GEGraphicsDevice.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\Win32\GEGraphicsDeviceD3D9.cpp">
-      <Filter>Rendering.Win32</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Win32\GERenderingObjectsD3D9.cpp">
-      <Filter>Rendering.Win32</Filter>
-    </ClCompile>
     <ClCompile Include="Multiplayer\Win32\GEMultiplayerWinSock2.cpp">
       <Filter>Multiplayer.Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\FMOD\GEAudioFMOD.cpp">
+      <Filter>Audio.FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Direct3D\GEGraphicsDeviceD3D9.cpp">
+      <Filter>Rendering.Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Direct3D\GERenderingD3D9.cpp">
+      <Filter>Rendering.Direct3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\Direct3D\GERenderingObjectsD3D9.cpp">
+      <Filter>Rendering.Direct3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,29 +95,29 @@
     <ClInclude Include="Rendering\GERenderingObjects.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\Win32\GEAudioFMOD.h">
-      <Filter>Audio.Win32</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Win32\GETimerWin32.h">
       <Filter>Core.Win32</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Win32\GERenderingD3D9.h">
-      <Filter>Rendering.Win32</Filter>
     </ClInclude>
     <ClInclude Include="Core\GETypes.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Win32\GERenderingObjectsD3D9.h">
-      <Filter>Rendering.Win32</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\GEGraphicsDevice.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Win32\GEGraphicsDeviceD3D9.h">
-      <Filter>Rendering.Win32</Filter>
-    </ClInclude>
     <ClInclude Include="Multiplayer\Win32\GEMultiplayerWinSock2.h">
       <Filter>Multiplayer.Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\FMOD\GEAudioFMOD.h">
+      <Filter>Audio.FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Direct3D\GEGraphicsDeviceD3D9.h">
+      <Filter>Rendering.Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Direct3D\GERenderingD3D9.h">
+      <Filter>Rendering.Direct3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\Direct3D\GERenderingObjectsD3D9.h">
+      <Filter>Rendering.Direct3D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

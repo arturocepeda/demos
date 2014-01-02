@@ -19,8 +19,8 @@
 #include "Scenes/GEScene.h"
 
 #include "Core/Win32/GETimerWin32.h"
-#include "Rendering/Win32/GERenderingD3D9.h"
-#include "Audio/Win32/GEAudioFMOD.h"
+#include "Rendering/Direct3D/GERenderingD3D9.h"
+#include "Audio/FMOD/GEAudioFMOD.h"
 
 #include "sceneMenu.h"
 #include "sceneMatch.h"

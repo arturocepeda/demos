@@ -11,36 +11,36 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Audio\FMOD\GEAudioFMOD.cpp" />
     <ClCompile Include="Audio\GEAudio.cpp" />
-    <ClCompile Include="Audio\Win32\GEAudioFMOD.cpp" />
     <ClCompile Include="Core\GETimer.cpp" />
     <ClCompile Include="Core\GEUtils.cpp" />
     <ClCompile Include="Core\Win32\GETimerWin32.cpp" />
     <ClCompile Include="Multiplayer\GEMultiplayer.cpp" />
     <ClCompile Include="Multiplayer\Win32\GEMultiplayerWinSock2.cpp" />
+    <ClCompile Include="Rendering\Direct3D\GEGraphicsDeviceD3D9.cpp" />
+    <ClCompile Include="Rendering\Direct3D\GERenderingD3D9.cpp" />
+    <ClCompile Include="Rendering\Direct3D\GERenderingObjectsD3D9.cpp" />
     <ClCompile Include="Rendering\GEGraphicsDevice.cpp" />
     <ClCompile Include="Rendering\GERendering.cpp" />
     <ClCompile Include="Rendering\GERenderingObjects.cpp" />
-    <ClCompile Include="Rendering\Win32\GEGraphicsDeviceD3D9.cpp" />
-    <ClCompile Include="Rendering\Win32\GERenderingD3D9.cpp" />
-    <ClCompile Include="Rendering\Win32\GERenderingObjectsD3D9.cpp" />
     <ClCompile Include="Scenes\GEScene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio\FMOD\GEAudioFMOD.h" />
     <ClInclude Include="Audio\GEAudio.h" />
-    <ClInclude Include="Audio\Win32\GEAudioFMOD.h" />
     <ClInclude Include="Core\GETimer.h" />
     <ClInclude Include="Core\GETypes.h" />
     <ClInclude Include="Core\GEUtils.h" />
     <ClInclude Include="Core\Win32\GETimerWin32.h" />
     <ClInclude Include="Multiplayer\GEMultiplayer.h" />
     <ClInclude Include="Multiplayer\Win32\GEMultiplayerWinSock2.h" />
+    <ClInclude Include="Rendering\Direct3D\GEGraphicsDeviceD3D9.h" />
+    <ClInclude Include="Rendering\Direct3D\GERenderingD3D9.h" />
+    <ClInclude Include="Rendering\Direct3D\GERenderingObjectsD3D9.h" />
     <ClInclude Include="Rendering\GEGraphicsDevice.h" />
     <ClInclude Include="Rendering\GERendering.h" />
     <ClInclude Include="Rendering\GERenderingObjects.h" />
-    <ClInclude Include="Rendering\Win32\GEGraphicsDeviceD3D9.h" />
-    <ClInclude Include="Rendering\Win32\GERenderingD3D9.h" />
-    <ClInclude Include="Rendering\Win32\GERenderingObjectsD3D9.h" />
     <ClInclude Include="Scenes\GEScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
