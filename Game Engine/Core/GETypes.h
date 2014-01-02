@@ -56,6 +56,80 @@ struct GEColor
     }
 };
 
+struct GEVector2
+{
+    float X;
+    float Y;
+
+    GEVector2()
+        : X(0.0f)
+        , Y(0.0f)
+    {
+    }
+
+    GEVector2(float vX, float vY)
+    {
+        set(vX, vY);
+    }
+
+    void set(float vX, float vY)
+    {
+        X = vX;
+        Y = vY;
+    }
+
+    float getLength()
+    {
+        return sqrt(X * X + Y * Y);
+    }
+
+    void normalize()
+    {
+        float fLength = sqrt(X * X + Y * Y);
+
+        X /= fLength;
+        Y /= fLength;
+    }
+
+    GEVector2 operator+(const GEVector2& v)
+    {
+        return GEVector2(X + v.X, Y + v.Y);
+    }
+
+    GEVector2& operator+=(const GEVector2& v)
+    {
+        X += v.X; Y += v.Y;
+        return *this;
+    }
+
+    GEVector2 operator-(const GEVector2& v)
+    {
+        return GEVector2(X - v.X, Y - v.Y);
+    }
+
+    GEVector2& operator-=(const GEVector2& v)
+    {
+        X -= v.X; Y -= v.Y;
+        return *this;
+    }
+
+    GEVector2 operator*(const float fValue)
+    {
+        return GEVector2(X * fValue, Y * fValue);
+    }
+
+    GEVector2& operator*=(const float fValue)
+    {
+        X *= fValue; Y *= fValue;
+        return *this;
+    }
+
+    float operator*(const GEVector2& v)
+    {
+        return (X * v.X + Y * v.Y);
+    }
+};
+
 struct GEVector3
 {
     float X;

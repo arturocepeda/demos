@@ -38,6 +38,7 @@
 #define MSG_PUCK        7
 #define MSG_END         8
 
+#define REPLAY_CAMERAS      2
 #define REPLAY_FRAMES       80
 #define REPLAY_INTERPOL     3
 
@@ -80,6 +81,9 @@ private:
     int iTimeMin;
     int iTimeSec;
 
+    // frame counter
+    unsigned int iCurrentFrame;
+
     // multiplayer
     GEServer* cServer;
     GEClient* cClient;
@@ -107,7 +111,7 @@ private:
     // cameras
     GECamera* mCameraPlayer1;
     GECamera* mCameraPlayer2;
-    GECamera* mCameraReplay;
+    GECamera* mCameraReplay[REPLAY_CAMERAS];
         
     // meshes
     GEMesh* mMeshMallet1;
@@ -184,12 +188,10 @@ public:
     CSceneMatch(GERendering* Render, GEAudio* Audio, void* GlobalData);
     ~CSceneMatch();
 
-    void init();
+    void internalInit();
     void update();
     void render();
     void release();
 
     void inputKey(char Key);
-    void inputMouseLeftButton();
-    void inputMouseRightButton();
 };

@@ -37,8 +37,8 @@ char CSceneMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
                                   "Press any key to start..."};
 #endif
 
-CSceneMenu::CSceneMenu(GERendering* Render, GEAudio* Audio, void* GlobalData) : 
-            GEScene(Render, Audio, GlobalData)
+CSceneMenu::CSceneMenu(GERendering* Render, GEAudio* Audio, void* GlobalData)
+    : GEScene(Render, Audio, GlobalData)
 {
     cRender = Render;
     cAudio = Audio;
@@ -49,7 +49,7 @@ CSceneMenu::~CSceneMenu()
 {
 }
 
-void CSceneMenu::init()
+void CSceneMenu::internalInit()
 {
     iRegionOption = new unsigned int[MAX_OPTIONS];
 
@@ -618,14 +618,6 @@ void CSceneMenu::inputKey(char Key)
 
         break;
     }
-}
-
-void CSceneMenu::inputMouseLeftButton()
-{
-}
-
-void CSceneMenu::inputMouseRightButton()
-{
 }
 
 void CSceneMenu::enterMenu(int iMenu)

@@ -111,12 +111,10 @@ public:
     CSceneMenu(GERendering* Render, GEAudio* Audio, void* GlobalData);
     ~CSceneMenu();
 
-    void init();
+    void internalInit();
     void update();
     void render();
     void release();
 
     void inputKey(char Key);
-    void inputMouseLeftButton();
-    void inputMouseRightButton();
 };

@@ -17,14 +17,14 @@ CSceneMatch::CSceneMatch(GERendering* Render, GEAudio* Audio, void* GlobalData)
 {
     cRender = Render;
     cAudio = Audio;
-    sGlobal = (SGlobal*)GlobalData;    
+    sGlobal = (SGlobal*)GlobalData;
 }
 
 CSceneMatch::~CSceneMatch()
 {
 }
 
-void CSceneMatch::init()
+void CSceneMatch::internalInit()
 {
     iCurrentFrame = 0;
 
@@ -142,7 +142,9 @@ void CSceneMatch::initRenderObjects()
     // cameras
     cRender->createCamera(&mCameraPlayer1);
     cRender->createCamera(&mCameraPlayer2);
-    cRender->createCamera(&mCameraReplay);
+
+    for(int i = 0; i < REPLAY_CAMERAS; i++)
+        cRender->createCamera(&mCameraReplay[i]);
 
     mCameraPlayer1->setPosition(0.0f, 2.5f, -3.7f);
     mCameraPlayer1->lookAt(0.0f, -3.5f, 4.0f);
@@ -151,8 +153,11 @@ void CSceneMatch::initRenderObjects()
     mCameraPlayer2->setPosition(0.0f, 2.5f, 3.7f);
     mCameraPlayer2->lookAt(0.0f, -3.5f, -4.0f);
 
-    mCameraReplay->setPosition(3.2f, 2.8f, -3.7f);
-    mCameraReplay->lookAt(0.0f, -0.75f, 0.0f);
+    mCameraReplay[0]->setPosition(3.2f, 2.8f, -3.7f);
+    mCameraReplay[0]->lookAt(0.0f, -0.75f, 0.0f);
+
+    mCameraReplay[1]->setPosition(0.0f, 8.5f, 0.0f);
+    mCameraReplay[1]->lookAt(0.0f, 0.0f, 0.0001f);
 
     // view ports
     iPortFullScreen = 0;
@@ -233,7 +238,9 @@ void CSceneMatch::releaseRenderObjects()
     // cameras
     cRender->releaseCamera(&mCameraPlayer1);
     cRender->releaseCamera(&mCameraPlayer2);
-    cRender->releaseCamera(&mCameraReplay);
+
+    for(int i = 0; i < REPLAY_CAMERAS; i++)
+        cRender->releaseCamera(&mCameraReplay[i]);
 
     // view ports
     if(sGlobal->bSplit)
@@ -722,14 +729,6 @@ void CSceneMatch::inputKey(char Key)
     }
 }
 
-void CSceneMatch::inputMouseLeftButton()
-{
-}
-
-void CSceneMatch::inputMouseRightButton()
-{
-}
-
 void CSceneMatch::render()
 {
     // replay mode
@@ -1107,7 +1106,7 @@ void CSceneMatch::replayMode()
         return;
 
     cGame->update();
-    mCameraReplay->use();
+    mCameraReplay[rand() % REPLAY_CAMERAS]->use();
 
     bReplayMode = true;
     iReplayFrame = iCurrentReplayRecordFrame;

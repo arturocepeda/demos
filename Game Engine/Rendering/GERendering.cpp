@@ -13,16 +13,26 @@
 #include "GERendering.h"
 #include <stdio.h>
 
-GERendering::GERendering(void* Window, bool Windowed, unsigned int ScreenSizeX, unsigned int ScreenSizeY)
+GERendering::GERendering(void* Window, bool Windowed, unsigned int ScreenWidth, unsigned int ScreenHeight)
 	: pWindow(Window)
 	, bWindowed(Windowed)
-	, iScreenSizeX(ScreenSizeX)
-	, iScreenSizeY(ScreenSizeY)
+	, iScreenWidth(ScreenWidth)
+	, iScreenHeight(ScreenHeight)
 {
+    float fAspectRatio = (float)iScreenHeight / iScreenWidth;
+    cPixelToScreenX = new GELine(0.0f, -1.0f, iScreenWidth, 1.0f);
+    cPixelToScreenY = new GELine(0.0f, fAspectRatio, iScreenHeight, -fAspectRatio);
 }
 
 GERendering::~GERendering()
 {
+    delete cPixelToScreenX;
+    delete cPixelToScreenY;
+}
+
+GEVector2 GERendering::pixelToScreen(const GEVector2& PixelPosition)
+{
+    return GEVector2((float)cPixelToScreenX->y(PixelPosition.X), (float)cPixelToScreenY->y(PixelPosition.Y));
 }
 
 void GERendering::releaseMesh(GEMesh** Mesh)

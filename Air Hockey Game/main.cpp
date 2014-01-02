@@ -139,10 +139,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
         }
 
         GetCursorPos(&pMouse);
-        ScreenToClient(hWnd, &pMouse);
-
-        if(cCurrentScene)
-            cCurrentScene->inputMouse(pMouse.x, pMouse.y);
+        ScreenToClient(hWnd, &pMouse);            
 
         // update and render
         dTimeNow = cTimer->getTime();
@@ -155,6 +152,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
             if(cCurrentScene)
             {
                 cCurrentScene->setDeltaTime(dTimeDelta * 0.001);
+                cCurrentScene->inputMouse(pMouse.x, pMouse.y);
                 cCurrentScene->update();
                 cCurrentScene->render();
             }

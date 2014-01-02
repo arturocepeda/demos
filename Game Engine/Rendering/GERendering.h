@@ -12,6 +12,7 @@
 
 #pragma once
 
+#include "Core/GEUtils.h"
 #include "GEGraphicsDevice.h"
 #include "GERenderingObjects.h"
 
@@ -33,17 +34,26 @@ class GERendering
 protected:
     void* pWindow;
     bool bWindowed;
-    unsigned int iScreenSizeX;
-    unsigned int iScreenSizeY;
+    unsigned int iScreenWidth;
+    unsigned int iScreenHeight;
 
     GEGraphicsDevice* cDevice;
+
+    GELine* cPixelToScreenX;
+    GELine* cPixelToScreenY;
 
     virtual void setupProjectionMatrix() = 0;
     virtual void clearBuffers() = 0;
 
 public:
-    GERendering(void* Window, bool Windowed, unsigned int ScreenSizeX, unsigned int ScreenSizeY);
+    GERendering(void* Window, bool Windowed, unsigned int ScreenWidth, unsigned int ScreenHeight);
     virtual ~GERendering();
+
+    // screen
+    unsigned int getScreenWidth();
+    unsigned int getScreenHeight();
+
+    GEVector2 pixelToScreen(const GEVector2& PixelPosition);
 
     // meshes
     virtual void createMesh(GEMesh** Mesh) = 0;

@@ -14,10 +14,10 @@
 #include "GEGraphicsDeviceD3D9.h"
 #include "GERenderingObjectsD3D9.h"
 
-GERenderingD3D9::GERenderingD3D9(void* Window, bool Windowed, unsigned int ScreenSizeX, unsigned int ScreenSizeY)
-    : GERendering(Window, Windowed, ScreenSizeX, ScreenSizeY)
+GERenderingD3D9::GERenderingD3D9(void* Window, bool Windowed, unsigned int ScreenWidth, unsigned int ScreenHeight)
+    : GERendering(Window, Windowed, ScreenWidth, ScreenHeight)
 {
-    cDevice = new GEGraphicsDeviceD3D9(pWindow, bWindowed, iScreenSizeX, iScreenSizeY);
+    cDevice = new GEGraphicsDeviceD3D9(pWindow, bWindowed, iScreenWidth, iScreenHeight);
     d3ddev = (LPDIRECT3DDEVICE9)cDevice->getNativePointer();
 
     memset(vViewPorts, 0, VIEWPORTS * sizeof(D3DVIEWPORT9*));
@@ -25,7 +25,7 @@ GERenderingD3D9::GERenderingD3D9(void* Window, bool Windowed, unsigned int Scree
     memset(fFonts, 0, FONTS * sizeof(LPD3DXFONT));
 
     // default view port
-    defineViewPort(0, 0, 0, iScreenSizeX, iScreenSizeY);
+    defineViewPort(0, 0, 0, iScreenWidth, iScreenHeight);
 
     // lighting settings
     d3ddev->SetRenderState(D3DRS_LIGHTING, TRUE);
@@ -99,7 +99,7 @@ void GERenderingD3D9::clearBuffers()
 
 void GERenderingD3D9::setupProjectionMatrix()
 {
-    FLOAT fAspect = (FLOAT)iScreenSizeX / iScreenSizeY;
+    FLOAT fAspect = (FLOAT)iScreenWidth / iScreenHeight;
     FLOAT fMinViewDistance = 1.0f;
     FLOAT fMaxViewDistance = 1000.0f;
 

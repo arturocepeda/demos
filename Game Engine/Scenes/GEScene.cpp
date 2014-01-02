@@ -16,16 +16,23 @@
 GEScene::GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
     : cRender(Render)
     , cAudio(Audio)
-    , iCurrentFrame(0)
     , dDeltaTime(0.0)
     , callbackScene(NULL)
 {
 }
 
-void GEScene::sceneChange(unsigned int iNewScene)
+void GEScene::sceneChange(int iNewScene)
 {
+    iNextScene = iNewScene;
+
     if(callbackScene)
         callbackScene(iNewScene);
+}
+
+void GEScene::init()
+{
+    iNextScene = INVALID_SCENE;
+    internalInit();
 }
 
 void GEScene::inputKey(char Key)
@@ -46,6 +53,22 @@ void GEScene::inputMouseRightButton()
 {
 }
 
+void GEScene::inputTouchBegin(int ID, const GEVector2& Point)
+{
+}
+
+void GEScene::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
+{
+}
+
+void GEScene::inputTouchEnd(int ID, const GEVector2& Point)
+{
+}
+   
+void GEScene::updateAccelerometerStatus(const GEVector3& Status)
+{
+}
+
 void GEScene::setDeltaTime(double DeltaTime)
 {
     dDeltaTime = DeltaTime;
@@ -54,4 +77,9 @@ void GEScene::setDeltaTime(double DeltaTime)
 void GEScene::setCallback(void (*function)(unsigned int NewScene))
 {
     callbackScene = function;
+}
+
+int GEScene::getNextScene()
+{
+    return iNextScene;
 }

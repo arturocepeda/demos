@@ -15,6 +15,8 @@
 #include "Rendering/GERendering.h"
 #include "Audio/GEAudio.h"
 
+#define INVALID_SCENE   -1
+
 #define KEY_UP          38
 #define KEY_DOWN        40
 #define KEY_LEFT        37
@@ -44,9 +46,6 @@ protected:
     // delta time
     double dDeltaTime;
 
-    // frame counter
-    unsigned int iCurrentFrame;
-
     // scene management
     void (*callbackScene)(unsigned int iNewScene);
 
@@ -54,12 +53,16 @@ protected:
     int iMouseX;
     int iMouseY;
 
-    void sceneChange(unsigned int iNewScene);
+    // scene change
+    int iNextScene;
+
+    virtual void internalInit() = 0;
+    void sceneChange(int iNewScene);
 
 public:
     GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData);
 
-    virtual void init() = 0;
+    void init();
     virtual void update() = 0;
     virtual void render() = 0;
     virtual void release() = 0;
@@ -70,6 +73,14 @@ public:
     virtual void inputMouseLeftButton();
     virtual void inputMouseRightButton();
 
+    virtual void inputTouchBegin(int ID, const GEVector2& Point);
+    virtual void inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint);
+    virtual void inputTouchEnd(int ID, const GEVector2& Point);
+   
+    virtual void updateAccelerometerStatus(const GEVector3& Status);
+
     void setDeltaTime(double DeltaTime);
     void setCallback(void (*function)(unsigned int NewScene));
+
+    int getNextScene();
 };
