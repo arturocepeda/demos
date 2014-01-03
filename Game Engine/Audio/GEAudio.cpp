@@ -21,3 +21,7 @@ GEAudio::GEAudio()
 GEAudio::~GEAudio()
 {
 }
+
+void GEAudio::update()
+{
+}

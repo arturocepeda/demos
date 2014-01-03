@@ -6,20 +6,16 @@
 //
 //  Rendering Engine (OpenGL ES)
 //
-//  --- GERenderingShaders.h ---
+//  --- GERenderingShadersES20.h ---
 //
 //////////////////////////////////////////////////////////////////
 
-
-#ifndef _GERENDERINGSHADERS_H_
-#define _GERENDERINGSHADERS_H_
-
-#include "GERenderingObjects.h"
+#pragma once
 
 //
-//  GEProgram
+//  GEShaderProgram
 //
-struct GEProgram
+struct GEShaderProgram
 {
    GLuint ID;
    GLint Status;
@@ -57,5 +53,3 @@ class GEFragmentShader : public GEShader
 public:
    GEFragmentShader(NSString* Filename);
 };
-
-#endif

@@ -13,8 +13,8 @@
 
 #import "ViewController.h"
 
-#import "GERendering.h"
-#import "GEAudio.h"
+#import "GERenderingES20.h"
+#import "GEAudioOpenAL.h"
 #import "GEScene.h"
 
 #import "SceneSample.h"
@@ -62,6 +62,7 @@
 {
    [super viewDidLoad];
     
+   // initialize OpenGL
    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
    if(!self.context) 
@@ -71,7 +72,6 @@
    view.context = self.context;
    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
    
-   // init OpenGL
    [EAGLContext setCurrentContext:self.context];
    
    // set frames per second
@@ -94,11 +94,12 @@
 #endif
    
    // initialize rendering system
-   cRender = new GERendering(self.context);
-   cRender->setBackgroundColor(0.5f, 0.5f, 1.0f);
+   cRender = new GERenderingES20(self.context);
+   cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
-   cAudio = new GEAudio();
+   cAudio = new GEAudioOpenAL();
+   cAudio->init();
    
    // create scenes
    cScenes[0] = (GEScene*)new GESceneSample(cRender, cAudio, NULL);
@@ -125,6 +126,7 @@
    delete cRender;
    
    // release audio system
+   cAudio->release();
    delete cAudio;
 }
 

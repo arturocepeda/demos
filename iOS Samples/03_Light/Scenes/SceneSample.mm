@@ -13,7 +13,8 @@
 
 #include "SceneSample.h"
 #include "banana.h"
-#include "GEUtils.h"
+#include "Core/GEUtils.h"
+#include "Core/GEConstants.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData) :
                GEScene(Render, Audio, GlobalData)
@@ -22,36 +23,36 @@ GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalDa
 
 void GESceneSample::internalInit()
 {
-   cRender->setBackgroundColor(0.1f, 0.1f, 0.2f);
+   cRender->setBackgroundColor(GEColor(0.1f, 0.1f, 0.2f));
    
    // lighting
-   cRender->setAmbientLightColor(1.0f, 1.0f, 1.0f);
+   cRender->setAmbientLightColor(GEColor(1.0f, 1.0f, 1.0f));
    cRender->setAmbientLightIntensity(0.4f);
-   
+
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights.PointLight1, 0.0f, 0.0f, 1.0f);
-   cRender->setLightColor(GELights.PointLight1, 1.0f, 1.0f, 1.0f);
+   cRender->setLightPosition(GELights.PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor(GELights.PointLight1, GEColor(1.0f, 1.0f, 1.0f));
    cRender->setLightIntensity(GELights.PointLight1, 0.6f);
-   
+
    // cameras
    cCamera = new GECamera();
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
-   cRender->loadTexture(Textures.Banana, @"banana.jpg");
-   cRender->loadTexture(Textures.Bulb, @"bulb.png");
+   cRender->loadTexture(Textures.Banana, "banana.jpg");
+   cRender->loadTexture(Textures.Bulb, "bulb.png");
    
    // mesh
-   cMeshBanana = new GEMesh();
-   cMeshBanana->loadFromHeader(bananaNumVerts, bananaVerts, bananaNormals, bananaTexCoords);
+   cRender->createMesh(&cMeshBanana);
+   cMeshBanana->loadFromArrays(bananaNumVerts, bananaVerts, bananaNormals, bananaTexCoords);
    cMeshBanana->setTexture(cRender->getTexture(Textures.Banana));
    cMeshBanana->scale(2.5f, 2.5f, 2.5f);
    
    // sprite
-   cSpriteBulb = new GESprite();
+   cRender->createSprite(&cSpriteBulb);
    cSpriteBulb->setTexture(cRender->getTexture(Textures.Bulb));
    cSpriteBulb->rotate(0.0f, 0.0f, PI * 0.5f);
-   cSpriteBulb->scale(0.2f, 0.2f);
+   cSpriteBulb->scale(0.2f, 0.2f, 1.0f);
    cSpriteBulb->setOpacity(0.75f);
    
    vBulbPosition.set(0.0f, 0.0f, 0.0f);
@@ -70,12 +71,12 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // mesh
-   cRender->useProgram(GEPrograms.MeshTexture);
+   cRender->useShaderProgram(GEShaderPrograms.MeshTexture);
    cRender->renderMesh(cMeshBanana);
    
    // sprite
    cRender->set2D();
-   cRender->useProgram(GEPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms.HUD);
    cRender->renderSprite(cSpriteBulb);
 }
 
@@ -108,7 +109,7 @@ void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const
       return;
    
    GEVector2 vScreen = cRender->pixelToScreen(CurrentPoint);   
-   cRender->setLightPosition(GELights.PointLight1, vScreen.X, vScreen.Y, 1.0f);
+   cRender->setLightPosition(GELights.PointLight1, GEVector3(vScreen.X, vScreen.Y, 1.0f));
    vBulbPosition.set(vScreen.X, vScreen.Y, 0.0f);
    cSpriteBulb->setPosition(vBulbPosition);
 }

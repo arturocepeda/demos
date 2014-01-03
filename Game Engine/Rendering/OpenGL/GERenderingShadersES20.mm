@@ -6,12 +6,12 @@
 //
 //  Rendering Engine (OpenGL ES)
 //
-//  --- GERenderingShaders.mm ---
+//  --- GERenderingShadersES20.mm ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#include "GERenderingShaders.h"
+#include "GERenderingShadersES20.h"
 
 //
 //  GEShader

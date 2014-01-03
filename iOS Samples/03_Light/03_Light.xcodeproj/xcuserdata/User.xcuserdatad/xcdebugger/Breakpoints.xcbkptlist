@@ -55,5 +55,31 @@
          landmarkName = "GERendering::attachShaders(unsigned int ProgramIndex, GEVertexShader&amp; VertexShader, GEFragmentShader&amp; FragmentShader)"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../Game Engine/Rendering/OpenGL/GERenderingES20.mm"
+         timestampString = "410377699.999926"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "153"
+         endingLineNumber = "153"
+         landmarkName = "GERenderingES20::useCamera(GECamera* Camera)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../Game Engine/Rendering/OpenGL/GERenderingObjectsES20.mm"
+         timestampString = "410378191.086432"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "58"
+         endingLineNumber = "58"
+         landmarkName = "GEMeshES20::getModelMatrix(GEMatrix4* ModelMatrix)"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

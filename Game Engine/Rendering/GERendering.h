@@ -16,18 +16,30 @@
 #include "GEGraphicsDevice.h"
 #include "GERenderingObjects.h"
 
-enum GEAlignment
+#define TEXTURES 32
+
+
+struct GETextureSize
 {
-    TopLeft,
-    TopCenter,
-    TopRight,
-    CenterLeft,
-    CenterCenter,
-    CenterRight,
-    BottomLeft,
-    BottomCenter,
-    BottomRight
+    unsigned int Width;
+    unsigned int Height;
 };
+
+
+struct
+{
+    enum
+    {
+        HUD,
+        Text,
+        MeshColor,
+        MeshTexture,
+        
+        Count
+    };
+}
+GEShaderPrograms;
+
 
 class GERendering
 {
@@ -38,10 +50,18 @@ protected:
     unsigned int iScreenHeight;
 
     GEGraphicsDevice* cDevice;
+    GEColor cBackgroundColor;
 
     GELine* cPixelToScreenX;
     GELine* cPixelToScreenY;
-
+    
+    unsigned int tTextures[TEXTURES];
+    GETextureSize tTextureSize[TEXTURES];
+    
+    unsigned int iNumberOfActiveLights;
+    GELight sAmbientLight;
+    GELight sLights[GELights.Count];
+    
     virtual void setupProjectionMatrix() = 0;
     virtual void clearBuffers() = 0;
 
@@ -55,6 +75,21 @@ public:
 
     GEVector2 pixelToScreen(const GEVector2& PixelPosition);
 
+    // background
+    void setBackgroundColor(const GEColor& Color);
+    
+    // textures
+    virtual void loadTexture(unsigned int TextureIndex, const char* Name);
+    virtual void loadTextureCompressed(unsigned int TextureIndex, const char* Name,
+                                       unsigned int Size, unsigned int BPP, bool Alpha = false);
+    unsigned int getTexture(unsigned int TextureIndex);
+    GETextureSize& getTextureSize(unsigned int TextureIndex);
+    
+    // rendering mode
+    virtual void set2D(bool Portrait = true);
+    virtual void set3D(bool Portrait = true);
+    virtual void useShaderProgram(unsigned int iProgramIndex);
+    
     // meshes
     virtual void createMesh(GEMesh** Mesh) = 0;
     void releaseMesh(GEMesh** Mesh);
@@ -62,13 +97,19 @@ public:
     // sprites
     virtual void createSprite(GESprite** Sprite) = 0;
     void releaseSprite(GESprite** Sprite);
+    
+    // labels
+    virtual void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment, const char* Text = "") = 0;
+    void releaseLabel(GELabel** Label);
 
     // cameras
     virtual void createCamera(GECamera** Camera) = 0;
+    virtual void useCamera(GECamera* Camera);
     void releaseCamera(GECamera** Camera);
 
     // lighting
-    virtual void setAmbientLight(const GEColor& Color) = 0;
+    void setAmbientLightColor(const GEColor& Color);
+    void setAmbientLightIntensity(float Intensity);
 
     virtual unsigned int createDirectionalLight(const GEColor& Color, float Range,
                                                 const GEVector3& Direction) = 0;
@@ -78,26 +119,29 @@ public:
                                          const GEVector3& Position, const GEVector3& Direction,
                                          float Theta, float Phi, float Falloff) = 0;
 
-    virtual void switchLight(unsigned int Light, bool On) = 0;
-    virtual void moveLight(unsigned int Light, const GEVector3& Delta) = 0;
-    virtual void releaseLight(unsigned int Light) = 0;
-    virtual void setLightColor(unsigned int Light, const GEColor& Color) = 0;
-    virtual void setLightRange(unsigned int Light, float Range) = 0;
-    virtual void setLightPosition(unsigned int Light, const GEVector3& Position) = 0;
-    virtual void setLightDirection(unsigned int Light, const GEVector3& Direction) = 0;
+    void setNumberOfActiveLights(unsigned int N);
+    void switchLight(unsigned int Light, bool On);
+    void moveLight(unsigned int Light, const GEVector3& Delta);
+    virtual void releaseLight(unsigned int Light);
+    
+    void setLightColor(unsigned int Light, const GEColor& Color);
+    void setLightRange(unsigned int Light, float Range);
+    void setLightIntensity(unsigned int LightIndex, float Intensity);
+    void setLightPosition(unsigned int Light, const GEVector3& Position);
+    void setLightDirection(unsigned int Light, const GEVector3& Direction);
 
     // view ports
-    virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) = 0;
-    virtual void useViewPort(unsigned int ViewPort) = 0;
-    virtual void releaseViewPort(unsigned int ViewPort) = 0;
+    virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) {}
+    virtual void useViewPort(unsigned int ViewPort) {}
+    virtual void releaseViewPort(unsigned int ViewPort) {}
 
     // regions
-    virtual void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right) = 0;
-    virtual void releaseRegion(unsigned int Region) = 0;
+    virtual void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right) {}
+    virtual void releaseRegion(unsigned int Region) {}
 
     // fonts
-    virtual void defineFont(unsigned int Font, unsigned int Height, unsigned int Width, bool Bold, bool Italic,
-                            const char* FontName) = 0;
+    virtual void defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
+                            unsigned int Height, bool Bold = false, bool Italic = false) = 0;
     virtual void releaseFont(unsigned int Font) = 0;
 
     // transformations
@@ -108,7 +152,6 @@ public:
     virtual void renderBegin() = 0;
     virtual void renderMesh(GEMesh* Mesh);
     virtual void renderSprite(GESprite* Sprite);
-    virtual void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
-                            GEAlignment Alignment, float Opacity = 1.0f) = 0;
+    virtual void renderLabel(GELabel* Label);
     virtual void renderEnd() = 0;
 };

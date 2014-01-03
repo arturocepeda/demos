@@ -6,14 +6,13 @@
 //
 //  Audio System (OpenAL)
 //
-//  --- GEAudio.h ---
+//  --- GEAudioOpenAL.h ---
 //
 //////////////////////////////////////////////////////////////////
 
+#pragma once
 
-#ifndef _GEAUDIO_H_
-#define _GEAUDIO_H_
-
+#include "Audio/GEAudio.h"
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 #include <AudioToolbox/AudioToolbox.h>
@@ -38,7 +37,7 @@ struct SOpenALSource
    }
 };
 
-class GEAudio
+class GEAudioOpenAL : public GEAudio
 {
 private:
    ALCdevice* alDevice;
@@ -55,29 +54,29 @@ private:
                       ALsizei* alFreq);
 
 public:
-   GEAudio();
-   ~GEAudio();
+   void init();
+   void release();
    
-   int  assignSource(unsigned int EntityID);
+   int assignSource(unsigned int EntityID);
    void releaseSource(unsigned int SourceIndex);
    void cleanSources();
    
-   void loadSound(unsigned int SoundIndex, NSString* SoundFile);
+   void loadSound(unsigned int SoundIndex, const char* SoundFile);
    void unloadSound(unsigned int SoundIndex);
    void unloadAllSounds();
    
    void playSound(unsigned int SoundIndex, unsigned int SourceIndex);
    void stop(unsigned int SourceIndex);
+
+   bool isPlaying(unsigned int SourceIndex);
    
-   void moveListener(float dX, float dY, float dZ);
-   void moveSource(unsigned int SourceIndex, float dX, float dY, float dZ);
+   void moveListener(const GEVector3& Delta);
+   void moveSource(unsigned int SourceIndex, const GEVector3& Delta);
    
    unsigned int getEntityID(unsigned int SourceIndex);
    
-   void setListenerPosition(float X, float Y, float Z);
-   void setSourceVolume(unsigned int SourceIndex, float Volume);
-   void setSourcePosition(unsigned int SourceIndex, float X, float Y, float Z);
-   void setSourceDirection(unsigned int SourceIndex, float X, float Y, float Z);
+   void setListenerPosition(const GEVector3& Position);
+   void setVolume(unsigned int SourceIndex, float Volume);
+   void setPosition(unsigned int SourceIndex, const GEVector3& Position);
+   void setDirection(unsigned int SourceIndex, const GEVector3& Direction);
 };
-
-#endif

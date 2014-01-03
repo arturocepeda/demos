@@ -30,15 +30,15 @@ GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalDa
 
 void GESceneSample::internalInit()
 { 
-   cRender->setBackgroundColor(0.1f, 0.1f, 0.3f);
+   cRender->setBackgroundColor(GEColor(0.1f, 0.1f, 0.3f));
    
    // lighting
-   cRender->setAmbientLightColor(1.0f, 1.0f, 1.0f);
+   cRender->setAmbientLightColor(GEColor(1.0f, 1.0f, 1.0f));
    cRender->setAmbientLightIntensity(0.25f);
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights.PointLight1, 0.0f, 0.0f, 1.0f);
-   cRender->setLightColor(GELights.PointLight1, 1.0f, 1.0f, 1.0f);
+   cRender->setLightPosition(GELights.PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor(GELights.PointLight1, GEColor(1.0f, 1.0f, 1.0f));
    cRender->setLightIntensity(GELights.PointLight1, 0.6f);
    
    // device info
@@ -50,35 +50,35 @@ void GESceneSample::internalInit()
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
-   cRender->loadTexture(Textures.Background, @"background.jpg");
-   cRender->loadTextureCompressed(Textures.Banana, @"banana.pvrtc", 512, 2);
-   cRender->loadTexture(Textures.Info, @"info.png");
-   cRender->loadTexture(Textures.Basketball, @"basketball.png");
+   cRender->loadTexture(Textures.Background, "background.jpg");
+   cRender->loadTextureCompressed(Textures.Banana, "banana.pvrtc", 512, 2);
+   cRender->loadTexture(Textures.Info, "info.png");
+   cRender->loadTexture(Textures.Basketball, "basketball.png");
    
    // meshes
-   cMeshBanana = new GEMesh();
-   cMeshBanana->loadFromHeader(bananaNumVerts, bananaVerts, bananaNormals, bananaTexCoords);
+   cRender->createMesh(&cMeshBanana);
+   cMeshBanana->loadFromArrays(bananaNumVerts, bananaVerts, bananaNormals, bananaTexCoords);
    cMeshBanana->setTexture(cRender->getTexture(Textures.Banana));
    cMeshBanana->scale(2.5f, 2.5f, 2.5f);
 
-   cMeshCube = new GEMesh();
-   cMeshCube->loadFromHeader(cubeNumVerts, cubeVerts, cubeNormals);
+   cRender->createMesh(&cMeshCube);
+   cMeshCube->loadFromArrays(cubeNumVerts, cubeVerts, cubeNormals);
    cMeshCube->setPosition(0.0f, -1.5f, 0.0f);
    cMeshCube->scale(0.75f, 0.75f, 0.75f);
-   cMeshCube->setColor(1.0f, 0.5f, 0.2f);
+   cMeshCube->setColor(GEColor(1.0f, 0.5f, 0.2f));
 
    // sprites
-   cSpriteBackground = new GESprite();
+   cRender->createSprite(&cSpriteBackground);
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
    cSpriteBackground->scale(1.0f, 1.8f, 1.0f);
    
-   cSpriteBall = new GESprite();
+   cRender->createSprite(&cSpriteBall);
    cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
    cSpriteBall->scale(0.2f, 0.2f, 0.2f);
    
    for(int i = 0; i < FINGERS; i++)
    {
-      cSpriteInfo[i] = new GESprite();
+      cRender->createSprite(&cSpriteInfo[i]);
       cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
       cSpriteInfo[i]->scale(0.15f, 0.15f, 0.15f);
       cSpriteInfo[i]->rotate(0.0f, 0.0f, 90.0f);
@@ -86,14 +86,16 @@ void GESceneSample::internalInit()
    }
    
    // sounds
-   cAudio->loadSound(Sounds.Music, @"song.caf");
-   cAudio->loadSound(Sounds.Touch, @"touch.wav");   
-   cAudio->setSourceVolume(1, 0.2f);
+   cAudio->loadSound(Sounds.Music, "song.caf");
+   cAudio->loadSound(Sounds.Touch, "touch.wav");
+   cAudio->setVolume(1, 0.2f);
    cAudio->playSound(Sounds.Music, 0);
    
+   // font
+   cRender->defineFont(0, "Optima-ExtraBlack", 44.0f, 512, 128, false, false);
+    
    // text
-   cText = new GELabel(@"ARTURO CEPEDA\niOS Game Engine", @"Optima-ExtraBlack", 44.0f,
-                       UITextAlignmentCenter, 512, 128);
+   cRender->createLabel(&cText, 0, CenterCenter, "ARTURO CEPEDA\niOS Game Engine");
    cText->setPosition(0.0f, 1.3f, 0.0f);
    cText->setScale(2.0f, 2.0f, 2.0f);
    cText->setOpacity(0.0f);
@@ -121,7 +123,7 @@ void GESceneSample::updateBanana()
 void GESceneSample::updateCube()
 {
    cMeshCube->rotate(0.01f, 0.01f, 0.01f);
-   cMeshCube->setColor(fMeshCubeR, fMeshCubeG, fMeshCubeB);
+   cMeshCube->setColor(GEColor(fMeshCubeR, fMeshCubeG, fMeshCubeB));
    
    fMeshCubeR += fMeshCubeRInc;
    fMeshCubeG += fMeshCubeGInc;
@@ -164,7 +166,7 @@ void GESceneSample::updateCube()
 void GESceneSample::updateBall()
 {
    // get ball position
-   cSpriteBall->getPosition(&vBallPosition);
+   vBallPosition = cSpriteBall->getPosition();
    
    // bounds control (left/right)
    if((vBallPosition.X < BOUNDS_LEFT) ||
@@ -208,7 +210,7 @@ void GESceneSample::render()
 {
    // background
    cRender->set2D();
-   cRender->useProgram(GEPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms.HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
@@ -216,29 +218,29 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // meshes
-   cRender->useProgram(GEPrograms.MeshColor);
+   cRender->useShaderProgram(GEShaderPrograms.MeshColor);
    cRender->renderMesh(cMeshCube);
-   cRender->useProgram(GEPrograms.MeshTexture);
+   cRender->useShaderProgram(GEShaderPrograms.MeshTexture);
    cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
-   cRender->useProgram(GEPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms.HUD);
    cRender->renderSprite(cSpriteBall);
     
    for(int i = 0; i < FINGERS; i++)
       cRender->renderSprite(cSpriteInfo[i]);
-    
+
    // text shadow
    cRender->set2D();
-   cRender->useProgram(GEPrograms.Text);
+   cRender->useShaderProgram(GEShaderPrograms.Text);
     
-   cText->setColor(0.2f, 0.2f, 0.2f);
+   cText->setColor(GEColor(0.2f, 0.2f, 0.2f, cText->getOpacity()));
    cText->move(0.015f, 0.015f, 0.0f);
    cRender->renderLabel(cText);
     
    // text
-   cText->setColor(0.8f, 0.2f, 0.2f);
+   cText->setColor(GEColor(0.8f, 0.2f, 0.2f, cText->getOpacity()));
    cText->move(-0.015f, -0.015f, 0.0f);
    cRender->renderLabel(cText);
 }

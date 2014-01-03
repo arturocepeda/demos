@@ -15,6 +15,7 @@
 #include <cmath>
 
 typedef unsigned char byte;
+typedef unsigned int uint;
 
 struct GEColor
 {
@@ -208,6 +209,11 @@ struct GEVector3
     {
         return (X * v.X + Y * v.Y + Z * v.Z);
     }
+};
+
+struct GEMatrix4
+{
+    float M[16];
 };
 
 struct GEQuaternion

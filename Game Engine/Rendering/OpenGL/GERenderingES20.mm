@@ -10,27 +10,27 @@
 //
 //////////////////////////////////////////////////////////////////
 
-
-#include "GERendering.h"
+#include "GERenderingES20.h"
 #include "GEDevice.h"
 #include "config.h"
 
-GERendering::GERendering(EAGLContext* Context)
-{   
+GERenderingES20::GERenderingES20(EAGLContext* Context)
+    : GERendering(Context, false, GEDevice::getTouchPadWidth(), GEDevice::getTouchPadHeight())
+{
    glContext = Context;   
    cBackgroundColor.set(1.0f, 1.0f, 1.0f);
     
-   float fAspectRatio = (float)GEDevice::getTouchPadHeight() / GEDevice::getTouchPadWidth();
-   cPixelToScreenX = new GELine(0.0f, -1.0f, GEDevice::getTouchPadWidth(), 1.0f);
-   cPixelToScreenY = new GELine(0.0f, fAspectRatio, GEDevice::getTouchPadHeight(), -fAspectRatio);
+   float fAspectRatio = (float)iScreenHeight / iScreenWidth;
+   cPixelToScreenX = new GELine(0.0f, -1.0f, iScreenWidth, 1.0f);
+   cPixelToScreenY = new GELine(0.0f, fAspectRatio, iScreenHeight, -fAspectRatio);
    
    // lighting
    iNumberOfActiveLights = 0;   
-   setAmbientLightColor(1.0f, 1.0f, 1.0f);
+   setAmbientLightColor(GEColor(1.0f, 1.0f, 1.0f));
    setAmbientLightIntensity(0.2f);
    
    // create programs
-   for(int i = 0; i < GEPrograms.Count; i++)
+   for(int i = 0; i < GEShaderPrograms.Count; i++)
    {
       sPrograms[i].ID = glCreateProgram();
       sPrograms[i].Status = 0;
@@ -49,74 +49,76 @@ GERendering::GERendering(EAGLContext* Context)
    iActiveProgram = 0;
 }
 
-GERendering::~GERendering()
+GERenderingES20::~GERenderingES20()
 {
    // release programs
-   for(unsigned int i = 0; i < GEPrograms.Count; i++)
+   for(unsigned int i = 0; i < GEShaderPrograms.Count; i++)
       glDeleteProgram(sPrograms[i].ID);
    
    // release textures
    glDeleteTextures(TEXTURES, tTextures);
 }
 
-GEVector2 GERendering::pixelToScreen(const GEVector2& PixelPosition)
+void GERenderingES20::setupProjectionMatrix()
 {
-   return GEVector2((float)cPixelToScreenX->y(PixelPosition.X), (float)cPixelToScreenY->y(PixelPosition.Y));
 }
 
-void GERendering::loadTexture(unsigned int TextureIndex, NSString* Name)
+void GERenderingES20::clearBuffers()
+{    
+}
+
+void GERenderingES20::loadTexture(unsigned int TextureIndex, const char* Name)
 {
    if(TextureIndex >= TEXTURES)
       return;
    
-   CGImageRef cgImage = [UIImage imageNamed:Name].CGImage;
+   CGImageRef cgImage = [UIImage imageNamed: [NSString stringWithUTF8String: Name]].CGImage;
    CGContextRef cgContext;
    GLubyte* pData = nil;
    size_t iWidth, iHeight;
 	
-	if(!cgImage)
+   if(!cgImage)
       return;
    
    glBindTexture(GL_TEXTURE_2D, tTextures[TextureIndex]);
    
-	iWidth = CGImageGetWidth(cgImage);
-	iHeight = CGImageGetHeight(cgImage);
+   iWidth = CGImageGetWidth(cgImage);
+   iHeight = CGImageGetHeight(cgImage);
    
    tTextureSize[TextureIndex].Width = iWidth;
    tTextureSize[TextureIndex].Height = iHeight;
 	
-	pData = (GLubyte*)calloc(iWidth * iHeight * 4, sizeof(GLubyte));
+   pData = (GLubyte*)calloc(iWidth * iHeight * 4, sizeof(GLubyte));
    
-	// Uses the bitmatp creation function provided by the Core Graphics framework. 
-	cgContext = CGBitmapContextCreate(pData, iWidth, iHeight, 8, iWidth * 4, 
+   // Uses the bitmatp creation function provided by the Core Graphics framework.
+   cgContext = CGBitmapContextCreate(pData, iWidth, iHeight, 8, iWidth * 4,
                                      CGImageGetColorSpace(cgImage), kCGImageAlphaPremultipliedLast);
    
-	// After you create the context, you can draw the image to the context.
-	CGContextDrawImage(cgContext, CGRectMake(0.0f, 0.0f, (CGFloat)iWidth, (CGFloat)iHeight), 
-                      cgImage);
+   // After you create the context, you can draw the image to the context.
+   CGContextDrawImage(cgContext, CGRectMake(0.0f, 0.0f, (CGFloat)iWidth, (CGFloat)iHeight), cgImage);
    
-	// You don't need the context at this point, so you need to release it to avoid memory leaks.
-	CGContextRelease(cgContext);
+   // You don't need the context at this point, so you need to release it to avoid memory leaks.
+   CGContextRelease(cgContext);
    
-	// setup texture parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+   // setup texture parameters
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
    
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pData);
-	free(pData);
+   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, pData);
+   free(pData);
 }
 
-void GERendering::loadTextureCompressed(unsigned int TextureIndex, NSString* Name,
-                                        unsigned int Size, unsigned int BPP, bool Alpha)
+void GERenderingES20::loadTextureCompressed(unsigned int TextureIndex, const char* Name,
+                                            unsigned int Size, unsigned int BPP, bool Alpha)
 {
    if(TextureIndex >= TEXTURES)
       return;
    
    // read file data
-   NSString* sPath = [[NSBundle mainBundle] pathForResource:Name ofType:@""];
-   NSData* pData = [[NSData alloc] initWithContentsOfFile:sPath];
+   NSString* sPath = [[NSBundle mainBundle] pathForResource: [NSString stringWithUTF8String: Name] ofType: @""];
+   NSData* pData = [[NSData alloc] initWithContentsOfFile: sPath];
    
    if(!pData)
       return;
@@ -143,74 +145,45 @@ void GERendering::loadTextureCompressed(unsigned int TextureIndex, NSString* Nam
    [pData release];
 }
 
-GLuint GERendering::getTexture(unsigned int TextureIndex)
+void GERenderingES20::useCamera(GECamera* Camera)
 {
-   return tTextures[TextureIndex];
-}
-
-GETextureSize& GERendering::getTextureSize(unsigned int TextureIndex)
-{
-   return tTextureSize[TextureIndex];
-}
-
-
-//
-//  Background 
-//
-void GERendering::setBackgroundColor(float R, float G, float B)
-{
-   cBackgroundColor.set(R, G, B);
-}
-
-
-//
-//  Camera
-//
-void GERendering::useCamera(GECamera* Camera)
-{
-   Camera->getPosition(&vCameraPosition);
-   
+   vCameraPosition = Camera->getPosition();
    matView = GLKMatrix4MakeTranslation(vCameraPosition.X, vCameraPosition.Y, vCameraPosition.Z);
-      
-   Camera->getRotation(&vCameraRotation);
-   
+    
+   vCameraRotation = Camera->getRotation();
    matView = GLKMatrix4Rotate(matView, vCameraRotation.X, 1.0f, 0.0f, 0.0f);
    matView = GLKMatrix4Rotate(matView, vCameraRotation.Y, 0.0f, 1.0f, 0.0f);
    matView = GLKMatrix4Rotate(matView, vCameraRotation.Z, 0.0f, 0.0f, 1.0f);
 }
 
-
-//
-//  Shaders programs
-//
-void GERendering::loadShaders()
+void GERenderingES20::loadShaders()
 {
 #ifdef USE_SHADER_HUD
    GEVertexShader cVertexShaderHUD(@"hud");
    GEFragmentShader cFragmentShaderHUD(@"hud");
-   attachShaders(GEPrograms.HUD, cVertexShaderHUD, cFragmentShaderHUD);
+   attachShaders(GEShaderPrograms.HUD, cVertexShaderHUD, cFragmentShaderHUD);
 #endif
    
 #ifdef USE_SHADER_TEXT
    GEVertexShader cVertexShaderText(@"text");
    GEFragmentShader cFragmentShaderText(@"text");
-   attachShaders(GEPrograms.Text, cVertexShaderText, cFragmentShaderText);
+   attachShaders(GEShaderPrograms.Text, cVertexShaderText, cFragmentShaderText);
 #endif
    
 #ifdef USE_SHADER_MESH_COLOR
    GEVertexShader cVertexShaderMeshColor(@"mesh_color");
    GEFragmentShader cFragmentShaderMeshColor(@"mesh_color");
-   attachShaders(GEPrograms.MeshColor, cVertexShaderMeshColor, cFragmentShaderMeshColor);
+   attachShaders(GEShaderPrograms.MeshColor, cVertexShaderMeshColor, cFragmentShaderMeshColor);
 #endif
    
 #ifdef USE_SHADER_MESH_TEXTURE
    GEVertexShader cVertexShaderMeshTexture(@"mesh_texture");
    GEFragmentShader cFragmentShaderMeshTexture(@"mesh_texture");
-   attachShaders(GEPrograms.MeshTexture, cVertexShaderMeshTexture, cFragmentShaderMeshTexture);
+   attachShaders(GEShaderPrograms.MeshTexture, cVertexShaderMeshTexture, cFragmentShaderMeshTexture);
 #endif
 }
 
-void GERendering::attachShaders(unsigned int ProgramIndex, GEVertexShader& VertexShader, GEFragmentShader& FragmentShader)
+void GERenderingES20::attachShaders(unsigned int ProgramIndex, GEVertexShader& VertexShader, GEFragmentShader& FragmentShader)
 {
    // attach shaders to the program
    glAttachShader(sPrograms[ProgramIndex].ID, VertexShader.getID());
@@ -245,18 +218,18 @@ void GERendering::attachShaders(unsigned int ProgramIndex, GEVertexShader& Verte
    getUniformsLocation(ProgramIndex);
 }
 
-void GERendering::linkProgram(unsigned int iProgramIndex)
+void GERenderingES20::linkProgram(unsigned int iProgramIndex)
 {
    glLinkProgram(sPrograms[iProgramIndex].ID);
    glGetProgramiv(sPrograms[iProgramIndex].ID, GL_LINK_STATUS, &(sPrograms[iProgramIndex].Status));
 }
 
-bool GERendering::checkProgram(unsigned int iProgramIndex)
+bool GERenderingES20::checkProgram(unsigned int iProgramIndex)
 {
    return (sPrograms[iProgramIndex].Status != 0);
 }
 
-void GERendering::getUniformsLocation(unsigned int iProgramIndex)
+void GERenderingES20::getUniformsLocation(unsigned int iProgramIndex)
 {
    // matrices
    iUniforms[iProgramIndex][GEUniforms.ModelViewProjection] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uModelViewProjectionMatrix");
@@ -275,28 +248,59 @@ void GERendering::getUniformsLocation(unsigned int iProgramIndex)
    iUniforms[iProgramIndex][GEUniforms.PointLight1Intensity] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Intensity");
 }
 
-void GERendering::useProgram(unsigned int iProgramIndex)
+void GERenderingES20::useShaderProgram(unsigned int iProgramIndex)
 {
    glUseProgram(sPrograms[iProgramIndex].ID);
    iActiveProgram = iProgramIndex;
 }
 
+void GERenderingES20::createMesh(GEMesh** Mesh)
+{
+   *Mesh = new GEMeshES20();
+}
 
+void GERenderingES20::createSprite(GESprite** Sprite)
+{
+   *Sprite = new GESpriteES20();
+}
 
-//
-//  Rendering
-//
-void GERendering::renderBegin()
+void GERenderingES20::createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment, const char* Text)
+{
+   *Label = new GELabelES20(fFonts[Font].Font, Text, Alignment, fFonts[Font].Width, fFonts[Font].Height);
+}
+
+void GERenderingES20::createCamera(GECamera** Camera)
+{
+   *Camera = new GECamera();
+}
+
+void GERenderingES20::defineFont(unsigned int Font, const char* FontName, float Size,
+                                 unsigned int Width, unsigned int Height, bool Bold, bool Italic)
+{
+   fFonts[Font].Font = [UIFont fontWithName:[NSString stringWithUTF8String:FontName] size:Size];
+   fFonts[Font].Width = Width;
+   fFonts[Font].Height = Height;
+   fFonts[Font].Bold = Bold;
+   fFonts[Font].Italic = Italic;
+}
+
+void GERenderingES20::releaseFont(unsigned int Font)
+{
+}
+
+void GERenderingES20::renderBegin()
 {
    glClearColor(cBackgroundColor.R, cBackgroundColor.G, cBackgroundColor.B, 1.0f);
-	glClearDepthf(1.0f);
+   glClearDepthf(1.0f);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GERendering::renderMesh(GEMesh* Mesh)
+void GERenderingES20::renderMesh(GEMesh* Mesh)
 {
    // get model matrix from the mesh
-   Mesh->getModelMatrix(&matModel);
+   GEMatrix4 mMatrix;
+   Mesh->getModelMatrix(&mMatrix);
+   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
    
    // calculate model-view matrix, normal matrix and transform matrix
    matModelView = GLKMatrix4Multiply(matView, matModel);   
@@ -304,7 +308,7 @@ void GERendering::renderMesh(GEMesh* Mesh)
    matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
 
    // set uniform values for the shaders
-   Mesh->getColor(&cColor);
+   cColor = Mesh->getColor();
    
    glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelViewProjection], 1, 0, matModelViewProjection.m);
    glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelView], 1, 0, matModelView.m);
@@ -325,10 +329,12 @@ void GERendering::renderMesh(GEMesh* Mesh)
    Mesh->render();
 }
 
-void GERendering::renderSprite(GESprite* Sprite)
+void GERenderingES20::renderSprite(GESprite* Sprite)
 {
    // get model matrix from the sprite
-   Sprite->getModelMatrix(&matModel);
+   GEMatrix4 mMatrix;
+   Sprite->getModelMatrix(&mMatrix);
+   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
    
    // calculate transform matrix
    matModelView = GLKMatrix4Multiply(matView, matModel);   
@@ -345,17 +351,19 @@ void GERendering::renderSprite(GESprite* Sprite)
    Sprite->render();
 }
 
-void GERendering::renderLabel(GELabel* Label)
+void GERenderingES20::renderLabel(GELabel* Label)
 {
-   // get model matrix from the sprite
-   Label->getModelMatrix(&matModel);
+   // get model matrix from the label
+   GEMatrix4 mMatrix;
+   Label->getModelMatrix(&mMatrix);
+   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
    
    // calculate transform matrix
    matModelView = GLKMatrix4Multiply(matView, matModel);   
    matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
 
    // set uniform values for the shaders
-   Label->getColor(&cColor);
+   cColor = Label->getColor();
    
    glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelViewProjection], 1, 0, matModelViewProjection.m);
    glUniform4f(iUniforms[iActiveProgram][GEUniforms.ObjectColor], cColor.R, cColor.G, cColor.B, Label->getOpacity());
@@ -367,13 +375,13 @@ void GERendering::renderLabel(GELabel* Label)
    Label->render(); 
 }
 
-void GERendering::renderEnd()
+void GERenderingES20::renderEnd()
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+   glBindTexture(GL_TEXTURE_2D, 0);
    [glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-void GERendering::set2D(bool Portrait)
+void GERenderingES20::set2D(bool Portrait)
 {
    glDisable(GL_DEPTH_TEST);
    
@@ -385,7 +393,7 @@ void GERendering::set2D(bool Portrait)
    matView = GLKMatrix4MakeLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
-void GERendering::set3D(bool Portrait)
+void GERenderingES20::set3D(bool Portrait)
 {
 	glEnable(GL_DEPTH_TEST);
 
@@ -393,71 +401,4 @@ void GERendering::set3D(bool Portrait)
                                (float)GEDevice::getScreenHeight() / GEDevice::getScreenWidth();
    
    matProjection = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), fAspect, 0.1f, 100.0f);
-}
-
-
-//
-//  Lighting
-//
-void GERendering::setAmbientLightColor(float R, float G, float B)
-{
-   sAmbientLight.Color.R = R;
-   sAmbientLight.Color.G = G;
-   sAmbientLight.Color.B = B;
-}
-
-void GERendering::setAmbientLightColor(const GEColor& Color)
-{
-   sAmbientLight.Color = Color;
-}
-
-void GERendering::setAmbientLightIntensity(float Intensity)
-{
-   sAmbientLight.Intensity = Intensity;
-}
-
-void GERendering::setNumberOfActiveLights(unsigned int N)
-{
-   iNumberOfActiveLights = N;
-}
-
-void GERendering::moveLight(unsigned int LightIndex, float DX, float DY, float DZ)
-{
-   sLights[LightIndex].Position.X += DX;
-   sLights[LightIndex].Position.Y += DY;
-   sLights[LightIndex].Position.Z += DZ;
-}
-
-void GERendering::moveLight(unsigned int LightIndex, const GEVector3& D)
-{
-   sLights[LightIndex].Position += D;
-}
-
-void GERendering::setLightPosition(unsigned int LightIndex, float PosX, float PosY, float PosZ)
-{
-   sLights[LightIndex].Position.X = PosX;
-   sLights[LightIndex].Position.Y = PosY;
-   sLights[LightIndex].Position.Z = PosZ;
-}
-
-void GERendering::setLightPosition(unsigned int LightIndex, const GEVector3& Position)
-{
-   sLights[LightIndex].Position = Position;
-}
-
-void GERendering::setLightColor(unsigned int LightIndex, float R, float G, float B)
-{
-   sLights[LightIndex].Color.R = R;
-   sLights[LightIndex].Color.G = G;
-   sLights[LightIndex].Color.B = B;
-}
-
-void GERendering::setLightColor(unsigned int LightIndex, const GEColor& Color)
-{
-   sLights[LightIndex].Color = Color;
-}
-
-void GERendering::setLightIntensity(unsigned int LightIndex, float Intensity)
-{
-   sLights[LightIndex].Intensity = Intensity;
 }

@@ -6,228 +6,18 @@
 //
 //  Rendering Engine (OpenGL ES)
 //
-//  --- GERenderingObjects.mm ---
+//  --- GERenderingObjectsES20.mm ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#include "GERenderingObjects.h"
+#include "GERenderingObjectsES20.h"
 
 
 //
-//  GERenderingObject
+//  GEMeshES20
 //
-void GERenderingObject::move(float DX, float DY, float DZ)
-{
-   vPosition.X += DX;
-   vPosition.Y += DY;
-   vPosition.Z += DZ;
-}
-
-void GERenderingObject::move(const GEVector3& Move)
-{
-   vPosition.X += Move.X;
-   vPosition.Y += Move.Y;
-   vPosition.Z += Move.Z;
-}
-
-void GERenderingObject::scale(float SX, float SY, float SZ)
-{
-   vScale.X *= SX;
-   vScale.Y *= SY;
-   vScale.Z *= SZ;
-}
-
-void GERenderingObject::scale(const GEVector3& Scale)
-{
-   vScale.X *= Scale.X;
-   vScale.Y *= Scale.Y;
-   vScale.Z *= Scale.Z;
-}
-
-void GERenderingObject::rotate(float RX, float RY, float RZ)
-{
-   vRotation.X += RX;
-   vRotation.Y += RY;
-   vRotation.Z += RZ;
-}
-
-void GERenderingObject::rotate(const GEVector3& Rotate)
-{
-   vRotation.X += Rotate.X;
-   vRotation.Y += Rotate.Y;
-   vRotation.Z += Rotate.Z;
-}
-
-void GERenderingObject::getPosition(GEVector3* Position)
-{
-   Position->X = vPosition.X;
-   Position->Y = vPosition.Y;
-   Position->Z = vPosition.Z;
-}
-
-void GERenderingObject::getRotation(GEVector3* Rotation)
-{
-   Rotation->X = vRotation.X;
-   Rotation->Y = vRotation.Y;
-   Rotation->Z = vRotation.Z;
-}
-
-void GERenderingObject::getScale(GEVector3* Scale)
-{
-   Scale->X = vScale.X;
-   Scale->Y = vScale.Y;
-   Scale->Z = vScale.Z;
-}
-
-void GERenderingObject::setPosition(float X, float Y, float Z)
-{
-   vPosition.X = X;
-   vPosition.Y = Y;
-   vPosition.Z = Z;
-}
-
-void GERenderingObject::setPosition(const GEVector3& Position)
-{
-   vPosition.X = Position.X;
-   vPosition.Y = Position.Y;
-   vPosition.Z = Position.Z;
-}
-
-void GERenderingObject::setScale(float X, float Y, float Z)
-{
-   vScale.X = X;
-   vScale.Y = Y;
-   vScale.Z = Z;
-}
-
-void GERenderingObject::setScale(const GEVector3& Scale)
-{
-   vScale.X = Scale.X;
-   vScale.Y = Scale.Y;
-   vScale.Z = Scale.Z;
-}
-
-void GERenderingObject::setRotation(float X, float Y, float Z)
-{
-   vRotation.X = X;
-   vRotation.Y = Y;
-   vRotation.Z = Z;
-}
-
-void GERenderingObject::setRotation(const GEVector3& Rotation)
-{
-   vRotation.X = Rotation.X;
-   vRotation.Y = Rotation.Y;
-   vRotation.Z = Rotation.Z;
-}
-
-
-//
-//  GECamera
-//
-GECamera::GECamera()
-{
-   memset(&vPosition, 0, sizeof(GEVector3));
-   memset(&vRotation, 0, sizeof(GEVector3));
-}
-
-GECamera::~GECamera()
-{
-}
-
-void GECamera::lookAt(float X, float Y, float Z)
-{
-   vLookAt = GEVector3(X, Y, Z) - vPosition;
-   vLookAt.normalize();
-}
-
-void GECamera::lookAt(GEVector3& LookAt)
-{
-   vLookAt = LookAt - vPosition;
-   vLookAt.normalize();
-}
-
-void GECamera::getLookAt(GEVector3* LookAt)
-{
-   memcpy(&vLookAt, LookAt, sizeof(GEVector3));
-}
-
-
-//
-//  GERenderingObjectVisible
-//
-void GERenderingObjectVisible::show()
-{
-   bVisible = true;
-}
-
-void GERenderingObjectVisible::hide()
-{
-   bVisible = false;
-}
-
-void GERenderingObjectVisible::getModelMatrix(GLKMatrix4* ModelMatrix)
-{
-   *ModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
-   *ModelMatrix = GLKMatrix4RotateX(*ModelMatrix, vRotation.X);
-   *ModelMatrix = GLKMatrix4RotateY(*ModelMatrix, vRotation.Y);
-   *ModelMatrix = GLKMatrix4RotateZ(*ModelMatrix, vRotation.Z);
-   *ModelMatrix = GLKMatrix4Scale(*ModelMatrix, vScale.X, vScale.Y, vScale.Z);
-}
-
-void GERenderingObjectVisible::getColor(GEColor* Color)
-{
-   Color->R = cColor.R;
-   Color->G = cColor.G;
-   Color->B = cColor.B;
-}
-
-float GERenderingObjectVisible::getOpacity()
-{
-   return fOpacity;
-}
-
-bool GERenderingObjectVisible::getVisible()
-{
-   return bVisible;
-}
-
-GLuint GERenderingObjectVisible::getTexture()
-{
-   return iTexture;
-}
-
-void GERenderingObjectVisible::setColor(float R, float G, float B)
-{
-   cColor.set(R, G, B);
-}
-
-void GERenderingObjectVisible::setColor(const GEColor& Color)
-{
-   cColor = Color;
-}
-
-void GERenderingObjectVisible::setOpacity(float Opacity)
-{
-   fOpacity = Opacity;
-}
-
-void GERenderingObjectVisible::setVisible(bool Visible)
-{
-   bVisible = Visible;
-}
-
-void GERenderingObjectVisible::setTexture(GLuint Texture)
-{
-   iTexture = Texture;
-}
-
-
-//
-//  GEMesh
-//
-GEMesh::GEMesh()
+GEMeshES20::GEMeshES20()
 {   
    bVisible = true;
    
@@ -239,7 +29,7 @@ GEMesh::GEMesh()
    memset(&vPosition, 0, sizeof(GEVector3));
    memset(&vRotation, 0, sizeof(GEVector3));
    vScale.set(1.0f, 1.0f, 1.0f);
-   fOpacity = 1.0f;
+   cColor.A = 1.0f;
    iTexture = 0;
 
    // generate vertex array
@@ -250,14 +40,25 @@ GEMesh::GEMesh()
    glGenBuffers(GEVertexAttributes.Count, iVertexBuffers);
 }
 
-GEMesh::~GEMesh()
+GEMeshES20::~GEMeshES20()
 {
    // release vertex array and vertex buffers
    glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
    glDeleteVertexArraysOES(1, &iVertexArray);
 }
 
-void GEMesh::loadFromHeader(unsigned int NumVertices, float* Vertex, float* Normals)
+void GEMeshES20::getModelMatrix(GEMatrix4* ModelMatrix)
+{
+    GLKMatrix4 glModelMatrix;
+    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
+    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
+    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
+    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
+    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
+    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+}
+
+void GEMeshES20::loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals)
 {
    iNumVertices = NumVertices;
    fVertex = Vertex;
@@ -283,7 +84,7 @@ void GEMesh::loadFromHeader(unsigned int NumVertices, float* Vertex, float* Norm
    glBindVertexArrayOES(0);
 }
 
-void GEMesh::loadFromHeader(unsigned int NumVertices, float* Vertex, float* Normals, float* TextureCoordinate)
+void GEMeshES20::loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals, float* TextureCoordinate)
 {
    iNumVertices = NumVertices;
    fVertex = Vertex;
@@ -314,7 +115,7 @@ void GEMesh::loadFromHeader(unsigned int NumVertices, float* Vertex, float* Norm
    glBindVertexArrayOES(0);
 }
 
-void GEMesh::unload()
+void GEMeshES20::unload()
 {
    iNumVertices = 0;
    
@@ -323,7 +124,7 @@ void GEMesh::unload()
    fTextureCoordinate = NULL;
 }
 
-void GEMesh::render()
+void GEMeshES20::render()
 {
    if(!bVisible)
       return;
@@ -337,13 +138,13 @@ void GEMesh::render()
 
 
 //
-//  GESprite
+//  GESpriteES20
 //
-GESprite::GESprite()
+GESpriteES20::GESpriteES20()
 {
    iNumVertices = 4;
    
-   fOpacity = 1.0f;
+   cColor = GEColor(1.0f, 1.0f, 1.0f);
    bVisible = true;
 
    memset(&vPosition, 0, sizeof(GEVector3));
@@ -355,9 +156,8 @@ GESprite::GESprite()
    
    fVertex = new float[iNumVertices * 3];
    fTextureCoordinate = new float[iNumVertices * 2];
-   fNormals = NULL;
    
-   setCenter(0.0f, 0.0f, 0.0f);
+   setCenter(GEVector3(0.0f, 0.0f, 0.0f));
    setTextureCoordinates(1.0f, 1.0f, 
                          1.0f, 0.0f, 
                          0.0f, 1.0f, 
@@ -388,7 +188,7 @@ GESprite::GESprite()
    glBindVertexArrayOES(0);
 }
 
-GESprite::~GESprite()
+GESpriteES20::~GESpriteES20()
 {
    // release vertex array and vertex buffers
    glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
@@ -399,7 +199,18 @@ GESprite::~GESprite()
    delete[] fTextureCoordinate;
 }
 
-void GESprite::render()
+void GESpriteES20::getModelMatrix(GEMatrix4* ModelMatrix)
+{
+    GLKMatrix4 glModelMatrix;
+    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
+    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
+    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
+    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
+    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
+    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+}
+
+void GESpriteES20::render()
 {
    if(!bVisible)
       return;
@@ -411,12 +222,12 @@ void GESprite::render()
    glDrawArrays(GL_TRIANGLE_STRIP, 0, iNumVertices);
 }
 
-void GESprite::setCenter(float X, float Y, float Z)
+void GESpriteES20::setCenter(const GEVector3& Center)
 {
-   fVertex[0] = -1 + X; fVertex[ 1] = -1 + Y; fVertex[ 2] = Z;   
-   fVertex[3] =  1 + X; fVertex[ 4] = -1 + Y; fVertex[ 5] = Z;   
-   fVertex[6] = -1 + X; fVertex[ 7] =  1 + Y; fVertex[ 8] = Z;   
-   fVertex[9] =  1 + X; fVertex[10] =  1 + Y; fVertex[11] = Z;
+   fVertex[0] = -1 + Center.X; fVertex[ 1] = -1 + Center.Y; fVertex[ 2] = Center.Z;
+   fVertex[3] =  1 + Center.X; fVertex[ 4] = -1 + Center.Y; fVertex[ 5] = Center.Z;   
+   fVertex[6] = -1 + Center.X; fVertex[ 7] =  1 + Center.Y; fVertex[ 8] = Center.Z;   
+   fVertex[9] =  1 + Center.X; fVertex[10] =  1 + Center.Y; fVertex[11] = Center.Z;
    
    // update vertex buffer data
    glBindVertexArrayOES(iVertexArray);   
@@ -424,8 +235,8 @@ void GESprite::setCenter(float X, float Y, float Z)
    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * iNumVertices, fVertex);   
 }
 
-void GESprite::setTextureCoordinates(float Ax, float Ay, float Bx, float By,
-                                     float Cx, float Cy, float Dx, float Dy)
+void GESpriteES20::setTextureCoordinates(float Ax, float Ay, float Bx, float By,
+                                         float Cx, float Cy, float Dx, float Dy)
 {
    fTextureCoordinate[0] = Ax; fTextureCoordinate[1] = Ay;
    fTextureCoordinate[2] = Bx; fTextureCoordinate[3] = By;
@@ -439,11 +250,12 @@ void GESprite::setTextureCoordinates(float Ax, float Ay, float Bx, float By,
 }
 
 
+
 //
-//  GELabel
+//  GELabelES20
 //
-GELabel::GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlignment TextAligment,
-                 unsigned int Width, unsigned int Height)
+GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligment,
+                         unsigned int Width, unsigned int Height)
 {
    iNumVertices = 4;
    
@@ -457,31 +269,29 @@ GELabel::GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlign
    vScale.Z = 1.0f;
    
    cColor.set(1.0f, 1.0f, 1.0f);
-   fOpacity = 1.0f;
    
    fVertex = new float[iNumVertices * 3];
    fTextureCoordinate = new float[iNumVertices * 2];
-   fNormals = NULL;
    
-   sText = Text;
-   sFont = FontName;
-   fFontSize = FontSize;
+   strcpy(sText, Text);
+   fFont = Font;
    iWidth = Width;
    iHeight = Height;   
-   tAligment = TextAligment;
+   tAligment = convertAlignment(TextAligment);
    
-   createTexture();
+   glGenTextures(1, &iTexture);
+   fillTexture();
    
    float fAspectRatio = (float)iHeight / iWidth;      
    
-	fTextureCoordinate[0] = 0.0f;  fTextureCoordinate[1] = fMaxT;
+   fTextureCoordinate[0] = 0.0f;  fTextureCoordinate[1] = fMaxT;
    fTextureCoordinate[2] = fMaxS; fTextureCoordinate[3] = fMaxT;
    fTextureCoordinate[4] = 0.0f;  fTextureCoordinate[5] = 0.0f;
    fTextureCoordinate[6] = fMaxS; fTextureCoordinate[7] = 0.0f;
    
    switch(tAligment)
    {  
-         // reference point: top left
+      // reference point: top left
       case UITextAlignmentLeft:         
          fVertex[0] = 0.0f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
          fVertex[3] = 1.0f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
@@ -489,7 +299,7 @@ GELabel::GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlign
          fVertex[9] = 1.0f; fVertex[10] = 0.0f; fVertex[11] = 0.0f;
          break;
          
-         // reference point: top center
+      // reference point: top center
       case UITextAlignmentCenter:         
          fVertex[0] = -0.5f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
          fVertex[3] = 0.5f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
@@ -497,7 +307,7 @@ GELabel::GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlign
          fVertex[9] = 0.5f; fVertex[10] = 0.0f; fVertex[11] = 0.0f;        
          break;
          
-         // reference point: top right
+      // reference point: top right
       case UITextAlignmentRight:         
          fVertex[0] = -1.0f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
          fVertex[3] = 0.0f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
@@ -531,89 +341,113 @@ GELabel::GELabel(NSString* Text, NSString* FontName, float FontSize, UITextAlign
    glBindVertexArrayOES(0);
 }
 
-GELabel::~GELabel()
+GELabelES20::~GELabelES20()
 {
    // release vertex array and vertex buffers
    glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
    glDeleteVertexArraysOES(1, &iVertexArray);
       
    // release texture
-   releaseTexture();
+   glDeleteTextures(1, &iTexture);
 
    // release vertex data
    delete[] fVertex;
    delete[] fTextureCoordinate;
 }
 
-void GELabel::createTexture()
+void GELabelES20::fillTexture()
 {
    // set width and height to 2-power values
    int i;
    
-	if((iWidth != 1) && (iWidth & (iWidth - 1))) 
+   if((iWidth != 1) && (iWidth & (iWidth - 1))) 
    {
-		i = 1;
+      i = 1;
       
-		while(i < iWidth)
+      while(i < iWidth)
          i *= 2;
       
-		iWidth = i;
+      iWidth = i;
 	}
    	
-	if((iHeight != 1) && (iHeight & (iHeight - 1))) 
+   if((iHeight != 1) && (iHeight & (iHeight - 1))) 
    {
-		i = 1;
+      i = 1;
       
-		while(i < iHeight)
+      while(i < iHeight)
          i *= 2;
       
-		iHeight = i;
+      iHeight = i;
 	}
    
    // create bitmap context
-	void* pData = malloc(iHeight * iWidth);
+   void* pData = malloc(iHeight * iWidth);
    
    CGColorSpaceRef cgColorSpace = CGColorSpaceCreateDeviceGray();
-	CGContextRef cgContext = CGBitmapContextCreate(pData, iWidth, iHeight, 8, iWidth, cgColorSpace, kCGImageAlphaNone);
-	CGColorSpaceRelease(cgColorSpace);
+   CGContextRef cgContext = CGBitmapContextCreate(pData, iWidth, iHeight, 8, iWidth, cgColorSpace, kCGImageAlphaNone);
+   CGColorSpaceRelease(cgColorSpace);
 	
    // context settings
-	CGContextSetGrayFillColor(cgContext, 1.0, 1.0);
-	CGContextTranslateCTM(cgContext, 0.0, iHeight);
-	CGContextScaleCTM(cgContext, 1.0, -1.0);
+   CGContextSetGrayFillColor(cgContext, 1.0, 1.0);
+   CGContextTranslateCTM(cgContext, 0.0, iHeight);
+   CGContextScaleCTM(cgContext, 1.0, -1.0);
    
    // generate text
    CGSize cgSize = CGSizeMake(iWidth, iHeight);
-   UIFont* uiFont = [UIFont fontWithName:sFont size:fFontSize];
-   
-	UIGraphicsPushContext(cgContext);
-   [sText drawInRect:CGRectMake(0, 0, cgSize.width, cgSize.height) withFont:uiFont lineBreakMode:UILineBreakModeWordWrap alignment:tAligment];
-	UIGraphicsPopContext();
+    
+   UIGraphicsPushContext(cgContext);
+   NSString* nsText = [NSString stringWithUTF8String:sText];
+   [nsText drawInRect:CGRectMake(0, 0, cgSize.width, cgSize.height) withFont:fFont
+           lineBreakMode:UILineBreakModeWordWrap alignment:tAligment];
+   UIGraphicsPopContext();
    
    fMaxS = cgSize.width / iWidth;
    fMaxT = cgSize.height / iHeight;
 	
    // generate texture
-	GLint iSaveName;   
-	glGenTextures(1, &iTexture);   
+   GLint iSaveName;
    glGetIntegerv(GL_TEXTURE_BINDING_2D, &iSaveName);    
    glBindTexture(GL_TEXTURE_2D, iTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, iWidth, iHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, pData);   
-	glBindTexture(GL_TEXTURE_2D, iSaveName);
+   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+   glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, iWidth, iHeight, 0, GL_ALPHA, GL_UNSIGNED_BYTE, pData);
+   glBindTexture(GL_TEXTURE_2D, iSaveName);
 	
    // release context and data
-	CGContextRelease(cgContext);
-	free(pData);
+   CGContextRelease(cgContext);
+   free(pData);
 }
 
-void GELabel::releaseTexture()
+NSTextAlignment GELabelES20::convertAlignment(GEAlignment iAlignment)
 {
-   glDeleteTextures(1, &iTexture);
-   iTexture = 0;
+   switch(iAlignment)
+   {
+      case TopLeft:
+      case CenterLeft:
+      case BottomLeft:
+         return UITextAlignmentLeft;
+      case TopCenter:
+      case CenterCenter:
+      case BottomCenter:
+         return UITextAlignmentCenter;
+      case TopRight:
+      case CenterRight:
+      case BottomRight:
+         return UITextAlignmentRight;
+   }
 }
 
-void GELabel::render()
+void GELabelES20::getModelMatrix(GEMatrix4* ModelMatrix)
+{
+    GLKMatrix4 glModelMatrix;
+    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
+    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
+    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
+    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
+    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
+    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+}
+
+void GELabelES20::render()
 {
    if(!bVisible)
       return;
@@ -625,10 +459,8 @@ void GELabel::render()
    glDrawArrays(GL_TRIANGLE_STRIP, 0, iNumVertices);
 }
 
-void GELabel::setText(NSString* Text)
+void GELabelES20::setText(const char* Text)
 {
-   sText = Text;
-   
-   releaseTexture();
-   createTexture();
+   strcpy(sText, Text);
+   fillTexture();
 }

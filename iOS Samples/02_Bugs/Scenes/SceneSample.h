@@ -54,6 +54,7 @@ private:
    
    GELabel* cTextEscaped;
    GELabel* cTextSmashed;
+   char sTextBuffer[32];
    
    int iEscaped;
    int iSmashed;

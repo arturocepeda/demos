@@ -6,16 +6,15 @@
 //
 //  Audio System (OpenAL)
 //
-//  --- GEAudio.mm ---
+//  --- GEAudioOpenAL.mm ---
 //
 //////////////////////////////////////////////////////////////////
 
-
-#include "GEAudio.h"
+#include "GEAudioOpenAL.h"
 #include <iostream>
 #include <fstream>
 
-GEAudio::GEAudio()
+void GEAudioOpenAL::init()
 {
    alDevice = alcOpenDevice(NULL);
    alContext = alcCreateContext(alDevice, NULL);
@@ -28,10 +27,10 @@ GEAudio::GEAudio()
       alSources[i].Source = alSourcesAlloc[i];
    
    iCurrentSourceAssignment = 0;
-   setListenerPosition(0.0f, 0.0f, 0.0f);
+   setListenerPosition(GEVector3(0.0f, 0.0f, 0.0f));
 }
 
-GEAudio::~GEAudio()
+void GEAudioOpenAL::release()
 {
    alDeleteSources(SOURCES, alSourcesAlloc);
    alDeleteBuffers(BUFFERS, alBuffers);
@@ -41,19 +40,20 @@ GEAudio::~GEAudio()
    alcCloseDevice(alDevice);
 }
 
-void GEAudio::loadSound(unsigned int SoundIndex, NSString* SoundFile)
+void GEAudioOpenAL::loadSound(unsigned int SoundIndex, const char* SoundFile)
 {
    if(SoundIndex >= BUFFERS)
       return;
 
-   NSString* sSoundFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: SoundFile];
-   const char* sSoundFile = [sSoundFilePath UTF8String];
+   NSString* nsSoundFile = [NSString stringWithUTF8String: SoundFile];
+   NSString* nsSoundFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: nsSoundFile];
+   const char* sSoundFile = [nsSoundFilePath UTF8String];
    std::ifstream iFile(sSoundFile);
    
    if(!iFile)
       return;
 
-   CFURLRef cfFileURL = (CFURLRef)[NSURL fileURLWithPath:sSoundFilePath];
+   CFURLRef cfFileURL = (CFURLRef)[NSURL fileURLWithPath: nsSoundFilePath];
 
    ALenum alFormat;
    ALsizei alSize;
@@ -72,19 +72,19 @@ void GEAudio::loadSound(unsigned int SoundIndex, NSString* SoundFile)
       free(alData);
 }
 
-void GEAudio::unloadSound(unsigned int SoundIndex)
+void GEAudioOpenAL::unloadSound(unsigned int SoundIndex)
 {
    if(SoundIndex < BUFFERS)
       alBufferData(alBuffers[SoundIndex], 0, NULL, 0, 0);
 }
 
-void GEAudio::unloadAllSounds()
+void GEAudioOpenAL::unloadAllSounds()
 {
    for(unsigned int i = 0; i < BUFFERS; i++)
       alBufferData(alBuffers[i], 0, NULL, 0, 0);
 }
 
-int GEAudio::assignSource(unsigned int EntityID)
+int GEAudioOpenAL::assignSource(unsigned int EntityID)
 {
    unsigned int iIndexOldestAssignment = 0;
    unsigned int iOldestAssignment = alSources[0].Assignment;
@@ -110,7 +110,7 @@ int GEAudio::assignSource(unsigned int EntityID)
    return iIndexOldestAssignment;
 }
 
-void GEAudio::assignSource(unsigned int iSourceIndex, unsigned int iEntityID)
+void GEAudioOpenAL::assignSource(unsigned int iSourceIndex, unsigned int iEntityID)
 {
    alSourceStop(alSources[iSourceIndex].Source);
    alSources[iSourceIndex].EntityID = iEntityID;
@@ -118,7 +118,7 @@ void GEAudio::assignSource(unsigned int iSourceIndex, unsigned int iEntityID)
    alSources[iSourceIndex].Free = false;
 }
 
-void GEAudio::releaseSource(unsigned int SourceIndex)
+void GEAudioOpenAL::releaseSource(unsigned int SourceIndex)
 {
    if(SourceIndex < SOURCES)
    {
@@ -127,13 +127,13 @@ void GEAudio::releaseSource(unsigned int SourceIndex)
    }
 }
 
-void GEAudio::cleanSources()
+void GEAudioOpenAL::cleanSources()
 {
    for(unsigned int i = 0; i < SOURCES; i++)
       alSourcei(alSources[i].Source, AL_BUFFER, NULL);
 }
 
-void GEAudio::playSound(unsigned int SoundIndex, unsigned int SourceIndex)
+void GEAudioOpenAL::playSound(unsigned int SoundIndex, unsigned int SourceIndex)
 {
    if(SoundIndex < BUFFERS && SourceIndex < SOURCES)
    {      
@@ -142,26 +142,35 @@ void GEAudio::playSound(unsigned int SoundIndex, unsigned int SourceIndex)
    }
 }
 
-void GEAudio::stop(unsigned int SourceIndex)
+void GEAudioOpenAL::stop(unsigned int SourceIndex)
 {
    if(SourceIndex < SOURCES)
       alSourceStop(alSources[SourceIndex].Source);
 }
 
-void GEAudio::moveListener(float dX, float dY, float dZ)
+bool GEAudioOpenAL::isPlaying(unsigned int SourceIndex)
+{
+   ALenum alState;
+    
+   alGetSourcei(SourceIndex, AL_SOURCE_STATE, &alState);
+    
+   return alState == AL_PLAYING;
+}
+
+void GEAudioOpenAL::moveListener(const GEVector3& Delta)
 {
    float fCurrentX, fCurrentY, fCurrentZ;
 
    alGetListener3f(AL_POSITION, &fCurrentX, &fCurrentY, &fCurrentZ);
    
-   fCurrentX += dX;
-   fCurrentY += dY;
-   fCurrentZ += dZ;
+   fCurrentX += Delta.X;
+   fCurrentY += Delta.Y;
+   fCurrentZ += Delta.Z;
    
    alListener3f(AL_POSITION, fCurrentX, fCurrentY, fCurrentZ);
 }
 
-void GEAudio::moveSource(unsigned int SourceIndex, float dX, float dY, float dZ)
+void GEAudioOpenAL::moveSource(unsigned int SourceIndex, const GEVector3& Delta)
 {
    if(SourceIndex >= SOURCES)
       return;
@@ -170,14 +179,14 @@ void GEAudio::moveSource(unsigned int SourceIndex, float dX, float dY, float dZ)
 
    alGetSource3f(alSources[SourceIndex].Source, AL_POSITION, &fCurrentX, &fCurrentY, &fCurrentZ);
    
-   fCurrentX += dX;
-   fCurrentY += dY;
-   fCurrentZ += dZ;
+   fCurrentX += Delta.X;
+   fCurrentY += Delta.Y;
+   fCurrentZ += Delta.Z;
    
    alSource3f(alSources[SourceIndex].Source, AL_POSITION, fCurrentX, fCurrentY, fCurrentZ);
 }
 
-unsigned int GEAudio::getEntityID(unsigned int SourceIndex)
+unsigned int GEAudioOpenAL::getEntityID(unsigned int SourceIndex)
 {
    if(SourceIndex < SOURCES)
       return alSources[SourceIndex].EntityID;
@@ -185,31 +194,31 @@ unsigned int GEAudio::getEntityID(unsigned int SourceIndex)
       return 0;
 }
 
-void GEAudio::setListenerPosition(float X, float Y, float Z)
+void GEAudioOpenAL::setListenerPosition(const GEVector3& Position)
 {
-   alListener3f(AL_POSITION, X, Y, Z);
+   alListener3f(AL_POSITION, Position.X, Position.Y, Position.Z);
 }
 
-void GEAudio::setSourceVolume(unsigned int SourceIndex, float Volume)
+void GEAudioOpenAL::setVolume(unsigned int SourceIndex, float Volume)
 {
    if(SourceIndex < SOURCES)
       alSourcef(alSources[SourceIndex].Source, AL_GAIN, Volume);
 }
 
-void GEAudio::setSourcePosition(unsigned int SourceIndex, float X, float Y, float Z)
+void GEAudioOpenAL::setPosition(unsigned int SourceIndex, const GEVector3& Position)
 {
    if(SourceIndex < SOURCES)
-      alSource3f(alSources[SourceIndex].Source, AL_POSITION, X, Y, Z);
+      alSource3f(alSources[SourceIndex].Source, AL_POSITION, Position.X, Position.Y, Position.Z);
 }
 
-void GEAudio::setSourceDirection(unsigned int SourceIndex, float X, float Y, float Z)
+void GEAudioOpenAL::setDirection(unsigned int SourceIndex, const GEVector3& Direction)
 {
    if(SourceIndex < SOURCES)      
-      alSource3f(alSources[SourceIndex].Source, AL_DIRECTION, X, Y, Z);
+      alSource3f(alSources[SourceIndex].Source, AL_DIRECTION, Direction.X, Direction.Y, Direction.Z);
 }
 
-bool GEAudio::loadAudioFile(CFURLRef cfURL, ALenum* alFormat, ALvoid** alData, ALsizei* alSize, 
-                            ALsizei* alFrequency)
+bool GEAudioOpenAL::loadAudioFile(CFURLRef cfURL, ALenum* alFormat, ALvoid** alData, ALsizei* alSize, 
+                                  ALsizei* alFrequency)
 {
    ExtAudioFileRef sAudioFileRef;
    OSStatus osError;
