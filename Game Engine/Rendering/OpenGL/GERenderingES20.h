@@ -10,7 +10,6 @@
 //
 //////////////////////////////////////////////////////////////////
 
-
 #pragma once
 
 #include "Rendering/GERendering.h"
@@ -19,17 +18,6 @@
 #include "Core/GEUtils.h"
 
 #define FONTS 4
-
-
-struct GEFont
-{
-    UIFont* Font;
-    unsigned int Width;
-    unsigned int Height;
-    bool Italic;
-    bool Bold;
-};
-
 
 class GERenderingES20 : public GERendering
 {
@@ -51,7 +39,7 @@ private:
    GEVector3 vCameraRotation;
     
    // fonts
-   GEFont fFonts[FONTS];
+   UIFont* fFonts[FONTS];
    
    // shaders
    GEShaderProgram sPrograms[GEShaderPrograms::Count];
@@ -87,7 +75,8 @@ public:
    // rendering objects factory
    void createMesh(GEMesh** Mesh);
    void createSprite(GESprite** Sprite);
-   void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment, const char* Text);
+   void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment,
+                    unsigned int Width, unsigned int Height, const char* Text = "");
    void createCamera(GECamera** Camera);
    
    // lighting
@@ -101,7 +90,7 @@ public:
     
    // fonts
    void defineFont(unsigned int Font, const char* FontName, float Size,
-                   unsigned int Width, unsigned int Height, bool Bold, bool Italic);
+                   bool Bold = false, bool Italic = false);
    void releaseFont(unsigned int Font);
     
    // transformations

@@ -264,9 +264,10 @@ void GERenderingES20::createSprite(GESprite** Sprite)
    *Sprite = new GESpriteES20();
 }
 
-void GERenderingES20::createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment, const char* Text)
+void GERenderingES20::createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment,
+                                  unsigned int Width, unsigned int Height, const char* Text)
 {
-   *Label = new GELabelES20(fFonts[Font].Font, Text, Alignment, fFonts[Font].Width, fFonts[Font].Height);
+   *Label = new GELabelES20(fFonts[Font], Text, Alignment, Width, Height);
 }
 
 void GERenderingES20::createCamera(GECamera** Camera)
@@ -274,14 +275,9 @@ void GERenderingES20::createCamera(GECamera** Camera)
    *Camera = new GECamera();
 }
 
-void GERenderingES20::defineFont(unsigned int Font, const char* FontName, float Size,
-                                 unsigned int Width, unsigned int Height, bool Bold, bool Italic)
+void GERenderingES20::defineFont(unsigned int Font, const char* FontName, float Size, bool Bold, bool Italic)
 {
-   fFonts[Font].Font = [UIFont fontWithName:[NSString stringWithUTF8String:FontName] size:Size];
-   fFonts[Font].Width = Width;
-   fFonts[Font].Height = Height;
-   fFonts[Font].Bold = Bold;
-   fFonts[Font].Italic = Italic;
+   fFonts[Font] = [UIFont fontWithName:[NSString stringWithUTF8String:FontName] size:Size];
 }
 
 void GERenderingES20::releaseFont(unsigned int Font)

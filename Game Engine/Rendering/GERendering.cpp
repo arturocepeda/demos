@@ -166,6 +166,18 @@ void GERendering::releaseCamera(GECamera** Camera)
     }
 }
 
+void GERendering::defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height)
+{
+}
+
+void GERendering::useViewPort(unsigned int ViewPort)
+{
+}
+
+void GERendering::releaseViewPort(unsigned int ViewPort)
+{
+}
+
 void GERendering::renderMesh(GEMesh* Mesh)
 {
     Mesh->render();

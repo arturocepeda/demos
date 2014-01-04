@@ -142,13 +142,13 @@ public:
     virtual void setLightDirection(unsigned int Light, const GEVector3& Direction);
 
     // view ports
-    virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) {}
-    virtual void useViewPort(unsigned int ViewPort) {}
-    virtual void releaseViewPort(unsigned int ViewPort) {}
+    virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height);
+    virtual void useViewPort(unsigned int ViewPort);
+    virtual void releaseViewPort(unsigned int ViewPort);
 
     // fonts
-    virtual void defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
-                            unsigned int Height, bool Bold = false, bool Italic = false) = 0;
+    virtual void defineFont(unsigned int Font, const char* FontName, float Size,
+                            bool Bold = false, bool Italic = false) = 0;
     virtual void releaseFont(unsigned int Font) = 0;
 
     // transformations

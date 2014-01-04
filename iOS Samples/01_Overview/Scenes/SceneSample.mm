@@ -92,10 +92,10 @@ void GESceneSample::internalInit()
    cAudio->playSound(Sounds.Music, 0);
    
    // font
-   cRender->defineFont(0, "Optima-ExtraBlack", 44.0f, 512, 128, false, false);
+   cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
     
    // text
-   cRender->createLabel(&cText, 0, CenterCenter, "ARTURO CEPEDA\niOS Game Engine");
+   cRender->createLabel(&cText, 0, CenterCenter, 512, 128, "ARTURO CEPEDA\niOS Game Engine");
    cText->setPosition(0.0f, 1.3f, 0.0f);
    cText->setScale(2.0f, 2.0f, 2.0f);
    cText->setOpacity(0.0f);
