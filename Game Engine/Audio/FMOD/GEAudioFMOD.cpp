@@ -146,6 +146,10 @@ void GEAudioFMOD::unloadSound(unsigned int Sound)
     sSounds[Sound] = NULL;
 }
 
+void GEAudioFMOD::unloadAllSounds()
+{
+}
+
 void GEAudioFMOD::playSound(unsigned int Sound, unsigned int Channel)
 {
     sSystem->playSound(FMOD_CHANNEL_FREE, sSounds[Sound], true, &sChannels[Channel]);
@@ -167,9 +171,9 @@ bool GEAudioFMOD::isPlaying(unsigned int Channel)
     return bPlaying;
 }
 
-void GEAudioFMOD::setListenerPosition(float X, float Y, float Z)
+void GEAudioFMOD::setListenerPosition(const GEVector3& Position)
 {    
-    FMOD_VECTOR fmodListenerPosition = {X, Y, Z};
+    FMOD_VECTOR fmodListenerPosition = { Position.X, Position.Y, Position.Z };
     sSystem->set3DListenerAttributes(0, &fmodListenerPosition, NULL, NULL, NULL);
 }
 
@@ -181,11 +185,11 @@ void GEAudioFMOD::setVolume(unsigned int Channel, float Volume)
     sChannels[Channel]->setVolume(Volume);
 }
 
-void GEAudioFMOD::setPosition(unsigned int Channel, float X, float Y, float Z)
+void GEAudioFMOD::setPosition(unsigned int Channel, const GEVector3& Position)
 {
-    pPosition[Channel].x = X;
-    pPosition[Channel].y = Y;
-    pPosition[Channel].z = Z;
+    pPosition[Channel].x = Position.X;
+    pPosition[Channel].y = Position.Y;
+    pPosition[Channel].z = Position.Z;
 
     if(!sChannels[Channel])
         return;

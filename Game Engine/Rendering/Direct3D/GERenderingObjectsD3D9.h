@@ -64,8 +64,27 @@ public:
     void unload() override;
 
     void render() override;
+};
 
-    void setCenter(float X, float Y, float Z) override;
+
+class GELabelD3D9 : public GELabel
+{
+private:
+    LPDIRECT3DDEVICE9 d3ddev;
+    LPD3DXFONT fFont;
+    LPRECT rRegion;
+
+    char sText[1024];
+    unsigned int iWidth;
+    unsigned int iHeight;
+
+public:
+    GELabelD3D9(LPDIRECT3DDEVICE9 Device, LPD3DXFONT Font, const char* Text, GEAlignment TextAligment,
+                unsigned int Width, unsigned int Height);
+    ~GELabelD3D9();
+
+    void render() override;
+    void setText(const char* Text) override;
 };
 
 

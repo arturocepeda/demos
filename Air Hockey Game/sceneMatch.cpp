@@ -11,13 +11,14 @@
 #include "AHAI.h"
 #include "Multiplayer/Win32/GEMultiplayerWinSock2.h"
 #include <stdio.h>
+#include <climits>
 
 CSceneMatch::CSceneMatch(GERendering* Render, GEAudio* Audio, void* GlobalData)
     : GEScene(Render, Audio, GlobalData)
 {
-    cRender = Render;
-    cAudio = Audio;
     sGlobal = (SGlobal*)GlobalData;
+    iSleepFrame = UINT_MAX - SLEEP_FRAMES;
+    bPlayAgain = false;
 }
 
 CSceneMatch::~CSceneMatch()
@@ -135,7 +136,7 @@ void CSceneMatch::internalInit()
 void CSceneMatch::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLight(GEColor((byte)100, 100, 100));
+    cRender->setAmbientLightColor(GEColor((byte)100, 100, 100));
     iLightRoom = cRender->createDirectionalLight(GEColor(0.3f, 0.3f, 0.3f), 1.0f, GEVector3(0.3f, -1.0f, 0.4f));
     cRender->switchLight(iLightRoom, true);
 
@@ -215,19 +216,21 @@ void CSceneMatch::initRenderObjects()
     iFontText = 1;
     iFontDebug = 2;
 
-    cRender->defineFont(iFontText, 50, 0, true, true, "Courier New");
-    cRender->defineFont(iFontDebug, 20, 0, false, false, "Courier New");
+    cRender->defineFont(iFontText, "Courier New", 0.0f, 0, 50, true, true);
+    cRender->defineFont(iFontDebug, "Courier New", 0.0f, 0, 20);
 
     // colors
     cColorMessage.set((byte)140, 33, 27);
     cColorDebug.set((byte)255, 255, 255);
 
-    // regions
-    iRectText = 0;
-    iRectDebug = 1;
+    // labels
+    cRender->createLabel(&lLabelMessage, iFontText, GEAlignment::CenterCenter,
+                         sGlobal->ScreenSizeX, 120);
+    lLabelMessage->setColor(cColorMessage);
 
-    cRender->defineRegion(iRectText, 40, 160, 0, sGlobal->ScreenSizeX);
-    cRender->defineRegion(iRectDebug, 0, sGlobal->ScreenSizeY, 0, sGlobal->ScreenSizeX);
+    cRender->createLabel(&lLabelDebug, iFontDebug, GEAlignment::TopLeft,
+                         sGlobal->ScreenSizeX, sGlobal->ScreenSizeY);
+    lLabelDebug->setColor(cColorDebug);
 }
 
 void CSceneMatch::releaseRenderObjects()
@@ -277,13 +280,13 @@ void CSceneMatch::releaseRenderObjects()
     cRender->releaseSprite(&sDisplaySeparator);
     cRender->releaseSprite(&sFrame);
 
+    // labels
+    cRender->releaseLabel(&lLabelMessage);
+    cRender->releaseLabel(&lLabelDebug);
+
     // fonts
     cRender->releaseFont(iFontText);
     cRender->releaseFont(iFontDebug);
-
-    // regions
-    cRender->releaseRegion(iRectText);
-    cRender->releaseRegion(iRectDebug);
 }
 
 void CSceneMatch::initSoundObjects()
@@ -319,7 +322,7 @@ void CSceneMatch::initSoundObjects()
     }
 
     // listener position (player 1)
-    cAudio->setListenerPosition(0.0f, 2.5f / AUDIO_RATIO, -3.7f / AUDIO_RATIO);
+    cAudio->setListenerPosition(GEVector3(0.0f, 2.5f / AUDIO_RATIO, -3.7f / AUDIO_RATIO));
 }
 
 void CSceneMatch::releaseSoundObjects()
@@ -344,6 +347,19 @@ void CSceneMatch::releaseSoundObjects()
 
 void CSceneMatch::update()
 {
+    iCurrentFrame++;
+
+    // sleep mode
+    if((iCurrentFrame - iSleepFrame) < SLEEP_FRAMES)
+        return;
+
+    // restart game
+    if(bPlayAgain)
+    {
+        playAgain();
+        bPlayAgain = false;
+    }
+
     // replay mode
     if(bReplayMode)
         return;
@@ -389,7 +405,6 @@ void CSceneMatch::update()
     }
 
     sprintf(sMessage, "");
-    iCurrentFrame++;
 
     // set player 1 position
     if(sGlobal->bKinect)
@@ -513,7 +528,7 @@ void CSceneMatch::update()
 
         // pause and then back to the game
         render();
-        Sleep(1000);
+        iSleepFrame = iCurrentFrame;
     }
 
     // end of the match?
@@ -738,7 +753,6 @@ void CSceneMatch::render()
         return;
     }
 
-    cRender->renderBegin();
     mCameraPlayer1->use();
 
     if(sGlobal->bSplit)
@@ -762,12 +776,11 @@ void CSceneMatch::render()
 #ifdef _DEBUG
     GEVector3 vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
     GEVector3 vDebug;
-
     cRender->worldToScreen(&vPlayer1, &vDebug);
-    cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
-
+    lLabelDebug->setPosition(vDebug.X, vDebug.Y);
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer1.X, vPlayer1.Y, vPlayer1.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
+    lLabelDebug->setText(sBuffer);
+    cRender->renderLabel(lLabelDebug);
 #endif
 
     // player 2
@@ -777,12 +790,11 @@ void CSceneMatch::render()
 
 #ifdef _DEBUG
     GEVector3 vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
-
     cRender->worldToScreen(&vPlayer2, &vDebug);
-    cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
-
+    lLabelDebug->setPosition(vDebug.X, vDebug.Y);
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer2.X, vPlayer2.Y, vPlayer2.Z);
-    cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
+    lLabelDebug->setText(sBuffer);
+    cRender->renderLabel(lLabelDebug);
 #endif
 
     // puck
@@ -794,12 +806,11 @@ void CSceneMatch::render()
 
 #ifdef _DEBUG
         GEVector3 vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
-
         cRender->worldToScreen(&vPuck, &vDebug);
-        cRender->defineRegion(iRectDebug, (int)vDebug.Y, (int)vDebug.Y + 80, (int)vDebug.X, (int)vDebug.X + 500);
-
+        lLabelDebug->setPosition(vDebug.X, vDebug.Y);
         sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPuck.X, vPuck.Y, vPuck.Z);
-        cRender->renderText(sBuffer, iFontDebug, cColorDebug, iRectDebug, GEAlignment::TopLeft);
+        lLabelDebug->setText(sBuffer);
+        cRender->renderLabel(lLabelDebug);
 #endif
     }
 
@@ -922,14 +933,16 @@ void CSceneMatch::render()
     }
 
     // message
+    if(sMessage[0] == '\0')
+        return;
+
     if(sGlobal->bSplit)
         cRender->useViewPort(iPortMessages);
     else
         cRender->useViewPort(iPortFullScreen);
 
-    cRender->renderText(sMessage, iFontText, cColorMessage, iRectText, GEAlignment::TopCenter);
-
-    cRender->renderEnd();
+    lLabelMessage->setText(sMessage);
+    cRender->renderLabel(lLabelMessage);
 }
 
 void CSceneMatch::renderReplay()
@@ -974,7 +987,6 @@ void CSceneMatch::renderReplay()
     }
 
     // rendering
-    cRender->renderBegin();
     cRender->useViewPort(iPortFullScreen);
 
     // room
@@ -1001,9 +1013,8 @@ void CSceneMatch::renderReplay()
     }
 
     // "Replay" text
-    cRender->renderText("REPLAY", iFontText, cColorMessage, iRectText, GEAlignment::TopCenter);
-
-    cRender->renderEnd();
+    lLabelMessage->setText("REPLAY");
+    cRender->renderLabel(lLabelMessage);
 
     // next interpolated point
     iCurrentReplayPlayFramePoint++;
@@ -1023,13 +1034,16 @@ void CSceneMatch::renderReplay()
 
 void CSceneMatch::playSounds(int iEvent)
 {
+    GEVector3 vPosition;
+
     switch(iEvent)
     {
     case AH_EVENT_GOAL_P1:
     case AH_EVENT_GOAL_P2:
 
-        cAudio->setPosition(iChannelPuck, cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
-                            -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+        vPosition.set(cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
+                      -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+        cAudio->setPosition(iChannelPuck, vPosition);
         cAudio->playSound(iSoundGoal[rand() % SOUNDS_GOAL], iChannelPuck);
 
         break;
@@ -1048,8 +1062,9 @@ void CSceneMatch::playSounds(int iEvent)
         else
             iSoundPlay = 2 + rand() % (SOUNDS_PUCK - 2);
         
-        cAudio->setPosition(iChannelMallet1, cGame->getRenderPositionPlayer1().x / AUDIO_RATIO, 0.0f,
-                            -cGame->getRenderPositionPlayer1().y / AUDIO_RATIO);
+        vPosition.set(cGame->getRenderPositionPlayer1().x / AUDIO_RATIO, 0.0f,
+                      -cGame->getRenderPositionPlayer1().y / AUDIO_RATIO);
+        cAudio->setPosition(iChannelMallet1, vPosition);
         cAudio->playSound(iSoundPuckMallet[iSoundPlay], iChannelMallet1);
 
         break;
@@ -1068,8 +1083,9 @@ void CSceneMatch::playSounds(int iEvent)
         else
             iSoundPlay = 2 + rand() % (SOUNDS_PUCK - 2);
 
-        cAudio->setPosition(iChannelMallet2, cGame->getRenderPositionPlayer2().x / AUDIO_RATIO, 0.0f,
-                            -cGame->getRenderPositionPlayer2().y / AUDIO_RATIO);
+        vPosition.set(cGame->getRenderPositionPlayer2().x / AUDIO_RATIO, 0.0f,
+                      -cGame->getRenderPositionPlayer2().y / AUDIO_RATIO);
+        cAudio->setPosition(iChannelMallet2, vPosition);
         cAudio->playSound(iSoundPuckMallet[iSoundPlay], iChannelMallet2);
 
         break;
@@ -1088,8 +1104,9 @@ void CSceneMatch::playSounds(int iEvent)
         else
             iSoundPlay = 2 + rand() % (SOUNDS_TABLE - 2);
 
-        cAudio->setPosition(iChannelPuck, cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
-                            -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+        vPosition.set(cGame->getRenderPositionPuck().x / AUDIO_RATIO, 0.0f,
+                      -cGame->getRenderPositionPuck().y / AUDIO_RATIO);
+        cAudio->setPosition(iChannelPuck, vPosition);
         cAudio->playSound(iSoundPuckTable[iSoundPlay], iChannelPuck);
 
         break;
@@ -1176,20 +1193,16 @@ void CSceneMatch::endOfTheMatch()
     if(cGame->getGoalsPlayer1() == sGlobal->iGameMaxGoals)
     {
         sprintf(sMessage, "Player 1 wins!");
-        render();
-        Sleep(2000);
-
-        playAgain();
+        iSleepFrame = iCurrentFrame;
+        bPlayAgain = true;
     }
 
     // player 2 wins
     else if(cGame->getGoalsPlayer2() == sGlobal->iGameMaxGoals)
     {
         sprintf(sMessage, "Player 2 wins!");
-        render();
-        Sleep(2000);
-
-        playAgain();
+        iSleepFrame = iCurrentFrame;
+        bPlayAgain = true;
     }
 
     // time over
@@ -1202,10 +1215,8 @@ void CSceneMatch::endOfTheMatch()
         else
             sprintf(sMessage, "Draw");
 
-        render();
-        Sleep(2000);
-
-        playAgain();
+        iSleepFrame = iCurrentFrame;
+        bPlayAgain = true;
     }
 
     // ESC key

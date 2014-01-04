@@ -21,7 +21,6 @@ GERenderingD3D9::GERenderingD3D9(void* Window, bool Windowed, unsigned int Scree
     d3ddev = (LPDIRECT3DDEVICE9)cDevice->getNativePointer();
 
     memset(vViewPorts, 0, VIEWPORTS * sizeof(D3DVIEWPORT9*));
-    memset(rRegions, 0, REGIONS * sizeof(LPRECT));
     memset(fFonts, 0, FONTS * sizeof(LPD3DXFONT));
 
     // default view port
@@ -62,13 +61,6 @@ GERenderingD3D9::~GERenderingD3D9()
     {
         if(fFonts[i])
             fFonts[i]->Release();
-    }
-
-    // regions
-    for(i = 0; i < REGIONS; i++)
-    {
-        if(rRegions[i])
-            delete rRegions[i];
     }
 
     // view ports
@@ -117,12 +109,18 @@ void GERenderingD3D9::createSprite(GESprite** Sprite)
     *Sprite = new GESpriteD3D9(d3ddev);
 }
 
+void GERenderingD3D9::createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment,
+                                  unsigned int Width, unsigned int Height, const char* Text)
+{
+    *Label = new GELabelD3D9(d3ddev, fFonts[Font], Text, Alignment, Width, Height);
+}
+
 void GERenderingD3D9::createCamera(GECamera** Camera)
 {
     *Camera = new GECameraD3D9(d3ddev);
 }
 
-void GERenderingD3D9::setAmbientLight(const GEColor& Color)
+void GERenderingD3D9::setAmbientLightColor(const GEColor& Color)
 {
     DWORD dwColor = D3DCOLOR_XRGB((byte)(Color.R * 255.0f), (byte)(Color.G * 255.0f),
                                   (byte)(Color.B * 255.0f));
@@ -294,31 +292,8 @@ void GERenderingD3D9::useViewPort(unsigned int ViewPort)
     d3ddev->SetViewport(vViewPorts[ViewPort]);
 }
 
-void GERenderingD3D9::defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right)
-{
-    if(Region >= REGIONS)
-        return;
-
-    if(!rRegions[Region])
-        rRegions[Region] = new RECT();
-
-    rRegions[Region]->top = Top;
-    rRegions[Region]->bottom = Bottom;
-    rRegions[Region]->left = Left;
-    rRegions[Region]->right = Right;
-}
-
-void GERenderingD3D9::releaseRegion(unsigned int Region)
-{
-    if(rRegions[Region])
-    {
-        delete rRegions[Region];
-        rRegions[Region] = NULL;
-    }
-}
-
-void GERenderingD3D9::defineFont(unsigned int Font, unsigned int Height, unsigned int Width, bool Bold, bool Italic,
-                                 const char* FontName)
+void GERenderingD3D9::defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
+                                 unsigned int Height, bool Bold, bool Italic)
 {
     if(Font >= FONTS)
         return;
@@ -391,49 +366,6 @@ void GERenderingD3D9::renderBegin()
 {
     clearBuffers();
     d3ddev->BeginScene();
-}
-
-void GERenderingD3D9::renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
-                                 GEAlignment Alignment, float Opacity)
-{
-    int iFormat;
-
-    switch(Alignment)
-    {
-    case GEAlignment::TopLeft:
-        iFormat = DT_TOP | DT_LEFT;
-        break;
-    case GEAlignment::TopCenter:
-        iFormat = DT_TOP | DT_CENTER;
-        break;
-    case GEAlignment::TopRight:
-        iFormat = DT_TOP | DT_RIGHT;
-        break;
-    case GEAlignment::CenterLeft:
-        iFormat = DT_VCENTER | DT_LEFT;
-        break;
-    case GEAlignment::CenterCenter:
-        iFormat = DT_VCENTER | DT_CENTER;
-        break;
-    case GEAlignment::CenterRight:
-        iFormat = DT_VCENTER | DT_RIGHT;
-        break;
-    case GEAlignment::BottomLeft:
-        iFormat = DT_BOTTOM | DT_LEFT | DT_SINGLELINE;
-        break;
-    case GEAlignment::BottomCenter:
-        iFormat = DT_BOTTOM | DT_CENTER | DT_SINGLELINE;
-        break;
-    case GEAlignment::BottomRight:
-        iFormat = DT_BOTTOM | DT_RIGHT | DT_SINGLELINE;
-        break;
-    default:
-        iFormat = 0;
-    }
-
-    DWORD dwColor = D3DCOLOR_ARGB((byte)(Opacity * 255.0f), (byte)(Color.R * 255.0f),
-                                  (byte)(Color.G * 255.0f), (byte)(Color.B * 255.0f));
-    fFonts[Font]->DrawTextA(NULL, Text, -1, rRegions[Region], iFormat, dwColor);
 }
 
 void GERenderingD3D9::renderEnd()

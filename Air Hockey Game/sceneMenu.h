@@ -53,7 +53,7 @@ private:
     SGlobal* sGlobal;
 
     // options
-    char* sOption[MAX_OPTIONS];
+    char sOptionText[64];
     int iNumOptions;
     int iSelectedOption;
     int iCurrentMenu;
@@ -88,9 +88,9 @@ private:
     unsigned int iFontSelected;
     unsigned int iFontText;
 
-    // regions
-    unsigned int* iRegionOption;
-    unsigned int iRegionFullScreen;
+    // labels
+    GELabel* lLabelOption[MAX_OPTIONS];
+    GELabel* lLabelKinectInfo;
 
     void playSounds();
 

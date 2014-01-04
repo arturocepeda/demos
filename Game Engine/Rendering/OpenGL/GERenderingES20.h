@@ -54,8 +54,8 @@ private:
    GEFont fFonts[FONTS];
    
    // shaders
-   GEShaderProgram sPrograms[GEShaderPrograms.Count];
-   GLuint iUniforms[GEShaderPrograms.Count][GEUniforms.Count];
+   GEShaderProgram sPrograms[GEShaderPrograms::Count];
+   GLuint iUniforms[GEShaderPrograms::Count][GEUniforms::Count];
    unsigned int iActiveProgram;
    
    void setupProjectionMatrix();

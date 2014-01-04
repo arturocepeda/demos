@@ -51,11 +51,6 @@ CSceneMenu::~CSceneMenu()
 
 void CSceneMenu::internalInit()
 {
-    iRegionOption = new unsigned int[MAX_OPTIONS];
-
-    for(int i = 0; i < MAX_OPTIONS; i++)
-        sOption[i] = new char[64];
-
     initRenderObjects();
     initSoundObjects();
 
@@ -70,7 +65,7 @@ void CSceneMenu::internalInit()
 void CSceneMenu::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLight(GEColor((byte)100, 100, 100));
+    cRender->setAmbientLightColor(GEColor((byte)100, 100, 100));
 
     // camera
     cRender->createCamera(&cCamera);
@@ -92,28 +87,25 @@ void CSceneMenu::initRenderObjects()
     iFontOption = 1;
     iFontSelected = 2;
 
-    cRender->defineFont(iFontText, 36, 0, true, false, "Courier New");
-    cRender->defineFont(iFontOption, 60, 0, true, false, "Courier New");
-    cRender->defineFont(iFontSelected, 65, 0, true, false, "Courier New");
+    cRender->defineFont(iFontText, "Courier New", 0.0f, 0, 36, true);
+    cRender->defineFont(iFontOption, "Courier New", 0.0f, 0, 60, true);
+    cRender->defineFont(iFontSelected, "Courier New", 0.0f, 0, 65, true);
 
     // colors
     cColorOption.set((byte)140, 33, 27);
     cColorSelected.set((byte)252, 200, 200);
     bColorSelectedInc = false;
 
-    // regions
+    // labels
+    cRender->createLabel(&lLabelKinectInfo, iFontText, GEAlignment::CenterCenter,
+                         sGlobal->ScreenSizeX, sGlobal->ScreenSizeY, sKinectInfo); 
+    lLabelKinectInfo->setColor(cColorOption);
+
     for(int i = 0; i < MAX_OPTIONS; i++)
     {
-        iRegionOption[i] = i;
-
-        cRender->defineRegion(iRegionOption[i], sGlobal->ScreenSizeY / 8 + (i * (sGlobal->ScreenSizeY / 12)), 
-                                                sGlobal->ScreenSizeY / 8 + ((i + 1) * (sGlobal->ScreenSizeY / 12)),
-                                                0, 
-                                                sGlobal->ScreenSizeX);
+        cRender->createLabel(&lLabelOption[i], iFontOption, GEAlignment::CenterCenter,
+                             sGlobal->ScreenSizeX, sGlobal->ScreenSizeY / 12);
     }
-
-    iRegionFullScreen = MAX_OPTIONS;
-    cRender->defineRegion(iRegionFullScreen, 0, sGlobal->ScreenSizeY, 0, sGlobal->ScreenSizeX);
 }
 
 void CSceneMenu::initSoundObjects()
@@ -136,8 +128,6 @@ void CSceneMenu::update()
 
 void CSceneMenu::render()
 {
-    cRender->renderBegin();
-
     // background
     GEVector3 vRefPoint(0.0f, -0.5f, 0.0f);
     cCamera->orbit(vRefPoint, 6.0f, fCameraOrbitTheta, (PI * 0.5f) + 0.5f);
@@ -151,31 +141,25 @@ void CSceneMenu::render()
 
     // menu options
     int iFirstRegion = (MAX_OPTIONS - iNumOptions) / 2;
+    float fPositionY;
 
     for(int i = 0; i < iNumOptions; i++)
     {
-        cRender->renderText(sOption[i], 
-                            (i == iSelectedOption)? iFontSelected: iFontOption,
-                            (i == iSelectedOption)? cColorSelected: cColorOption, 
-                            iRegionOption[iFirstRegion + i], GEAlignment::CenterCenter);
+        fPositionY = (float)sGlobal->ScreenSizeY / 8 + ((i + iFirstRegion) * (sGlobal->ScreenSizeY / 12));
+        lLabelOption[i]->setPosition(0.0f, fPositionY);
+        lLabelOption[i]->setColor(i == iSelectedOption ? cColorSelected : cColorOption);
+        cRender->renderLabel(lLabelOption[i]);
     }
 
 #ifdef _KINECT_
     // kinect text info
     if(iCurrentMenu == MENU_KINECT_INFO)
-        cRender->renderText(sKinectInfo, iFontText, cColorOption, iRegionFullScreen, GEAlignment::CenterCenter);
+        cRender->renderLabel(lLabelKinectInfo);
 #endif
-
-    cRender->renderEnd();
 }
 
 void CSceneMenu::release()
 {
-    for(int i = 0; i < MAX_OPTIONS; i++)
-        delete[] sOption[i];
-
-    delete[] iRegionOption;
-
     releaseSoundObjects();
     releaseRenderObjects();
 }
@@ -190,11 +174,11 @@ void CSceneMenu::releaseRenderObjects()
     cRender->releaseFont(iFontOption);
     cRender->releaseFont(iFontSelected);
 
-    // regions
-    for(int i = 0; i < MAX_OPTIONS; i++)
-        cRender->releaseRegion(i);
+    // labels
+    cRender->releaseLabel(&lLabelKinectInfo);
 
-    cRender->releaseRegion(iRegionFullScreen);
+    for(int i = 0; i < MAX_OPTIONS; i++)
+        cRender->releaseLabel(&lLabelOption[i]);
 
     // meshes
     delete mMeshMallet1;
@@ -629,36 +613,36 @@ void CSceneMenu::enterMenu(int iMenu)
     {
     case MENU_MAIN:
         iNumOptions = 3;
-        strcpy(sOption[0], "Play");
-        strcpy(sOption[1], "Settings");
-        strcpy(sOption[2], "Exit");
+        lLabelOption[0]->setText("Play");
+        lLabelOption[1]->setText("Settings");
+        lLabelOption[2]->setText("Exit");
         break;
 
     case MENU_PLAY:
         iNumOptions = 2;
-        strcpy(sOption[0], "Player vs CPU");
-        strcpy(sOption[1], "Multiplayer");
+        lLabelOption[0]->setText("Player vs CPU");
+        lLabelOption[1]->setText("Multiplayer");
 #ifdef _KINECT_
         iNumOptions = 4;
-        strcpy(sOption[2], "Kinect: Player vs CPU");
-        strcpy(sOption[3], "Kinect: Player vs Player");
+        lLabelOption[2]->setText("Kinect: Player vs CPU");
+        lLabelOption[3]->setText("Kinect: Player vs Player");
 #endif
         break;
 
     case MENU_SETTINGS:
         iNumOptions = 6;
         refreshSettings();
-        strcpy(sOption[5], "CPU difficulty...");
+        lLabelOption[5]->setText("CPU difficulty...");
 #ifdef _KINECT_
         iNumOptions = 7;
-        strcpy(sOption[6], "Kinect settings...");
+        lLabelOption[6]->setText("Kinect settings...");
 #endif
         break;
 
     case MENU_MULTIPLAYER:
         iNumOptions = 2;
-        strcpy(sOption[0], "Create game");
-        strcpy(sOption[1], "Join game");
+        lLabelOption[0]->setText("Create game");
+        lLabelOption[1]->setText("Join game");
 #ifdef _KINECT_
         iNumOptions = 3;
         refreshSettings();
@@ -667,13 +651,13 @@ void CSceneMenu::enterMenu(int iMenu)
 
     case MENU_MULTIPLAYER_CLIENT:
         iNumOptions = 3;
-        strcpy(sOption[2], "Join game");
+        lLabelOption[2]->setText("Join game");
         refreshSettings();
         break;
 
     case MENU_MULTIPLAYER_SERVER:
         iNumOptions = 2;
-        strcpy(sOption[1], "Create game");
+        lLabelOption[1]->setText("Create game");
         refreshSettings();
         break;
 
@@ -837,41 +821,59 @@ void CSceneMenu::refreshSettings()
     switch(iCurrentMenu)
     {
     case MENU_SETTINGS:
-        sprintf(sOption[0], "< Goals to win: %d >", sGlobal->iGameMaxGoals);
-        sprintf(sOption[1], "< Match time: %d minute%s >", sGlobal->iGameMaxMinutes,
+        sprintf(sOptionText, "< Goals to win: %d >", sGlobal->iGameMaxGoals);
+        lLabelOption[0]->setText(sOptionText);
+        sprintf(sOptionText, "< Match time: %d minute%s >", sGlobal->iGameMaxMinutes,
                                                            (sGlobal->iGameMaxMinutes > 1)? "s": "");
-        sprintf(sOption[2], "< Table air: %s >", (sGlobal->bTableAir)? "yes": "no");
-        sprintf(sOption[3], "< Automatic replay: %s >", (sGlobal->bAutomaticReplay)? "yes": "no");
-        sprintf(sOption[4], "< Split screen: %s >", (sGlobal->bSplit)? "yes": "no");
+        lLabelOption[1]->setText(sOptionText);
+        sprintf(sOptionText, "< Table air: %s >", (sGlobal->bTableAir)? "yes": "no");
+        lLabelOption[2]->setText(sOptionText);
+        sprintf(sOptionText, "< Automatic replay: %s >", (sGlobal->bAutomaticReplay)? "yes": "no");
+        lLabelOption[3]->setText(sOptionText);
+        sprintf(sOptionText, "< Split screen: %s >", (sGlobal->bSplit)? "yes": "no");
+        lLabelOption[4]->setText(sOptionText);
         break;
 
     case MENU_MULTIPLAYER:
-        sprintf(sOption[2], "< Play with Kinect: %s >", (sGlobal->bKinect)? "yes": "no");
+        sprintf(sOptionText, "< Play with Kinect: %s >", (sGlobal->bKinect)? "yes": "no");
+        lLabelOption[2]->setText(sOptionText);
         break;
 
     case MENU_MULTIPLAYER_SERVER:
-        sprintf(sOption[0], "Port: %s_", sPort);
+        sprintf(sOptionText, "Port: %s_", sPort);
+        lLabelOption[0]->setText(sOptionText);
         break;
 
     case MENU_MULTIPLAYER_CLIENT:        
-        sprintf(sOption[0], "Server IP: %s_", sGlobal->sIPServer);
-        sprintf(sOption[1], "Port: %s_", sPort);
+        sprintf(sOptionText, "Server IP: %s_", sGlobal->sIPServer);
+        lLabelOption[0]->setText(sOptionText);
+        sprintf(sOptionText, "Port: %s_", sPort);
+        lLabelOption[1]->setText(sOptionText);
         break;
 
     case MENU_SETTINGS_DIFFICULTY:
-        sprintf(sOption[0], "< Speed for shooting: %d%% >", iPercentShooting);
-        sprintf(sOption[1], "< Speed for defending: %d%% >", iPercentDefending);
-        sprintf(sOption[2], "< Speed for clearing: %d%% >", iPercentClearing);
-        sprintf(sOption[3], "< Attack/Defense balance: %d/%d >", iPercentAttack, 100 - iPercentAttack);
+        sprintf(sOptionText, "< Speed for shooting: %d%% >", iPercentShooting);
+        lLabelOption[0]->setText(sOptionText);
+        sprintf(sOptionText, "< Speed for defending: %d%% >", iPercentDefending);
+        lLabelOption[1]->setText(sOptionText);
+        sprintf(sOptionText, "< Speed for clearing: %d%% >", iPercentClearing);
+        lLabelOption[2]->setText(sOptionText);
+        sprintf(sOptionText, "< Attack/Defense balance: %d/%d >", iPercentAttack, 100 - iPercentAttack);
+        lLabelOption[3]->setText(sOptionText);
         break;
 
     case MENU_SETTINGS_KINECT:
-        sprintf(sOption[0], "< Table width: %.0f cm >", sGlobal->fKinectWidth / 10 * 2);
-        sprintf(sOption[1], "< Minimum distance: %.0f cm >", sGlobal->fKinectMinimumDistance / 10);
-        sprintf(sOption[2], "< Maximum distance: %.0f cm >", sGlobal->fKinectMaximumDistance / 10);
+        sprintf(sOptionText, "< Table width: %.0f cm >", sGlobal->fKinectWidth / 10 * 2);
+        lLabelOption[0]->setText(sOptionText);
+        sprintf(sOptionText, "< Minimum distance: %.0f cm >", sGlobal->fKinectMinimumDistance / 10);
+        lLabelOption[1]->setText(sOptionText);
+        sprintf(sOptionText, "< Maximum distance: %.0f cm >", sGlobal->fKinectMaximumDistance / 10);
+        lLabelOption[2]->setText(sOptionText);
 #ifndef _KINECT_OPENNI_
-        sprintf(sOption[3], "< Player 1: %s >", (sGlobal->bPlayer1RightHanded)? "right-handed": "left-handed");
-        sprintf(sOption[4], "< Player 2: %s >", (sGlobal->bPlayer2RightHanded)? "right-handed": "left-handed");
+        sprintf(sOptionText, "< Player 1: %s >", (sGlobal->bPlayer1RightHanded)? "right-handed": "left-handed");
+        lLabelOption[3]->setText(sOptionText);
+        sprintf(sOptionText, "< Player 2: %s >", (sGlobal->bPlayer2RightHanded)? "right-handed": "left-handed");
+        lLabelOption[4]->setText(sOptionText);
 #endif
         break;
     }

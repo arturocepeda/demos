@@ -30,9 +30,9 @@ void GESceneSample::internalInit()
    cRender->setAmbientLightIntensity(0.4f);
 
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights.PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor(GELights.PointLight1, GEColor(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity(GELights.PointLight1, 0.6f);
+   cRender->setLightPosition(GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor(GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
+   cRender->setLightIntensity(GELights::PointLight1, 0.6f);
 
    // cameras
    cCamera = new GECamera();
@@ -71,12 +71,12 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // mesh
-   cRender->useShaderProgram(GEShaderPrograms.MeshTexture);
+   cRender->useShaderProgram(GEShaderPrograms::MeshTexture);
    cRender->renderMesh(cMeshBanana);
    
    // sprite
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBulb);
 }
 
@@ -109,7 +109,7 @@ void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const
       return;
    
    GEVector2 vScreen = cRender->pixelToScreen(CurrentPoint);   
-   cRender->setLightPosition(GELights.PointLight1, GEVector3(vScreen.X, vScreen.Y, 1.0f));
+   cRender->setLightPosition(GELights::PointLight1, GEVector3(vScreen.X, vScreen.Y, 1.0f));
    vBulbPosition.set(vScreen.X, vScreen.Y, 0.0f);
    cSpriteBulb->setPosition(vBulbPosition);
 }

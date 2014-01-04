@@ -26,6 +26,8 @@
 #define SQSPEED_VERYSLOW    100.0f
 #define SQSPEED_SLOW        500.0f
 
+#define SLEEP_FRAMES    80
+
 #define MULTIPLAYER_DATA_RATE   1
 
 #define MSG_SIZE        16
@@ -84,6 +86,10 @@ private:
     // frame counter
     unsigned int iCurrentFrame;
 
+    // sleep and restart
+    unsigned int iSleepFrame;
+    bool bPlayAgain;
+
     // multiplayer
     GEServer* cServer;
     GEClient* cClient;
@@ -130,16 +136,16 @@ private:
     unsigned int iFontText;
     unsigned int iFontDebug;
 
+    // labels
+    GELabel* lLabelMessage;
+    GELabel* lLabelDebug;
+
     // view ports (split)
     unsigned int iPortFullScreen;
     unsigned int iPortPlayer1;
     unsigned int iPortPlayer2;
     unsigned int iPortMessages;
     unsigned int iPortSpaceBelow;
-
-    // text region
-    unsigned int iRectText;
-    unsigned int iRectDebug;
 
     // text buffers
     char sMessage[256];

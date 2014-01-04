@@ -25,7 +25,7 @@ GEMeshD3D9::GEMeshD3D9(LPDIRECT3DDEVICE9 Device)
     mTextures = NULL;
     iNumMaterials = 0;
 
-    iOpacity = 0xFF;
+    cColor = GEColor(1.0f, 1.0f, 1.0f);
     bVisible = true;
 
     memset(&vPosition, 0, sizeof(GEVector3));
@@ -158,7 +158,8 @@ GESpriteD3D9::GESpriteD3D9(LPDIRECT3DDEVICE9 Device)
     d3ddev = Device;
     sSprite = NULL;
     sTexture = NULL;
-    iOpacity = 0xFF;
+
+    cColor = GEColor(1.0f, 1.0f, 1.0f);
     bVisible = true;
 
     memset(&vPosition, 0, sizeof(D3DXVECTOR3));
@@ -210,17 +211,98 @@ void GESpriteD3D9::render()
     D3DXVECTOR3 d3dvCenter(vCenter.X, vCenter.Y, vCenter.Z);
     D3DXVECTOR3 d3dvPosition(vPosition.X, vPosition.Y, vPosition.Z);
 
-    sSprite->Draw(sTexture, NULL, &d3dvCenter, &d3dvPosition, D3DCOLOR_ARGB(iOpacity, 0xFF, 0xFF, 0xFF));
+    DWORD dwColor = D3DCOLOR_ARGB((byte)(cColor.A * 255.0f), (byte)(cColor.R * 255.0f),
+                                  (byte)(cColor.G * 255.0f), (byte)(cColor.B * 255.0f));
+    sSprite->Draw(sTexture, NULL, &d3dvCenter, &d3dvPosition, dwColor);
     sSprite->End();
 }
 
-void GESpriteD3D9::setCenter(float X, float Y, float Z)
+
+
+//
+//  GELabelD3D9
+//
+GELabelD3D9::GELabelD3D9(LPDIRECT3DDEVICE9 Device, LPD3DXFONT Font, const char* Text, GEAlignment TextAligment,
+                         unsigned int Width, unsigned int Height)
+    : d3ddev(Device)
+    , fFont(Font)
+    , iWidth(Width)
+    , iHeight(Height)
 {
-    vCenter.X = X;
-    vCenter.Y = Y;
-    vCenter.Z = Z;
+    cColor = GEColor(1.0f, 1.0f, 1.0f);
+    vScale = GEVector3(1.0f, 1.0f, 1.0f);
+    bVisible = true;
+
+    memset(&vPosition, 0, sizeof(D3DXVECTOR3));
+    memset(&vCenter, 0, sizeof(D3DXVECTOR3));
+    memset(&qRotation, 0, sizeof(D3DXQUATERNION));
+
+    strcpy(sText, Text);
+    iAlignment = TextAligment;
+    rRegion = new RECT();
 }
 
+GELabelD3D9::~GELabelD3D9()
+{
+    delete rRegion;
+}
+
+void GELabelD3D9::render()
+{
+    // rectangle
+    rRegion->top = (LONG)vPosition.Y;
+    rRegion->bottom = (LONG)vPosition.Y + iHeight;
+    rRegion->left = (LONG)vPosition.X;
+    rRegion->right = (LONG)vPosition.X + iWidth;
+
+    // format
+    int iFormat;
+
+    switch(iAlignment)
+    {
+    case GEAlignment::TopLeft:
+        iFormat = DT_TOP | DT_LEFT;
+        break;
+    case GEAlignment::TopCenter:
+        iFormat = DT_TOP | DT_CENTER;
+        break;
+    case GEAlignment::TopRight:
+        iFormat = DT_TOP | DT_RIGHT;
+        break;
+    case GEAlignment::CenterLeft:
+        iFormat = DT_VCENTER | DT_LEFT;
+        break;
+    case GEAlignment::CenterCenter:
+        iFormat = DT_VCENTER | DT_CENTER;
+        break;
+    case GEAlignment::CenterRight:
+        iFormat = DT_VCENTER | DT_RIGHT;
+        break;
+    case GEAlignment::BottomLeft:
+        iFormat = DT_BOTTOM | DT_LEFT | DT_SINGLELINE;
+        break;
+    case GEAlignment::BottomCenter:
+        iFormat = DT_BOTTOM | DT_CENTER | DT_SINGLELINE;
+        break;
+    case GEAlignment::BottomRight:
+        iFormat = DT_BOTTOM | DT_RIGHT | DT_SINGLELINE;
+        break;
+    default:
+        iFormat = 0;
+    }
+
+    // color
+    DWORD dwColor = D3DCOLOR_ARGB((byte)(cColor.A * 255.0f), (byte)(cColor.R * 255.0f),
+                                  (byte)(cColor.G * 255.0f), (byte)(cColor.B * 255.0f));
+
+    // render
+    fFont->DrawTextA(NULL, sText, -1, rRegion, iFormat, dwColor);
+}
+
+void GELabelD3D9::setText(const char* Text)
+{
+    strcpy(sText, Text);
+}
 
 
 //
@@ -237,7 +319,7 @@ GECameraD3D9::~GECameraD3D9()
 
 void GECameraD3D9::use()
 {
-    D3DXVECTOR3 d3dvEye(vEye.X, vEye.Y, vEye.Z);
+    D3DXVECTOR3 d3dvEye(vPosition.X, vPosition.Y, vPosition.Z);
     D3DXVECTOR3 d3dvLookAt(vLookAt.X, vLookAt.Y, vLookAt.Z);
     D3DXVECTOR3 d3dvUp(vUp.X, vUp.Y, vUp.Z);
 

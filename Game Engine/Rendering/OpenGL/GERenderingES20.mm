@@ -30,7 +30,7 @@ GERenderingES20::GERenderingES20(EAGLContext* Context)
    setAmbientLightIntensity(0.2f);
    
    // create programs
-   for(int i = 0; i < GEShaderPrograms.Count; i++)
+   for(int i = 0; i < GEShaderPrograms::Count; i++)
    {
       sPrograms[i].ID = glCreateProgram();
       sPrograms[i].Status = 0;
@@ -52,7 +52,7 @@ GERenderingES20::GERenderingES20(EAGLContext* Context)
 GERenderingES20::~GERenderingES20()
 {
    // release programs
-   for(unsigned int i = 0; i < GEShaderPrograms.Count; i++)
+   for(unsigned int i = 0; i < GEShaderPrograms::Count; i++)
       glDeleteProgram(sPrograms[i].ID);
    
    // release textures
@@ -161,25 +161,25 @@ void GERenderingES20::loadShaders()
 #ifdef USE_SHADER_HUD
    GEVertexShader cVertexShaderHUD(@"hud");
    GEFragmentShader cFragmentShaderHUD(@"hud");
-   attachShaders(GEShaderPrograms.HUD, cVertexShaderHUD, cFragmentShaderHUD);
+   attachShaders(GEShaderPrograms::HUD, cVertexShaderHUD, cFragmentShaderHUD);
 #endif
    
 #ifdef USE_SHADER_TEXT
    GEVertexShader cVertexShaderText(@"text");
    GEFragmentShader cFragmentShaderText(@"text");
-   attachShaders(GEShaderPrograms.Text, cVertexShaderText, cFragmentShaderText);
+   attachShaders(GEShaderPrograms::Text, cVertexShaderText, cFragmentShaderText);
 #endif
    
 #ifdef USE_SHADER_MESH_COLOR
    GEVertexShader cVertexShaderMeshColor(@"mesh_color");
    GEFragmentShader cFragmentShaderMeshColor(@"mesh_color");
-   attachShaders(GEShaderPrograms.MeshColor, cVertexShaderMeshColor, cFragmentShaderMeshColor);
+   attachShaders(GEShaderPrograms::MeshColor, cVertexShaderMeshColor, cFragmentShaderMeshColor);
 #endif
    
 #ifdef USE_SHADER_MESH_TEXTURE
    GEVertexShader cVertexShaderMeshTexture(@"mesh_texture");
    GEFragmentShader cFragmentShaderMeshTexture(@"mesh_texture");
-   attachShaders(GEShaderPrograms.MeshTexture, cVertexShaderMeshTexture, cFragmentShaderMeshTexture);
+   attachShaders(GEShaderPrograms::MeshTexture, cVertexShaderMeshTexture, cFragmentShaderMeshTexture);
 #endif
 }
 
@@ -232,20 +232,20 @@ bool GERenderingES20::checkProgram(unsigned int iProgramIndex)
 void GERenderingES20::getUniformsLocation(unsigned int iProgramIndex)
 {
    // matrices
-   iUniforms[iProgramIndex][GEUniforms.ModelViewProjection] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uModelViewProjectionMatrix");
-   iUniforms[iProgramIndex][GEUniforms.ModelView] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uModelViewMatrix");
-   iUniforms[iProgramIndex][GEUniforms.Normal] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uNormalMatrix");
+   iUniforms[iProgramIndex][GEUniforms::ModelViewProjection] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uModelViewProjectionMatrix");
+   iUniforms[iProgramIndex][GEUniforms::ModelView] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uModelViewMatrix");
+   iUniforms[iProgramIndex][GEUniforms::Normal] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uNormalMatrix");
    
    // object color properties
-   iUniforms[iProgramIndex][GEUniforms.ObjectColor] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uObjectColor");
-   iUniforms[iProgramIndex][GEUniforms.Texture0] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uTexture0");
+   iUniforms[iProgramIndex][GEUniforms::ObjectColor] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uObjectColor");
+   iUniforms[iProgramIndex][GEUniforms::Texture0] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uTexture0");
    
    // lighting
-   iUniforms[iProgramIndex][GEUniforms.AmbientLightColor] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uAmbientLightColor");
-   iUniforms[iProgramIndex][GEUniforms.AmbientLightIntensity] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uAmbientLightIntensity");
-   iUniforms[iProgramIndex][GEUniforms.PointLight1Position] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Position");
-   iUniforms[iProgramIndex][GEUniforms.PointLight1Color] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Color");
-   iUniforms[iProgramIndex][GEUniforms.PointLight1Intensity] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Intensity");
+   iUniforms[iProgramIndex][GEUniforms::AmbientLightColor] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uAmbientLightColor");
+   iUniforms[iProgramIndex][GEUniforms::AmbientLightIntensity] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uAmbientLightIntensity");
+   iUniforms[iProgramIndex][GEUniforms::PointLight1Position] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Position");
+   iUniforms[iProgramIndex][GEUniforms::PointLight1Color] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Color");
+   iUniforms[iProgramIndex][GEUniforms::PointLight1Intensity] = glGetUniformLocation(sPrograms[iProgramIndex].ID, "uPointLight1Intensity");
 }
 
 void GERenderingES20::useShaderProgram(unsigned int iProgramIndex)
@@ -310,20 +310,20 @@ void GERenderingES20::renderMesh(GEMesh* Mesh)
    // set uniform values for the shaders
    cColor = Mesh->getColor();
    
-   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelViewProjection], 1, 0, matModelViewProjection.m);
-   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelView], 1, 0, matModelView.m);
-   glUniformMatrix3fv(iUniforms[iActiveProgram][GEUniforms.Normal], 1, 0, matNormal.m);
-   glUniform4f(iUniforms[iActiveProgram][GEUniforms.ObjectColor], cColor.R, cColor.G, cColor.B, Mesh->getOpacity());
+   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms::ModelViewProjection], 1, 0, matModelViewProjection.m);
+   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms::ModelView], 1, 0, matModelView.m);
+   glUniformMatrix3fv(iUniforms[iActiveProgram][GEUniforms::Normal], 1, 0, matNormal.m);
+   glUniform4f(iUniforms[iActiveProgram][GEUniforms::ObjectColor], cColor.R, cColor.G, cColor.B, Mesh->getOpacity());
    
-   glUniform3f(iUniforms[iActiveProgram][GEUniforms.AmbientLightColor], sAmbientLight.Color.R, sAmbientLight.Color.G, sAmbientLight.Color.B);
-   glUniform1f(iUniforms[iActiveProgram][GEUniforms.AmbientLightIntensity], sAmbientLight.Intensity);
+   glUniform3f(iUniforms[iActiveProgram][GEUniforms::AmbientLightColor], sAmbientLight.Color.R, sAmbientLight.Color.G, sAmbientLight.Color.B);
+   glUniform1f(iUniforms[iActiveProgram][GEUniforms::AmbientLightIntensity], sAmbientLight.Intensity);
 
-   glUniform3f(iUniforms[iActiveProgram][GEUniforms.PointLight1Position], sLights[0].Position.X, sLights[0].Position.Y, sLights[0].Position.Z);
-   glUniform3f(iUniforms[iActiveProgram][GEUniforms.PointLight1Color], sLights[0].Color.R, sLights[0].Color.G, sLights[0].Color.B);
-   glUniform1f(iUniforms[iActiveProgram][GEUniforms.PointLight1Intensity], sLights[0].Intensity);
+   glUniform3f(iUniforms[iActiveProgram][GEUniforms::PointLight1Position], sLights[0].Position.X, sLights[0].Position.Y, sLights[0].Position.Z);
+   glUniform3f(iUniforms[iActiveProgram][GEUniforms::PointLight1Color], sLights[0].Color.R, sLights[0].Color.G, sLights[0].Color.B);
+   glUniform1f(iUniforms[iActiveProgram][GEUniforms::PointLight1Intensity], sLights[0].Intensity);
 
    glBindTexture(GL_TEXTURE_2D, Mesh->getTexture());
-   glUniform1i(iUniforms[iActiveProgram][GEUniforms.Texture0], 0);
+   glUniform1i(iUniforms[iActiveProgram][GEUniforms::Texture0], 0);
    
    // draw
    Mesh->render();
@@ -341,11 +341,11 @@ void GERenderingES20::renderSprite(GESprite* Sprite)
    matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
 
    // set uniform values for the shaders
-   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelViewProjection], 1, 0, matModelViewProjection.m);
-   glUniform4f(iUniforms[iActiveProgram][GEUniforms.ObjectColor], 1.0f, 1.0f, 1.0f, Sprite->getOpacity());
+   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms::ModelViewProjection], 1, 0, matModelViewProjection.m);
+   glUniform4f(iUniforms[iActiveProgram][GEUniforms::ObjectColor], 1.0f, 1.0f, 1.0f, Sprite->getOpacity());
    
    glBindTexture(GL_TEXTURE_2D, Sprite->getTexture());
-   glUniform1i(iUniforms[iActiveProgram][GEUniforms.Texture0], 0);
+   glUniform1i(iUniforms[iActiveProgram][GEUniforms::Texture0], 0);
    
    // draw
    Sprite->render();
@@ -365,11 +365,11 @@ void GERenderingES20::renderLabel(GELabel* Label)
    // set uniform values for the shaders
    cColor = Label->getColor();
    
-   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms.ModelViewProjection], 1, 0, matModelViewProjection.m);
-   glUniform4f(iUniforms[iActiveProgram][GEUniforms.ObjectColor], cColor.R, cColor.G, cColor.B, Label->getOpacity());
+   glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms::ModelViewProjection], 1, 0, matModelViewProjection.m);
+   glUniform4f(iUniforms[iActiveProgram][GEUniforms::ObjectColor], cColor.R, cColor.G, cColor.B, Label->getOpacity());
    
    glBindTexture(GL_TEXTURE_2D, Label->getTexture());
-   glUniform1i(iUniforms[iActiveProgram][GEUniforms.Texture0], 0);
+   glUniform1i(iUniforms[iActiveProgram][GEUniforms::Texture0], 0);
    
    // draw
    Label->render(); 

@@ -31,19 +31,20 @@ public:
     GEAudioFMOD();
     ~GEAudioFMOD();
 
-    virtual void init();
-    virtual void update();
-    virtual void release();
+    void init() override;
+    void update() override;
+    void release() override;
 
-    virtual void loadSound(unsigned int Sound, const char* Filename);
-    virtual void unloadSound(unsigned int Sound);
+    void loadSound(unsigned int Sound, const char* Filename) override;
+    void unloadSound(unsigned int Sound) override;
+    void unloadAllSounds() override;
 
-    virtual void playSound(unsigned int Sound, unsigned int Channel);
-    virtual void stop(unsigned int Channel);
+    void playSound(unsigned int Sound, unsigned int Channel) override;
+    void stop(unsigned int Channel) override;
 
-    virtual bool isPlaying(unsigned int Channel);
+    bool isPlaying(unsigned int Channel) override;
 
-    virtual void setListenerPosition(float X, float Y, float Z);
-    virtual void setVolume(unsigned int Channel, float Volume);
-    virtual void setPosition(unsigned int Channel, float X, float Y, float Z);
+    void setListenerPosition(const GEVector3& Position) override;
+    void setVolume(unsigned int Channel, float Volume) override;
+    void setPosition(unsigned int Channel, const GEVector3& Position) override;
 };

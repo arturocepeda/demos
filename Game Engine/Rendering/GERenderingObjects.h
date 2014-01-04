@@ -27,18 +27,6 @@ struct GELight
 };
 
 
-struct
-{
-    enum
-    {
-        PointLight1,
-        
-        Count
-    };
-}
-GELights;
-
-
 enum GEAlignment
 {
     TopLeft,

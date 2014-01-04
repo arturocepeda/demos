@@ -95,7 +95,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 #endif
     cAudio = new GEAudioFMOD();
     cAudio->init();
-    cAudio->setListenerPosition(0.0f, 0.0f, 0.0f);
+    cAudio->setListenerPosition(GEVector3(0.0f, 0.0f, 0.0f));
 
     // hide the mouse pointer
     ShowCursor(false);
@@ -154,7 +154,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
                 cCurrentScene->setDeltaTime(dTimeDelta * 0.001);
                 cCurrentScene->inputMouse(pMouse.x, pMouse.y);
                 cCurrentScene->update();
+
+                cRender->renderBegin();
                 cCurrentScene->render();
+                cRender->renderEnd();
             }
         }
     }

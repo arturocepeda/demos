@@ -10,14 +10,13 @@
 //
 //////////////////////////////////////////////////////////////////
 
-
 #include "SceneSample.h"
 #include "GEUtils.h"
 #include "GEDevice.h"
 #include "GEConstants.h"
 
-GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData) :
-               GEScene(Render, Audio, GlobalData)
+GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
+   : GEScene(Render, Audio, GlobalData)
 {
 }
 
@@ -230,7 +229,7 @@ void GESceneSample::render()
    GESprite* cSprite;
    
    // background
-   cRender->useShaderProgram(GEShaderPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
    
    // running bugs
@@ -256,7 +255,7 @@ void GESceneSample::render()
    }
    
    // text
-   cRender->useShaderProgram(GEShaderPrograms.Text);
+   cRender->useShaderProgram(GEShaderPrograms::Text);
    cRender->renderLabel(cTextSmashed);
    cRender->renderLabel(cTextEscaped);
 }

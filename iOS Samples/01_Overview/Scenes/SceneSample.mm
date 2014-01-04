@@ -37,9 +37,9 @@ void GESceneSample::internalInit()
    cRender->setAmbientLightIntensity(0.25f);
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights.PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor(GELights.PointLight1, GEColor(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity(GELights.PointLight1, 0.6f);
+   cRender->setLightPosition(GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor(GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
+   cRender->setLightIntensity(GELights::PointLight1, 0.6f);
    
    // device info
    NSLog(@"\nDevice type: %s", (GEDevice::iPhone())? "iPhone": "iPad");
@@ -210,7 +210,7 @@ void GESceneSample::render()
 {
    // background
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
@@ -218,14 +218,14 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // meshes
-   cRender->useShaderProgram(GEShaderPrograms.MeshColor);
+   cRender->useShaderProgram(GEShaderPrograms::MeshColor);
    cRender->renderMesh(cMeshCube);
-   cRender->useShaderProgram(GEShaderPrograms.MeshTexture);
+   cRender->useShaderProgram(GEShaderPrograms::MeshTexture);
    cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms.HUD);
+   cRender->useShaderProgram(GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBall);
     
    for(int i = 0; i < FINGERS; i++)
@@ -233,7 +233,7 @@ void GESceneSample::render()
 
    // text shadow
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms.Text);
+   cRender->useShaderProgram(GEShaderPrograms::Text);
     
    cText->setColor(GEColor(0.2f, 0.2f, 0.2f, cText->getOpacity()));
    cText->move(0.015f, 0.015f, 0.0f);

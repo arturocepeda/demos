@@ -17,7 +17,6 @@
 #include <d3dx9.h>
 
 #define VIEWPORTS   16
-#define REGIONS     16
 #define FONTS       16
 
 class GERenderingD3D9 : public GERendering
@@ -28,7 +27,6 @@ private:
     unsigned int iNumLights;
 
     D3DVIEWPORT9* vViewPorts[VIEWPORTS];
-    LPRECT rRegions[REGIONS];
     LPD3DXFONT fFonts[FONTS];
 
     D3DXMATRIX mProjection;
@@ -46,11 +44,15 @@ public:
     // sprites
     void createSprite(GESprite** Sprite) override;
 
+    // labels
+    void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment,
+                     unsigned int Width, unsigned int Height, const char* Text = "") override;
+
     // cameras
     void createCamera(GECamera** Camera) override;
 
     // lighting
-    void setAmbientLight(const GEColor& Color) override;
+    void setAmbientLightColor(const GEColor& Color) override;
 
     unsigned int createDirectionalLight(const GEColor& Color, float Range,
                                         const GEVector3& Direction) override;
@@ -73,13 +75,9 @@ public:
     void useViewPort(unsigned int ViewPort) override;
     void releaseViewPort(unsigned int ViewPort) override;
 
-    // regions
-    void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right) override;
-    void releaseRegion(unsigned int Region) override;
-
     // fonts
-    void defineFont(unsigned int Font, unsigned int Height, unsigned int Width, bool Bold, bool Italic,
-                    const char* FontName) override;
+    void defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
+                    unsigned int Height, bool Bold = false, bool Italic = false) override;
     void releaseFont(unsigned int Font) override;
 
     // transformations
@@ -89,7 +87,5 @@ public:
 
     // rendering
     void renderBegin() override;
-    void renderText(const char* Text, unsigned int Font, const GEColor& Color, unsigned int Region,
-                    GEAlignment Alignment, float Opacity = 1.0f) override;
     void renderEnd() override;
 };

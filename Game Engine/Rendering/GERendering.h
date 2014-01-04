@@ -26,7 +26,18 @@ struct GETextureSize
 };
 
 
-struct
+namespace GELights
+{
+    enum
+    {
+        PointLight1,
+        
+        Count
+    };
+}
+
+
+namespace GEShaderPrograms
 {
     enum
     {
@@ -38,7 +49,6 @@ struct
         Count
     };
 }
-GEShaderPrograms;
 
 
 class GERendering
@@ -60,7 +70,7 @@ protected:
     
     unsigned int iNumberOfActiveLights;
     GELight sAmbientLight;
-    GELight sLights[GELights.Count];
+    GELight sLights[GELights::Count];
     
     virtual void setupProjectionMatrix() = 0;
     virtual void clearBuffers() = 0;
@@ -99,7 +109,8 @@ public:
     void releaseSprite(GESprite** Sprite);
     
     // labels
-    virtual void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment, const char* Text = "") = 0;
+    virtual void createLabel(GELabel** Label, unsigned int Font, GEAlignment Alignment,
+                             unsigned int Width, unsigned int Height, const char* Text = "") = 0;
     void releaseLabel(GELabel** Label);
 
     // cameras
@@ -108,8 +119,8 @@ public:
     void releaseCamera(GECamera** Camera);
 
     // lighting
-    void setAmbientLightColor(const GEColor& Color);
-    void setAmbientLightIntensity(float Intensity);
+    virtual void setAmbientLightColor(const GEColor& Color);
+    virtual void setAmbientLightIntensity(float Intensity);
 
     virtual unsigned int createDirectionalLight(const GEColor& Color, float Range,
                                                 const GEVector3& Direction) = 0;
@@ -120,24 +131,20 @@ public:
                                          float Theta, float Phi, float Falloff) = 0;
 
     void setNumberOfActiveLights(unsigned int N);
-    void switchLight(unsigned int Light, bool On);
-    void moveLight(unsigned int Light, const GEVector3& Delta);
+    virtual void switchLight(unsigned int Light, bool On);
+    virtual void moveLight(unsigned int Light, const GEVector3& Delta);
     virtual void releaseLight(unsigned int Light);
     
-    void setLightColor(unsigned int Light, const GEColor& Color);
-    void setLightRange(unsigned int Light, float Range);
-    void setLightIntensity(unsigned int LightIndex, float Intensity);
-    void setLightPosition(unsigned int Light, const GEVector3& Position);
-    void setLightDirection(unsigned int Light, const GEVector3& Direction);
+    virtual void setLightColor(unsigned int Light, const GEColor& Color);
+    virtual void setLightRange(unsigned int Light, float Range);
+    virtual void setLightIntensity(unsigned int LightIndex, float Intensity);
+    virtual void setLightPosition(unsigned int Light, const GEVector3& Position);
+    virtual void setLightDirection(unsigned int Light, const GEVector3& Direction);
 
     // view ports
     virtual void defineViewPort(unsigned int ViewPort, int X, int Y, int Width, int Height) {}
     virtual void useViewPort(unsigned int ViewPort) {}
     virtual void releaseViewPort(unsigned int ViewPort) {}
-
-    // regions
-    virtual void defineRegion(unsigned int Region, int Top, int Bottom, int Left, int Right) {}
-    virtual void releaseRegion(unsigned int Region) {}
 
     // fonts
     virtual void defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,

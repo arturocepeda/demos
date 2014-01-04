@@ -20,7 +20,7 @@
 //
 //  Shader uniforms
 //
-struct
+namespace GEUniforms
 {
    enum
    {
@@ -37,8 +37,7 @@ struct
       
       Count
    };
-} 
-GEUniforms;
+}
 
 
 //
