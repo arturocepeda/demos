@@ -76,8 +76,8 @@ public:
     void releaseViewPort(unsigned int ViewPort) override;
 
     // fonts
-    void defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
-                    unsigned int Height, bool Bold = false, bool Italic = false) override;
+    void defineFont(unsigned int Font, const char* FontName, float Size,
+                    bool Bold = false, bool Italic = false) override;
     void releaseFont(unsigned int Font) override;
 
     // transformations

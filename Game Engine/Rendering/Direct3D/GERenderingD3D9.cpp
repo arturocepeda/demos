@@ -292,14 +292,15 @@ void GERenderingD3D9::useViewPort(unsigned int ViewPort)
     d3ddev->SetViewport(vViewPorts[ViewPort]);
 }
 
-void GERenderingD3D9::defineFont(unsigned int Font, const char* FontName, float Size, unsigned int Width,
-                                 unsigned int Height, bool Bold, bool Italic)
+void GERenderingD3D9::defineFont(unsigned int Font, const char* FontName, float Size,
+                                 bool Bold, bool Italic)
 {
     if(Font >= FONTS)
         return;
 
-    D3DXCreateFontA(d3ddev, Height, Width, Bold? FW_BOLD: FW_NORMAL, 0, Italic, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, 
-                    DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, TEXT(FontName), &fFonts[Font]);
+    D3DXCreateFontA(d3ddev, (UINT)Size, 0, Bold ? FW_BOLD : FW_NORMAL, 0, Italic,
+                    DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                    DEFAULT_PITCH | FF_DONTCARE, TEXT(FontName), &fFonts[Font]);
 }
 
 void GERenderingD3D9::releaseFont(unsigned int Font)

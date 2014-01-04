@@ -216,8 +216,8 @@ void CSceneMatch::initRenderObjects()
     iFontText = 1;
     iFontDebug = 2;
 
-    cRender->defineFont(iFontText, "Courier New", 0.0f, 0, 50, true, true);
-    cRender->defineFont(iFontDebug, "Courier New", 0.0f, 0, 20);
+    cRender->defineFont(iFontText, "Courier New", 50.0f, true, true);
+    cRender->defineFont(iFontDebug, "Courier New", 20.0f);
 
     // colors
     cColorMessage.set((byte)140, 33, 27);

@@ -87,9 +87,9 @@ void CSceneMenu::initRenderObjects()
     iFontOption = 1;
     iFontSelected = 2;
 
-    cRender->defineFont(iFontText, "Courier New", 0.0f, 0, 36, true);
-    cRender->defineFont(iFontOption, "Courier New", 0.0f, 0, 60, true);
-    cRender->defineFont(iFontSelected, "Courier New", 0.0f, 0, 65, true);
+    cRender->defineFont(iFontText, "Courier New", 36.0f, true);
+    cRender->defineFont(iFontOption, "Courier New", 60.0f, true);
+    cRender->defineFont(iFontSelected, "Courier New", 65.0f, true);
 
     // colors
     cColorOption.set((byte)140, 33, 27);
