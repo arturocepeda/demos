@@ -52,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		693935C116A972B20061C256 /* banana.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = banana.pvrtc; path = Resources/Textures/banana.pvrtc; sourceTree = "<group>"; };
+		6995DCA3187E081000CF404B /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ../../common/Prefix.pch; sourceTree = "<group>"; };
 		CE7600521875EA51006E4B92 /* GEAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEAudio.cpp; sourceTree = "<group>"; };
 		CE7600531875EA51006E4B92 /* GEAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudio.h; sourceTree = "<group>"; };
 		CE7600551875EA51006E4B92 /* GEAudioOpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudioOpenAL.h; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		CEE82F7316679399004FBB96 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		CEE82F7716679399004FBB96 /* 01_Overview-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "01_Overview-Info.plist"; sourceTree = "<group>"; };
 		CEE82F7916679399004FBB96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CEE82F7D16679399004FBB96 /* 01_Overview-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "01_Overview-Prefix.pch"; sourceTree = "<group>"; };
 		CEE82F8B16679399004FBB96 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CEE82F8C16679399004FBB96 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
 		CEE82F97166794A2004FBB96 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -286,8 +286,8 @@
 		CEE82F7616679399004FBB96 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6995DCA3187E081000CF404B /* Prefix.pch */,
 				CEE82F7716679399004FBB96 /* 01_Overview-Info.plist */,
-				CEE82F7D16679399004FBB96 /* 01_Overview-Prefix.pch */,
 				CEE82F7816679399004FBB96 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -363,7 +363,6 @@
 				CEE82F6316679399004FBB96 /* Sources */,
 				CEE82F6416679399004FBB96 /* Frameworks */,
 				CEE82F6516679399004FBB96 /* Resources */,
-				50524F424C454D533F /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -426,8 +425,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-
 
 /* Begin PBXSourcesBuildPhase section */
 		CEE82F6316679399004FBB96 /* Sources */ = {
@@ -523,7 +520,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Main/01_Overview-Prefix.pch";
+				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				HEADER_SEARCH_PATHS = (
 					"\"../../Game Engine\"",
@@ -538,7 +535,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Main/01_Overview-Prefix.pch";
+				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				HEADER_SEARCH_PATHS = (
 					"\"../../Game Engine\"",
