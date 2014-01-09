@@ -41,7 +41,7 @@ enum GEAlignment
 };
 
 
-class GERenderingObject
+class GERenderingObject : private GENonCopyable
 {
 protected:
     GEVector3 vPosition;

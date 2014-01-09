@@ -13,11 +13,12 @@
 #pragma once
 
 #include "Core/GETypes.h"
+#include "Core/GEUtils.h"
 
 #define CHANNELS 256
 #define SOUNDS 256
 
-class GEAudio
+class GEAudio : private GENonCopyable
 {
 protected:
     float fVolume[CHANNELS];

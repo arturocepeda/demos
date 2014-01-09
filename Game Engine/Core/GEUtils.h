@@ -16,6 +16,20 @@
 #include <cmath>
 
 //
+//  GENonCopyable
+//
+class GENonCopyable
+{
+protected:
+    GENonCopyable() {}
+    ~GENonCopyable() {}
+
+private:
+    GENonCopyable(const GENonCopyable&);
+    GENonCopyable& operator = (const GENonCopyable&);
+};
+
+//
 //  GELine
 //
 class GELine

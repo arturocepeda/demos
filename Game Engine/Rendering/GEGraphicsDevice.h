@@ -12,7 +12,9 @@
 
 #pragma once
 
-class GEGraphicsDevice
+#include "Core/GEUtils.h"
+
+class GEGraphicsDevice : private GENonCopyable
 {
 public:
     GEGraphicsDevice();

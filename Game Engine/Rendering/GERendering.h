@@ -51,7 +51,7 @@ namespace GEShaderPrograms
 }
 
 
-class GERendering
+class GERendering : private GENonCopyable
 {
 protected:
     void* pWindow;
