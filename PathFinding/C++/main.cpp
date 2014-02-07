@@ -16,6 +16,7 @@
 #include "ParserMeshGraph.h"
 #include "Dijkstra.h"
 #include "AStar.h"
+#include "PathFinder.h"
 #include <vector>
 #include <windows.h>
 
@@ -30,8 +31,8 @@ const int ColorWhite = ColorBlue | ColorGreen | ColorRed;
 
 HANDLE hstdout;
 
-std::vector<int> tryAlgorithm(Graph& graph, int nodeStart, int nodeTarget, GraphSearch* algorithm);
-void drawGraph(MeshGraph& graph, const std::vector<int>& path);
+void drawGraph(MeshGraph& graph, const std::vector<int>& path, int currentNode);
+void printPath(PathFinder& pathFinder, int nodeStart, int nodeTarget);
 bool contains(const std::vector<int>& path, int node);
 
 int main(int argc, char* argv[])
@@ -44,11 +45,14 @@ int main(int argc, char* argv[])
     meshGraph.setConnections();
 
     GraphSearch* searchAlgorithm = new AStar();
-    std::vector<int> path;
 
     int start = 0;
     int lastNode = (MeshColumns * MeshRows) - 1;
     int end = lastNode;
+    int currentNode = start;
+
+    PathFinder pathFinder(&meshGraph, searchAlgorithm);
+    pathFinder.calculatePath(start, end);
 
     int option;
     int nodeA;
@@ -59,11 +63,12 @@ int main(int argc, char* argv[])
     do
     {
         SetConsoleTextAttribute(hstdout, ColorGreen);
-        path = tryAlgorithm(meshGraph, start, end, searchAlgorithm);
+        std::vector<int>& path = pathFinder.getCurrentPath();
 
-        drawGraph(meshGraph, path);
+        printPath(pathFinder, start, end);
+        drawGraph(meshGraph, path, currentNode);
 
-        std::cout << "\n\n   0) Exit  1) Select route  2) Open node  3) Close node -> ";
+        std::cout << "\n\n   0) Exit  1) New route  2) Open node  3) Close node  4) Set position -> ";
         std::cin >> option;
 
         if(option == 1)
@@ -73,7 +78,7 @@ int main(int argc, char* argv[])
             std::cout << "   Node B: ";
             std::cin >> nodeB;
         }
-        else if(option >= 2 && option <= 3)
+        else if(option >= 2 && option <= 4)
         {
             std::cout << "\n   Node: ";
             std::cin >> nodeA;
@@ -82,29 +87,56 @@ int main(int argc, char* argv[])
         switch(option)
         {
         case 1:
+
             if(nodeA >= 0 && nodeA <= lastNode)
                 start = nodeA;
+
             if(nodeB >= 0 && nodeB <= lastNode)
                 end = nodeB;
+
+            pathFinder.calculatePath(start, end);
+            currentNode = start;
+
             break;
+
         case 2:
+
             if(nodeA >= 0 && nodeA <= lastNode)
+            {
                 meshGraph.setReachableNode(nodeA);
+                pathFinder.updatePath(currentNode, nodeA);
+            }
+
             break;
+
         case 3:
+
             if(nodeA >= 0 && nodeA <= lastNode)
+            {
                 meshGraph.setUnreachableNode(nodeA);
+                pathFinder.updatePath(currentNode, nodeA);
+            }
+
+            break;
+
+        case 4:
+
+            std::vector<int>& currentPath = pathFinder.getCurrentPath();
+
+            if(std::find(currentPath.begin(), currentPath.end(), nodeA) != currentPath.end())
+                currentNode = nodeA;
+
             break;
         }
 
-    } while (option != 0);
+    } while(option != 0);
 
     delete searchAlgorithm;
 
     return 0;
 }
 
-void drawGraph(MeshGraph& graph, const std::vector<int>& path)
+void drawGraph(MeshGraph& graph, const std::vector<int>& path, int currentNode)
 {
     for(int i = 0; i < graph.getNumberOfRows(); i++)
     {
@@ -114,7 +146,9 @@ void drawGraph(MeshGraph& graph, const std::vector<int>& path)
         {
             int node = i * graph.getNumberOfColumns() + j;
 
-            if(graph.isUnreachableNode(node))
+            if(node == currentNode)
+                SetConsoleTextAttribute(hstdout, ColorYellow);
+            else if(graph.isUnreachableNode(node))
                 SetConsoleTextAttribute(hstdout, ColorRed);
             else if(contains(path, node))
                 SetConsoleTextAttribute(hstdout, ColorGreen);
@@ -124,34 +158,30 @@ void drawGraph(MeshGraph& graph, const std::vector<int>& path)
             std::cout << std::setw(4) << node;
         }
 
-        std::cout << "\n";
+        std::cout << std::endl;
     }
 
     SetConsoleTextAttribute(hstdout, ColorWhite);
 }
 
-std::vector<int> tryAlgorithm(Graph& graph, int nodeStart, int nodeTarget, GraphSearch* algorithm)
+void printPath(PathFinder& pathFinder, int nodeStart, int nodeTarget)
 {
     std::cout << "\n   Path from " << nodeStart << " to " << nodeTarget << ":";
-    bool pathFound = algorithm->search(&graph, nodeStart, nodeTarget);
-    std::vector<int> path;
+    std::vector<int>& path = pathFinder.getCurrentPath();
 
-    if(pathFound)
+    if(!path.empty())
     {
-        path = algorithm->getPath();
-        int currentNode = path.size() - 1;
+        unsigned int currentNode = 0;
 
-        while(currentNode >= 0)
-            std::cout << " " << path[currentNode--];
-
-        std::cout << "\n   " << algorithm->getNumberOfVisitedNodes() << " nodes visited\n";
+        while(currentNode < path.size())
+            std::cout << " " << path[currentNode++];
     }
     else
     {
-        std::cout << " no path\n";
+        std::cout << " no path";
     }
 
-    return path;
+    std::cout << std::endl;
 }
 
 bool contains(const std::vector<int>& path, int node)

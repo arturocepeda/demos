@@ -277,6 +277,28 @@ void GECamera::orbit(const GEVector3& ReferencePoint, float Distance, float Thet
     lookAt(ReferencePoint);
 }
 
+void GECamera::moveForward(float Quantity)
+{
+    GEVector3 vDirection = vLookAt - vPosition;
+    vDirection.normalize();
+    vDirection *= Quantity;
+
+    move(vDirection);
+    lookAt(vLookAt + vDirection);
+}
+
+void GECamera::moveLeft(float Quantity)
+{
+    GEVector3 vDirection = vLookAt - vPosition;
+    vDirection.normalize();
+
+    GEVector3 vCameraLeft = vDirection.crossProduct(GEVector3(0.0f, 1.0f, 0.0f));
+    vCameraLeft *= Quantity;
+
+    move(vCameraLeft);
+    lookAt(vLookAt + vCameraLeft);
+}
+
 void GECamera::use()
 {
 }

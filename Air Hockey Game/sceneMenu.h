@@ -116,5 +116,5 @@ public:
     void render();
     void release();
 
-    void inputKey(char Key);
+    void inputKeyPress(char Key);
 };

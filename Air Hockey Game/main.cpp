@@ -151,7 +151,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
             if(cCurrentScene)
             {
-                cCurrentScene->setDeltaTime(dTimeDelta * 0.001);
+                cCurrentScene->setDeltaTime((float)dTimeDelta * 0.001f);
                 cCurrentScene->inputMouse(pMouse.x, pMouse.y);
                 cCurrentScene->update();
 
@@ -178,7 +178,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         switch(iMsg)
         {
         case WM_KEYDOWN:
-            cCurrentScene->inputKey((char)wParam);
+            cCurrentScene->inputKeyPress((char)wParam);
             return 0;
 
         case WM_LBUTTONDOWN:

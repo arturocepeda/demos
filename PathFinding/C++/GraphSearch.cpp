@@ -12,6 +12,19 @@
 #include <vector>
 #include <climits>
 
+GraphSearch::GraphSearch()
+{
+    Infinity = std::numeric_limits<int>::max();
+    InvalidNodeIndex = -1;
+    costSoFar = NULL;
+    previousNode = NULL;
+}
+
+GraphSearch::~GraphSearch()
+{
+    release();
+}
+
 void GraphSearch::initialize()
 {
     release();
@@ -75,19 +88,6 @@ int GraphSearch::getNextNode()
     return nextNode;
 }
 
-GraphSearch::GraphSearch()
-{
-    Infinity = std::numeric_limits<int>::max();
-    InvalidNodeIndex = -1;
-    costSoFar = NULL;
-    previousNode = NULL;
-}
-
-GraphSearch::~GraphSearch()
-{
-    release();
-}
-
 bool GraphSearch::search(Graph* graph, int startNode, int targetNode)
 {
     this->graph = graph;
@@ -140,11 +140,9 @@ std::vector<int> GraphSearch::getPath()
 
     while(currentNode != startNode)
     {
-        shortestPath.push_back(currentNode);
+        shortestPath.insert(shortestPath.begin(), currentNode);
         currentNode = previousNode[currentNode];
     }
-
-    shortestPath.push_back(currentNode);
 
     return shortestPath;
 }

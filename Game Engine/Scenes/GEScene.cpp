@@ -16,8 +16,12 @@
 GEScene::GEScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
     : cRender(Render)
     , cAudio(Audio)
-    , dDeltaTime(0.0)
+    , fDeltaTime(0.0f)
     , callbackScene(NULL)
+    , iMouseX(0)
+    , iMouseY(0)
+    , iMouseLastX(0)
+    , iMouseLastY(0)
 {
 }
 
@@ -35,12 +39,18 @@ void GEScene::init()
     internalInit();
 }
 
-void GEScene::inputKey(char Key)
+void GEScene::inputKeyPress(char Key)
+{
+}
+
+void GEScene::inputKeyRelease(char Key)
 {
 }
 
 void GEScene::inputMouse(int X, int Y)
 {
+    iMouseLastX = iMouseX;
+    iMouseLastY = iMouseY;
     iMouseX = X;
     iMouseY = Y;
 }
@@ -69,9 +79,9 @@ void GEScene::updateAccelerometerStatus(const GEVector3& Status)
 {
 }
 
-void GEScene::setDeltaTime(double DeltaTime)
+void GEScene::setDeltaTime(float DeltaTime)
 {
-    dDeltaTime = DeltaTime;
+    fDeltaTime = DeltaTime;
 }
 
 void GEScene::setCallback(void (*function)(unsigned int NewScene))

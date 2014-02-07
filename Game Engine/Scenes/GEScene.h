@@ -45,7 +45,7 @@ protected:
     GEAudio* cAudio;
 
     // delta time
-    double dDeltaTime;
+    float fDeltaTime;
 
     // scene management
     void (*callbackScene)(unsigned int iNewScene);
@@ -53,6 +53,8 @@ protected:
     // mouse position
     int iMouseX;
     int iMouseY;
+    int iMouseLastX;
+    int iMouseLastY;
 
     // scene change
     int iNextScene;
@@ -68,7 +70,8 @@ public:
     virtual void render() = 0;
     virtual void release() = 0;
 
-    virtual void inputKey(char Key);
+    virtual void inputKeyPress(char Key);
+    virtual void inputKeyRelease(char Key);
 
     virtual void inputMouse(int X, int Y);
     virtual void inputMouseLeftButton();
@@ -80,7 +83,7 @@ public:
    
     virtual void updateAccelerometerStatus(const GEVector3& Status);
 
-    void setDeltaTime(double DeltaTime);
+    void setDeltaTime(float DeltaTime);
     void setCallback(void (*function)(unsigned int NewScene));
 
     int getNextScene();

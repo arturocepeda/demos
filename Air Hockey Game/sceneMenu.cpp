@@ -115,10 +115,10 @@ void CSceneMenu::initSoundObjects()
 void CSceneMenu::update()
 {
     // camera orbit
-    fCameraOrbitTheta += (float)dDeltaTime * 0.0002f;
+    fCameraOrbitTheta += fDeltaTime * 0.0002f;
 
     // selected color animation
-    cColorSelected.R += (float)(bColorSelectedInc ? dDeltaTime : -dDeltaTime) * 0.001f;
+    cColorSelected.R += (bColorSelectedInc ? fDeltaTime : -fDeltaTime) * 0.001f;
 
     if(cColorSelected.R > 0.95f)
         bColorSelectedInc = false;
@@ -191,7 +191,7 @@ void CSceneMenu::releaseSoundObjects()
 {
 }
 
-void CSceneMenu::inputKey(char Key)
+void CSceneMenu::inputKeyPress(char Key)
 {
 #ifdef _KINECT_
     if(iCurrentMenu == MENU_KINECT_INFO)

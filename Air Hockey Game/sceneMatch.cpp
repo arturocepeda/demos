@@ -724,7 +724,7 @@ void CSceneMatch::release()
     releaseRenderObjects();
 }
 
-void CSceneMatch::inputKey(char Key)
+void CSceneMatch::inputKeyPress(char Key)
 {
     if(bReplayMode && !sGlobal->bMultiplayer)
     {

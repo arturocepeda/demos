@@ -157,5 +157,8 @@ public:
     void lookAt(const GEVector3& LookAt);
     void orbit(const GEVector3& ReferencePoint, float Distance, float Theta, float Phi);
 
+    void moveForward(float Quantity);
+    void moveLeft(float Quantity);
+
     virtual void use();
 };

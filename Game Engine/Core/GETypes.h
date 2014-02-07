@@ -172,6 +172,16 @@ struct GEVector3
         Z /= fLength;
     }
 
+    float dotProduct(const GEVector3& other)
+    {
+        return X * other.X + Y * other.Y + Z * other.Z;
+    }
+
+    GEVector3 crossProduct(const GEVector3& other)
+    {
+        return GEVector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
+    }
+
     GEVector3 operator+(const GEVector3& v)
     {
         return GEVector3(X + v.X, Y + v.Y, Z + v.Z);
