@@ -63,17 +63,15 @@ GEVertexAttributes;
 class GEOpenGLElement
 {
 protected:
-    // vertex data pointers
-    float* fVertex;
-    float* fTextureCoordinate;
-    float* fNormals;
-    
-    // vertex array and vertex buffers
-    GLuint iVertexArray;
-    GLuint iVertexBuffers[GEVertexAttributes.Count];
+    // vertex data
+   float* fVertexData;   
+   int iVertexStride;
+   
+   GEOpenGLElement();
+   ~GEOpenGLElement();
     
 public:
-    void getModelMatrix(GEMatrix4* ModelMatrix);
+   void getModelMatrix(GEMatrix4* ModelMatrix);
 };
 
 
@@ -82,6 +80,11 @@ public:
 //
 class GEMeshES20 : public GEMesh, public GEOpenGLElement
 {
+private:
+   bool bUseTexture;
+   
+   void unload();
+   
 public:
    GEMeshES20();
    ~GEMeshES20();
@@ -90,7 +93,6 @@ public:
     
    void loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals);
    void loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals, float* TextureCoordinate);
-   void unload();
    
    void render();
 };
@@ -130,9 +132,6 @@ private:
    
    float fMaxS;
    float fMaxT;
-    
-   float* fVertex;
-   float* fTextureCoordinate;
    
    NSTextAlignment convertAlignment(GEAlignment iAlignment);
     

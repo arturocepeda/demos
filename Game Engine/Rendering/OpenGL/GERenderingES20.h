@@ -25,6 +25,10 @@ private:
    EAGLContext* glContext;
    GEColor cColor;
    
+   // buffers
+   GLuint iVertexBuffer;
+   GLuint iIndexBuffer;
+   
    // matrices
    GLKMatrix4 matProjection;
    GLKMatrix4 matView;

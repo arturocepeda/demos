@@ -15,36 +15,38 @@
 
 
 //
+//  GEOpenGLElement
+//
+GEOpenGLElement::GEOpenGLElement()
+   : fVertexData(NULL)
+{
+}
+
+GEOpenGLElement::~GEOpenGLElement()
+{
+   if(fVertexData)
+      delete[] fVertexData;
+}
+
+
+//
 //  GEMeshES20
 //
 GEMeshES20::GEMeshES20()
-{   
+   : bUseTexture(false)
+{
    bVisible = true;
-   
    iNumVertices = 0;
-   fVertex = NULL;
-   fNormals = NULL;
-   fTextureCoordinate = NULL;
 
    memset(&vPosition, 0, sizeof(GEVector3));
    memset(&vRotation, 0, sizeof(GEVector3));
    vScale.set(1.0f, 1.0f, 1.0f);
    cColor.A = 1.0f;
    iTexture = 0;
-
-   // generate vertex array
-   glGenVertexArraysOES(1, &iVertexArray);
-   glBindVertexArrayOES(iVertexArray);
-   
-   // generate vertex buffers
-   glGenBuffers(GEVertexAttributes.Count, iVertexBuffers);
 }
 
 GEMeshES20::~GEMeshES20()
 {
-   // release vertex array and vertex buffers
-   glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
-   glDeleteVertexArraysOES(1, &iVertexArray);
 }
 
 void GEMeshES20::getModelMatrix(GEMatrix4* ModelMatrix)
@@ -60,77 +62,84 @@ void GEMeshES20::getModelMatrix(GEMatrix4* ModelMatrix)
 
 void GEMeshES20::loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals)
 {
+   unload();
+   
    iNumVertices = NumVertices;
-   fVertex = Vertex;
-   fNormals = Normals;
-   fTextureCoordinate = NULL;
+   iVertexStride = (3 + 3) * sizeof(float);
+   fVertexData = new float[iNumVertices * iVertexStride];
+   bUseTexture = false;
    
-   // bind vertex array object
-   glBindVertexArrayOES(iVertexArray);
+   float* pCurrentVertex = fVertexData;
+   float* pCurrentPosition = Vertex;
+   float* pCurrentNormal = Normals;
    
-   // fill vertex array buffers
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Position]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fVertex, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Position);
-   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Normal]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fNormals, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Normal);
-   glVertexAttribPointer(GEVertexAttributes.Normal, 3, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   // unbind buffers and vertex array object
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArrayOES(0);
+   for(unsigned int i = 0; i < iNumVertices; i++)
+   {
+      memcpy(pCurrentVertex, pCurrentPosition, 3 * sizeof(float));
+      pCurrentVertex += 3;
+      pCurrentPosition += 3;
+      
+      memcpy(pCurrentVertex, pCurrentNormal, 3 * sizeof(float));
+      pCurrentVertex += 3;
+      pCurrentNormal += 3;
+   }
 }
 
 void GEMeshES20::loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals, float* TextureCoordinate)
 {
+   unload();
+   
    iNumVertices = NumVertices;
-   fVertex = Vertex;
-   fNormals = Normals;
-   fTextureCoordinate = TextureCoordinate;
+   iVertexStride = (3 + 3 + 2) * sizeof(float);
+   fVertexData = new float[iNumVertices * iVertexStride];
+   bUseTexture = true;
    
-   // bind vertex array object
-   glBindVertexArrayOES(iVertexArray);
+   float* pCurrentVertex = fVertexData;
+   float* pCurrentPosition = Vertex;
+   float* pCurrentNormal = Normals;
+   float* pCurrentTextureCoordinate = TextureCoordinate;
    
-   // fill vertex array buffers
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Position]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fVertex, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Position);
-   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Normal]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fNormals, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Normal);
-   glVertexAttribPointer(GEVertexAttributes.Normal, 3, GL_FLOAT, GL_FALSE, 0, 0);   
-   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.TextureCoord0]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * iNumVertices, fTextureCoordinate, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.TextureCoord0);
-   glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   // unbind buffers and vertex array object
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArrayOES(0);
+   for(unsigned int i = 0; i < iNumVertices; i++)
+   {
+      memcpy(pCurrentVertex, pCurrentPosition, 3 * sizeof(float));
+      pCurrentVertex += 3;
+      pCurrentPosition += 3;
+      
+      memcpy(pCurrentVertex, pCurrentNormal, 3 * sizeof(float));
+      pCurrentVertex += 3;
+      pCurrentNormal += 3;
+      
+      memcpy(pCurrentVertex, pCurrentTextureCoordinate, 2 * sizeof(float));
+      pCurrentVertex += 2;
+      pCurrentTextureCoordinate += 2;
+   }
 }
 
 void GEMeshES20::unload()
 {
    iNumVertices = 0;
    
-   fVertex = NULL;
-   fNormals = NULL;
-   fTextureCoordinate = NULL;
+   if(fVertexData)
+   {
+      delete[] fVertexData;
+      fVertexData = NULL;
+   }
 }
 
 void GEMeshES20::render()
 {
    if(!bVisible)
       return;
+
+   // load vertex data into vertex buffer
+   glBufferData(GL_ARRAY_BUFFER, iVertexStride * iNumVertices, fVertexData, GL_STATIC_DRAW);
    
-   // bind vertex array object
-   glBindVertexArrayOES(iVertexArray);
+   // set vertex declaration
+   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, iVertexStride, 0);
+   glVertexAttribPointer(GEVertexAttributes.Normal, 3, GL_FLOAT, GL_TRUE, iVertexStride, (void*)12);
+   
+   if(bUseTexture)
+      glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, iVertexStride, (void*)24);
 
    // draw
    glDrawArrays(GL_TRIANGLES, 0, iNumVertices); 
@@ -143,6 +152,7 @@ void GEMeshES20::render()
 GESpriteES20::GESpriteES20()
 {
    iNumVertices = 4;
+   iVertexStride = (3 + 2) * sizeof(float);
    
    cColor = GEColor(1.0f, 1.0f, 1.0f);
    bVisible = true;
@@ -154,34 +164,13 @@ GESpriteES20::GESpriteES20()
    vScale.Y = 1.0f;
    vScale.Z = 1.0f;
    
-   fVertex = new float[iNumVertices * 3];
-   fTextureCoordinate = new float[iNumVertices * 2];
+   fVertexData = new float[iVertexStride * iNumVertices];
    
    setCenter(GEVector3(0.0f, 0.0f, 0.0f));
    setTextureCoordinates(1.0f, 1.0f, 
                          1.0f, 0.0f, 
                          0.0f, 1.0f, 
                          0.0f, 0.0f);
-   
-   // generate vertex array
-   glGenVertexArraysOES(1, &iVertexArray);
-   glBindVertexArrayOES(iVertexArray);
-   
-   // generate vertex buffers
-   glGenBuffers(2, iVertexBuffers);
-   
-   // fill vertex array buffers
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Position]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fVertex, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Position);
-   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.TextureCoord0]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * iNumVertices, fTextureCoordinate, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.TextureCoord0);
-   glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glDisableVertexAttribArray(GEVertexAttributes.Normal);
    
    // unbind buffers and vertex array object
    glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -190,13 +179,6 @@ GESpriteES20::GESpriteES20()
 
 GESpriteES20::~GESpriteES20()
 {
-   // release vertex array and vertex buffers
-   glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
-   glDeleteVertexArraysOES(1, &iVertexArray);
-   
-   // release vertex data
-   delete[] fVertex;
-   delete[] fTextureCoordinate;
 }
 
 void GESpriteES20::getModelMatrix(GEMatrix4* ModelMatrix)
@@ -214,39 +196,33 @@ void GESpriteES20::render()
 {
    if(!bVisible)
       return;
-   
-   // bind vertex array object
-   glBindVertexArrayOES(iVertexArray);
 
+   // load vertex data into vertex buffer
+   glBufferData(GL_ARRAY_BUFFER, iVertexStride * iNumVertices, fVertexData, GL_STATIC_DRAW);
+   
+   // set vertex declaration   
+   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, iVertexStride, 0);
+   glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, iVertexStride, (void*)12);
+   
    // draw
    glDrawArrays(GL_TRIANGLE_STRIP, 0, iNumVertices);
 }
 
 void GESpriteES20::setCenter(const GEVector3& Center)
 {
-   fVertex[0] = -1 + Center.X; fVertex[ 1] = -1 + Center.Y; fVertex[ 2] = Center.Z;
-   fVertex[3] =  1 + Center.X; fVertex[ 4] = -1 + Center.Y; fVertex[ 5] = Center.Z;   
-   fVertex[6] = -1 + Center.X; fVertex[ 7] =  1 + Center.Y; fVertex[ 8] = Center.Z;   
-   fVertex[9] =  1 + Center.X; fVertex[10] =  1 + Center.Y; fVertex[11] = Center.Z;
-   
-   // update vertex buffer data
-   glBindVertexArrayOES(iVertexArray);   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Position]);
-   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * iNumVertices, fVertex);   
+   fVertexData[ 0] = -1 + Center.X; fVertexData[ 1] = -1 + Center.Y; fVertexData[ 2] = Center.Z;
+   fVertexData[ 5] =  1 + Center.X; fVertexData[ 6] = -1 + Center.Y; fVertexData[ 7] = Center.Z;
+   fVertexData[10] = -1 + Center.X; fVertexData[11] =  1 + Center.Y; fVertexData[12] = Center.Z;
+   fVertexData[15] =  1 + Center.X; fVertexData[16] =  1 + Center.Y; fVertexData[17] = Center.Z;
 }
 
 void GESpriteES20::setTextureCoordinates(float Ax, float Ay, float Bx, float By,
                                          float Cx, float Cy, float Dx, float Dy)
 {
-   fTextureCoordinate[0] = Ax; fTextureCoordinate[1] = Ay;
-   fTextureCoordinate[2] = Bx; fTextureCoordinate[3] = By;
-   fTextureCoordinate[4] = Cx; fTextureCoordinate[5] = Cy;
-   fTextureCoordinate[6] = Dx; fTextureCoordinate[7] = Dy;
-   
-   // update vertex buffer data
-   glBindVertexArrayOES(iVertexArray);   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.TextureCoord0]);
-   glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 2 * iNumVertices, fTextureCoordinate);   
+   fVertexData[ 3] = Ax; fVertexData[ 4] = Ay;
+   fVertexData[ 8] = Bx; fVertexData[ 9] = By;
+   fVertexData[13] = Cx; fVertexData[14] = Cy;
+   fVertexData[18] = Dx; fVertexData[19] = Dy;
 }
 
 
@@ -258,6 +234,7 @@ GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligmen
                          unsigned int Width, unsigned int Height)
 {
    iNumVertices = 4;
+   iVertexStride = (3 + 2) * sizeof(float);
    
    bVisible = true;
    
@@ -270,9 +247,6 @@ GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligmen
    
    cColor.set(1.0f, 1.0f, 1.0f);
    
-   fVertex = new float[iNumVertices * 3];
-   fTextureCoordinate = new float[iNumVertices * 2];
-   
    strcpy(sText, Text);
    fFont = Font;
    iWidth = Width;
@@ -282,77 +256,54 @@ GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligmen
    glGenTextures(1, &iTexture);
    fillTexture();
    
-   float fAspectRatio = (float)iHeight / iWidth;      
+   float fAspectRatio = (float)iHeight / iWidth;
    
-   fTextureCoordinate[0] = 0.0f;  fTextureCoordinate[1] = fMaxT;
-   fTextureCoordinate[2] = fMaxS; fTextureCoordinate[3] = fMaxT;
-   fTextureCoordinate[4] = 0.0f;  fTextureCoordinate[5] = 0.0f;
-   fTextureCoordinate[6] = fMaxS; fTextureCoordinate[7] = 0.0f;
+   fVertexData = new float[iVertexStride * iNumVertices];
+   
+   // set texture coordinates
+   fVertexData[ 3] = 0.0f;  fVertexData[ 4] = fMaxT;
+   fVertexData[ 8] = fMaxS; fVertexData[ 9] = fMaxT;
+   fVertexData[13] = 0.0f;  fVertexData[14] = 0.0f;
+   fVertexData[18] = fMaxS; fVertexData[19] = 0.0f;
+   
+   // set vertex positions
+   fVertexData[1] = -fAspectRatio; fVertexData[2] = 0.0f;
+   fVertexData[6] = -fAspectRatio; fVertexData[7] = 0.0f;
+   fVertexData[11] = 0.0f; fVertexData[12] = 0.0f;
+   fVertexData[16] = 0.0f; fVertexData[17] = 0.0f;
    
    switch(tAligment)
    {  
       // reference point: top left
       case UITextAlignmentLeft:         
-         fVertex[0] = 0.0f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
-         fVertex[3] = 1.0f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
-         fVertex[6] = 0.0f; fVertex[7] = 0.0f; fVertex[8] = 0.0f;
-         fVertex[9] = 1.0f; fVertex[10] = 0.0f; fVertex[11] = 0.0f;
+         fVertexData[ 0] = 0.0f;
+         fVertexData[ 5] = 1.0f;
+         fVertexData[10] = 0.0f;
+         fVertexData[15] = 1.0f;
          break;
          
       // reference point: top center
       case UITextAlignmentCenter:         
-         fVertex[0] = -0.5f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
-         fVertex[3] = 0.5f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
-         fVertex[6] = -0.5f; fVertex[7] = 0.0f; fVertex[8] = 0.0f;
-         fVertex[9] = 0.5f; fVertex[10] = 0.0f; fVertex[11] = 0.0f;        
+         fVertexData[ 0] = -0.5f;
+         fVertexData[ 5] =  0.5f;
+         fVertexData[10] = -0.5f;
+         fVertexData[15] =  0.5f;
          break;
          
       // reference point: top right
       case UITextAlignmentRight:         
-         fVertex[0] = -1.0f; fVertex[1] = -fAspectRatio; fVertex[2] = 0.0f;
-         fVertex[3] = 0.0f; fVertex[4] = -fAspectRatio; fVertex[5] = 0.0f;
-         fVertex[6] = -1.0f; fVertex[7] = 0.0f; fVertex[8] = 0.0f;
-         fVertex[9] = 0.0f; fVertex[10] = 0.0f; fVertex[11] = 0.0f;         
+         fVertexData[ 0] = -1.0f;
+         fVertexData[ 5] =  0.0f;
+         fVertexData[10] = -1.0f;
+         fVertexData[15] =  0.0f;
          break;
    }
-   
-   // generate vertex array
-   glGenVertexArraysOES(1, &iVertexArray);
-   glBindVertexArrayOES(iVertexArray);
-   
-   // generate vertex buffers
-   glGenBuffers(2, iVertexBuffers);
-   
-   // fill vertex array buffers
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.Position]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * iNumVertices, fVertex, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.Position);
-   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffers[GEVertexAttributes.TextureCoord0]);
-   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * iNumVertices, fTextureCoordinate, GL_STATIC_DRAW);
-   glEnableVertexAttribArray(GEVertexAttributes.TextureCoord0);
-   glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-   
-   glDisableVertexAttribArray(GEVertexAttributes.Normal);
-   
-   // unbind buffers and vertex array object
-   glBindBuffer(GL_ARRAY_BUFFER, 0);
-   glBindVertexArrayOES(0);
 }
 
 GELabelES20::~GELabelES20()
 {
-   // release vertex array and vertex buffers
-   glDeleteBuffers(GEVertexAttributes.Count, iVertexBuffers);
-   glDeleteVertexArraysOES(1, &iVertexArray);
-      
    // release texture
    glDeleteTextures(1, &iTexture);
-
-   // release vertex data
-   delete[] fVertex;
-   delete[] fTextureCoordinate;
 }
 
 void GELabelES20::fillTexture()
@@ -452,8 +403,12 @@ void GELabelES20::render()
    if(!bVisible)
       return;
    
-   // bind vertex array object
-   glBindVertexArrayOES(iVertexArray);
+   // load vertex data into vertex buffer
+   glBufferData(GL_ARRAY_BUFFER, iVertexStride * iNumVertices, fVertexData, GL_STATIC_DRAW);
+   
+   // set vertex declaration
+   glVertexAttribPointer(GEVertexAttributes.Position, 3, GL_FLOAT, GL_FALSE, iVertexStride, 0);
+   glVertexAttribPointer(GEVertexAttributes.TextureCoord0, 2, GL_FLOAT, GL_FALSE, iVertexStride, (void*)12);
 
    // draw
    glDrawArrays(GL_TRIANGLE_STRIP, 0, iNumVertices);

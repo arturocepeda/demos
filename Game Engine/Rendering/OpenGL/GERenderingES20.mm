@@ -40,6 +40,14 @@ GERenderingES20::GERenderingES20(EAGLContext* Context)
    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
    glEnable(GL_BLEND);
    
+   // generate and attach buffers
+   glGenBuffers(1, &iVertexBuffer);
+   glGenBuffers(1, &iIndexBuffer);
+   
+   glEnableVertexAttribArray(GEVertexAttributes.Position);
+   glEnableVertexAttribArray(GEVertexAttributes.Normal);
+   glEnableVertexAttribArray(GEVertexAttributes.TextureCoord0);
+   
    // generate textures
    glGenTextures(TEXTURES, tTextures);
    memset(tTextureSize, 0, sizeof(GETextureSize) * TEXTURES);
@@ -54,6 +62,13 @@ GERenderingES20::~GERenderingES20()
    // release programs
    for(unsigned int i = 0; i < GEShaderPrograms::Count; i++)
       glDeleteProgram(sPrograms[i].ID);
+   
+   // release buffers
+   glBindBuffer(GL_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+   
+   glDeleteBuffers(1, &iVertexBuffer);
+   glDeleteBuffers(1, &iIndexBuffer);
    
    // release textures
    glDeleteTextures(TEXTURES, tTextures);
@@ -289,6 +304,9 @@ void GERenderingES20::renderBegin()
    glClearColor(cBackgroundColor.R, cBackgroundColor.G, cBackgroundColor.B, 1.0f);
    glClearDepthf(1.0f);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   
+   glBindBuffer(GL_ARRAY_BUFFER, iVertexBuffer);
+   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iIndexBuffer);
 }
 
 void GERenderingES20::renderMesh(GEMesh* Mesh)
@@ -373,7 +391,6 @@ void GERenderingES20::renderLabel(GELabel* Label)
 
 void GERenderingES20::renderEnd()
 {
-   glBindTexture(GL_TEXTURE_2D, 0);
    [glContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
