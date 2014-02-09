@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     MeshGraph meshGraph(MeshColumns, MeshRows);
     ParserMeshGraph parserMeshGraph;
 
-    parserMeshGraph.loadUnreachableNodesFromFile(&meshGraph, ".\\..\\testobstacles.txt");
+    parserMeshGraph.loadUnreachableNodesFromFile(&meshGraph, "testobstacles.txt");
     meshGraph.setNodePositions(0.0f, 0.0f, 1.0f, 1.0f);
     meshGraph.setConnections();
 
