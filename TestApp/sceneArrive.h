@@ -2,21 +2,16 @@
 /*
     Arturo Cepeda Pérez
 
-    AirHockey3d - Using the Air Hockey Game Library
-
-    --- sceneMenu.h ---
+    --- sceneArrive.h ---
 */
 
 #pragma once
 
 #include "main.h"
 #include "Scenes/GEScene.h"
+#include "car.h"
 
-#define CAMERA_MOVE         0.005f
-#define CAMERA_ROTATE       0.00005f
-#define CAMERA_PITCH_LIMIT  1.05f
-
-class CScene : public GEScene
+class CSceneArrive : public GEScene
 {
 private:
     GERendering* cRender;
@@ -35,11 +30,10 @@ private:
     bool bMovingLeft;
     bool bMovingRight;
 
-    // meshes (background)
-    GEMesh* mMeshMallet1;
-    GEMesh* mMeshMallet2;
-    GEMesh* mMeshTable;
+    // meshes
+    GEMesh* mMeshCar;
     GEMesh* mMeshRoom;
+    GEMesh* mMeshTarget;
 
     // color
     GEColor cColorOption;
@@ -47,9 +41,15 @@ private:
     bool bColorSelectedInc;
 
     // fonts
-    unsigned int iFontOption;
-    unsigned int iFontSelected;
     unsigned int iFontText;
+
+    // labels
+    GELabel* cLabelDebug;
+    char sMessage[256];
+
+    // data
+    CCar cCar;
+    GEVector3 vTargetPoint;
 
     void playSounds();
 
@@ -62,9 +62,11 @@ private:
     void moveCameraForward(float Quantity);
     void moveCameraMouse();
 
+    float getRand();
+
 public:
-    CScene(GERendering* Render, GEAudio* Audio, void* GlobalData);
-    ~CScene();
+    CSceneArrive(GERendering* Render, GEAudio* Audio, void* GlobalData);
+    ~CSceneArrive();
 
     void internalInit();
     void update();
@@ -73,4 +75,5 @@ public:
 
     void inputKeyPress(char Key);
     void inputKeyRelease(char Key);
+    void inputMouseLeftButton();
 };

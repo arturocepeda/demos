@@ -134,10 +134,10 @@ void GEMeshD3D9::render()
         return;
 
     D3DXMatrixScaling(&mScale, vScale.X, vScale.Y, vScale.Z);
-    //D3DXMatrixRotationQuaternion(&mRotation, &qRotation);
+    D3DXMatrixRotationYawPitchRoll(&mRotation, vRotation.Y, vRotation.X, vRotation.Z);
     D3DXMatrixTranslation(&mTranslation, vPosition.X, vPosition.Y, vPosition.Z);
 
-    mTransform = mScale * /*mRotation * */mTranslation;
+    mTransform = mScale * mRotation * mTranslation;
     d3ddev->SetTransform(D3DTS_WORLD, &mTransform);
 
     for(DWORD i = 0; i < iNumMaterials; i++)

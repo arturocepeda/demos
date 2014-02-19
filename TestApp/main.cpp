@@ -22,7 +22,8 @@
 #include "Rendering/Direct3D/GERenderingD3D9.h"
 #include "Audio/FMOD/GEAudioFMOD.h"
 
-#include "scene.h"
+#include "sceneFacing.h"
+#include "sceneArrive.h"
 
 #pragma comment(lib, "..\\Game Engine\\GameEngine.D3D9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
@@ -36,7 +37,8 @@ bool bEnd;                          // loop ending flag
 
 // scenes
 GEScene* cCurrentScene;
-CScene* cScene;
+CSceneFacing* cSceneFacing;
+CSceneArrive* cSceneArrive;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, int iCmdShow)
 {
@@ -115,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     
     // initialize scenes
     cCurrentScene = NULL;
-    SceneChange(SCENE_TEST);
+    SceneChange(SCENE_FACING);
 
     // game loop
     while(!bEnd)
@@ -175,7 +177,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
             if(!cCurrentScene)
                 continue;
 
-            cCurrentScene->setDeltaTime((float)dTimeDelta * 0.001f);
+            cCurrentScene->setDeltaTime((float)dTimeDelta * 0.000001f);
             cCurrentScene->inputMouse(pMouse.x, pMouse.y);
             cCurrentScene->update();
 
@@ -237,10 +239,16 @@ void SceneChange(unsigned int iNewScene)
         bEnd = true;
         break;
 
-    // menu
-    case SCENE_TEST:
-        cScene = new CScene(cRender, cAudio, &sGlobal);
-        cCurrentScene = (GEScene*)cScene;
+    // facing
+    case SCENE_FACING:
+        cSceneFacing = new CSceneFacing(cRender, cAudio, &sGlobal);
+        cCurrentScene = (GEScene*)cSceneFacing;
+        break;
+
+    // arrive
+    case SCENE_ARRIVE:
+        cSceneArrive = new CSceneArrive(cRender, cAudio, &sGlobal);
+        cCurrentScene = (GEScene*)cSceneArrive;
         break;
     }
 

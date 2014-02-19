@@ -12,10 +12,15 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-#define SCENE_TEST  1
+#define SCENE_FACING    1
+#define SCENE_ARRIVE    2
 
 #define MOUSE_CHECK_MARGIN  16
 #define MOUSE_SET_MARGIN    24
+
+#define CAMERA_MOVE         5.0f
+#define CAMERA_ROTATE       0.05f
+#define CAMERA_PITCH_LIMIT  1.05f
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void SceneChange(unsigned int iNewScene);

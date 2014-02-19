@@ -15,6 +15,10 @@
 #include <stdlib.h>
 #include <cmath>
 
+#define PI          3.141592f
+#define HALFPI      1.570796f
+#define DOUBLEPI    6.283185f
+
 //
 //  GENonCopyable
 //
@@ -65,6 +69,16 @@ public:
 bool positive(float number);
 bool same_sign(float a, float b);
 int round(float Value);
+
+inline float getSimplifiedAngle(float angle)
+{
+    if(angle > PI)
+        angle -= DOUBLEPI;
+    else if(angle < -PI)
+        angle += DOUBLEPI;
+
+    return angle;
+}
 
 
 //

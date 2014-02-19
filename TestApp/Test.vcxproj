@@ -11,12 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="car.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="scene.cpp" />
+    <ClCompile Include="sceneFacing.cpp" />
+    <ClCompile Include="sceneArrive.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="car.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="scene.h" />
+    <ClInclude Include="sceneFacing.h" />
+    <ClInclude Include="sceneArrive.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A5FF139-EE60-4B3E-A16E-A8DDE8A5760E}</ProjectGuid>

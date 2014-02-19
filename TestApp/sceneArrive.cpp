@@ -2,17 +2,14 @@
 /*
     Arturo Cepeda Pérez
 
-    AirHockey3d - Using the Air Hockey Game Library
-
-    --- sceneMenu.cpp ---
+    --- sceneArrive.cpp ---
 */
 
-#include "scene.h"
+#include "sceneArrive.h"
 #include <stdio.h>
+#include <cmath>
 
-#define PI 3.141592f
-
-CScene::CScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
+CSceneArrive::CSceneArrive(GERendering* Render, GEAudio* Audio, void* GlobalData)
     : GEScene(Render, Audio, GlobalData)
     , bMovingForward(false)
     , bMovingBackward(false)
@@ -24,20 +21,20 @@ CScene::CScene(GERendering* Render, GEAudio* Audio, void* GlobalData)
     sGlobal = (SGlobal*)GlobalData;
 }
 
-CScene::~CScene()
+CSceneArrive::~CSceneArrive()
 {
 }
 
-void CScene::internalInit()
+void CSceneArrive::internalInit()
 {
     initRenderObjects();
     initSoundObjects();
 }
 
-void CScene::initRenderObjects()
+void CSceneArrive::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLightColor(GEColor((byte)100, 100, 100));
+    cRender->setAmbientLightColor(GEColor((byte)255, 255, 255));
 
     // camera
     cRender->createCamera(&cCamera);
@@ -45,37 +42,42 @@ void CScene::initRenderObjects()
     fPitch = 0.5f;
     fYaw = -0.8f;
 
-    // meshes (background)
-    cRender->createMesh(&mMeshMallet1);
-    cRender->createMesh(&mMeshMallet2);
-    cRender->createMesh(&mMeshTable);
+    // meshes
     cRender->createMesh(&mMeshRoom);
+    cRender->createMesh(&mMeshCar);
+    cRender->createMesh(&mMeshTarget);
 
-    mMeshMallet1->loadFromFile("meshes\\mallet.x");
-    mMeshMallet2->loadFromFile("meshes\\mallet.x");
-    mMeshTable->loadFromFile("meshes\\table.x", "textures\\");
+    mMeshCar->loadFromFile("meshes\\van.x");
+    mMeshCar->setPosition(0.0f, 0.0f, 0.0f);
+    mMeshCar->setScale(0.25f, 0.25f, 0.25f);
+
+    vTargetPoint = mMeshCar->getPosition();
+
     mMeshRoom->loadFromFile("meshes\\room.x", "textures\\");
+    mMeshRoom->setPosition(0.0f, 1.5f, 0.0f);
+
+    mMeshTarget->loadFromFile("meshes\\target.x");
+    mMeshTarget->setVisible(false);
 
     // fonts
     iFontText = 0;
-    iFontOption = 1;
-    iFontSelected = 2;
-
     cRender->defineFont(iFontText, "Courier New", 36.0f, true);
-    cRender->defineFont(iFontOption, "Courier New", 60.0f, true);
-    cRender->defineFont(iFontSelected, "Courier New", 65.0f, true);
 
     // colors
     cColorOption.set((byte)140, 33, 27);
     cColorSelected.set((byte)252, 200, 200);
     bColorSelectedInc = false;
+
+    // labels
+    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, 1024, 128, "");
+    cLabelDebug->setPosition(0.0f, 24.0f);
 }
 
-void CScene::initSoundObjects()
+void CSceneArrive::initSoundObjects()
 {
 }
 
-void CScene::update()
+void CSceneArrive::update()
 {
     // camera
     if(bMovingForward)
@@ -88,6 +90,11 @@ void CScene::update()
         cCamera->moveLeft(-fDeltaTime * CAMERA_MOVE);
     moveCameraMouse();
 
+    // car
+    cCar.update(fDeltaTime, vTargetPoint);
+    mMeshCar->setPosition(cCar.getPosition());
+    mMeshCar->setRotation(0.0f, cCar.getAngle() + PI, 0.0f);
+
     // selected color animation
     cColorSelected.R += (bColorSelectedInc ? fDeltaTime : -fDeltaTime) * 0.001f;
 
@@ -95,47 +102,47 @@ void CScene::update()
         bColorSelectedInc = false;
     else if(cColorSelected.R < 0.6f)
         bColorSelectedInc = true;
+
+    cLabelDebug->setColor(cColorSelected);
 }
 
-void CScene::render()
+void CSceneArrive::render()
 {
     cCamera->use();
-
-    mMeshRoom->setPosition(0.0f, -0.015f, 0.0f);
     cRender->renderMesh(mMeshRoom);
-
-    mMeshTable->setPosition(0.0f, -0.015f, 0.0f);
-    cRender->renderMesh(mMeshTable);
+    cRender->renderMesh(mMeshCar);
+    cRender->renderMesh(mMeshTarget);
+    cRender->renderLabel(cLabelDebug);
 }
 
-void CScene::release()
+void CSceneArrive::release()
 {
     releaseSoundObjects();
     releaseRenderObjects();
 }
 
-void CScene::releaseRenderObjects()
+void CSceneArrive::releaseRenderObjects()
 {
     // camera
     cRender->releaseCamera(&cCamera);
 
     // fonts
     cRender->releaseFont(iFontText);
-    cRender->releaseFont(iFontOption);
-    cRender->releaseFont(iFontSelected);
 
     // meshes
-    delete mMeshMallet1;
-    delete mMeshMallet2;
-    delete mMeshTable;
+    delete mMeshCar;
     delete mMeshRoom;
+    delete mMeshTarget;
+
+    // labels
+    delete cLabelDebug;
 }
 
-void CScene::releaseSoundObjects()
+void CSceneArrive::releaseSoundObjects()
 {
 }
 
-void CScene::inputKeyPress(char Key)
+void CSceneArrive::inputKeyPress(char Key)
 {
     switch(Key)
     {
@@ -167,7 +174,7 @@ void CScene::inputKeyPress(char Key)
     }
 }
 
-void CScene::inputKeyRelease(char Key)
+void CSceneArrive::inputKeyRelease(char Key)
 {
     switch(Key)
     {
@@ -189,16 +196,25 @@ void CScene::inputKeyRelease(char Key)
     }
 }
 
-void CScene::moveCameraForward(float Quantity)
+void CSceneArrive::inputMouseLeftButton()
 {
-    float fCameraY = cCamera->getPosition().Y;
-    cCamera->moveForward(Quantity);
-    
-    GEVector3 vCameraNewPosition = cCamera->getPosition();
-    cCamera->setPosition(GEVector3(vCameraNewPosition.X, fCameraY, vCameraNewPosition.Z));
+    vTargetPoint = GEVector3(getRand() * 5.0f, 0.0f, getRand() * 5.0f);
+
+    mMeshTarget->setPosition(vTargetPoint);
+    mMeshTarget->setVisible(true);
 }
 
-void CScene::moveCameraMouse()
+float CSceneArrive::getRand()
+{
+    return (float)rand() / RAND_MAX + (float)rand() / RAND_MAX - 1.0f;
+}
+
+void CSceneArrive::moveCameraForward(float Quantity)
+{
+    cCamera->moveForward(Quantity);
+}
+
+void CSceneArrive::moveCameraMouse()
 {
     fYaw += (iMouseX - iMouseLastX) * fDeltaTime * CAMERA_ROTATE;
     fPitch -= (iMouseY - iMouseLastY) * fDeltaTime * CAMERA_ROTATE;

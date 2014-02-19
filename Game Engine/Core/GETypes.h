@@ -182,6 +182,30 @@ struct GEVector3
         return GEVector3(Y * other.Z - Z * other.Y, Z * other.X - X * other.Z, X * other.Y - Y * other.X);
     }
 
+    float getSquaredDistanceTo(const GEVector3& other)
+    {
+        float fDeltaX = other.X - X;
+        float fDeltaY = other.Y - Y;
+        float fDeltaZ = other.Z - Z;
+
+        return fDeltaX * fDeltaX + fDeltaY * fDeltaY + fDeltaZ * fDeltaZ;
+    }
+
+    float getDistanceTo(const GEVector3& other)
+    {
+        float fDeltaX = other.X - X;
+        float fDeltaY = other.Y - Y;
+        float fDeltaZ = other.Z - Z;
+
+        return sqrt(fDeltaX * fDeltaX + fDeltaY * fDeltaY + fDeltaZ * fDeltaZ);
+    }
+
+    void rotateYaw(float angle)
+    {
+        X = X * cosf(angle) - Z * sinf(angle);
+        Z = X * sinf(angle) + Z * cosf(angle);
+    }
+
     GEVector3 operator+(const GEVector3& v)
     {
         return GEVector3(X + v.X, Y + v.Y, Z + v.Z);

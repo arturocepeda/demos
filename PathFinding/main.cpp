@@ -49,7 +49,9 @@ int main(int argc, char* argv[])
     int start = 0;
     int lastNode = (MeshColumns * MeshRows) - 1;
     int end = lastNode;
-    int currentNode = start;
+
+    int currentIndex = -1;
+    int currentNode;
 
     PathFinder pathFinder(&meshGraph, searchAlgorithm);
     pathFinder.calculatePath(start, end);
@@ -65,10 +67,12 @@ int main(int argc, char* argv[])
         SetConsoleTextAttribute(hstdout, ColorGreen);
         std::vector<int>& path = pathFinder.getCurrentPath();
 
+        currentNode = currentIndex >= 0 ? path[currentIndex] : start;
+
         printPath(pathFinder, start, end);
         drawGraph(meshGraph, path, currentNode);
 
-        std::cout << "\n\n   0) Exit  1) New route  2) Open node  3) Close node  4) Set position -> ";
+        std::cout << "\n\n   0) Exit  1) New route  2) Open node  3) Close node  4) Move forward -> ";
         std::cin >> option;
 
         if(option == 1)
@@ -78,7 +82,7 @@ int main(int argc, char* argv[])
             std::cout << "   Node B: ";
             std::cin >> nodeB;
         }
-        else if(option >= 2 && option <= 4)
+        else if(option >= 2 && option <= 3)
         {
             std::cout << "\n   Node: ";
             std::cin >> nodeA;
@@ -86,7 +90,7 @@ int main(int argc, char* argv[])
 
         switch(option)
         {
-        case 1:
+        case 1: // new route
 
             if(nodeA >= 0 && nodeA <= lastNode)
                 start = nodeA;
@@ -95,11 +99,11 @@ int main(int argc, char* argv[])
                 end = nodeB;
 
             pathFinder.calculatePath(start, end);
-            currentNode = start;
+            currentIndex = -1;
 
             break;
-
-        case 2:
+            
+        case 2: // open node
 
             if(nodeA >= 0 && nodeA <= lastNode)
             {
@@ -109,7 +113,7 @@ int main(int argc, char* argv[])
 
             break;
 
-        case 3:
+        case 3: // close node
 
             if(nodeA >= 0 && nodeA <= lastNode)
             {
@@ -119,12 +123,10 @@ int main(int argc, char* argv[])
 
             break;
 
-        case 4:
+        case 4: // move forward
 
-            std::vector<int>& currentPath = pathFinder.getCurrentPath();
-
-            if(std::find(currentPath.begin(), currentPath.end(), nodeA) != currentPath.end())
-                currentNode = nodeA;
+            if((currentIndex + 1) < (int)path.size())
+                currentIndex++;
 
             break;
         }

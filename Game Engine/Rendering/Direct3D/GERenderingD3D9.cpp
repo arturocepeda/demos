@@ -92,7 +92,7 @@ void GERenderingD3D9::clearBuffers()
 void GERenderingD3D9::setupProjectionMatrix()
 {
     FLOAT fAspect = (FLOAT)iScreenWidth / iScreenHeight;
-    FLOAT fMinViewDistance = 1.0f;
+    FLOAT fMinViewDistance = 0.1f;
     FLOAT fMaxViewDistance = 1000.0f;
 
     D3DXMatrixPerspectiveFovLH(&mProjection, D3DX_PI / 4, fAspect, fMinViewDistance, fMaxViewDistance);
