@@ -2,9 +2,9 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
-//  Device static class
+//  Device static class (iOS)
 //
 //  --- GEDevice.mm ---
 //

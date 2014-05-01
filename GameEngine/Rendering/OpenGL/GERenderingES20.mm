@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda PŽrez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Rendering Engine (OpenGL ES)
 //
@@ -174,26 +174,26 @@ void GERenderingES20::useCamera(GECamera* Camera)
 void GERenderingES20::loadShaders()
 {
 #ifdef USE_SHADER_HUD
-   GEVertexShader cVertexShaderHUD(@"hud");
-   GEFragmentShader cFragmentShaderHUD(@"hud");
+   GEVertexShader cVertexShaderHUD("hud");
+   GEFragmentShader cFragmentShaderHUD("hud");
    attachShaders(GEShaderPrograms::HUD, cVertexShaderHUD, cFragmentShaderHUD);
 #endif
    
 #ifdef USE_SHADER_TEXT
-   GEVertexShader cVertexShaderText(@"text");
-   GEFragmentShader cFragmentShaderText(@"text");
+   GEVertexShader cVertexShaderText("text");
+   GEFragmentShader cFragmentShaderText("text");
    attachShaders(GEShaderPrograms::Text, cVertexShaderText, cFragmentShaderText);
 #endif
    
 #ifdef USE_SHADER_MESH_COLOR
-   GEVertexShader cVertexShaderMeshColor(@"mesh_color");
-   GEFragmentShader cFragmentShaderMeshColor(@"mesh_color");
+   GEVertexShader cVertexShaderMeshColor("mesh_color");
+   GEFragmentShader cFragmentShaderMeshColor("mesh_color");
    attachShaders(GEShaderPrograms::MeshColor, cVertexShaderMeshColor, cFragmentShaderMeshColor);
 #endif
    
 #ifdef USE_SHADER_MESH_TEXTURE
-   GEVertexShader cVertexShaderMeshTexture(@"mesh_texture");
-   GEFragmentShader cFragmentShaderMeshTexture(@"mesh_texture");
+   GEVertexShader cVertexShaderMeshTexture("mesh_texture");
+   GEFragmentShader cFragmentShaderMeshTexture("mesh_texture");
    attachShaders(GEShaderPrograms::MeshTexture, cVertexShaderMeshTexture, cFragmentShaderMeshTexture);
 #endif
 }

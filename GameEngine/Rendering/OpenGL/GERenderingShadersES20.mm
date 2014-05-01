@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda PŽrez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Rendering Engine (OpenGL ES)
 //
@@ -21,10 +21,13 @@ GEShader::~GEShader()
    glDeleteShader(iID);
 }
 
-void GEShader::load(NSString* sFilename, NSString* sExt)
+void GEShader::load(const char* sFilename, const char* sExt)
 {
+   NSString* nsFilename = [NSString stringWithUTF8String:sFilename];
+   NSString* nsExt = [NSString stringWithUTF8String:sExt];
+   
    // read source file   
-   NSString* sShaderPath = [[NSBundle mainBundle] pathForResource:sFilename ofType:sExt];
+   NSString* sShaderPath = [[NSBundle mainBundle] pathForResource:nsFilename ofType:nsExt];
    const GLchar* sShaderSource = [[NSString stringWithContentsOfFile:sShaderPath encoding:NSUTF8StringEncoding error:nil] UTF8String];
    glShaderSource(iID, 1, &sShaderSource, NULL);
    
@@ -43,7 +46,7 @@ void GEShader::load(NSString* sFilename, NSString* sExt)
       glGetShaderInfoLog(iID, iLogLength, NULL, sLog);
       
       // show info log
-      NSLog(@"Shader '%@.%@': compiling error\n%s", sFilename, sExt, sLog);
+      NSLog(@"Shader '%@.%@': compiling error\n%s", nsFilename, nsExt, sLog);
       
       delete[] sLog;      
       exit(1);
@@ -64,26 +67,26 @@ bool GEShader::check()
 //
 //  GEVertexShader
 //
-GEVertexShader::GEVertexShader(NSString* Filename)
+GEVertexShader::GEVertexShader(const char* Filename)
 {
    // get shader ID
 	iID = glCreateShader(GL_VERTEX_SHADER);
    iStatus = 0;
    
    // load shader
-   load(Filename, @"vsh");
+   load(Filename, "vsh");
 }
 
 
 //
 //  GEFragmentShader
 //
-GEFragmentShader::GEFragmentShader(NSString* Filename)
+GEFragmentShader::GEFragmentShader(const char* Filename)
 {
    // get shader ID
    iID = glCreateShader(GL_FRAGMENT_SHADER);
    iStatus = 0;
    
    // load shader
-   load(Filename, @"fsh");
+   load(Filename, "fsh");
 }

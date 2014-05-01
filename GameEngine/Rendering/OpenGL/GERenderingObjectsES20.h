@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda PŽrez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Rendering Engine (OpenGL ES)
 //
@@ -19,6 +19,22 @@
 #include <GLKit/GLKit.h>
 #else
 #include <GLES2/gl2.h>
+#endif
+
+
+//
+//  Custom types for specific platforms
+//
+#if TARGET_OS_IPHONE
+typedef EAGLContext CTContext;
+typedef GLKMatrix3 CTMatrix3;
+typedef GLKMatrix4 CTMatrix4;
+typedef UIFont CTFont;
+#else
+typedef void CTContext;
+typedef GEMatrix3 CTMatrix3;
+typedef GEMatrix4 CTMatrix4;
+typedef void CTFont;
 #endif
 
 
@@ -128,9 +144,9 @@ public:
 class GELabelES20 : public GELabel, public GEOpenGLElement
 {
 private:
-   UIFont* fFont;
+   CTFont* fFont;
    char sText[128];
-   NSTextAlignment tAligment;
+   unsigned int iAligment;
    
    unsigned int iWidth;
    unsigned int iHeight;
@@ -138,12 +154,12 @@ private:
    float fMaxS;
    float fMaxT;
    
-   NSTextAlignment convertAlignment(GEAlignment iAlignment);
+   unsigned int convertAlignment(GEAlignment iAlignment);
     
    void fillTexture();
    
 public:
-   GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligment,
+   GELabelES20(CTFont* Font, const char* Text, GEAlignment TextAligment,
                unsigned int Width, unsigned int Height);
    ~GELabelES20();
 

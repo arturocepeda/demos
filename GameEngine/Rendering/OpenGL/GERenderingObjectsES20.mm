@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda PŽrez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Rendering Engine (OpenGL ES)
 //
@@ -230,7 +230,7 @@ void GESpriteES20::setTextureCoordinates(float Ax, float Ay, float Bx, float By,
 //
 //  GELabelES20
 //
-GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligment,
+GELabelES20::GELabelES20(CTFont* Font, const char* Text, GEAlignment TextAligment,
                          unsigned int Width, unsigned int Height)
 {
    iNumVertices = 4;
@@ -251,7 +251,7 @@ GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligmen
    fFont = Font;
    iWidth = Width;
    iHeight = Height;   
-   tAligment = convertAlignment(TextAligment);
+   iAligment = convertAlignment(TextAligment);
    
    glGenTextures(1, &iTexture);
    fillTexture();
@@ -272,7 +272,7 @@ GELabelES20::GELabelES20(UIFont* Font, const char* Text, GEAlignment TextAligmen
    fVertexData[11] = 0.0f; fVertexData[12] = 0.0f;
    fVertexData[16] = 0.0f; fVertexData[17] = 0.0f;
    
-   switch(tAligment)
+   switch(iAligment)
    {  
       // reference point: top left
       case UITextAlignmentLeft:         
@@ -349,7 +349,7 @@ void GELabelES20::fillTexture()
    UIGraphicsPushContext(cgContext);
    NSString* nsText = [NSString stringWithUTF8String:sText];
    [nsText drawInRect:CGRectMake(0, 0, cgSize.width, cgSize.height) withFont:fFont
-           lineBreakMode:UILineBreakModeWordWrap alignment:tAligment];
+           lineBreakMode:UILineBreakModeWordWrap alignment:iAligment];
    UIGraphicsPopContext();
    
    fMaxS = cgSize.width / iWidth;
@@ -368,7 +368,7 @@ void GELabelES20::fillTexture()
    free(pData);
 }
 
-NSTextAlignment GELabelES20::convertAlignment(GEAlignment iAlignment)
+unsigned int GELabelES20::convertAlignment(GEAlignment iAlignment)
 {
    switch(iAlignment)
    {

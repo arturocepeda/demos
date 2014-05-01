@@ -16,5 +16,18 @@
          landmarkName = "GESceneSample::init()"
          landmarkType = "5">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "../../GameEngine/Rendering/OpenGL/GERenderingShadersES20.mm"
+         timestampString = "420654853.101688"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "26"
+         endingLineNumber = "26"
+         landmarkName = "GEShader::load(const char* sFilename, const char* sExt)"
+         landmarkType = "5">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

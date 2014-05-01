@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda PŽrez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Rendering Engine (OpenGL ES)
 //
@@ -22,7 +22,7 @@
 class GERenderingES20 : public GERendering
 {
 private:
-   EAGLContext* glContext;
+   CTContext* glContext;
    GEColor cColor;
    
    // buffers
@@ -30,20 +30,20 @@ private:
    uint iIndexBuffer;
    
    // matrices
-   GLKMatrix4 matProjection;
-   GLKMatrix4 matView;
-   GLKMatrix4 matModel;
+   CTMatrix4 matProjection;
+   CTMatrix4 matView;
+   CTMatrix4 matModel;
    
-   GLKMatrix3 matNormal;
-   GLKMatrix4 matModelView;
-   GLKMatrix4 matModelViewProjection;
+   CTMatrix3 matNormal;
+   CTMatrix4 matModelView;
+   CTMatrix4 matModelViewProjection;
 
    // camera
    GEVector3 vCameraPosition;
    GEVector3 vCameraRotation;
     
    // fonts
-   UIFont* fFonts[FONTS];
+   CTFont* fFonts[FONTS];
    
    // shaders
    GEShaderProgram sPrograms[GEShaderPrograms::Count];
@@ -60,7 +60,7 @@ private:
    void getUniformsLocation(unsigned int iProgramIndex);
 
 public:
-   GERenderingES20(EAGLContext* Context);
+   GERenderingES20(CTContext* Context);
    ~GERenderingES20();
     
    // textures

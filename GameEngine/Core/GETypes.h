@@ -245,6 +245,11 @@ struct GEVector3
     }
 };
 
+struct GEMatrix3
+{
+    float M[12];
+};
+   
 struct GEMatrix4
 {
     float M[16];
