@@ -25,7 +25,7 @@
 #include "sceneMenu.h"
 #include "sceneMatch.h"
 
-#pragma comment(lib, "..\\Game Engine\\GameEngine.D3D9.lib")
+#pragma comment(lib, "..\\GameEngine\\GameEngine.D3D9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3dx9.lib")
 #pragma comment(lib, "..\\..\\SDK\\FMOD\\api\\lib\\fmodex_vc.lib")

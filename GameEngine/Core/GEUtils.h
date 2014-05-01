@@ -15,9 +15,7 @@
 #include <stdlib.h>
 #include <cmath>
 
-#define PI          3.141592f
-#define HALFPI      1.570796f
-#define DOUBLEPI    6.283185f
+#include "GEConstants.h"
 
 //
 //  GENonCopyable

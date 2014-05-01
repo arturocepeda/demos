@@ -25,7 +25,7 @@
 #include "sceneFacing.h"
 #include "sceneArrive.h"
 
-#pragma comment(lib, "..\\Game Engine\\GameEngine.D3D9.lib")
+#pragma comment(lib, "..\\GameEngine\\GameEngine.D3D9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3dx9.lib")
 #pragma comment(lib, "..\\..\\SDK\\FMOD\\api\\lib\\fmodex_vc.lib")
@@ -117,7 +117,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     
     // initialize scenes
     cCurrentScene = NULL;
-    SceneChange(SCENE_FACING);
+    SceneChange(SCENE_ARRIVE);
 
     // game loop
     while(!bEnd)
