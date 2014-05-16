@@ -47,8 +47,9 @@ float GEDevice::getAspectRatio()
    return [[UIScreen mainScreen] bounds].size.height / [[UIScreen mainScreen] bounds].size.width;
 }
 
-const char* GEDevice::getResourcePath(NSString* ResourceName)
+const char* GEDevice::getResourcePath(const char* ResourceName)
 {
-   NSString* sFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:ResourceName];
-   return [sFilePath UTF8String];
+   NSString* nsResourceName = [NSString stringWithUTF8String:ResourceName];
+   NSString* nsFilePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:nsResourceName];
+   return [nsFilePath UTF8String];
 }

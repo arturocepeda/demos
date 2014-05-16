@@ -30,13 +30,13 @@ private:
    uint iIndexBuffer;
    
    // matrices
-   CTMatrix4 matProjection;
-   CTMatrix4 matView;
-   CTMatrix4 matModel;
+   GEMatrix4 matProjection;
+   GEMatrix4 matView;
+   GEMatrix4 matModel;
    
-   CTMatrix3 matNormal;
-   CTMatrix4 matModelView;
-   CTMatrix4 matModelViewProjection;
+   GEMatrix3 matNormal;
+   GEMatrix4 matModelView;
+   GEMatrix4 matModelViewProjection;
 
    // camera
    GEVector3 vCameraPosition;

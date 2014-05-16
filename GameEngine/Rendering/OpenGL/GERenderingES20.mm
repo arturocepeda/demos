@@ -163,12 +163,12 @@ void GERenderingES20::loadTextureCompressed(unsigned int TextureIndex, const cha
 void GERenderingES20::useCamera(GECamera* Camera)
 {
    vCameraPosition = Camera->getPosition();
-   matView = GLKMatrix4MakeTranslation(vCameraPosition.X, vCameraPosition.Y, vCameraPosition.Z);
+   GEMatrix4MakeTranslation(vCameraPosition, &matView);
     
    vCameraRotation = Camera->getRotation();
-   matView = GLKMatrix4Rotate(matView, vCameraRotation.X, 1.0f, 0.0f, 0.0f);
-   matView = GLKMatrix4Rotate(matView, vCameraRotation.Y, 0.0f, 1.0f, 0.0f);
-   matView = GLKMatrix4Rotate(matView, vCameraRotation.Z, 0.0f, 0.0f, 1.0f);
+   GEMatrix4RotateX(&matView, vCameraRotation.X);
+   GEMatrix4RotateY(&matView, vCameraRotation.Y);
+   GEMatrix4RotateZ(&matView, vCameraRotation.Z);
 }
 
 void GERenderingES20::loadShaders()
@@ -312,14 +312,16 @@ void GERenderingES20::renderBegin()
 void GERenderingES20::renderMesh(GEMesh* Mesh)
 {
    // get model matrix from the mesh
-   GEMatrix4 mMatrix;
-   Mesh->getModelMatrix(&mMatrix);
-   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
+   Mesh->getModelMatrix(&matModel);
    
-   // calculate model-view matrix, normal matrix and transform matrix
-   matModelView = GLKMatrix4Multiply(matView, matModel);   
-   matNormal = GLKMatrix3InvertAndTranspose(GLKMatrix4GetMatrix3(matModelView), NULL);
-   matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
+   // calculate model-view matrix and transform matrix
+   GEMatrix4Multiply(matView, matModel, &matModelView);
+   GEMatrix4Multiply(matProjection, matModelView, &matModelViewProjection);
+   
+   // calculate normal matrix
+   GEMatrix4GetMatrix3(matModelView, &matNormal);
+   GEMatrix3Invert(&matNormal);
+   GEMatrix3Transpose(&matNormal);
 
    // set uniform values for the shaders
    cColor = Mesh->getColor();
@@ -346,13 +348,11 @@ void GERenderingES20::renderMesh(GEMesh* Mesh)
 void GERenderingES20::renderSprite(GESprite* Sprite)
 {
    // get model matrix from the sprite
-   GEMatrix4 mMatrix;
-   Sprite->getModelMatrix(&mMatrix);
-   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
+   Sprite->getModelMatrix(&matModel);
    
    // calculate transform matrix
-   matModelView = GLKMatrix4Multiply(matView, matModel);   
-   matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
+   GEMatrix4Multiply(matView, matModel, &matModelView);
+   GEMatrix4Multiply(matProjection, matModelView, &matModelViewProjection);
 
    // set uniform values for the shaders
    glUniformMatrix4fv(iUniforms[iActiveProgram][GEUniforms::ModelViewProjection], 1, 0, matModelViewProjection.m);
@@ -368,13 +368,11 @@ void GERenderingES20::renderSprite(GESprite* Sprite)
 void GERenderingES20::renderLabel(GELabel* Label)
 {
    // get model matrix from the label
-   GEMatrix4 mMatrix;
-   Label->getModelMatrix(&mMatrix);
-   memcpy(&matModel, &mMatrix, sizeof(GLKMatrix4));
+   Label->getModelMatrix(&matModel);
    
    // calculate transform matrix
-   matModelView = GLKMatrix4Multiply(matView, matModel);   
-   matModelViewProjection = GLKMatrix4Multiply(matProjection, matModelView);      
+   GEMatrix4Multiply(matView, matModel, &matModelView);
+   GEMatrix4Multiply(matProjection, matModelView, &matModelViewProjection);
 
    // set uniform values for the shaders
    cColor = Label->getColor();
@@ -400,10 +398,12 @@ void GERenderingES20::set2D(bool Portrait)
    
    float fAspect = (float)GEDevice::getScreenHeight() / GEDevice::getScreenWidth();
 
-   matProjection = (Portrait)? GLKMatrix4MakeOrtho(-1.0f, 1.0f, -fAspect, fAspect, 0.1f, 100.0f):
-                               GLKMatrix4MakeOrtho(-fAspect, fAspect, -1.0f, 1.0f, 0.1f, 100.0f);   
-   
-   matView = GLKMatrix4MakeLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+   if(Portrait)
+      GEMatrix4MakeOrtho(-1.0f, 1.0f, -fAspect, fAspect, 0.1f, 100.0f, &matProjection);
+   else
+      GEMatrix4MakeOrtho(-fAspect, fAspect, -1.0f, 1.0f, 0.1f, 100.0f, &matProjection);
+
+   GEMatrix4MakeLookAt(GEVector3(0.0f, 0.0f, 1.0f), GEVector3(0.0f, 0.0f, 0.0f), GEVector3(0.0f, 1.0f, 0.0f), &matView);
 }
 
 void GERenderingES20::set3D(bool Portrait)
@@ -412,6 +412,6 @@ void GERenderingES20::set3D(bool Portrait)
 
    float fAspect = (Portrait)? (float)GEDevice::getScreenWidth() / GEDevice::getScreenHeight():
                                (float)GEDevice::getScreenHeight() / GEDevice::getScreenWidth();
-   
-   matProjection = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), fAspect, 0.1f, 100.0f);
+
+   GEMatrix4MakePerspective(65.0f / DEG2RAD, fAspect, 0.1f, 100.0f, &matProjection);
 }

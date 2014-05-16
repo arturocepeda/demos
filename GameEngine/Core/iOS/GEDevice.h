@@ -28,5 +28,5 @@ public:
    
    static float getAspectRatio();
    
-   static const char* getResourcePath(NSString* ResourceName);
+   static const char* getResourcePath(const char* ResourceName);
 };

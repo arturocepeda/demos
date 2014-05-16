@@ -51,13 +51,11 @@ GEMeshES20::~GEMeshES20()
 
 void GEMeshES20::getModelMatrix(GEMatrix4* ModelMatrix)
 {
-    GLKMatrix4 glModelMatrix;
-    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
-    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
-    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
-    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
-    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
-    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+   GEMatrix4MakeTranslation(vPosition, ModelMatrix);
+   GEMatrix4RotateX(ModelMatrix, vRotation.X);
+   GEMatrix4RotateY(ModelMatrix, vRotation.Y);
+   GEMatrix4RotateZ(ModelMatrix, vRotation.Z);
+   GEMatrix4Scale(ModelMatrix, vScale);
 }
 
 void GEMeshES20::loadFromArrays(unsigned int NumVertices, float* Vertex, float* Normals)
@@ -183,13 +181,11 @@ GESpriteES20::~GESpriteES20()
 
 void GESpriteES20::getModelMatrix(GEMatrix4* ModelMatrix)
 {
-    GLKMatrix4 glModelMatrix;
-    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
-    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
-    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
-    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
-    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
-    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+   GEMatrix4MakeTranslation(vPosition, ModelMatrix);
+   GEMatrix4RotateX(ModelMatrix, vRotation.X);
+   GEMatrix4RotateY(ModelMatrix, vRotation.Y);
+   GEMatrix4RotateZ(ModelMatrix, vRotation.Z);
+   GEMatrix4Scale(ModelMatrix, vScale);
 }
 
 void GESpriteES20::render()
@@ -389,13 +385,11 @@ unsigned int GELabelES20::convertAlignment(GEAlignment iAlignment)
 
 void GELabelES20::getModelMatrix(GEMatrix4* ModelMatrix)
 {
-    GLKMatrix4 glModelMatrix;
-    glModelMatrix = GLKMatrix4MakeTranslation(vPosition.X, vPosition.Y, vPosition.Z);
-    glModelMatrix = GLKMatrix4RotateX(glModelMatrix, vRotation.X);
-    glModelMatrix = GLKMatrix4RotateY(glModelMatrix, vRotation.Y);
-    glModelMatrix = GLKMatrix4RotateZ(glModelMatrix, vRotation.Z);
-    glModelMatrix = GLKMatrix4Scale(glModelMatrix, vScale.X, vScale.Y, vScale.Z);
-    memcpy(ModelMatrix, &glModelMatrix, sizeof(GEMatrix4));
+   GEMatrix4MakeTranslation(vPosition, ModelMatrix);
+   GEMatrix4RotateX(ModelMatrix, vRotation.X);
+   GEMatrix4RotateY(ModelMatrix, vRotation.Y);
+   GEMatrix4RotateZ(ModelMatrix, vRotation.Z);
+   GEMatrix4Scale(ModelMatrix, vScale);
 }
 
 void GELabelES20::render()

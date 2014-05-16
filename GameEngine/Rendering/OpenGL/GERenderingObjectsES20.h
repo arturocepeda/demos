@@ -15,8 +15,8 @@
 #include "Core/GETypes.h"
 #include "Rendering/GERenderingObjects.h"
 
-#if TARGET_OS_IPHONE
-#include <GLKit/GLKit.h>
+#ifdef __APPLE__
+#include <OpenGLES/ES2/gl.h>
 #else
 #include <GLES2/gl2.h>
 #endif
@@ -25,15 +25,11 @@
 //
 //  Custom types for specific platforms
 //
-#if TARGET_OS_IPHONE
+#ifdef __APPLE__
 typedef EAGLContext CTContext;
-typedef GLKMatrix3 CTMatrix3;
-typedef GLKMatrix4 CTMatrix4;
 typedef UIFont CTFont;
 #else
 typedef void CTContext;
-typedef GEMatrix3 CTMatrix3;
-typedef GEMatrix4 CTMatrix4;
 typedef void CTFont;
 #endif
 
