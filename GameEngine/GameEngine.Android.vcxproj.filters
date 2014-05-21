@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Audio\GEAudio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Android\GEDevice.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GETimer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GEUtils.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GEGraphicsDevice.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GERendering.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\GERenderingObjects.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\GEScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\GERenderingES20.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\GERenderingObjectsES20.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\OpenGL\GERenderingShadersES20.cpp">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\OpenSL\GEAudioOpenSL.cpp">
+      <Filter>Audio\OpenSL</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Audio\GEAudio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Android\GEDevice.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GETimer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GETypes.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GEUtils.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GEGraphicsDevice.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GERendering.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\GERenderingObjects.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\GEScene.h">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GEConstants.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\GERenderingES20.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\GERenderingObjectsES20.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\OpenGL\GERenderingShadersES20.h">
+      <Filter>Rendering\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\OpenSL\GEAudioOpenSL.h">
+      <Filter>Audio\OpenSL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GEThreads.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{d77ddddd-25f0-43cc-b30b-b1e0cb65e261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{b7a846a5-eca1-4d01-9f37-513e1a4729b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{77c1d666-8834-4701-b5d0-eec7c7c03453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{01b0d8a3-7f51-42b3-a92b-305a16593d94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rendering\OpenGL">
+      <UniqueIdentifier>{eda9320b-188e-45e6-9d5a-e37a2691cc5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audio\OpenSL">
+      <UniqueIdentifier>{b24ac8fd-e637-4d19-9797-5754515e96e2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

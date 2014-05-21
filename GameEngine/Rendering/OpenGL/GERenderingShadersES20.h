@@ -17,7 +17,7 @@
 //
 struct GEShaderProgram
 {
-   uint ID;
+   unsigned int ID;
    int Status;
 };
 
@@ -28,7 +28,7 @@ struct GEShaderProgram
 class GEShader
 {
 protected:
-   uint iID;
+   unsigned int iID;
    int iStatus;
    
    void load(const char* sFilename, const char* sExt);
@@ -37,7 +37,7 @@ public:
    ~GEShader();
    
    bool check();
-   uint getID();
+   unsigned int getID();
 };
 
 
