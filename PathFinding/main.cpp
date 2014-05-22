@@ -12,11 +12,11 @@
 
 #include <iostream>
 #include <iomanip>
-#include "MeshGraph.h"
+#include "PathFinding/GEMeshGraph.h"
+#include "PathFinding/GEDijkstra.h"
+#include "PathFinding/GEAStar.h"
+#include "PathFinding/GEPathFinder.h"
 #include "ParserMeshGraph.h"
-#include "Dijkstra.h"
-#include "AStar.h"
-#include "PathFinder.h"
 #include <vector>
 #include <windows.h>
 
@@ -31,20 +31,20 @@ const int ColorWhite = ColorBlue | ColorGreen | ColorRed;
 
 HANDLE hstdout;
 
-void drawGraph(MeshGraph& graph, const std::vector<int>& path, int currentNode);
-void printPath(PathFinder& pathFinder, int nodeStart, int nodeTarget);
+void drawGraph(GEMeshGraph& graph, const std::vector<int>& path, int currentNode);
+void printPath(GEPathFinder& pathFinder, int nodeStart, int nodeTarget);
 bool contains(const std::vector<int>& path, int node);
 
 int main(int argc, char* argv[])
 {
-    MeshGraph meshGraph(MeshColumns, MeshRows);
+    GEMeshGraph meshGraph(MeshColumns, MeshRows);
     ParserMeshGraph parserMeshGraph;
 
     parserMeshGraph.loadUnreachableNodesFromFile(&meshGraph, "testobstacles.txt");
     meshGraph.setNodePositions(0.0f, 0.0f, 1.0f, 1.0f);
     meshGraph.setConnections();
 
-    GraphSearch* searchAlgorithm = new AStar();
+    GEGraphSearch* searchAlgorithm = new GEAStar();
 
     int start = 0;
     int lastNode = (MeshColumns * MeshRows) - 1;
@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     int currentIndex = -1;
     int currentNode;
 
-    PathFinder pathFinder(&meshGraph, searchAlgorithm);
+    GEPathFinder pathFinder(&meshGraph, searchAlgorithm);
     pathFinder.calculatePath(start, end);
 
     int option;
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void drawGraph(MeshGraph& graph, const std::vector<int>& path, int currentNode)
+void drawGraph(GEMeshGraph& graph, const std::vector<int>& path, int currentNode)
 {
     for(int i = 0; i < graph.getNumberOfRows(); i++)
     {
@@ -166,7 +166,7 @@ void drawGraph(MeshGraph& graph, const std::vector<int>& path, int currentNode)
     SetConsoleTextAttribute(hstdout, ColorWhite);
 }
 
-void printPath(PathFinder& pathFinder, int nodeStart, int nodeTarget)
+void printPath(GEPathFinder& pathFinder, int nodeStart, int nodeTarget)
 {
     std::cout << "\n   Path from " << nodeStart << " to " << nodeTarget << ":";
     std::vector<int>& path = pathFinder.getCurrentPath();

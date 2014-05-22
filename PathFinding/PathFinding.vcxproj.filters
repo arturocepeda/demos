@@ -13,28 +13,31 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{1ffb7d17-0c7d-4627-921c-7cb390919094}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Graph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshGraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ParserMeshGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphSearch.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEAStar.h">
+      <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="Dijkstra.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEDijkstra.h">
+      <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="AStar.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEGraph.h">
+      <Filter>GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinder.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEGraphSearch.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEMeshGraph.h">
+      <Filter>GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GameEngine\PathFinding\GEPathFinder.h">
+      <Filter>GameEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -44,23 +47,23 @@
     <ClCompile Include="ParserMeshGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MeshGraph.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEAStar.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEDijkstra.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="GraphSearch.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEGraph.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Dijkstra.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEGraphSearch.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="AStar.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEMeshGraph.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinder.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\GameEngine\PathFinding\GEPathFinder.cpp">
+      <Filter>GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@
 #pragma once
 
 #include <string>
-#include "MeshGraph.h"
+#include "PathFinding/GEMeshGraph.h"
 
 class ParserMeshGraph
 {
@@ -20,5 +20,5 @@ private:
     std::vector<std::string> splitString(const std::string& str, char delimiter);
 
 public:
-    void loadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename);
+    void loadUnreachableNodesFromFile(GEMeshGraph* meshGraph, std::string filename);
 };

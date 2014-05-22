@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_Bugs", "02_Bugs\02_Bugs.vcxproj", "{79EF8F41-F2C6-4621-92F3-9D5840201757}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineAndroid", "..\GameEngine\GameEngine.Android.vcxproj", "{91C557FA-07C8-4BCD-BAF8-DA4B7CF97FBC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineAndroid", "..\..\GameEngine\GameEngine.Android.vcxproj", "{91C557FA-07C8-4BCD-BAF8-DA4B7CF97FBC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb", "..\GameEngine\Externals\stblib\stb.Android.vcxproj", "{A7BDF8A8-19CA-4093-89BB-21D63031257F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stb", "..\..\GameEngine\Externals\stblib\stb.Android.vcxproj", "{A7BDF8A8-19CA-4093-89BB-21D63031257F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_Overview", "01_Overview\01_Overview.vcxproj", "{391FE850-47A9-4260-94AB-C5735CF4D4EE}"
 EndProject

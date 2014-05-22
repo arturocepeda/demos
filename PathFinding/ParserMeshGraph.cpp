@@ -39,7 +39,7 @@ std::vector<std::string> ParserMeshGraph::splitString(const std::string& str, ch
     return stringElements;
 }
 
-void ParserMeshGraph::loadUnreachableNodesFromFile(MeshGraph* meshGraph, std::string filename)
+void ParserMeshGraph::loadUnreachableNodesFromFile(GEMeshGraph* meshGraph, std::string filename)
 {
     std::vector<std::string> nodeList = splitString(loadTextContents(filename), ',');
     for(unsigned int i = 0; i < nodeList.size(); i++)

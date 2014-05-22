@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test.vcxproj", "{7A5FF139-EE60-4B3E-A16E-A8DDE8A5760E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine.D3D9", "..\GameEngine\GameEngine.D3D9.vcxproj", "{378FC545-9B5F-43F8-834D-8E9B90913F12}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine.D3D9", "..\..\GameEngine\GameEngine.D3D9.vcxproj", "{378FC545-9B5F-43F8-834D-8E9B90913F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
