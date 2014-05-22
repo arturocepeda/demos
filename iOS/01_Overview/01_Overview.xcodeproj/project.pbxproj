@@ -53,14 +53,14 @@
 
 /* Begin PBXFileReference section */
 		693935C116A972B20061C256 /* banana.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = banana.pvrtc; path = Resources/Textures/banana.pvrtc; sourceTree = "<group>"; };
-		6969B5C71912B18B0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
-		6969B5C81912B18B0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
-		6969B5C91912B18B0020E764 /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.fsh; sourceTree = "<group>"; };
-		6969B5CA1912B18B0020E764 /* mesh_color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.vsh; sourceTree = "<group>"; };
-		6969B5CB1912B18B0020E764 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.fsh; sourceTree = "<group>"; };
-		6969B5CC1912B18B0020E764 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.vsh; sourceTree = "<group>"; };
-		6969B5CD1912B18B0020E764 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/text.fsh; sourceTree = "<group>"; };
-		6969B5CE1912B18B0020E764 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/text.vsh; sourceTree = "<group>"; };
+		6969B5C71912B18B0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
+		6969B5C81912B18B0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
+		6969B5C91912B18B0020E764 /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.fsh; sourceTree = "<group>"; };
+		6969B5CA1912B18B0020E764 /* mesh_color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.vsh; sourceTree = "<group>"; };
+		6969B5CB1912B18B0020E764 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.fsh; sourceTree = "<group>"; };
+		6969B5CC1912B18B0020E764 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.vsh; sourceTree = "<group>"; };
+		6969B5CD1912B18B0020E764 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.fsh; sourceTree = "<group>"; };
+		6969B5CE1912B18B0020E764 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.vsh; sourceTree = "<group>"; };
 		6969B5DC1912B1B80020E764 /* GEAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEAudio.cpp; sourceTree = "<group>"; };
 		6969B5DD1912B1B80020E764 /* GEAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudio.h; sourceTree = "<group>"; };
 		6969B5DF1912B1B80020E764 /* GEAudioOpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudioOpenAL.h; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 				6969B5DE1912B1B80020E764 /* OpenAL */,
 			);
 			name = Audio;
-			path = ../../GameEngine/Audio;
+			path = ../../../GameEngine/Audio;
 			sourceTree = "<group>";
 		};
 		6969B5DE1912B1B80020E764 /* OpenAL */ = {
@@ -196,7 +196,7 @@
 				6969B5E81912B1B80020E764 /* iOS */,
 			);
 			name = Core;
-			path = ../../GameEngine/Core;
+			path = ../../../GameEngine/Core;
 			sourceTree = "<group>";
 		};
 		6969B5E81912B1B80020E764 /* iOS */ = {
@@ -220,7 +220,7 @@
 				6969B5FC1912B1B80020E764 /* OpenGL */,
 			);
 			name = Rendering;
-			path = ../../GameEngine/Rendering;
+			path = ../../../GameEngine/Rendering;
 			sourceTree = "<group>";
 		};
 		6969B5FC1912B1B80020E764 /* OpenGL */ = {
@@ -243,7 +243,7 @@
 				6969B60E1912B1B80020E764 /* GEScene.h */,
 			);
 			name = Scenes;
-			path = ../../GameEngine/Scenes;
+			path = ../../../GameEngine/Scenes;
 			sourceTree = "<group>";
 		};
 		CEE82F5C16679399004FBB96 = {
@@ -531,7 +531,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/01_Overview-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -544,7 +544,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/01_Overview-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

@@ -155,7 +155,7 @@
 				6969B5461912AB570020E764 /* OpenAL */,
 			);
 			name = Audio;
-			path = ../../GameEngine/Audio;
+			path = ../../../GameEngine/Audio;
 			sourceTree = "<group>";
 		};
 		6969B5461912AB570020E764 /* OpenAL */ = {
@@ -179,7 +179,7 @@
 				6969B5531912AB710020E764 /* iOS */,
 			);
 			name = Core;
-			path = ../../GameEngine/Core;
+			path = ../../../GameEngine/Core;
 			sourceTree = "<group>";
 		};
 		6969B5531912AB710020E764 /* iOS */ = {
@@ -203,7 +203,7 @@
 				6969B56B1912AB9A0020E764 /* OpenGL */,
 			);
 			name = Rendering;
-			path = ../../GameEngine/Rendering;
+			path = ../../../GameEngine/Rendering;
 			sourceTree = "<group>";
 		};
 		6969B56B1912AB9A0020E764 /* OpenGL */ = {
@@ -226,7 +226,7 @@
 				6969B5941912ABD80020E764 /* GEScene.h */,
 			);
 			name = Scenes;
-			path = ../../GameEngine/Scenes;
+			path = ../../../GameEngine/Scenes;
 			sourceTree = "<group>";
 		};
 		CEE0D4AC187514260055FA21 /* Shaders */ = {
@@ -238,7 +238,7 @@
 				6969B5BC1912B09B0020E764 /* text.fsh */,
 			);
 			name = Shaders;
-			path = ../../GameEngine/Rendering/OpenGL/Shaders;
+			path = ../../../GameEngine/Rendering/OpenGL/Shaders;
 			sourceTree = "<group>";
 		};
 		CEE82F5C16679399004FBB96 = {
@@ -524,7 +524,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/02_Bugs-Info.plist";
 				PRODUCT_NAME = 02_Bugs;
 				WRAPPER_EXTENSION = app;
@@ -537,7 +537,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/02_Bugs-Info.plist";
 				PRODUCT_NAME = 02_Bugs;
 				WRAPPER_EXTENSION = app;

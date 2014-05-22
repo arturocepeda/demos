@@ -47,12 +47,12 @@
 
 /* Begin PBXFileReference section */
 		69310D9116A8CA8A006C16F8 /* bulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bulb.png; path = Resources/Textures/bulb.png; sourceTree = "<group>"; };
-		6969B6321912B31C0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
-		6969B6331912B31C0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
-		6969B6341912B31C0020E764 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.fsh; sourceTree = "<group>"; };
-		6969B6351912B31C0020E764 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.vsh; sourceTree = "<group>"; };
-		6969B6361912B31C0020E764 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.fsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/text.fsh; sourceTree = "<group>"; };
-		6969B6371912B31C0020E764 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.vsh; path = ../../GameEngine/Rendering/OpenGL/Shaders/text.vsh; sourceTree = "<group>"; };
+		6969B6321912B31C0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
+		6969B6331912B31C0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
+		6969B6341912B31C0020E764 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.fsh; sourceTree = "<group>"; };
+		6969B6351912B31C0020E764 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.vsh; sourceTree = "<group>"; };
+		6969B6361912B31C0020E764 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.fsh; sourceTree = "<group>"; };
+		6969B6371912B31C0020E764 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.vsh; sourceTree = "<group>"; };
 		6969B6421912B32B0020E764 /* GEAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEAudio.cpp; sourceTree = "<group>"; };
 		6969B6431912B32B0020E764 /* GEAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudio.h; sourceTree = "<group>"; };
 		6969B6451912B32B0020E764 /* GEAudioOpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudioOpenAL.h; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 				6969B6441912B32B0020E764 /* OpenAL */,
 			);
 			name = Audio;
-			path = ../../GameEngine/Audio;
+			path = ../../../GameEngine/Audio;
 			sourceTree = "<group>";
 		};
 		6969B6441912B32B0020E764 /* OpenAL */ = {
@@ -181,7 +181,7 @@
 				6969B64E1912B32B0020E764 /* iOS */,
 			);
 			name = Core;
-			path = ../../GameEngine/Core;
+			path = ../../../GameEngine/Core;
 			sourceTree = "<group>";
 		};
 		6969B64E1912B32B0020E764 /* iOS */ = {
@@ -205,7 +205,7 @@
 				6969B6621912B32B0020E764 /* OpenGL */,
 			);
 			name = Rendering;
-			path = ../../GameEngine/Rendering;
+			path = ../../../GameEngine/Rendering;
 			sourceTree = "<group>";
 		};
 		6969B6621912B32B0020E764 /* OpenGL */ = {
@@ -228,7 +228,7 @@
 				6969B6741912B32B0020E764 /* GEScene.h */,
 			);
 			name = Scenes;
-			path = ../../GameEngine/Scenes;
+			path = ../../../GameEngine/Scenes;
 			sourceTree = "<group>";
 		};
 		CEE82F5C16679399004FBB96 = {
@@ -496,7 +496,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/03_Light-Info.plist";
 				PRODUCT_NAME = 03_Light;
 				WRAPPER_EXTENSION = app;
@@ -509,7 +509,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../common/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
-				HEADER_SEARCH_PATHS = "\"../../GameEngine\"";
+				HEADER_SEARCH_PATHS = "\"../../../GameEngine\"";
 				INFOPLIST_FILE = "Main/03_Light-Info.plist";
 				PRODUCT_NAME = 03_Light;
 				WRAPPER_EXTENSION = app;
