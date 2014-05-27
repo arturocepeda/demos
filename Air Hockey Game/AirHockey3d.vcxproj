@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\..\Game Engine;\Code\SDK\DirectX\include;\Code\SDK\FMOD\API\inc;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;C:\Program Files (x86)\OpenNI2\Include;C:\Program Files (x86)\PrimeSense\NiTE2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\..\..\GameEngine;\Code\SDK\DirectX\include;\Code\SDK\FMOD\API\inc;C:\Program Files\Microsoft SDKs\Kinect\v1.8\inc;C:\Program Files (x86)\OpenNI2\Include;C:\Program Files (x86)\PrimeSense\NiTE2\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

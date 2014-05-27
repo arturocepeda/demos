@@ -57,7 +57,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <NdkToolchainVersion>clang-3.4</NdkToolchainVersion>
-    <IncludePath>..\..\GameEngine;..\..\GameEngine\Core\Android;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\GameEngine;..\..\..\GameEngine\Core\Android;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <NdkToolchainVersion>clang-3.4</NdkToolchainVersion>

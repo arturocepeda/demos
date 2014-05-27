@@ -130,12 +130,12 @@ void CSceneArrive::releaseRenderObjects()
     cRender->releaseFont(iFontText);
 
     // meshes
-    delete mMeshCar;
-    delete mMeshRoom;
-    delete mMeshTarget;
+    cRender->releaseMesh(&mMeshCar);
+    cRender->releaseMesh(&mMeshRoom);
+    cRender->releaseMesh(&mMeshTarget);
 
     // labels
-    delete cLabelDebug;
+    cRender->releaseLabel(&cLabelDebug);
 }
 
 void CSceneArrive::releaseSoundObjects()

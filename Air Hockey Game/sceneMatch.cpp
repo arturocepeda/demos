@@ -225,11 +225,11 @@ void CSceneMatch::initRenderObjects()
 
     // labels
     cRender->createLabel(&lLabelMessage, iFontText, GEAlignment::CenterCenter,
-                         sGlobal->ScreenSizeX, 120);
+                         GEVector2((float)sGlobal->ScreenSizeX, (float)120));
     lLabelMessage->setColor(cColorMessage);
 
     cRender->createLabel(&lLabelDebug, iFontDebug, GEAlignment::TopLeft,
-                         sGlobal->ScreenSizeX, sGlobal->ScreenSizeY);
+                         GEVector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY));
     lLabelDebug->setColor(cColorDebug);
 }
 

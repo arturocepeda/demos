@@ -9,6 +9,15 @@
 #include "Core/GEUtils.h"
 #include <algorithm>
 
+const float CloseEnough = 0.2f;
+const float AngleDifferenceWeight = 2.5f;
+const float MaxRotationSpeed = 0.02f;
+const float MaxAcceleration = 0.02f;
+const float MaxBreak = -0.03f;
+const float BreakWeight = 1.5f;
+const float MaxSpeed = 2.0f;
+const float MaxReverseSpeed = 0.5f;
+
 CCar::CCar()
     : vPosition(GEVector3(0.0f, 0.0f, 0.0f))
     , fAngle(0.0f)
@@ -40,15 +49,6 @@ void CCar::updateStatus(float fDeltaTime)
 
 void CCar::calculateSteering(float fDeltaTime, GEVector3& vTargetPoint)
 {
-    const float CloseEnough = 0.2f;
-    const float AngleDifferenceWeight = 2.5f;
-    const float MaxRotationSpeed = 0.02f;
-    const float MaxAcceleration = 0.02f;
-    const float MaxBreak = -0.03f;
-    const float BreakWeight = 1.5f;
-    const float MaxSpeed = 2.0f;
-    const float MaxReverseSpeed = 0.5f;
-
     // target vector and distance
     GEVector3 vTargetVector = vTargetPoint - vPosition;
     float fDistance = vTargetVector.getLength();

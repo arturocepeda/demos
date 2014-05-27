@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Fragment shader (Text)
 //
@@ -20,13 +20,5 @@ uniform sampler2D uTexture0;
 
 void main()
 {
-   vec4 vColor = texture2D(uTexture0, varTextCoord0);
-   
-   float fAlpha = uObjectColor.w;
-   vColor.w *= fAlpha;
-   
-   if(vColor.w > 0.0)
-      vColor = vec4(uObjectColor.xyz, vColor.w);
-   
-   gl_FragColor = vColor;
+   gl_FragColor = texture2D(uTexture0, varTextCoord0) * uObjectColor;
 }

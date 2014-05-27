@@ -89,12 +89,13 @@ void GESceneSample::internalInit()
    //cAudio->playSound(Sounds.Music, 0);
    
    // font
-   cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
+   //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
+   cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cText, 0, CenterCenter, 512, 128, "ARTURO CEPEDA\niOS Game Engine");
-   cText->setPosition(0.0f, 1.3f, 0.0f);
-   cText->setScale(2.0f, 2.0f, 2.0f);
+   cRender->createLabel(&cText, 0, GEAlignment::CenterCenter, GEVector2(0.16f, 0.16f), "Game Engine");
+   cText->setPosition(0.0f, 1.15f);
+   cText->setColor(GEColor(1.0f, 0.25f, 0.25f));
    cText->setOpacity(0.0f);
 }
 
@@ -228,17 +229,9 @@ void GESceneSample::render()
    for(int i = 0; i < FINGERS; i++)
       cRender->renderSprite(cSpriteInfo[i]);
 
-   // text shadow
+   // text
    cRender->set2D();
    cRender->useShaderProgram(GEShaderPrograms::Text);
-    
-   cText->setColor(GEColor(0.2f, 0.2f, 0.2f, cText->getOpacity()));
-   cText->move(0.015f, 0.015f, 0.0f);
-   cRender->renderLabel(cText);
-    
-   // text
-   cText->setColor(GEColor(0.8f, 0.2f, 0.2f, cText->getOpacity()));
-   cText->move(-0.015f, -0.015f, 0.0f);
    cRender->renderLabel(cText);
 }
 

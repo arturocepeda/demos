@@ -45,6 +45,7 @@ void GESceneSample::internalInit()
    cRender->loadTexture(Textures.BugC2, "bugC2.png");
    cRender->loadTexture(Textures.BugC3, "bugC3.png");
    cRender->loadTexture(Textures.Floor, "floor.jpg");
+   cRender->loadTexture(Textures.Font, "Arial_24.bmp");
 
    // sprites
    cRender->createSprite(&cSpriteBackground);
@@ -73,18 +74,19 @@ void GESceneSample::internalInit()
    cSpriteBug[2][2]->setTexture(cRender->getTexture(Textures.BugC3));
    
    // font
-   cRender->defineFont(0, "Papyrus", 24.0f);
+   //cRender->defineFont(0, "Papyrus", 24.0f);
+   cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cTextSmashed, 0, TopLeft, 256, 64, "Smashed: 0");
+   cRender->createLabel(&cTextSmashed, 0, TopLeft, GEVector2(0.1f, 0.1f), "Smashed: 0");
    cTextSmashed->setPosition(-0.9f, 1.3f);
-   cTextSmashed->setScale(1.5f, 1.5f);
-   cTextSmashed->setColor(GEColor(0.25f, 0.25f, 0.5f));
+   cTextSmashed->setColor(GEColor(0.5f, 0.5f, 0.8f));
+   cTextSmashed->setHorizontalSpacing(0.1f);
    
-   cRender->createLabel(&cTextEscaped, 0, TopLeft, 256, 64, "Escaped: 0");
+   cRender->createLabel(&cTextEscaped, 0, TopLeft, GEVector2(0.1f, 0.1f), "Escaped: 0");
    cTextEscaped->setPosition(0.09f, 1.3f);
-   cTextEscaped->setScale(1.5f, 1.5f);
-   cTextEscaped->setColor(GEColor(0.5f, 0.25f, 0.25f));
+   cTextEscaped->setColor(GEColor(0.8f, 0.5f, 0.5f));
+   cTextEscaped->setHorizontalSpacing(0.1f);
    
    // sound
    cAudio->loadSound(0, "hit.wav");
@@ -96,16 +98,18 @@ void GESceneSample::internalInit()
 void GESceneSample::release()
 {
    // release rendering objects
-   delete cSpriteBackground;
+   cRender->releaseSprite(&cSpriteBackground);
    
    for(int i = 0; i < BUG_TYPES; i++)
    {
       for(int j = 0; j < BUG_STEPS; j++)
-         delete cSpriteBug[i][j];
+         cRender->releaseSprite(&cSpriteBug[i][j]);
    }
    
-   delete cTextEscaped;
-   delete cTextSmashed;
+   cRender->releaseLabel(&cTextEscaped);
+   cRender->releaseLabel(&cTextSmashed);
+
+   cRender->releaseFont(0);
    
    // release sound buffers
    cAudio->unloadAllSounds();

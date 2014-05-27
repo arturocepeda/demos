@@ -12,7 +12,6 @@
 
 
 attribute vec4 aPosition;
-attribute vec3 aNormal;
 attribute vec2 aTextCoord0;
 
 uniform mat4 uModelViewProjectionMatrix;

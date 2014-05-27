@@ -98,13 +98,13 @@ void CSceneMenu::initRenderObjects()
 
     // labels
     cRender->createLabel(&lLabelKinectInfo, iFontText, GEAlignment::CenterCenter,
-                         sGlobal->ScreenSizeX, sGlobal->ScreenSizeY, sKinectInfo); 
+                         GEVector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY), sKinectInfo);
     lLabelKinectInfo->setColor(cColorOption);
 
     for(int i = 0; i < MAX_OPTIONS; i++)
     {
         cRender->createLabel(&lLabelOption[i], iFontOption, GEAlignment::CenterCenter,
-                             sGlobal->ScreenSizeX, sGlobal->ScreenSizeY / 12);
+                             GEVector2((float)sGlobal->ScreenSizeX, sGlobal->ScreenSizeY / 12.0f));
     }
 }
 
