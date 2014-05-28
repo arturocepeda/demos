@@ -1,3 +1,15 @@
+
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Game Engine
+//
+//  Android
+//
+//  --- AssetManager.cpp ---
+//
+//////////////////////////////////////////////////////////////////
+
 #include <android/asset_manager_jni.h>
 #include "Core/Android/GEDevice.h"
 
@@ -5,10 +17,10 @@ static AAssetManager* NativeAssetManager = 0;
 
 extern "C"
 {
-	JNIEXPORT void JNICALL Java_com_GameEngine_Bugs_GameEngineLib_CreateAssetManager(JNIEnv* env, jclass clazz, jobject assetManager)
-	{
-		NativeAssetManager = AAssetManager_fromJava(env, assetManager);
-	}
+   JNIEXPORT void JNICALL Java_com_GameEngine_Bugs_GameEngineLib_CreateAssetManager(JNIEnv* env, jclass clazz, jobject assetManager)
+   {
+      NativeAssetManager = AAssetManager_fromJava(env, assetManager);
+   }
 };
 
 unsigned int GEDevice::getFileLength(const char* Filename)

@@ -1,3 +1,15 @@
+
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda Pérez
+//  Game Engine
+//
+//  Android
+//
+//  --- Android.cpp ---
+//
+//////////////////////////////////////////////////////////////////
+
 #include <jni.h>
 #include <android/log.h>
 #include <stdio.h>
@@ -29,6 +41,7 @@ extern "C"
 	JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchUp(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y);
 	JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputButtonDown(JNIEnv* env, jclass clazz, jint button);
 	JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputButtonUp(JNIEnv* env, jclass clazz, jint button);
+   JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z);
 };
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_Initialize(JNIEnv* env, jobject obj, jint width, jint height)
@@ -40,7 +53,8 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_Initialize(JNIEnv
    __android_log_print(ANDROID_LOG_VERBOSE, "GameEngine", "Width: %d - Height: %d", width, height);
 
    // IDs for touch management
-   memset(iFingerID, 0, sizeof(int) * MAX_FINGERS);
+   for(int i = 0; i < MAX_FINGERS; i++)
+      iFingerID[i] = -1;
    
     // initialize rendering system
    cRender = new GERenderingES20((void*)0);
@@ -79,14 +93,13 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateFrame(JNIEn
    // render
    cRender->renderBegin();
    cScenes[iCurrentScene]->render();
-   cRender->renderEnd();
 }
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchDown(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y)
 {
    for(int i = 0; i < MAX_FINGERS; i++)
    {
-      if(iFingerID[i] == 0)
+      if(iFingerID[i] == -1)
       {
          iFingerID[i] = index;
          vFingerPosition[i].X = x;
@@ -106,7 +119,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchMove(JN
          GEVector2 vPreviousPosition(vFingerPosition[i]);
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
-         cScenes[iCurrentScene]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);          
+         cScenes[iCurrentScene]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);
          break;
       }
    }
@@ -118,7 +131,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchUp(JNIE
    {
       if(iFingerID[i] == index)
       {
-         iFingerID[i] = 0;
+         iFingerID[i] = -1;
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
          cScenes[iCurrentScene]->inputTouchEnd(i, vFingerPosition[i]);
@@ -135,4 +148,12 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputButtonDown(J
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputButtonUp(JNIEnv* env, jclass clazz, jint button)
 {
 	
+}
+
+const float AccelFactor = 0.01f;
+
+JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z)
+{
+   if(cScenes[iCurrentScene])
+      cScenes[iCurrentScene]->updateAccelerometerStatus(GEVector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
 }

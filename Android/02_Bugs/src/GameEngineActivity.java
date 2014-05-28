@@ -1,3 +1,15 @@
+
+//////////////////////////////////////////////////////////////////
+//
+//  Arturo Cepeda
+//  Game Engine
+//
+//  Android
+//
+//  --- GameEngineActivity.java ---
+//
+//////////////////////////////////////////////////////////////////
+
 package com.GameEngine.Bugs;
 
 import android.util.Log;
@@ -9,103 +21,112 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.content.res.AssetManager;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import java.io.File;
 
-public class GameEngineActivity extends Activity
+public class GameEngineActivity extends Activity implements SensorEventListener
 {
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
-		CreateMainView();
-		CreateAssetManager();
-	}
+   private static final boolean UseAccelerometer = false;
 
-	private void CreateMainView()
-	{
-		view = new GameEngineView(getApplication());
-		setContentView(view);
-	}
+   @Override
+   protected void onCreate(Bundle savedInstanceState)
+   {
+      super.onCreate(savedInstanceState);
+      CreateMainView();
+      CreateAssetManager();
 
-	private void CreateAssetManager()
-	{
-		assetManager = getAssets();			
-		GameEngineLib.CreateAssetManager(assetManager);
-    }
+      if(UseAccelerometer)
+         InitializeAccelerometer();
+   }
 
-	static AssetManager assetManager;
-  GameEngineView view;
+   private void CreateMainView()
+   {
+      view = new GameEngineView(getApplication());
+      setContentView(view);
+   }
 
-  @Override
-	protected void onPause()
-	{
-		super.onPause();
-    view.onPause();
-  }
+   private void CreateAssetManager()
+   {
+      assetManager = getAssets();			
+      GameEngineLib.CreateAssetManager(assetManager);
+   }
 
-  @Override
-	protected void onResume()
-	{
-    super.onResume();
-    view.onResume();
-  }
+   static AssetManager assetManager;
+   GameEngineView view;
+   
+   private void InitializeAccelerometer()
+   {
+      mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+      mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+      mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+   }
+   
+   private SensorManager mSensorManager;
+   private Sensor mAccelerometer;
 
-	@Override
-	public boolean dispatchTouchEvent(MotionEvent event)
-	{
-		switch (event.getAction())
-		{
-			case MotionEvent.ACTION_DOWN:
-            for(int i = 0; i < event.getPointerCount(); i++)
-				   GameEngineLib.InputTouchDown(event.getPointerId(i), event.getX(i), event.getY(i));
-				break;
-			case MotionEvent.ACTION_MOVE:
-            for(int i = 0; i < event.getPointerCount(); i++)
-				   GameEngineLib.InputTouchMove(event.getPointerId(i), event.getX(i), event.getY(i));
-				break;
-			case MotionEvent.ACTION_UP:
-            for(int i = 0; i < event.getPointerCount(); i++)
-				   GameEngineLib.InputTouchUp(event.getPointerId(i), event.getX(i), event.getY(i));
-				break;
-		}
+   @Override
+   protected void onPause()
+   {
+      super.onPause();
+      view.onPause();
 
-		return super.dispatchTouchEvent(event);
-	}
+      if(UseAccelerometer)
+         mSensorManager.unregisterListener(this);
+   }
 
-	@Override
-	public boolean onKeyDown(final int keyCode, KeyEvent event)
-	{
-		if (!keyPressed[keyCode])
-		{
-			keyPressed[keyCode] = true;
-			GameEngineLib.InputButtonDown(keyCode);
-		}
+   @Override
+   protected void onResume()
+   {
+      super.onResume();
+      view.onResume();
 
-		return super.onKeyDown(keyCode, event);
-	}
+      if(UseAccelerometer)
+         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+   }
 
-	private boolean keyPressed[] = new boolean[256];
+   @Override
+   public boolean onKeyDown(final int keyCode, KeyEvent event)
+   {
+      if(!keyPressed[keyCode])
+      {
+         keyPressed[keyCode] = true;
+         GameEngineLib.InputButtonDown(keyCode);
+      }
 
-	@Override
-	public boolean onKeyUp(final int keyCode, KeyEvent event)
-	{
-		if (keyPressed[keyCode])
-		{
-			keyPressed[keyCode] = false;
-			GameEngineLib.InputButtonUp(keyCode);
-		}
+      return super.onKeyDown(keyCode, event);
+   }
 
-		return super.onKeyUp(keyCode, event);
-	}
+   private boolean keyPressed[] = new boolean[256];
 
-	@Override
-	public boolean dispatchGenericMotionEvent(MotionEvent event)
-	{
-		return super.dispatchGenericMotionEvent(event);
-	}
+   @Override
+   public boolean onKeyUp(final int keyCode, KeyEvent event)
+   {
+      if(keyPressed[keyCode])
+      {
+         keyPressed[keyCode] = false;
+         GameEngineLib.InputButtonUp(keyCode);
+      }
 
-	public GameEngineActivity()
-	{
-		GameEngineLib.LoadSharedLibraries();		
-	}	
+      return super.onKeyUp(keyCode, event);
+   }
+
+   @Override
+   public void onAccuracyChanged(Sensor sensor, int accuracy) 
+   {
+   }
+
+   @Override
+   public final void onSensorChanged(SensorEvent event)
+   {
+      GameEngineLib.UpdateAccelerometerStatus(event.values[0], event.values[1], event.values[2]);
+   }
+
+   public GameEngineActivity()
+   {
+      GameEngineLib.LoadSharedLibraries();		
+   }	
 }
