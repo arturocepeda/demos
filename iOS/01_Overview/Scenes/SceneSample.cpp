@@ -67,17 +67,17 @@ void GESceneSample::internalInit()
    // sprites
    cRender->createSprite(&cSpriteBackground);
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
-   cSpriteBackground->scale(1.0f, 1.8f, 1.0f);
+   cSpriteBackground->setSize(GEVector2(2.0f, 3.0f));
    
    cRender->createSprite(&cSpriteBall);
    cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
-   cSpriteBall->scale(0.2f, 0.2f, 0.2f);
+   cSpriteBall->setSize(GEVector2(0.4f, 0.4f));
    
    for(int i = 0; i < FINGERS; i++)
    {
       cRender->createSprite(&cSpriteInfo[i]);
       cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
-      cSpriteInfo[i]->scale(0.15f, 0.15f, 0.15f);
+      cSpriteInfo[i]->setSize(GEVector2(0.25f, 0.25f));
       cSpriteInfo[i]->rotate(0.0f, 0.0f, 90.0f);
       cSpriteInfo[i]->setVisible(false);
    }
@@ -109,6 +109,10 @@ void GESceneSample::update()
 
 void GESceneSample::updateText()
 {
+   static float rotx = 0.0f;
+   rotx += 0.01f;
+   cText->setRotation(GEVector3(rotx, 0.0f, 0.0f));
+
    if(cText->getOpacity() < 1.0f)   
       cText->setOpacity(cText->getOpacity() + 0.005f);
 }

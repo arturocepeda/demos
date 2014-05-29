@@ -49,7 +49,7 @@ void GESceneSample::internalInit()
    // sprites
    cRender->createSprite(&cSpriteBackground);
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Floor));
-   cSpriteBackground->setScale(1.5f, 1.8f, 1.0f);
+   cSpriteBackground->setSize(GEVector2(4.0f, 4.0f));
    
    cRender->createSprite(&cSpriteBug[0][0]);
    cSpriteBug[0][0]->setTexture(cRender->getTexture(Textures.BugA1));
@@ -244,7 +244,7 @@ void GESceneSample::render()
    {
       cSprite = cSpriteBug[vBugs[i].Type][vBugs[i].CurrentStep];
       cSprite->setPosition(vBugs[i].Position.X, vBugs[i].Position.Y);
-      cSprite->setScale(vBugs[i].Size, vBugs[i].Size);
+      cSprite->setSize(GEVector2(vBugs[i].Size, vBugs[i].Size));
       cSprite->setRotation(0.0f, 0.0f, vBugs[i].Angle);
       cSprite->setOpacity(1.0f);
       cRender->renderSprite(cSprite);
@@ -255,7 +255,7 @@ void GESceneSample::render()
    {
       cSprite = cSpriteBug[vBugsSmashed[i].Type][vBugsSmashed[i].CurrentStep];
       cSprite->setPosition(vBugsSmashed[i].Position.X, vBugsSmashed[i].Position.Y);
-      cSprite->setScale(vBugsSmashed[i].Size, vBugsSmashed[i].Size);
+      cSprite->setSize(GEVector2(vBugsSmashed[i].Size, vBugsSmashed[i].Size));
       cSprite->setRotation(0.0f, 0.0f, vBugsSmashed[i].Angle);
       cSprite->setOpacity(vBugsSmashed[i].Opacity);
       cRender->renderSprite(cSprite);

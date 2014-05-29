@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Sample application
 //
@@ -14,7 +14,7 @@
 #ifndef _SCENESAMPLE_H_
 #define _SCENESAMPLE_H_
 
-#include "GEScene.h"
+#include "Scenes/GEScene.h"
 
 #define NEAR  0.05f
 

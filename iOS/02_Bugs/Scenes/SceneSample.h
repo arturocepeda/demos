@@ -14,7 +14,7 @@
 #ifndef _SCENESAMPLE_H_
 #define _SCENESAMPLE_H_
 
-#include "GEScene.h"
+#include "Scenes/GEScene.h"
 #include <vector>
 
 #define BOUNDS_TOP      GEDevice::getAspectRatio()
@@ -26,8 +26,8 @@
 
 #define BUG_TYPES       3
 #define BUG_STEPS       3
-#define BUG_SIZE_MIN    8
-#define BUG_SIZE_MAX    15
+#define BUG_SIZE_MIN    15
+#define BUG_SIZE_MAX    40
 #define BUG_SPEED_MIN   20
 #define BUG_SPEED_MAX   50
 
