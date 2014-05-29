@@ -236,7 +236,7 @@ void GESceneSample::render()
    GESprite* cSprite;
    
    // background
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
    
    // running bugs
@@ -262,7 +262,7 @@ void GESceneSample::render()
    }
    
    // text
-   cRender->useShaderProgram(GEShaderPrograms::Text);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
    cRender->renderLabel(cTextSmashed);
    cRender->renderLabel(cTextEscaped);
 }

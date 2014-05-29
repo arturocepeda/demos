@@ -38,9 +38,9 @@ void GESceneSample::internalInit()
    cRender->setAmbientLightIntensity(0.25f);
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor(GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity(GELights::PointLight1, 0.6f);
+   cRender->setLightPosition((unsigned int)GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor((unsigned int)GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
+   cRender->setLightIntensity((unsigned int)GELights::PointLight1, 0.6f);
    
    // cameras
    cCamera = new GECamera();
@@ -85,8 +85,8 @@ void GESceneSample::internalInit()
    // sounds
    //cAudio->loadSound(Sounds.Music, "song", "caf");
    cAudio->loadSound(Sounds.Touch, "touch", "wav");
-   cAudio->setVolume(1, 0.2f);
-   //cAudio->playSound(Sounds.Music, 0);
+   cAudio->setVolume(0, 0.2f);
+   //cAudio->playSound(Sounds.Music, 1);
    
    // font
    //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
@@ -208,7 +208,7 @@ void GESceneSample::render()
 {
    // background
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
@@ -216,14 +216,14 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // meshes
-   cRender->useShaderProgram(GEShaderPrograms::MeshColor);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshColor);
    cRender->renderMesh(cMeshCube);
-   cRender->useShaderProgram(GEShaderPrograms::MeshTexture);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshTexture);
    cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBall);
     
    for(int i = 0; i < FINGERS; i++)
@@ -231,7 +231,7 @@ void GESceneSample::render()
 
    // text
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::Text);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
    cRender->renderLabel(cText);
 }
 

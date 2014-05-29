@@ -57,7 +57,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNI
       iFingerID[i] = -1;
    
     // initialize rendering system
-   cRender = new GERenderingES20((void*)0);
+   cRender = new GERenderingES20();
    cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
