@@ -17,6 +17,8 @@
 		69650EF219379304002C1A4B /* GEContentData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EED19379304002C1A4B /* GEContentData.cpp */; };
 		69650EFA1937962C002C1A4B /* GEImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EF91937962C002C1A4B /* GEImageData.cpp */; };
 		69650F031937964E002C1A4B /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 69650EFF1937964E002C1A4B /* stb_image.c */; };
+		69650F07193799EF002C1A4B /* Test_24.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 69650F05193799EF002C1A4B /* Test_24.fnt */; };
+		69650F08193799EF002C1A4B /* Test_24.png in Resources */ = {isa = PBXBuildFile; fileRef = 69650F06193799EF002C1A4B /* Test_24.png */; };
 		6969B6101912B1B80020E764 /* GEAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5DC1912B1B80020E764 /* GEAudio.cpp */; };
 		6969B6111912B1B80020E764 /* GEAudioOpenAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5E01912B1B80020E764 /* GEAudioOpenAL.mm */; };
 		6969B6121912B1B80020E764 /* GETimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5E31912B1B80020E764 /* GETimer.cpp */; };
@@ -79,6 +81,8 @@
 		69650F001937964E002C1A4B /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_image.h; path = ../../../GameEngine/Externals/stblib/stb_image.h; sourceTree = "<group>"; };
 		69650F011937964E002C1A4B /* stb_perlin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb_perlin.h; path = ../../../GameEngine/Externals/stblib/stb_perlin.h; sourceTree = "<group>"; };
 		69650F021937964E002C1A4B /* stb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb.h; path = ../../../GameEngine/Externals/stblib/stb.h; sourceTree = "<group>"; };
+		69650F05193799EF002C1A4B /* Test_24.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_24.fnt; sourceTree = "<group>"; };
+		69650F06193799EF002C1A4B /* Test_24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test_24.png; sourceTree = "<group>"; };
 		6969B5C71912B18B0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
 		6969B5C81912B18B0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
 		6969B5C91912B18B0020E764 /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.fsh; sourceTree = "<group>"; };
@@ -203,6 +207,16 @@
 				69650F021937964E002C1A4B /* stb.h */,
 			);
 			name = stblib;
+			sourceTree = "<group>";
+		};
+		69650F04193799EF002C1A4B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				69650F05193799EF002C1A4B /* Test_24.fnt */,
+				69650F06193799EF002C1A4B /* Test_24.png */,
+			);
+			name = Fonts;
+			path = Resources/Fonts;
 			sourceTree = "<group>";
 		};
 		6969B5C61912B1770020E764 /* Shaders */ = {
@@ -380,6 +394,7 @@
 		CEE82F9E166797AE004FBB96 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				69650F04193799EF002C1A4B /* Fonts */,
 				6969B5C61912B1770020E764 /* Shaders */,
 				CEE82FA7166797E4004FBB96 /* Textures */,
 				CEE82F9F166797B7004FBB96 /* Models */,
@@ -494,6 +509,8 @@
 				CEE0D4101874FE670055FA21 /* Default-568h@2x.png in Resources */,
 				CEE0D42B187500390055FA21 /* iPad.storyboard in Resources */,
 				CEE0D42C187500390055FA21 /* iPhone.storyboard in Resources */,
+				69650F07193799EF002C1A4B /* Test_24.fnt in Resources */,
+				69650F08193799EF002C1A4B /* Test_24.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
