@@ -2,18 +2,22 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Sample application
 //
-//  --- SceneSample.mm ---
+//  --- SceneSample.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 #include "SceneSample.h"
-#include "GEUtils.h"
-#include "GEDevice.h"
-#include "GEConstants.h"
+#include "Core/GEUtils.h"
+#include "Core/GEConstants.h"
+#include "Core/GEDevice.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
    : GEScene(Render, Audio, GlobalData)
@@ -31,16 +35,16 @@ void GESceneSample::internalInit()
    iSmashed = 0;
    
    // textures
-   cRender->loadTexture(Textures.BugA1, "bugA1.png");
-   cRender->loadTexture(Textures.BugA2, "bugA2.png");
-   cRender->loadTexture(Textures.BugA3, "bugA3.png");
-   cRender->loadTexture(Textures.BugB1, "bugB1.png");
-   cRender->loadTexture(Textures.BugB2, "bugB2.png");
-   cRender->loadTexture(Textures.BugB3, "bugB3.png");
-   cRender->loadTexture(Textures.BugC1, "bugC1.png");
-   cRender->loadTexture(Textures.BugC2, "bugC2.png");
-   cRender->loadTexture(Textures.BugC3, "bugC3.png");
-   cRender->loadTexture(Textures.Floor, "floor.jpg");
+   cRender->loadTexture(Textures.BugA1, "bugA1", "png");
+   cRender->loadTexture(Textures.BugA2, "bugA2", "png");
+   cRender->loadTexture(Textures.BugA3, "bugA3", "png");
+   cRender->loadTexture(Textures.BugB1, "bugB1", "png");
+   cRender->loadTexture(Textures.BugB2, "bugB2", "png");
+   cRender->loadTexture(Textures.BugB3, "bugB3", "png");
+   cRender->loadTexture(Textures.BugC1, "bugC1", "png");
+   cRender->loadTexture(Textures.BugC2, "bugC2", "png");
+   cRender->loadTexture(Textures.BugC3, "bugC3", "png");
+   cRender->loadTexture(Textures.Floor, "floor", "jpg");
 
    // sprites
    cRender->createSprite(&cSpriteBackground);
@@ -69,21 +73,22 @@ void GESceneSample::internalInit()
    cSpriteBug[2][2]->setTexture(cRender->getTexture(Textures.BugC3));
    
    // font
-   cRender->defineFont(0, "Papyrus", 24.0f);
+   //cRender->defineFont(0, "Papyrus", 24.0f);
+   cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cTextSmashed, 0, TopLeft, 256, 64, "Smashed: 0");
+   cRender->createLabel(&cTextSmashed, 0, TopLeft, GEVector2(0.1f, 0.1f), "Smashed: 0");
    cTextSmashed->setPosition(-0.9f, 1.3f);
-   cTextSmashed->setScale(1.5f, 1.5f);
-   cTextSmashed->setColor(GEColor(0.25f, 0.25f, 0.5f));
+   cTextSmashed->setColor(GEColor(0.5f, 0.5f, 0.8f));
+   cTextSmashed->setHorizontalSpacing(0.1f);
    
-   cRender->createLabel(&cTextEscaped, 0, TopLeft, 256, 64, "Escaped: 0");
+   cRender->createLabel(&cTextEscaped, 0, TopLeft, GEVector2(0.1f, 0.1f), "Escaped: 0");
    cTextEscaped->setPosition(0.09f, 1.3f);
-   cTextEscaped->setScale(1.5f, 1.5f);
-   cTextEscaped->setColor(GEColor(0.5f, 0.25f, 0.25f));
+   cTextEscaped->setColor(GEColor(0.8f, 0.5f, 0.5f));
+   cTextEscaped->setHorizontalSpacing(0.1f);
    
    // sound
-   cAudio->loadSound(0, "hit.wav");
+   cAudio->loadSound(0, "hit", "wav");
    
    // randomize
    srand(time(0));
@@ -92,16 +97,18 @@ void GESceneSample::internalInit()
 void GESceneSample::release()
 {
    // release rendering objects
-   delete cSpriteBackground;
+   cRender->releaseSprite(&cSpriteBackground);
    
    for(int i = 0; i < BUG_TYPES; i++)
    {
       for(int j = 0; j < BUG_STEPS; j++)
-         delete cSpriteBug[i][j];
+         cRender->releaseSprite(&cSpriteBug[i][j]);
    }
    
-   delete cTextEscaped;
-   delete cTextSmashed;
+   cRender->releaseLabel(&cTextEscaped);
+   cRender->releaseLabel(&cTextSmashed);
+
+   cRender->releaseFont(0);
    
    // release sound buffers
    cAudio->unloadAllSounds();
@@ -229,7 +236,7 @@ void GESceneSample::render()
    GESprite* cSprite;
    
    // background
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
    
    // running bugs
@@ -255,7 +262,7 @@ void GESceneSample::render()
    }
    
    // text
-   cRender->useShaderProgram(GEShaderPrograms::Text);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
    cRender->renderLabel(cTextSmashed);
    cRender->renderLabel(cTextEscaped);
 }

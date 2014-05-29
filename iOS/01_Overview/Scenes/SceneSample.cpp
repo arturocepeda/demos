@@ -85,8 +85,8 @@ void GESceneSample::internalInit()
    // sounds
    //cAudio->loadSound(Sounds.Music, "song", "caf");
    cAudio->loadSound(Sounds.Touch, "touch", "wav");
-   cAudio->setVolume(1, 0.2f);
-   //cAudio->playSound(Sounds.Music, 0);
+   cAudio->setVolume(0, 0.2f);
+   //cAudio->playSound(Sounds.Music, 1);
    
    // font
    //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);

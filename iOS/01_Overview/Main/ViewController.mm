@@ -138,19 +138,19 @@
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 #ifdef PORTRAIT_UP
-   if(interfaceOrientation == UIDeviceOrientationPortrait)
+   if(interfaceOrientation == UIInterfaceOrientationPortrait)
       return YES;
 #endif
 #ifdef PORTRAIT_DOWN
-   if(interfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
+   if(interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
       return YES;
 #endif
 #ifdef LANDSCAPE_HOME_LEFT
-   if(interfaceOrientation == UIDeviceOrientationLandscapeRight)
+   if(interfaceOrientation == UIInterfaceOrientationLandscapeRight)
       return YES;
 #endif
 #ifdef LANDSCAPE_HOME_RIGHT
-   if(interfaceOrientation == UIDeviceOrientationLandscapeLeft)
+   if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
       return YES;
 #endif   
    

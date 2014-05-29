@@ -94,7 +94,7 @@
 #endif
    
    // initialize rendering system
-   cRender = new GERenderingES20(self.context);
+   cRender = new GERenderingES20();
    cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
@@ -138,19 +138,19 @@
 -(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 #ifdef PORTRAIT_UP
-   if(interfaceOrientation == UIDeviceOrientationPortrait)
+   if(interfaceOrientation == UIInterfaceOrientationPortrait)
       return YES;
 #endif
 #ifdef PORTRAIT_DOWN
-   if(interfaceOrientation == UIDeviceOrientationPortraitUpsideDown)
+   if(interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
       return YES;
 #endif
 #ifdef LANDSCAPE_HOME_LEFT
-   if(interfaceOrientation == UIDeviceOrientationLandscapeRight)
+   if(interfaceOrientation == UIInterfaceOrientationLandscapeRight)
       return YES;
 #endif
 #ifdef LANDSCAPE_HOME_RIGHT
-   if(interfaceOrientation == UIDeviceOrientationLandscapeLeft)
+   if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
       return YES;
 #endif   
    
@@ -182,7 +182,7 @@
 {
    cRender->renderBegin();
    cScenes[iCurrentScene]->render();
-   cRender->renderEnd();
+   [self.context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 -(void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event

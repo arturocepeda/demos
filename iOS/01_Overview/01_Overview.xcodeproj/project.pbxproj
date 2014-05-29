@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		693935C216A972B20061C256 /* banana.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 693935C116A972B20061C256 /* banana.pvrtc */; };
 		69650EDE193789C0002C1A4B /* GERenderingES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDB193789C0002C1A4B /* GERenderingES20.cpp */; };
 		69650EDF193789C0002C1A4B /* GERenderingObjectsES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDC193789C0002C1A4B /* GERenderingObjectsES20.cpp */; };
 		69650EE0193789C0002C1A4B /* GERenderingShadersES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDD193789C0002C1A4B /* GERenderingShadersES20.cpp */; };
@@ -19,6 +18,7 @@
 		69650F031937964E002C1A4B /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 69650EFF1937964E002C1A4B /* stb_image.c */; };
 		69650F07193799EF002C1A4B /* Test_24.fnt in Resources */ = {isa = PBXBuildFile; fileRef = 69650F05193799EF002C1A4B /* Test_24.fnt */; };
 		69650F08193799EF002C1A4B /* Test_24.png in Resources */ = {isa = PBXBuildFile; fileRef = 69650F06193799EF002C1A4B /* Test_24.png */; };
+		69650F0C1937AEBE002C1A4B /* banana.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 69650F0B1937AEBE002C1A4B /* banana.jpg */; };
 		6969B6101912B1B80020E764 /* GEAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5DC1912B1B80020E764 /* GEAudio.cpp */; };
 		6969B6111912B1B80020E764 /* GEAudioOpenAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5E01912B1B80020E764 /* GEAudioOpenAL.mm */; };
 		6969B6121912B1B80020E764 /* GETimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5E31912B1B80020E764 /* GETimer.cpp */; };
@@ -59,7 +59,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		693935C116A972B20061C256 /* banana.pvrtc */ = {isa = PBXFileReference; lastKnownFileType = file; name = banana.pvrtc; path = Resources/Textures/banana.pvrtc; sourceTree = "<group>"; };
 		69650EDB193789C0002C1A4B /* GERenderingES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingES20.cpp; sourceTree = "<group>"; };
 		69650EDC193789C0002C1A4B /* GERenderingObjectsES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingObjectsES20.cpp; sourceTree = "<group>"; };
 		69650EDD193789C0002C1A4B /* GERenderingShadersES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingShadersES20.cpp; sourceTree = "<group>"; };
@@ -83,6 +82,7 @@
 		69650F021937964E002C1A4B /* stb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stb.h; path = ../../../GameEngine/Externals/stblib/stb.h; sourceTree = "<group>"; };
 		69650F05193799EF002C1A4B /* Test_24.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_24.fnt; sourceTree = "<group>"; };
 		69650F06193799EF002C1A4B /* Test_24.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Test_24.png; sourceTree = "<group>"; };
+		69650F0B1937AEBE002C1A4B /* banana.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = banana.jpg; path = Resources/Textures/banana.jpg; sourceTree = "<group>"; };
 		6969B5C71912B18B0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
 		6969B5C81912B18B0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
 		6969B5C91912B18B0020E764 /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.fsh; sourceTree = "<group>"; };
@@ -424,7 +424,7 @@
 		CEE82FA7166797E4004FBB96 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
-				693935C116A972B20061C256 /* banana.pvrtc */,
+				69650F0B1937AEBE002C1A4B /* banana.jpg */,
 				CEE82FA8166797EF004FBB96 /* background.jpg */,
 				CEE82FAA166797EF004FBB96 /* basketball.png */,
 				CEE82FAB166797EF004FBB96 /* info.png */,
@@ -505,12 +505,12 @@
 				CEE82FAC166797EF004FBB96 /* background.jpg in Resources */,
 				CEE82FAE166797EF004FBB96 /* basketball.png in Resources */,
 				CEE82FAF166797EF004FBB96 /* info.png in Resources */,
-				693935C216A972B20061C256 /* banana.pvrtc in Resources */,
 				CEE0D4101874FE670055FA21 /* Default-568h@2x.png in Resources */,
 				CEE0D42B187500390055FA21 /* iPad.storyboard in Resources */,
 				CEE0D42C187500390055FA21 /* iPhone.storyboard in Resources */,
 				69650F07193799EF002C1A4B /* Test_24.fnt in Resources */,
 				69650F08193799EF002C1A4B /* Test_24.png in Resources */,
+				69650F0C1937AEBE002C1A4B /* banana.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,6 +569,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -598,6 +599,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
