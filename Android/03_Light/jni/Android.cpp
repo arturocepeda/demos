@@ -19,7 +19,7 @@
 #include "config.h"
 #include "Rendering/OpenGL/GERenderingES20.h"
 #include "Audio/OpenSL/GEAudioOpenSL.h"
-#include "Core/Android/GEDevice.h"
+#include "Core/GEDevice.h"
 #include "Scenes/GEScene.h"
 
 #include "SceneSample.h"

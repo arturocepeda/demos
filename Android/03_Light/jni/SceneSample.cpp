@@ -12,9 +12,10 @@
 
 
 #include "SceneSample.h"
-#include "../assets/Models/banana.h"
 #include "Core/GEUtils.h"
 #include "Core/GEConstants.h"
+
+#include "banana.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
    : GEScene(Render, Audio, GlobalData)
@@ -39,8 +40,8 @@ void GESceneSample::internalInit()
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
-   cRender->loadTexture(Textures.Banana, "banana.jpg");
-   cRender->loadTexture(Textures.Bulb, "bulb.png");
+   cRender->loadTexture(Textures.Banana, "banana", "jpg");
+   cRender->loadTexture(Textures.Bulb, "bulb", "png");
    
    // mesh
    cRender->createMesh(&cMeshBanana);

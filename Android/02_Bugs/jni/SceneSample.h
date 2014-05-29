@@ -64,7 +64,7 @@ private:
       enum {BugA1, BugA2, BugA3,
             BugB1, BugB2, BugB3,
             BugC1, BugC2, BugC3,
-            Floor, Font};
+            Floor};
    } 
    Textures;
    

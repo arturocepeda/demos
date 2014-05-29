@@ -57,11 +57,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <NdkToolchainVersion>clang-3.4</NdkToolchainVersion>
-    <IncludePath>..\..\..\GameEngine;..\..\..\GameEngine\Core\Android;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\GameEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <NdkToolchainVersion>clang-3.4</NdkToolchainVersion>
-    <IncludePath>..\..\Game Engine;..\..\Game Engine\Core;..\..\Game Engine\Core\Android;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\..\GameEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

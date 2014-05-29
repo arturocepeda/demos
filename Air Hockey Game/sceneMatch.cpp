@@ -303,22 +303,22 @@ void CSceneMatch::initSoundObjects()
     for(i = 0; i < SOUNDS_PUCK; i++)
     {
         iSoundPuckMallet[i] = iSoundCounter++;
-        sprintf(sSoundFile, "sounds\\ph%d.ogg", i);
-        cAudio->loadSound(iSoundPuckMallet[i], sSoundFile);
+        sprintf(sSoundFile, "sounds\\ph%d", i);
+        cAudio->loadSound(iSoundPuckMallet[i], sSoundFile, "ogg");
     }
 
     for(i = 0; i < SOUNDS_TABLE; i++)
     {
         iSoundPuckTable[i] = iSoundCounter++;
-        sprintf(sSoundFile, "sounds\\pt%d.ogg", i);
-        cAudio->loadSound(iSoundPuckTable[i], sSoundFile);
+        sprintf(sSoundFile, "sounds\\pt%d", i);
+        cAudio->loadSound(iSoundPuckTable[i], sSoundFile, "ogg");
     }
 
     for(i = 0; i < SOUNDS_GOAL; i++)
     {
         iSoundGoal[i] = iSoundCounter++;
-        sprintf(sSoundFile, "sounds\\goal%d.ogg", i);
-        cAudio->loadSound(iSoundGoal[i], sSoundFile);
+        sprintf(sSoundFile, "sounds\\goal%d", i);
+        cAudio->loadSound(iSoundGoal[i], sSoundFile, "ogg");
     }
 
     // listener position (player 1)

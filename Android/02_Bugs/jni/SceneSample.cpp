@@ -17,7 +17,7 @@
 #include "SceneSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEConstants.h"
-#include "GEDevice.h"
+#include "Core/GEDevice.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
    : GEScene(Render, Audio, GlobalData)
@@ -35,17 +35,16 @@ void GESceneSample::internalInit()
    iSmashed = 0;
    
    // textures
-   cRender->loadTexture(Textures.BugA1, "bugA1.png");
-   cRender->loadTexture(Textures.BugA2, "bugA2.png");
-   cRender->loadTexture(Textures.BugA3, "bugA3.png");
-   cRender->loadTexture(Textures.BugB1, "bugB1.png");
-   cRender->loadTexture(Textures.BugB2, "bugB2.png");
-   cRender->loadTexture(Textures.BugB3, "bugB3.png");
-   cRender->loadTexture(Textures.BugC1, "bugC1.png");
-   cRender->loadTexture(Textures.BugC2, "bugC2.png");
-   cRender->loadTexture(Textures.BugC3, "bugC3.png");
-   cRender->loadTexture(Textures.Floor, "floor.jpg");
-   cRender->loadTexture(Textures.Font, "Arial_24.bmp");
+   cRender->loadTexture(Textures.BugA1, "bugA1", "png");
+   cRender->loadTexture(Textures.BugA2, "bugA2", "png");
+   cRender->loadTexture(Textures.BugA3, "bugA3", "png");
+   cRender->loadTexture(Textures.BugB1, "bugB1", "png");
+   cRender->loadTexture(Textures.BugB2, "bugB2", "png");
+   cRender->loadTexture(Textures.BugB3, "bugB3", "png");
+   cRender->loadTexture(Textures.BugC1, "bugC1", "png");
+   cRender->loadTexture(Textures.BugC2, "bugC2", "png");
+   cRender->loadTexture(Textures.BugC3, "bugC3", "png");
+   cRender->loadTexture(Textures.Floor, "floor", "jpg");
 
    // sprites
    cRender->createSprite(&cSpriteBackground);
@@ -89,7 +88,7 @@ void GESceneSample::internalInit()
    cTextEscaped->setHorizontalSpacing(0.1f);
    
    // sound
-   cAudio->loadSound(0, "hit.wav");
+   cAudio->loadSound(0, "hit", "wav");
    
    // randomize
    srand(time(0));

@@ -12,11 +12,11 @@
 
 
 #include "SceneSample.h"
-#include "../assets/Models/banana.h"
-#include "../assets/Models/cube.h"
 #include "Core/GEUtils.h"
-#include "GEDevice.h"
+#include "Core/GEDevice.h"
 
+#include "banana.h"
+#include "cube.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
    : GEScene(Render, Audio, GlobalData)
@@ -47,10 +47,10 @@ void GESceneSample::internalInit()
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
-   cRender->loadTexture(Textures.Background, "background.jpg");
-   cRender->loadTexture(Textures.Banana, "banana.jpg");
-   cRender->loadTexture(Textures.Info, "info.png");
-   cRender->loadTexture(Textures.Basketball, "basketball.png");
+   cRender->loadTexture(Textures.Background, "background", "jpg");
+   cRender->loadTexture(Textures.Banana, "banana", "jpg");
+   cRender->loadTexture(Textures.Info, "info", "png");
+   cRender->loadTexture(Textures.Basketball, "basketball", "png");
    
    // meshes
    cRender->createMesh(&cMeshBanana);
@@ -83,8 +83,8 @@ void GESceneSample::internalInit()
    }
    
    // sounds
-   //cAudio->loadSound(Sounds.Music, "song.caf");
-   cAudio->loadSound(Sounds.Touch, "touch.wav");
+   //cAudio->loadSound(Sounds.Music, "song", "caf");
+   cAudio->loadSound(Sounds.Touch, "touch", "wav");
    cAudio->setVolume(1, 0.2f);
    //cAudio->playSound(Sounds.Music, 0);
    
