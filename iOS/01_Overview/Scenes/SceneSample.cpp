@@ -2,20 +2,21 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Sample application
 //
-//  --- SceneSample.mm ---
+//  --- SceneSample.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
 
 #include "SceneSample.h"
+#include "Core/GEUtils.h"
+#include "Core/GEDevice.h"
+
 #include "banana.h"
 #include "cube.h"
-#include "GEUtils.h"
-#include "GEDevice.h"
 
 GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
    : GEScene(Render, Audio, GlobalData)
@@ -37,23 +38,19 @@ void GESceneSample::internalInit()
    cRender->setAmbientLightIntensity(0.25f);
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition(GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor(GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity(GELights::PointLight1, 0.6f);
-   
-   // device info
-   NSLog(@"\nDevice type: %s", (GEDevice::iPhone())? "iPhone": "iPad");
-   NSLog(@"\nRetina display: %s", (GEDevice::displayRetina())? "yes": "no");
+   cRender->setLightPosition((unsigned int)GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor((unsigned int)GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
+   cRender->setLightIntensity((unsigned int)GELights::PointLight1, 0.6f);
    
    // cameras
    cCamera = new GECamera();
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
-   cRender->loadTexture(Textures.Background, "background.jpg");
-   cRender->loadTextureCompressed(Textures.Banana, "banana.pvrtc", 512, 2);
-   cRender->loadTexture(Textures.Info, "info.png");
-   cRender->loadTexture(Textures.Basketball, "basketball.png");
+   cRender->loadTexture(Textures.Background, "background", "jpg");
+   cRender->loadTexture(Textures.Banana, "banana", "jpg");
+   cRender->loadTexture(Textures.Info, "info", "png");
+   cRender->loadTexture(Textures.Basketball, "basketball", "png");
    
    // meshes
    cRender->createMesh(&cMeshBanana);
@@ -86,18 +83,19 @@ void GESceneSample::internalInit()
    }
    
    // sounds
-   cAudio->loadSound(Sounds.Music, "song.caf");
-   cAudio->loadSound(Sounds.Touch, "touch.wav");
+   //cAudio->loadSound(Sounds.Music, "song", "caf");
+   cAudio->loadSound(Sounds.Touch, "touch", "wav");
    cAudio->setVolume(1, 0.2f);
-   cAudio->playSound(Sounds.Music, 0);
+   //cAudio->playSound(Sounds.Music, 0);
    
    // font
-   cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
+   //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
+   cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cText, 0, CenterCenter, 512, 128, "ARTURO CEPEDA\niOS Game Engine");
-   cText->setPosition(0.0f, 1.3f, 0.0f);
-   cText->setScale(2.0f, 2.0f, 2.0f);
+   cRender->createLabel(&cText, 0, GEAlignment::CenterCenter, GEVector2(0.16f, 0.16f), "Game Engine");
+   cText->setPosition(0.0f, 1.15f);
+   cText->setColor(GEColor(1.0f, 0.25f, 0.25f));
    cText->setOpacity(0.0f);
 }
 
@@ -210,7 +208,7 @@ void GESceneSample::render()
 {
    // background
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
@@ -218,30 +216,22 @@ void GESceneSample::render()
    cRender->useCamera(cCamera);
 
    // meshes
-   cRender->useShaderProgram(GEShaderPrograms::MeshColor);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshColor);
    cRender->renderMesh(cMeshCube);
-   cRender->useShaderProgram(GEShaderPrograms::MeshTexture);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshTexture);
    cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBall);
     
    for(int i = 0; i < FINGERS; i++)
       cRender->renderSprite(cSpriteInfo[i]);
 
-   // text shadow
-   cRender->set2D();
-   cRender->useShaderProgram(GEShaderPrograms::Text);
-    
-   cText->setColor(GEColor(0.2f, 0.2f, 0.2f, cText->getOpacity()));
-   cText->move(0.015f, 0.015f, 0.0f);
-   cRender->renderLabel(cText);
-    
    // text
-   cText->setColor(GEColor(0.8f, 0.2f, 0.2f, cText->getOpacity()));
-   cText->move(-0.015f, -0.015f, 0.0f);
+   cRender->set2D();
+   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
    cRender->renderLabel(cText);
 }
 
@@ -268,7 +258,7 @@ void GESceneSample::release()
 
 void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
 {
-   cAudio->playSound(Sounds.Touch, 1);
+   cAudio->playSound(Sounds.Touch, 0);
 
    GEVector2 vScreenPosition = cRender->pixelToScreen(Point);
    cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y, 0.0f);

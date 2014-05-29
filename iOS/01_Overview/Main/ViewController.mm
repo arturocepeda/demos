@@ -94,7 +94,7 @@
 #endif
    
    // initialize rendering system
-   cRender = new GERenderingES20(self.context);
+   cRender = new GERenderingES20();
    cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
@@ -182,7 +182,7 @@
 {
    cRender->renderBegin();
    cScenes[iCurrentScene]->render();
-   cRender->renderEnd();
+   [self.context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
 -(void) touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event

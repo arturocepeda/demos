@@ -14,7 +14,7 @@
 #ifndef _SCENESAMPLE_H_
 #define _SCENESAMPLE_H_
 
-#include "GEScene.h"
+#include "Scenes/GEScene.h"
 
 #define BOUNDS_TOP      (GEDevice::getAspectRatio() * 0.89f)
 #define BOUNDS_BOTTOM   (-GEDevice::getAspectRatio() * 0.89f)

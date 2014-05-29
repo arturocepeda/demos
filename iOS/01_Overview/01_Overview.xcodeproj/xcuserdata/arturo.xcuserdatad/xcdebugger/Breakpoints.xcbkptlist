@@ -26,7 +26,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "54"
          endingLineNumber = "54"
-         landmarkName = "GESceneSample::init()"
+         landmarkName = "GESceneSample::internalInit()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
