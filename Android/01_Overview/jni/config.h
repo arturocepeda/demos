@@ -38,7 +38,7 @@
 //
 // set number of fingers
 //
-#define MAX_FINGERS 5
+#define MAX_FINGERS 10
 
 
 //

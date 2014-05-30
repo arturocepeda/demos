@@ -345,7 +345,7 @@ void CSceneMatch::releaseSoundObjects()
         cAudio->unloadSound(iSoundGoal[i]);
 }
 
-void CSceneMatch::update()
+void CSceneMatch::update(float DeltaTime)
 {
     iCurrentFrame++;
 

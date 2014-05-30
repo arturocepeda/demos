@@ -112,13 +112,13 @@ void CSceneMenu::initSoundObjects()
 {
 }
 
-void CSceneMenu::update()
+void CSceneMenu::update(float DeltaTime)
 {
     // camera orbit
-    fCameraOrbitTheta += fDeltaTime * 0.0002f;
+    fCameraOrbitTheta += DeltaTime * 0.0002f;
 
     // selected color animation
-    cColorSelected.R += (bColorSelectedInc ? fDeltaTime : -fDeltaTime) * 0.001f;
+    cColorSelected.R += (bColorSelectedInc ? DeltaTime : -DeltaTime) * 0.001f;
 
     if(cColorSelected.R > 0.95f)
         bColorSelectedInc = false;

@@ -99,7 +99,7 @@ void GESceneSample::internalInit()
    cText->setOpacity(0.0f);
 }
 
-void GESceneSample::update()
+void GESceneSample::update(float DeltaTime)
 {
    updateCube();
    updateBanana();
@@ -109,10 +109,6 @@ void GESceneSample::update()
 
 void GESceneSample::updateText()
 {
-   static float rotx = 0.0f;
-   rotx += 0.01f;
-   cText->setRotation(GEVector3(rotx, 0.0f, 0.0f));
-
    if(cText->getOpacity() < 1.0f)   
       cText->setOpacity(cText->getOpacity() + 0.005f);
 }

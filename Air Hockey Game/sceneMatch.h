@@ -195,7 +195,7 @@ public:
     ~CSceneMatch();
 
     void internalInit();
-    void update();
+    void update(float DeltaTime);
     void render();
     void release();
 

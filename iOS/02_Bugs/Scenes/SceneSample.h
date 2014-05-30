@@ -80,7 +80,7 @@ public:
    GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void internalInit();
-   void update();
+   void update(float DeltaTime);
    void render();
    void release();
    

@@ -60,9 +60,10 @@ void GESceneSample::internalInit()
    bMoveBulb = false;
 }
 
-void GESceneSample::update()
+void GESceneSample::update(float DeltaTime)
 {
-   cMeshBanana->rotate(-0.01f, -0.01f, -0.01f);
+   float fRotation = -DeltaTime * 0.001f;
+   cMeshBanana->rotate(fRotation, fRotation, fRotation);
 }
 
 void GESceneSample::render()

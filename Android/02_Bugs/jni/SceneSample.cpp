@@ -114,7 +114,7 @@ void GESceneSample::release()
    cAudio->unloadAllSounds();
 }
 
-void GESceneSample::update()
+void GESceneSample::update(float DeltaTime)
 {
    iCurrentFrame++;
    

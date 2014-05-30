@@ -21,7 +21,7 @@
 #define BOUNDS_LEFT     (-1.0f * 0.83f)
 #define BOUNDS_RIGHT    (1.0f * 0.83f)
 
-#define FINGERS      5
+#define FINGERS      10
 #define TOUCH_SCALE  0.002f
 #define ACC_SCALE    0.006f
 #define STOPPED      0.004f
@@ -75,7 +75,7 @@ public:
    void internalInit();
    void release();
    
-   void update();
+   void update(float DeltaTime);
    void render();
    
    void inputTouchBegin(int ID, const GEVector2& Point);

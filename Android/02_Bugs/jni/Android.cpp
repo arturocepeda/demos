@@ -21,12 +21,16 @@
 #include "Audio/OpenSL/GEAudioOpenSL.h"
 #include "Core/GEDevice.h"
 #include "Scenes/GEScene.h"
+#include "Core/GETimer.h"
 
 #include "SceneSample.h"
 
 GERendering* cRender;
 GEAudio* cAudio;
 GEScene* cScenes[NUM_SCENES];
+
+GETimer cTimer;
+double dTime;
 
 int iCurrentScene;
 int iFingerID[MAX_FINGERS];
@@ -72,6 +76,10 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Bugs_GameEngineLib_Initialize(JNIEnv*
    // select the first scene   
    iCurrentScene = 0;
    cScenes[0]->init();
+
+   // start the timer
+   cTimer.start();
+   dTime = 0.0;
 }
 
 void selectScene(unsigned int Scene)
@@ -83,8 +91,13 @@ void selectScene(unsigned int Scene)
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Bugs_GameEngineLib_UpdateFrame(JNIEnv* env, jobject obj)
 {
+   // delta time
+   double dCurrentTime = cTimer.getTime();
+   float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
+   dTime = dCurrentTime;
+
    // update
-   cScenes[iCurrentScene]->update();
+   cScenes[iCurrentScene]->update(fDeltaTime);
     
    // scene change request
    if(cScenes[iCurrentScene]->getNextScene() >= 0)

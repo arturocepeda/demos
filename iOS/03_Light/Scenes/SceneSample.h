@@ -39,7 +39,7 @@ public:
    
    void internalInit();
    void release();
-   void update();
+   void update(float DeltaTime);
    void render();
    
    void inputTouchBegin(int ID, const GEVector2& Point);

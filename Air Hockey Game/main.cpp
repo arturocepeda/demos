@@ -18,7 +18,6 @@
 #include "Audio/GEAudio.h"
 #include "Scenes/GEScene.h"
 
-#include "Core/Win32/GETimerWin32.h"
 #include "Rendering/Direct3D/GERenderingD3D9.h"
 #include "Audio/FMOD/GEAudioFMOD.h"
 
@@ -107,8 +106,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     DefaultSettings();
 
     // timer
-    GETimer* cTimer = new GETimerWin32();
-    cTimer->start();
+    GETimer cTimer;
+    cTimer.start();
 
     bEnd = false;
 
@@ -142,7 +141,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
         ScreenToClient(hWnd, &pMouse);            
 
         // update and render
-        dTimeNow = cTimer->getTime();
+        dTimeNow = cTimer.getTime();
         dTimeDelta = dTimeNow - dTimeBefore;
 
         if(dTimeDelta >= dTimeInterval)
@@ -151,9 +150,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
             if(cCurrentScene)
             {
-                cCurrentScene->setDeltaTime((float)dTimeDelta * 0.001f);
                 cCurrentScene->inputMouse(pMouse.x, pMouse.y);
-                cCurrentScene->update();
+                cCurrentScene->update((float)dTimeDelta * 0.001f);
 
                 cRender->renderBegin();
                 cCurrentScene->render();
@@ -166,7 +164,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     
     delete cAudio;
     delete cRender;
-    delete cTimer;
 
     return (int)iMsg.wParam;
 }
