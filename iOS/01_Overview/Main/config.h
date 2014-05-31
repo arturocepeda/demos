@@ -15,9 +15,15 @@
 #define _CONFIG_H_
 
 //
-// set frames per seconds
+// set frames per second
 //
 #define FPS 60
+
+
+//
+// set audio update frames
+//
+#define AUDIO_UPDATE_FRAMES 10
 
 
 //

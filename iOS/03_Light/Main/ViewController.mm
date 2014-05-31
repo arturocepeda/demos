@@ -28,6 +28,7 @@
    
    // Audio system
    GEAudio* cAudio;
+   unsigned int iAudioUpdateFrame;
    
    // Scene management
    GEScene* cScenes[NUM_SCENES];
@@ -66,7 +67,7 @@
 -(void) viewDidLoad
 {
    [super viewDidLoad];
-    
+
    // initialize OpenGL
    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 
@@ -76,7 +77,7 @@
    GLKView* view = (GLKView*)self.view;
    view.context = self.context;
    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-   
+
    [EAGLContext setCurrentContext:self.context];
    
    // set frames per second
@@ -105,6 +106,7 @@
    // initialize audio system
    cAudio = new GEAudioOpenAL();
    cAudio->init();
+   iAudioUpdateFrame = 0;
    
    // create scenes
    cScenes[0] = (GEScene*)new GESceneSample(cRender, cAudio, NULL);
@@ -115,7 +117,7 @@
    cTimer.start();
    dTime = 0.0;
    
-   // select the first scene
+   // select the first scene   
    iCurrentScene = 0;
    cScenes[0]->init();
 }
@@ -185,8 +187,17 @@
    float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
    dTime = dCurrentTime;
    
-   // update
+   // scene update
    cScenes[iCurrentScene]->update(fDeltaTime);
+   
+   // audio system update
+   iAudioUpdateFrame++;
+   
+   if(iAudioUpdateFrame == AUDIO_UPDATE_FRAMES)
+   {
+      iAudioUpdateFrame = 0;
+      cAudio->update();
+   }
     
    // scene change request
    if(cScenes[iCurrentScene]->getNextScene() >= 0)
@@ -236,7 +247,7 @@
             
             cScenes[iCurrentScene]->inputTouchMove(i,
                                                    GEVector2(cgPreviousPoint.x, cgPreviousPoint.y),
-                                                   GEVector2(cgCurrentPoint.x, cgCurrentPoint.y));
+                                                   GEVector2(cgCurrentPoint.x, cgCurrentPoint.y));            
             break;
          }
       }

@@ -28,6 +28,7 @@
    
    // Audio system
    GEAudio* cAudio;
+   unsigned int iAudioUpdateFrame;
    
    // Scene management
    GEScene* cScenes[NUM_SCENES];
@@ -105,6 +106,7 @@
    // initialize audio system
    cAudio = new GEAudioOpenAL();
    cAudio->init();
+   iAudioUpdateFrame = 0;
    
    // create scenes
    cScenes[0] = (GEScene*)new GESceneSample(cRender, cAudio, NULL);
@@ -185,8 +187,17 @@
    float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
    dTime = dCurrentTime;
    
-   // update
+   // scene update
    cScenes[iCurrentScene]->update(fDeltaTime);
+   
+   // audio system update
+   iAudioUpdateFrame++;
+   
+   if(iAudioUpdateFrame == AUDIO_UPDATE_FRAMES)
+   {
+      iAudioUpdateFrame = 0;
+      cAudio->update();
+   }
     
    // scene change request
    if(cScenes[iCurrentScene]->getNextScene() >= 0)
