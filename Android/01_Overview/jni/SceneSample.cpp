@@ -78,7 +78,6 @@ void GESceneSample::internalInit()
       cRender->createSprite(&cSpriteInfo[i]);
       cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
       cSpriteInfo[i]->setSize(GEVector2(0.25f, 0.25f));
-      cSpriteInfo[i]->rotate(0.0f, 0.0f, 90.0f);
       cSpriteInfo[i]->setVisible(false);
    }
    

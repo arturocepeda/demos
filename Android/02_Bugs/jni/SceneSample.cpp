@@ -35,42 +35,23 @@ void GESceneSample::internalInit()
    iSmashed = 0;
    
    // textures
-   cRender->loadTexture(Textures.BugA1, "bugA1", "png");
-   cRender->loadTexture(Textures.BugA2, "bugA2", "png");
-   cRender->loadTexture(Textures.BugA3, "bugA3", "png");
-   cRender->loadTexture(Textures.BugB1, "bugB1", "png");
-   cRender->loadTexture(Textures.BugB2, "bugB2", "png");
-   cRender->loadTexture(Textures.BugB3, "bugB3", "png");
-   cRender->loadTexture(Textures.BugC1, "bugC1", "png");
-   cRender->loadTexture(Textures.BugC2, "bugC2", "png");
-   cRender->loadTexture(Textures.BugC3, "bugC3", "png");
-   cRender->loadTexture(Textures.Floor, "floor", "jpg");
+   cRender->loadTexture(0, "floor", "jpg", false);
+   cRender->loadTexture(1, "bugs", "png", true);
 
    // sprites
    cRender->createSprite(&cSpriteBackground);
-   cSpriteBackground->setTexture(cRender->getTexture(Textures.Floor));
+   cSpriteBackground->setTexture(cRender->getTexture(0));
    cSpriteBackground->setSize(GEVector2(4.0f, 4.0f));
    
-   cRender->createSprite(&cSpriteBug[0][0]);
-   cSpriteBug[0][0]->setTexture(cRender->getTexture(Textures.BugA1));
-   cRender->createSprite(&cSpriteBug[0][1]);
-   cSpriteBug[0][1]->setTexture(cRender->getTexture(Textures.BugA2));
-   cRender->createSprite(&cSpriteBug[0][2]);
-   cSpriteBug[0][2]->setTexture(cRender->getTexture(Textures.BugA3));
-   
-   cRender->createSprite(&cSpriteBug[1][0]);
-   cSpriteBug[1][0]->setTexture(cRender->getTexture(Textures.BugB1));
-   cRender->createSprite(&cSpriteBug[1][1]);
-   cSpriteBug[1][1]->setTexture(cRender->getTexture(Textures.BugB2));
-   cRender->createSprite(&cSpriteBug[1][2]);
-   cSpriteBug[1][2]->setTexture(cRender->getTexture(Textures.BugB3));
-   
-   cRender->createSprite(&cSpriteBug[2][0]);
-   cSpriteBug[2][0]->setTexture(cRender->getTexture(Textures.BugC1));
-   cRender->createSprite(&cSpriteBug[2][1]);
-   cSpriteBug[2][1]->setTexture(cRender->getTexture(Textures.BugC2));
-   cRender->createSprite(&cSpriteBug[2][2]);
-   cSpriteBug[2][2]->setTexture(cRender->getTexture(Textures.BugC3));
+   for(unsigned int i = 0; i < BUG_TYPES; i++)
+   {
+      for(unsigned int j = 0; j < BUG_STEPS; j++)
+      {
+         cRender->createSprite(&cSpriteBug[i][j]);
+         cSpriteBug[i][j]->setTexture(cRender->getTexture(1));
+         cSpriteBug[i][j]->setTextureAtlasIndex(1 + i * BUG_TYPES + j);
+      }
+   }
    
    // font
    //cRender->defineFont(0, "Papyrus", 24.0f);
@@ -117,7 +98,7 @@ void GESceneSample::release()
 void GESceneSample::update(float DeltaTime)
 {
    iCurrentFrame++;
-   
+
    // a new bug?
    if(eventOccurs(iProbability))
       generateBug();
@@ -224,7 +205,7 @@ void GESceneSample::generateBug()
    
    sBug.Direction = sBug.Destiny - sBug.Position;
    sBug.Direction.normalize();
-   sBug.Angle = (PI * 0.5f) + atan2(sBug.Direction.Y, sBug.Direction.X);
+   sBug.Angle = atan2(sBug.Direction.Y, sBug.Direction.X);
    
    // add to the bug list
    vBugs.push_back(sBug);

@@ -59,15 +59,6 @@ private:
    int iEscaped;
    int iSmashed;
    
-   struct
-   {
-      enum {BugA1, BugA2, BugA3,
-            BugB1, BugB2, BugB3,
-            BugC1, BugC2, BugC3,
-            Floor};
-   } 
-   Textures;
-   
    // bugs
    std::vector<SBug> vBugs;
    std::vector<SBug> vBugsSmashed;

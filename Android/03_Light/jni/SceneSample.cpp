@@ -52,7 +52,6 @@ void GESceneSample::internalInit()
    // sprite
    cRender->createSprite(&cSpriteBulb);
    cSpriteBulb->setTexture(cRender->getTexture(Textures.Bulb));
-   cSpriteBulb->rotate(0.0f, 0.0f, HALFPI);
    cSpriteBulb->setSize(GEVector2(0.5f, 0.5f));
    cSpriteBulb->setOpacity(0.75f);
    
