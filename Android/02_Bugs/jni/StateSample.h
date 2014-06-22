@@ -2,19 +2,20 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Sample application
 //
-//  --- SceneSample.h ---
+//  --- StateSample.h ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#ifndef _SCENESAMPLE_H_
-#define _SCENESAMPLE_H_
+#ifndef _STATESAMPLE_H_
+#define _STATESAMPLE_H_
 
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
+#include "Core/GERand.h"
 #include <vector>
 
 #define BOUNDS_TOP      GEDevice::getAspectRatio()
@@ -46,7 +47,7 @@ struct SBug
    int CurrentStep;
 };
 
-class GESceneSample : public GEScene
+class GEStateSample : public GEState
 {
 private:
    GESprite* cSpriteBackground;
@@ -64,11 +65,17 @@ private:
    std::vector<SBug> vBugsSmashed;
    unsigned int iCurrentFrame;
    int iProbability;
+
+   // random generators
+   GERandEvent cRandEvent;
+   GERandInt cRandBugType;
+   GERandFloat cRandBugSize;
+   GERandFloat cRandBugSpeed;
    
    void generateBug();
    
 public:
-   GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void internalInit();
    void update(float DeltaTime);

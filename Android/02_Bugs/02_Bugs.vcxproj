@@ -24,11 +24,11 @@
   <ItemGroup>
     <ClCompile Include="jni\Android.cpp" />
     <ClCompile Include="jni\AssetManager.cpp" />
-    <ClCompile Include="jni\SceneSample.cpp" />
+    <ClCompile Include="jni\StateSample.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\config.h" />
-    <ClInclude Include="jni\SceneSample.h" />
+    <ClInclude Include="jni\StateSample.h" />
   </ItemGroup>
   <ItemGroup>
     <JCompile Include="src\GameEngineActivity.java" />

@@ -20,19 +20,19 @@
 #include "Rendering/OpenGL/GERenderingES20.h"
 #include "Audio/OpenSL/GEAudioOpenSL.h"
 #include "Core/GEDevice.h"
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
 #include "Core/GETimer.h"
 
-#include "SceneSample.h"
+#include "StateSample.h"
 
 GERendering* cRender;
 GEAudio* cAudio;
-GEScene* cScenes[NUM_SCENES];
+GEState* cStates[NUM_STATES];
 
 GETimer cTimer;
 double dTime;
 
-int iCurrentScene;
+int iCurrentState;
 int iFingerID[MAX_FINGERS];
 GEVector2 vFingerPosition[MAX_FINGERS];
 
@@ -68,25 +68,25 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_Initialize(JNIEnv
    cAudio = new GEAudioOpenSL();
    cAudio->init();
    
-   // create scenes
-   cScenes[0] = new GESceneSample(cRender, cAudio, (void*)0);
+   // create states
+   cStates[0] = new GEStateSample(cRender, cAudio, (void*)0);
    // ...
    // ...
    
-   // select the first scene   
-   iCurrentScene = 0;
-   cScenes[0]->init();
+   // select the first state   
+   iCurrentState = 0;
+   cStates[0]->init();
 
    // start the timer
    cTimer.start();
    dTime = 0.0;
 }
 
-void selectScene(unsigned int Scene)
+void selectState(unsigned int State)
 {
-   cScenes[iCurrentScene]->release();
-   iCurrentScene = Scene;
-   cScenes[iCurrentScene]->init();
+   cStates[iCurrentState]->release();
+   iCurrentState = State;
+   cStates[iCurrentState]->init();
 }
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateFrame(JNIEnv* env, jobject obj)
@@ -97,15 +97,15 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateFrame(JNIEn
    dTime = dCurrentTime;
 
    // update
-   cScenes[iCurrentScene]->update(fDeltaTime);
+   cStates[iCurrentState]->update(fDeltaTime);
     
-   // scene change request
-   if(cScenes[iCurrentScene]->getNextScene() >= 0)
-      selectScene(cScenes[iCurrentScene]->getNextScene());
+   // state change request
+   if(cStates[iCurrentState]->getNextState() >= 0)
+      selectState(cStates[iCurrentState]->getNextState());
       
    // render
    cRender->renderBegin();
-   cScenes[iCurrentScene]->render();
+   cStates[iCurrentState]->render();
 }
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchDown(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y)
@@ -117,7 +117,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchDown(JN
          iFingerID[i] = index;
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
-         cScenes[iCurrentScene]->inputTouchBegin(i, vFingerPosition[i]);
+         cStates[iCurrentState]->inputTouchBegin(i, vFingerPosition[i]);
          break;
       }
    }
@@ -132,7 +132,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchMove(JN
          GEVector2 vPreviousPosition(vFingerPosition[i]);
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
-         cScenes[iCurrentScene]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);
+         cStates[iCurrentState]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);
          break;
       }
    }
@@ -147,7 +147,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_InputTouchUp(JNIE
          iFingerID[i] = -1;
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
-         cScenes[iCurrentScene]->inputTouchEnd(i, vFingerPosition[i]);
+         cStates[iCurrentState]->inputTouchEnd(i, vFingerPosition[i]);
          break;
       }
    }
@@ -167,6 +167,6 @@ const float AccelFactor = 0.01f;
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Light_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z)
 {
-   if(cScenes[iCurrentScene])
-      cScenes[iCurrentScene]->updateAccelerometerStatus(GEVector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
+   if(cStates[iCurrentState])
+      cStates[iCurrentState]->updateAccelerometerStatus(GEVector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
 }

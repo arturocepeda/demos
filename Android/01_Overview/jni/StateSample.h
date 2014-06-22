@@ -6,15 +6,15 @@
 //
 //  Sample application
 //
-//  --- SceneSample.h ---
+//  --- StateSample.h ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#ifndef _SCENESAMPLE_H_
-#define _SCENESAMPLE_H_
+#ifndef _STATESAMPLE_H_
+#define _STATESAMPLE_H_
 
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
 
 #define BOUNDS_TOP      (GEDevice::getAspectRatio() * 0.89f)
 #define BOUNDS_BOTTOM   (-GEDevice::getAspectRatio() * 0.89f)
@@ -28,7 +28,7 @@
 #define BOUNCE       0.55f
 #define ROTATION     2.8f
 
-class GESceneSample : public GEScene
+class GEStateSample : public GEState
 {
 private:
    GECamera* cCamera;
@@ -70,7 +70,7 @@ private:
    void updateBall();
    
 public:
-   GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void internalInit();
    void release();

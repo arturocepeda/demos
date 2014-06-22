@@ -6,19 +6,19 @@
 //
 //  Sample application
 //
-//  --- SceneSample.h ---
+//  --- StateSample.h ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#ifndef _SCENESAMPLE_H_
-#define _SCENESAMPLE_H_
+#ifndef _STATESAMPLE_H_
+#define _STATESAMPLE_H_
 
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
 
 #define NEAR  0.05f
 
-class GESceneSample : public GEScene
+class GEStateSample : public GEState
 {
 private:
    GECamera* cCamera;
@@ -35,7 +35,7 @@ private:
    Textures;
    
 public:
-   GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
    
    void internalInit();
    void release();
