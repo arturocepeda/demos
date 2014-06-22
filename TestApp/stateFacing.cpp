@@ -2,36 +2,34 @@
 /*
     Arturo Cepeda Pérez
 
-    --- sceneFacing.cpp ---
+    --- stateFacing.cpp ---
 */
 
-#include "sceneFacing.h"
+#include "stateFacing.h"
 #include <stdio.h>
 #include <cmath>
 
-CSceneFacing::CSceneFacing(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEScene(Render, Audio, GlobalData)
+CStateFacing::CStateFacing(GERendering* Render, GEAudio* Audio, void* GlobalData)
+    : GEState(Render, Audio, GlobalData)
     , bMovingForward(false)
     , bMovingBackward(false)
     , bMovingLeft(false)
     , bMovingRight(false)
-{
-    cRender = Render;
-    cAudio = Audio;
-    sGlobal = (SGlobal*)GlobalData;
-}
-
-CSceneFacing::~CSceneFacing()
+    , fDeltaTime(0.0f)
 {
 }
 
-void CSceneFacing::internalInit()
+CStateFacing::~CStateFacing()
+{
+}
+
+void CStateFacing::internalInit()
 {
     initRenderObjects();
     initSoundObjects();
 }
 
-void CSceneFacing::initRenderObjects()
+void CStateFacing::initRenderObjects()
 {
     // lighting
     cRender->setAmbientLightColor(GEColor((byte)255, 255, 255));
@@ -63,16 +61,18 @@ void CSceneFacing::initRenderObjects()
     bColorSelectedInc = false;
 
     // labels
-    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, 1024, 128, "");
+    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, GEVector2(1024.0f, 128.0f), "");
     cLabelDebug->setPosition(0.0f, 24.0f);
 }
 
-void CSceneFacing::initSoundObjects()
+void CStateFacing::initSoundObjects()
 {
 }
 
-void CSceneFacing::update()
+void CStateFacing::update(float DeltaTime)
 {
+    fDeltaTime = DeltaTime;
+
     // camera
     if(bMovingForward)
         moveCameraForward(fDeltaTime * CAMERA_MOVE);
@@ -98,7 +98,7 @@ void CSceneFacing::update()
     cLabelDebug->setColor(cColorSelected);
 }
 
-void CSceneFacing::render()
+void CStateFacing::render()
 {
     cCamera->use();
     cRender->renderMesh(mMeshRoom);
@@ -106,13 +106,13 @@ void CSceneFacing::render()
     cRender->renderLabel(cLabelDebug);
 }
 
-void CSceneFacing::release()
+void CStateFacing::release()
 {
     releaseSoundObjects();
     releaseRenderObjects();
 }
 
-void CSceneFacing::releaseRenderObjects()
+void CStateFacing::releaseRenderObjects()
 {
     // camera
     cRender->releaseCamera(&cCamera);
@@ -128,16 +128,16 @@ void CSceneFacing::releaseRenderObjects()
     delete cLabelDebug;
 }
 
-void CSceneFacing::releaseSoundObjects()
+void CStateFacing::releaseSoundObjects()
 {
 }
 
-void CSceneFacing::inputKeyPress(char Key)
+void CStateFacing::inputKeyPress(char Key)
 {
     switch(Key)
     {
     case KEY_ESC:
-        SceneChange(0);
+        stateChange(0);
         break;
         
     case 'W':
@@ -164,7 +164,7 @@ void CSceneFacing::inputKeyPress(char Key)
     }
 }
 
-void CSceneFacing::inputKeyRelease(char Key)
+void CStateFacing::inputKeyRelease(char Key)
 {
     switch(Key)
     {
@@ -186,7 +186,7 @@ void CSceneFacing::inputKeyRelease(char Key)
     }
 }
 
-void CSceneFacing::moveCameraForward(float Quantity)
+void CStateFacing::moveCameraForward(float Quantity)
 {
     float fCameraY = cCamera->getPosition().Y;
     cCamera->moveForward(Quantity);
@@ -195,7 +195,7 @@ void CSceneFacing::moveCameraForward(float Quantity)
     cCamera->setPosition(GEVector3(vCameraNewPosition.X, fCameraY, vCameraNewPosition.Z));
 }
 
-void CSceneFacing::moveCameraMouse()
+void CStateFacing::moveCameraMouse()
 {
     fYaw += (iMouseX - iMouseLastX) * fDeltaTime * CAMERA_ROTATE;
     fPitch -= (iMouseY - iMouseLastY) * fDeltaTime * CAMERA_ROTATE;
@@ -211,7 +211,7 @@ void CSceneFacing::moveCameraMouse()
     cCamera->lookAt(cCamera->getPosition() + GEVector3(fLeftRight, fVertical, fForwardBack));
 }
 
-void CSceneFacing::updateGuyDirection()
+void CStateFacing::updateGuyDirection()
 {
     static const float AngleNear = 0.0001f;
     static const float AngleStep = 2.0f;

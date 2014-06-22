@@ -17,8 +17,8 @@
     <ClCompile Include="kinect.ms.cpp" />
     <ClCompile Include="kinect.openni.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="sceneMatch.cpp" />
-    <ClCompile Include="sceneMenu.cpp" />
+    <ClCompile Include="stateMatch.cpp" />
+    <ClCompile Include="stateMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AH.h" />
@@ -26,8 +26,8 @@
     <ClInclude Include="AHEntity.h" />
     <ClInclude Include="kinect.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="sceneMatch.h" />
-    <ClInclude Include="sceneMenu.h" />
+    <ClInclude Include="stateMatch.h" />
+    <ClInclude Include="stateMenu.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A5FF139-EE60-4B3E-A16E-A8DDE8A5760E}</ProjectGuid>

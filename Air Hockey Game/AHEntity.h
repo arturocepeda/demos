@@ -9,6 +9,8 @@
 
 #pragma once
 
+#include <cmath>
+
 struct AHPoint
 {
     float x;
@@ -20,8 +22,6 @@ struct AHVector
     float x;
     float y;
 };
-
-int round(float Value);
 
 class Entity
 {

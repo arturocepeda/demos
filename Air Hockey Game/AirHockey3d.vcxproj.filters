@@ -24,17 +24,17 @@
     <ClCompile Include="main.cpp">
       <Filter>Game Code</Filter>
     </ClCompile>
-    <ClCompile Include="sceneMatch.cpp">
-      <Filter>Game Code</Filter>
-    </ClCompile>
-    <ClCompile Include="sceneMenu.cpp">
-      <Filter>Game Code</Filter>
-    </ClCompile>
     <ClCompile Include="kinect.ms.cpp">
       <Filter>Kinect Support</Filter>
     </ClCompile>
     <ClCompile Include="kinect.openni.cpp">
       <Filter>Kinect Support</Filter>
+    </ClCompile>
+    <ClCompile Include="stateMatch.cpp">
+      <Filter>Game Code</Filter>
+    </ClCompile>
+    <ClCompile Include="stateMenu.cpp">
+      <Filter>Game Code</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,14 +50,14 @@
     <ClInclude Include="main.h">
       <Filter>Game Code</Filter>
     </ClInclude>
-    <ClInclude Include="sceneMatch.h">
-      <Filter>Game Code</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneMenu.h">
-      <Filter>Game Code</Filter>
-    </ClInclude>
     <ClInclude Include="kinect.h">
       <Filter>Kinect Support</Filter>
+    </ClInclude>
+    <ClInclude Include="stateMatch.h">
+      <Filter>Game Code</Filter>
+    </ClInclude>
+    <ClInclude Include="stateMenu.h">
+      <Filter>Game Code</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

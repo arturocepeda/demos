@@ -66,6 +66,8 @@ AHGame::~AHGame()
     delete ePuck;
     delete ePlayer1;
     delete ePlayer2;
+    delete cRandomPosX;
+    delete cRandomPosY;
 }
 
 void AHGame::create(float CenterX, float CenterY, float TableWidth, float TableHeight)
@@ -93,6 +95,9 @@ void AHGame::create(float CenterX, float CenterY, float TableWidth, float TableH
 
     fRenderRatioX = fRenderTableWidth / fTableWidth;
     fRenderRatioY = fRenderTableHeight / fTableHeight;
+
+    cRandomPosX = new GERandFloat(-AH_TABLE_WIDTH / 4.0f, AH_TABLE_WIDTH / 4.0f);
+    cRandomPosY = new GERandFloat(AH_TABLE_HEIGHT / 8.0f, AH_TABLE_HEIGHT / 2.0f - AH_TABLE_HEIGHT / 8.0f);
 }
 
 void AHGame::initialize()
@@ -145,8 +150,8 @@ void AHGame::placeEntities(bool bTurnPlayer1)
     {
         do
         {
-            pPosition.x = (float)random(-AH_TABLE_WIDTH / 4, AH_TABLE_WIDTH / 4);
-            pPosition.y = (float)random(AH_TABLE_HEIGHT / 8, AH_TABLE_HEIGHT / 2 - AH_TABLE_HEIGHT / 8);
+            pPosition.x = cRandomPosX->generate();
+            pPosition.y = cRandomPosY->generate();
 
         } while(abs(pPosition.x - getTablePositionPlayer1().x) <= AH_PUCK_MAXSPEED || 
                 abs(pPosition.y - getTablePositionPlayer1().y) <= AH_PUCK_MAXSPEED);
@@ -155,8 +160,8 @@ void AHGame::placeEntities(bool bTurnPlayer1)
     {
         do
         {
-            pPosition.x = (float)random(-AH_TABLE_WIDTH / 4, AH_TABLE_WIDTH / 4);
-            pPosition.y = -(float)random(AH_TABLE_HEIGHT / 8, AH_TABLE_HEIGHT / 2 - AH_TABLE_HEIGHT / 8);
+            pPosition.x = cRandomPosX->generate();
+            pPosition.y = -cRandomPosY->generate();
 
         } while(abs(pPosition.x - getTablePositionPlayer2().x) <= AH_PUCK_MAXSPEED || 
                 abs(pPosition.y - getTablePositionPlayer2().y) <= AH_PUCK_MAXSPEED);

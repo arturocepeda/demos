@@ -16,13 +16,13 @@
 #include "Core/GETimer.h"
 #include "Rendering/GERendering.h"
 #include "Audio/GEAudio.h"
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
 
 #include "Rendering/Direct3D/GERenderingD3D9.h"
 #include "Audio/FMOD/GEAudioFMOD.h"
 
-#include "sceneMenu.h"
-#include "sceneMatch.h"
+#include "stateMenu.h"
+#include "stateMatch.h"
 
 #pragma comment(lib, "..\\..\\GameEngine\\GameEngine.D3D9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
@@ -35,10 +35,10 @@ GERendering* cRender;               // rendering system
 GEAudio* cAudio;                    // audio system
 bool bEnd;                          // loop ending flag
 
-// scenes
-GEScene* cCurrentScene;
-CSceneMenu* cSceneMenu;
-CSceneMatch* cSceneMatch;
+// states
+GEState* cCurrentState;
+CStateMenu* cStateMenu;
+CStateMatch* cStateMatch;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, int iCmdShow)
 {
@@ -116,9 +116,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     double dTimeBefore = 0.0;
     double dTimeNow;
     
-    // initialize scenes
-    cCurrentScene = NULL;
-    SceneChange(SCENE_MENU);
+    // initialize states
+    cCurrentState = NULL;
+    StateChange(STATE_MENU);
 
     // game loop
     while(!bEnd)
@@ -148,13 +148,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
         {
             dTimeBefore = dTimeNow;
 
-            if(cCurrentScene)
+            if(cCurrentState)
             {
-                cCurrentScene->inputMouse(pMouse.x, pMouse.y);
-                cCurrentScene->update((float)dTimeDelta * 0.001f);
+                cCurrentState->inputMouse(pMouse.x, pMouse.y);
+                cCurrentState->update((float)dTimeDelta * 0.001f);
 
                 cRender->renderBegin();
-                cCurrentScene->render();
+                cCurrentState->render();
                 cRender->renderEnd();
             }
         }
@@ -170,20 +170,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-    if(cCurrentScene)
+    if(cCurrentState)
     {
         switch(iMsg)
         {
         case WM_KEYDOWN:
-            cCurrentScene->inputKeyPress((char)wParam);
+            cCurrentState->inputKeyPress((char)wParam);
             return 0;
 
         case WM_LBUTTONDOWN:
-            cCurrentScene->inputMouseLeftButton();
+            cCurrentState->inputMouseLeftButton();
             return 0;
 
         case WM_RBUTTONDOWN:
-            cCurrentScene->inputMouseRightButton();
+            cCurrentState->inputMouseRightButton();
             return 0;
         }
     }
@@ -191,16 +191,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }
 
-void SceneChange(unsigned int iNewScene)
+void StateChange(unsigned int iNewState)
 {
-    if(cCurrentScene)
+    if(cCurrentState)
     {
-        cCurrentScene->release();
-        delete cCurrentScene;
-        cCurrentScene = NULL;
+        cCurrentState->release();
+        delete cCurrentState;
+        cCurrentState = NULL;
     }
 
-    switch(iNewScene)
+    switch(iNewState)
     {
     // exit
     case 0:             
@@ -208,22 +208,22 @@ void SceneChange(unsigned int iNewScene)
         break;
 
     // menu
-    case SCENE_MENU:
-        cSceneMenu = new CSceneMenu(cRender, cAudio, &sGlobal);
-        cCurrentScene = (GEScene*)cSceneMenu;
+    case STATE_MENU:
+        cStateMenu = new CStateMenu(cRender, cAudio, &sGlobal);
+        cCurrentState = (GEState*)cStateMenu;
         break;
 
     // match
-    case SCENE_MATCH:
-        cSceneMatch = new CSceneMatch(cRender, cAudio, &sGlobal);
-        cCurrentScene = (GEScene*)cSceneMatch;
+    case STATE_MATCH:
+        cStateMatch = new CStateMatch(cRender, cAudio, &sGlobal);
+        cCurrentState = (GEState*)cStateMatch;
         break;
     }
 
     if(!bEnd)
     {
-        cCurrentScene->setCallback(SceneChange);
-        cCurrentScene->init();
+        cCurrentState->setCallback(StateChange);
+        cCurrentState->init();
     }
 }
 

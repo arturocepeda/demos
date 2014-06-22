@@ -25,8 +25,8 @@ float AHAIData::predictPositionX(float Y)
 {
     double dX;
     GELine cLine(pPuckPosition.x, pPuckPosition.y,
-				 pPuckPosition.x + vPuckVelocity.x,
-				 pPuckPosition.y + vPuckVelocity.y);
+             pPuckPosition.x + vPuckVelocity.x,
+             pPuckPosition.y + vPuckVelocity.y);
 
     if(!cLine.can_calculate_x())
         return pMyPosition.x;
@@ -400,7 +400,7 @@ void AHAIStateBeAlert::enter()
 {
     // average point between puck and goal in my zone
     sData->pTargetPosition.x = sData->pPuckPosition.x * 0.25f;
-    sData->pTargetPosition.y = sData->fMinimumGoalDistance + rand() % round(sData->fAlertZoneHeight);
+    sData->pTargetPosition.y = sData->fMinimumGoalDistance + rand() % (int)floor(sData->fAlertZoneHeight + 0.5f);
     sData->fSpeed = sData->cLevel.DefaultSpeed;
 }
 

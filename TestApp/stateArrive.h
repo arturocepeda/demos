@@ -2,23 +2,18 @@
 /*
     Arturo Cepeda Pérez
 
-    --- sceneFacing.h ---
+    --- stateArrive.h ---
 */
 
 #pragma once
 
 #include "main.h"
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
+#include "car.h"
 
-class CSceneFacing : public GEScene
+class CStateArrive : public GEState
 {
 private:
-    GERendering* cRender;
-    GEAudio* cAudio;
-
-    // global data
-    SGlobal* sGlobal;
-
     // camera
     GECamera* cCamera;
     float fPitch;
@@ -30,8 +25,9 @@ private:
     bool bMovingRight;
 
     // meshes
-    GEMesh* mMeshGuy;
+    GEMesh* mMeshCar;
     GEMesh* mMeshRoom;
+    GEMesh* mMeshTarget;
 
     // color
     GEColor cColorOption;
@@ -46,7 +42,9 @@ private:
     char sMessage[256];
 
     // data
-    GEVector3 vGuyForward;
+    CCar cCar;
+    GEVector3 vTargetPoint;
+    float fDeltaTime;
 
     void playSounds();
 
@@ -59,17 +57,18 @@ private:
     void moveCameraForward(float Quantity);
     void moveCameraMouse();
 
-    void updateGuyDirection();
+    float getRand();
 
 public:
-    CSceneFacing(GERendering* Render, GEAudio* Audio, void* GlobalData);
-    ~CSceneFacing();
+    CStateArrive(GERendering* Render, GEAudio* Audio, void* GlobalData);
+    ~CStateArrive();
 
     void internalInit();
-    void update();
+    void update(float DeltaTime);
     void render();
     void release();
 
     void inputKeyPress(char Key);
     void inputKeyRelease(char Key);
+    void inputMouseLeftButton();
 };

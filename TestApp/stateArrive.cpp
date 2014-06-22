@@ -2,36 +2,34 @@
 /*
     Arturo Cepeda Pérez
 
-    --- sceneArrive.cpp ---
+    --- stateArrive.cpp ---
 */
 
-#include "sceneArrive.h"
+#include "stateArrive.h"
 #include <stdio.h>
 #include <cmath>
 
-CSceneArrive::CSceneArrive(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEScene(Render, Audio, GlobalData)
+CStateArrive::CStateArrive(GERendering* Render, GEAudio* Audio, void* GlobalData)
+    : GEState(Render, Audio, GlobalData)
     , bMovingForward(false)
     , bMovingBackward(false)
     , bMovingLeft(false)
     , bMovingRight(false)
-{
-    cRender = Render;
-    cAudio = Audio;
-    sGlobal = (SGlobal*)GlobalData;
-}
-
-CSceneArrive::~CSceneArrive()
+    , fDeltaTime(0.0f)
 {
 }
 
-void CSceneArrive::internalInit()
+CStateArrive::~CStateArrive()
+{
+}
+
+void CStateArrive::internalInit()
 {
     initRenderObjects();
     initSoundObjects();
 }
 
-void CSceneArrive::initRenderObjects()
+void CStateArrive::initRenderObjects()
 {
     // lighting
     cRender->setAmbientLightColor(GEColor((byte)255, 255, 255));
@@ -69,16 +67,18 @@ void CSceneArrive::initRenderObjects()
     bColorSelectedInc = false;
 
     // labels
-    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, 1024, 128, "");
+    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, GEVector2(1024.0f, 128.0f), "");
     cLabelDebug->setPosition(0.0f, 24.0f);
 }
 
-void CSceneArrive::initSoundObjects()
+void CStateArrive::initSoundObjects()
 {
 }
 
-void CSceneArrive::update()
+void CStateArrive::update(float DeltaTime)
 {
+    fDeltaTime = DeltaTime;
+
     // camera
     if(bMovingForward)
         moveCameraForward(fDeltaTime * CAMERA_MOVE);
@@ -106,7 +106,7 @@ void CSceneArrive::update()
     cLabelDebug->setColor(cColorSelected);
 }
 
-void CSceneArrive::render()
+void CStateArrive::render()
 {
     cCamera->use();
     cRender->renderMesh(mMeshRoom);
@@ -115,13 +115,13 @@ void CSceneArrive::render()
     cRender->renderLabel(cLabelDebug);
 }
 
-void CSceneArrive::release()
+void CStateArrive::release()
 {
     releaseSoundObjects();
     releaseRenderObjects();
 }
 
-void CSceneArrive::releaseRenderObjects()
+void CStateArrive::releaseRenderObjects()
 {
     // camera
     cRender->releaseCamera(&cCamera);
@@ -138,16 +138,16 @@ void CSceneArrive::releaseRenderObjects()
     cRender->releaseLabel(&cLabelDebug);
 }
 
-void CSceneArrive::releaseSoundObjects()
+void CStateArrive::releaseSoundObjects()
 {
 }
 
-void CSceneArrive::inputKeyPress(char Key)
+void CStateArrive::inputKeyPress(char Key)
 {
     switch(Key)
     {
     case KEY_ESC:
-        SceneChange(0);
+        stateChange(0);
         break;
         
     case 'W':
@@ -174,7 +174,7 @@ void CSceneArrive::inputKeyPress(char Key)
     }
 }
 
-void CSceneArrive::inputKeyRelease(char Key)
+void CStateArrive::inputKeyRelease(char Key)
 {
     switch(Key)
     {
@@ -196,7 +196,7 @@ void CSceneArrive::inputKeyRelease(char Key)
     }
 }
 
-void CSceneArrive::inputMouseLeftButton()
+void CStateArrive::inputMouseLeftButton()
 {
     vTargetPoint = GEVector3(getRand() * 5.0f, 0.0f, getRand() * 5.0f);
 
@@ -204,17 +204,17 @@ void CSceneArrive::inputMouseLeftButton()
     mMeshTarget->setVisible(true);
 }
 
-float CSceneArrive::getRand()
+float CStateArrive::getRand()
 {
     return (float)rand() / RAND_MAX + (float)rand() / RAND_MAX - 1.0f;
 }
 
-void CSceneArrive::moveCameraForward(float Quantity)
+void CStateArrive::moveCameraForward(float Quantity)
 {
     cCamera->moveForward(Quantity);
 }
 
-void CSceneArrive::moveCameraMouse()
+void CStateArrive::moveCameraMouse()
 {
     fYaw += (iMouseX - iMouseLastX) * fDeltaTime * CAMERA_ROTATE;
     fPitch -= (iMouseY - iMouseLastY) * fDeltaTime * CAMERA_ROTATE;

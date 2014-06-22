@@ -10,6 +10,7 @@
 #pragma once
 
 #include "AHEntity.h"
+#include "Core/GERand.h"
 
 #define AH_TABLE_WIDTH      1990
 #define AH_TABLE_HEIGHT     3400
@@ -72,6 +73,10 @@ private:
     // ratio between mouse coordinates and table positions
     AHPoint pMouseDelta;
     AHVector vMouseRatio;
+
+    // random generators
+    GERandFloat* cRandomPosX;
+    GERandFloat* cRandomPosY;
 
     void create(float fCenterX, float fCenterY, float fTableWidth, float fTableHeight);
     void initialize();

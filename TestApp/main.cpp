@@ -16,14 +16,14 @@
 #include "Core/GETimer.h"
 #include "Rendering/GERendering.h"
 #include "Audio/GEAudio.h"
-#include "Scenes/GEScene.h"
+#include "States/GEState.h"
 
-#include "Core/Win32/GETimerWin32.h"
+#include "Core/GETimer.h"
 #include "Rendering/Direct3D/GERenderingD3D9.h"
 #include "Audio/FMOD/GEAudioFMOD.h"
 
-#include "sceneFacing.h"
-#include "sceneArrive.h"
+#include "stateFacing.h"
+#include "stateArrive.h"
 
 #pragma comment(lib, "..\\..\\GameEngine\\GameEngine.D3D9.lib")
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3d9.lib")
@@ -35,10 +35,10 @@ GERendering* cRender;               // rendering system
 GEAudio* cAudio;                    // audio system
 bool bEnd;                          // loop ending flag
 
-// scenes
-GEScene* cCurrentScene;
-CSceneFacing* cSceneFacing;
-CSceneArrive* cSceneArrive;
+// states
+GEState* cCurrentState;
+GEState* cStateFacing;
+GEState* cStateArrive;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, int iCmdShow)
 {
@@ -103,8 +103,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     sGlobal.iFPS = 60;
 
     // timer
-    GETimer* cTimer = new GETimerWin32();
-    cTimer->start();
+    GETimer cTimer;
+    cTimer.start();
 
     bEnd = false;
 
@@ -115,9 +115,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
     bool bMousePositionSet;
     
-    // initialize scenes
-    cCurrentScene = NULL;
-    SceneChange(SCENE_ARRIVE);
+    // initialize States
+    cCurrentState = NULL;
+    StateChange(STATE_FACING);
 
     // game loop
     while(!bEnd)
@@ -163,26 +163,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
         if(bMousePositionSet)
         {
             SetCursorPos(pMouse.x, pMouse.y);
-            cCurrentScene->inputMouse(pMouse.x, pMouse.y);
+            cCurrentState->inputMouse(pMouse.x, pMouse.y);
         }
 
         // update and render
-        dTimeNow = cTimer->getTime();
+        dTimeNow = cTimer.getTime();
         dTimeDelta = dTimeNow - dTimeBefore;
 
         if(dTimeDelta >= dTimeInterval)
         {
             dTimeBefore = dTimeNow;
 
-            if(!cCurrentScene)
+            if(!cCurrentState)
                 continue;
 
-            cCurrentScene->setDeltaTime((float)dTimeDelta * 0.000001f);
-            cCurrentScene->inputMouse(pMouse.x, pMouse.y);
-            cCurrentScene->update();
+            cCurrentState->inputMouse(pMouse.x, pMouse.y);
+            cCurrentState->update((float)dTimeDelta * 0.000001f);
 
             cRender->renderBegin();
-            cCurrentScene->render();
+            cCurrentState->render();
             cRender->renderEnd();
         }
     }
@@ -191,31 +190,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     
     delete cAudio;
     delete cRender;
-    delete cTimer;
 
     return (int)iMsg.wParam;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-    if(cCurrentScene)
+    if(cCurrentState)
     {
         switch(iMsg)
         {
         case WM_KEYDOWN:
-            cCurrentScene->inputKeyPress((char)wParam);
+            cCurrentState->inputKeyPress((char)wParam);
             return 0;
 
         case WM_KEYUP:
-            cCurrentScene->inputKeyRelease((char)wParam);
+            cCurrentState->inputKeyRelease((char)wParam);
             return 0;
 
         case WM_LBUTTONDOWN:
-            cCurrentScene->inputMouseLeftButton();
+            cCurrentState->inputMouseLeftButton();
             return 0;
 
         case WM_RBUTTONDOWN:
-            cCurrentScene->inputMouseRightButton();
+            cCurrentState->inputMouseRightButton();
             return 0;
         }
     }
@@ -223,16 +221,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }
 
-void SceneChange(unsigned int iNewScene)
+void StateChange(unsigned int iNewState)
 {
-    if(cCurrentScene)
+    if(cCurrentState)
     {
-        cCurrentScene->release();
-        delete cCurrentScene;
-        cCurrentScene = NULL;
+        cCurrentState->release();
+        delete cCurrentState;
+        cCurrentState = NULL;
     }
 
-    switch(iNewScene)
+    switch(iNewState)
     {
     // exit
     case 0:             
@@ -240,21 +238,21 @@ void SceneChange(unsigned int iNewScene)
         break;
 
     // facing
-    case SCENE_FACING:
-        cSceneFacing = new CSceneFacing(cRender, cAudio, &sGlobal);
-        cCurrentScene = (GEScene*)cSceneFacing;
+    case STATE_FACING:
+        cStateFacing = new CStateFacing(cRender, cAudio, &sGlobal);
+        cCurrentState = cStateFacing;
         break;
 
     // arrive
-    case SCENE_ARRIVE:
-        cSceneArrive = new CSceneArrive(cRender, cAudio, &sGlobal);
-        cCurrentScene = (GEScene*)cSceneArrive;
+    case STATE_ARRIVE:
+        cStateArrive = new CStateArrive(cRender, cAudio, &sGlobal);
+        cCurrentState = cStateArrive;
         break;
     }
 
     if(!bEnd)
     {
-        cCurrentScene->setCallback(SceneChange);
-        cCurrentScene->init();
+        cCurrentState->setCallback(StateChange);
+        cCurrentState->init();
     }
 }

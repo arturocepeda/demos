@@ -16,11 +16,11 @@
 //#define _KINECT_            // defined: use Kinect sensor, undefined: don't use Kinect sensor
 //#define _KINECT_OPENNI_     // defined: OpenNI, undefined: Kinect SDK
 
-#define SCENE_MENU      1
-#define SCENE_MATCH     2
+#define STATE_MENU      1
+#define STATE_MATCH     2
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-void SceneChange(unsigned int iNewScene);
+void StateChange(unsigned int iNewState);
 void DefaultSettings();
 
 struct SGlobal

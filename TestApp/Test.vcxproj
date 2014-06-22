@@ -13,14 +13,14 @@
   <ItemGroup>
     <ClCompile Include="car.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="sceneFacing.cpp" />
-    <ClCompile Include="sceneArrive.cpp" />
+    <ClCompile Include="stateArrive.cpp" />
+    <ClCompile Include="stateFacing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="car.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="sceneFacing.h" />
-    <ClInclude Include="sceneArrive.h" />
+    <ClInclude Include="stateArrive.h" />
+    <ClInclude Include="stateFacing.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7A5FF139-EE60-4B3E-A16E-A8DDE8A5760E}</ProjectGuid>
