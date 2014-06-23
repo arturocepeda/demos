@@ -27,9 +27,9 @@
 
 
 //
-// set number of scenes
+// set number of states
 //
-#define NUM_SCENES 1
+#define NUM_STATES 1
 
 
 //

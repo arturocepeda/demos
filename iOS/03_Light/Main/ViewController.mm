@@ -15,10 +15,10 @@
 
 #import "GERenderingES20.h"
 #import "GEAudioOpenAL.h"
-#import "GEScene.h"
+#import "GEState.h"
 #import "GETimer.h"
 
-#import "SceneSample.h"
+#import "StateSample.h"
 
 
 @interface ViewController () <UIAccelerometerDelegate>
@@ -30,9 +30,9 @@
    GEAudio* cAudio;
    unsigned int iAudioUpdateFrame;
    
-   // Scene management
-   GEScene* cScenes[NUM_SCENES];
-   int iCurrentScene;
+   // State management
+   GEState* cStates[NUM_STATES];
+   int iCurrentState;
    
    // Input management
    int iFingerID[MAX_FINGERS];
@@ -108,8 +108,8 @@
    cAudio->init();
    iAudioUpdateFrame = 0;
    
-   // create scenes
-   cScenes[0] = (GEScene*)new GESceneSample(cRender, cAudio, NULL);
+   // create states
+   cStates[0] = (GEState*)new GEStateSample(cRender, cAudio, NULL);
    // ...
    // ...
    
@@ -117,9 +117,9 @@
    cTimer.start();
    dTime = 0.0;
    
-   // select the first scene   
-   iCurrentScene = 0;
-   cScenes[0]->init();
+   // select the first state   
+   iCurrentState = 0;
+   cStates[0]->init();
 }
 
 -(void) viewDidUnload
@@ -170,14 +170,14 @@
 
 -(void) accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {
-   cScenes[iCurrentScene]->updateAccelerometerStatus(GEVector3(acceleration.x, acceleration.y, acceleration.z));
+   cStates[iCurrentState]->updateAccelerometerStatus(GEVector3(acceleration.x, acceleration.y, acceleration.z));
 }
 
--(void) selectScene:(unsigned int)iScene
+-(void) selectState:(unsigned int)iState
 {
-   cScenes[iCurrentScene]->release();
-   iCurrentScene = iScene;
-   cScenes[iCurrentScene]->init();
+   cStates[iCurrentState]->release();
+   iCurrentState = iState;
+   cStates[iCurrentState]->init();
 }
 
 -(void) update
@@ -187,8 +187,8 @@
    float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
    dTime = dCurrentTime;
    
-   // scene update
-   cScenes[iCurrentScene]->update(fDeltaTime);
+   // state update
+   cStates[iCurrentState]->update(fDeltaTime);
    
    // audio system update
    iAudioUpdateFrame++;
@@ -199,15 +199,15 @@
       cAudio->update();
    }
     
-   // scene change request
-   if(cScenes[iCurrentScene]->getNextScene() >= 0)
-      [self selectScene:cScenes[iCurrentScene]->getNextScene()];
+   // state change request
+   if(cStates[iCurrentState]->getNextState() >= 0)
+      [self selectState:cStates[iCurrentState]->getNextState()];
 }
 
 -(void) glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
    cRender->renderBegin();
-   cScenes[iCurrentScene]->render();
+   cStates[iCurrentState]->render();
    [self.context presentRenderbuffer:GL_RENDERBUFFER];
 }
 
@@ -224,7 +224,7 @@
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
             iFingerID[i] = (int)uiTouch;
-            cScenes[iCurrentScene]->inputTouchBegin(i, GEVector2(cgPoint.x, cgPoint.y));
+            cStates[iCurrentState]->inputTouchBegin(i, GEVector2(cgPoint.x, cgPoint.y));
             
             break;
          }
@@ -245,7 +245,7 @@
             CGPoint cgPreviousPoint = [uiTouch previousLocationInView: self.view];
             CGPoint cgCurrentPoint = [uiTouch locationInView: self.view];
             
-            cScenes[iCurrentScene]->inputTouchMove(i,
+            cStates[iCurrentState]->inputTouchMove(i,
                                                    GEVector2(cgPreviousPoint.x, cgPreviousPoint.y),
                                                    GEVector2(cgCurrentPoint.x, cgCurrentPoint.y));            
             break;
@@ -267,7 +267,7 @@
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
             iFingerID[i] = 0;
-            cScenes[iCurrentScene]->inputTouchEnd(i, GEVector2(cgPoint.x, cgPoint.y));
+            cStates[iCurrentState]->inputTouchEnd(i, GEVector2(cgPoint.x, cgPoint.y));
             
             break;
          }

@@ -6,7 +6,7 @@
 //
 //  Sample application
 //
-//  --- SceneSample.cpp ---
+//  --- StateSample.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
@@ -14,17 +14,21 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "SceneSample.h"
+#include "StateSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEConstants.h"
 #include "Core/GEDevice.h"
 
-GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
-   : GEScene(Render, Audio, GlobalData)
+GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
+   : GEState(Render, Audio, GlobalData)
+   , cRandEvent(0.0f)
+   , cRandBugType(0, BUG_TYPES - 1)
+   , cRandBugSize(BUG_SIZE_MIN * 0.01f, BUG_SIZE_MAX * 0.01f)
+   , cRandBugSpeed(BUG_SPEED_MIN * 0.001f, BUG_SPEED_MAX * 0.001f)
 {
 }
 
-void GESceneSample::internalInit()
+void GEStateSample::internalInit()
 {
    iCurrentFrame = 1;
    iProbability = 1;
@@ -75,7 +79,7 @@ void GESceneSample::internalInit()
    srand(time(0));
 }
 
-void GESceneSample::release()
+void GEStateSample::release()
 {
    // release rendering objects
    cRender->releaseSprite(&cSpriteBackground);
@@ -95,12 +99,14 @@ void GESceneSample::release()
    cAudio->unloadAllSounds();
 }
 
-void GESceneSample::update(float DeltaTime)
+void GEStateSample::update(float DeltaTime)
 {
    iCurrentFrame++;
 
    // a new bug?
-   if(eventOccurs(iProbability))
+   cRandEvent.setProbability(iProbability / 100.0f);
+
+   if(cRandEvent.occurs())
       generateBug();
    
    // running bugs
@@ -151,14 +157,14 @@ void GESceneSample::update(float DeltaTime)
       iProbability++;
 }
 
-void GESceneSample::generateBug()
+void GEStateSample::generateBug()
 {
    // create bug
    SBug sBug;
    
-   sBug.Type = rand() % BUG_TYPES;
-   sBug.Size = (float)random(BUG_SIZE_MIN, BUG_SIZE_MAX) * 0.01f;
-   sBug.Speed = (float)random(BUG_SPEED_MIN, BUG_SPEED_MAX) * 0.001f;
+   sBug.Type = cRandBugType.generate();
+   sBug.Size = cRandBugSize.generate();
+   sBug.Speed = cRandBugSpeed.generate();
    sBug.Opacity = 1.0f;
    sBug.CurrentStep = 0;
    
@@ -211,7 +217,7 @@ void GESceneSample::generateBug()
    vBugs.push_back(sBug);
 }
 
-void GESceneSample::render()
+void GEStateSample::render()
 {
    unsigned int i;
    GESprite* cSprite;
@@ -248,7 +254,7 @@ void GESceneSample::render()
    cRender->renderLabel(cTextEscaped);
 }
 
-void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
 {
    // just one finger at the same time!
    if(ID > 0)

@@ -10,7 +10,7 @@
 		69650EDE193789C0002C1A4B /* GERenderingES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDB193789C0002C1A4B /* GERenderingES20.cpp */; };
 		69650EDF193789C0002C1A4B /* GERenderingObjectsES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDC193789C0002C1A4B /* GERenderingObjectsES20.cpp */; };
 		69650EE0193789C0002C1A4B /* GERenderingShadersES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EDD193789C0002C1A4B /* GERenderingShadersES20.cpp */; };
-		69650EE31937925E002C1A4B /* SceneSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EE21937925E002C1A4B /* SceneSample.cpp */; };
+		69650EE31937925E002C1A4B /* StateSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EE21937925E002C1A4B /* StateSample.cpp */; };
 		69650EE9193792BE002C1A4B /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EE7193792BE002C1A4B /* pugixml.cpp */; };
 		69650EF119379304002C1A4B /* GEAudioData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EEB19379304002C1A4B /* GEAudioData.cpp */; };
 		69650EF219379304002C1A4B /* GEContentData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650EED19379304002C1A4B /* GEContentData.cpp */; };
@@ -27,7 +27,7 @@
 		6969B6191912B1B80020E764 /* GEGraphicsDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5F61912B1B80020E764 /* GEGraphicsDevice.cpp */; };
 		6969B61A1912B1B80020E764 /* GERendering.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5F81912B1B80020E764 /* GERendering.cpp */; };
 		6969B61B1912B1B80020E764 /* GERenderingObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5FA1912B1B80020E764 /* GERenderingObjects.cpp */; };
-		6969B6271912B1B80020E764 /* GEScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B60D1912B1B80020E764 /* GEScene.cpp */; };
+		6969B6271912B1B80020E764 /* GEState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B60D1912B1B80020E764 /* GEState.cpp */; };
 		6969B6281912B2160020E764 /* hud.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B5C71912B18B0020E764 /* hud.fsh */; };
 		6969B6291912B2160020E764 /* hud.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B5C81912B18B0020E764 /* hud.vsh */; };
 		6969B62A1912B2160020E764 /* mesh_color.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B5C91912B18B0020E764 /* mesh_color.fsh */; };
@@ -63,7 +63,7 @@
 		69650EDC193789C0002C1A4B /* GERenderingObjectsES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingObjectsES20.cpp; sourceTree = "<group>"; };
 		69650EDD193789C0002C1A4B /* GERenderingShadersES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingShadersES20.cpp; sourceTree = "<group>"; };
 		69650EE119378C2C002C1A4B /* GEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDevice.h; sourceTree = "<group>"; };
-		69650EE21937925E002C1A4B /* SceneSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneSample.cpp; path = Scenes/SceneSample.cpp; sourceTree = "<group>"; };
+		69650EE21937925E002C1A4B /* StateSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StateSample.cpp; path = States/StateSample.cpp; sourceTree = "<group>"; };
 		69650EE6193792BE002C1A4B /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pugiconfig.hpp; path = ../../../GameEngine/Externals/pugixml/pugiconfig.hpp; sourceTree = "<group>"; };
 		69650EE7193792BE002C1A4B /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pugixml.cpp; path = ../../../GameEngine/Externals/pugixml/pugixml.cpp; sourceTree = "<group>"; };
 		69650EE8193792BE002C1A4B /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = pugixml.hpp; path = ../../../GameEngine/Externals/pugixml/pugixml.hpp; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 		6969B5FD1912B1B80020E764 /* GERenderingES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingES20.h; sourceTree = "<group>"; };
 		6969B5FF1912B1B80020E764 /* GERenderingObjectsES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingObjectsES20.h; sourceTree = "<group>"; };
 		6969B6011912B1B80020E764 /* GERenderingShadersES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingShadersES20.h; sourceTree = "<group>"; };
-		6969B60D1912B1B80020E764 /* GEScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEScene.cpp; sourceTree = "<group>"; };
-		6969B60E1912B1B80020E764 /* GEScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScene.h; sourceTree = "<group>"; };
+		6969B60D1912B1B80020E764 /* GEState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEState.cpp; sourceTree = "<group>"; };
+		6969B60E1912B1B80020E764 /* GEState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEState.h; sourceTree = "<group>"; };
 		6995DCA3187E081000CF404B /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ../../common/Prefix.pch; sourceTree = "<group>"; };
 		CEC1A80816937F75006E3F90 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CEE0D40F1874FE670055FA21 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../common/Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		CEE82FA8166797EF004FBB96 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = background.jpg; path = Resources/Textures/background.jpg; sourceTree = "<group>"; };
 		CEE82FAA166797EF004FBB96 /* basketball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = basketball.png; path = Resources/Textures/basketball.png; sourceTree = "<group>"; };
 		CEE82FAB166797EF004FBB96 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = Resources/Textures/info.png; sourceTree = "<group>"; };
-		CEE82FB216679817004FBB96 /* SceneSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneSample.h; path = Scenes/SceneSample.h; sourceTree = "<group>"; };
+		CEE82FB216679817004FBB96 /* StateSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StateSample.h; path = States/StateSample.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,7 +242,7 @@
 				6969B5E11912B1B80020E764 /* Core */,
 				69650EE4193792A6002C1A4B /* Externals */,
 				6969B5EE1912B1B80020E764 /* Rendering */,
-				6969B60C1912B1B80020E764 /* Scenes */,
+				6969B60C1912B1B80020E764 /* States */,
 			);
 			name = "Game Engine";
 			sourceTree = "<group>";
@@ -319,14 +319,14 @@
 			path = OpenGL;
 			sourceTree = "<group>";
 		};
-		6969B60C1912B1B80020E764 /* Scenes */ = {
+		6969B60C1912B1B80020E764 /* States */ = {
 			isa = PBXGroup;
 			children = (
-				6969B60D1912B1B80020E764 /* GEScene.cpp */,
-				6969B60E1912B1B80020E764 /* GEScene.h */,
+				6969B60D1912B1B80020E764 /* GEState.cpp */,
+				6969B60E1912B1B80020E764 /* GEState.h */,
 			);
-			name = Scenes;
-			path = ../../../GameEngine/Scenes;
+			name = States;
+			path = ../../../GameEngine/States;
 			sourceTree = "<group>";
 		};
 		CEE82F5C16679399004FBB96 = {
@@ -335,7 +335,7 @@
 				CEE0D40F1874FE670055FA21 /* Default-568h@2x.png */,
 				CEE82F7516679399004FBB96 /* Main */,
 				6969B5D71912B19F0020E764 /* Game Engine */,
-				CEE82FB1166797FD004FBB96 /* Scenes */,
+				CEE82FB1166797FD004FBB96 /* States */,
 				CEE82F9E166797AE004FBB96 /* Resources */,
 				CEE82F6A16679399004FBB96 /* Frameworks */,
 				CEE82F6816679399004FBB96 /* Products */,
@@ -432,13 +432,13 @@
 			name = Textures;
 			sourceTree = "<group>";
 		};
-		CEE82FB1166797FD004FBB96 /* Scenes */ = {
+		CEE82FB1166797FD004FBB96 /* States */ = {
 			isa = PBXGroup;
 			children = (
-				69650EE21937925E002C1A4B /* SceneSample.cpp */,
-				CEE82FB216679817004FBB96 /* SceneSample.h */,
+				69650EE21937925E002C1A4B /* StateSample.cpp */,
+				CEE82FB216679817004FBB96 /* StateSample.h */,
 			);
-			name = Scenes;
+			name = States;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -532,11 +532,11 @@
 				6969B6191912B1B80020E764 /* GEGraphicsDevice.cpp in Sources */,
 				6969B61A1912B1B80020E764 /* GERendering.cpp in Sources */,
 				6969B61B1912B1B80020E764 /* GERenderingObjects.cpp in Sources */,
-				6969B6271912B1B80020E764 /* GEScene.cpp in Sources */,
+				6969B6271912B1B80020E764 /* GEState.cpp in Sources */,
 				69650EDE193789C0002C1A4B /* GERenderingES20.cpp in Sources */,
 				69650EDF193789C0002C1A4B /* GERenderingObjectsES20.cpp in Sources */,
 				69650EE0193789C0002C1A4B /* GERenderingShadersES20.cpp in Sources */,
-				69650EE31937925E002C1A4B /* SceneSample.cpp in Sources */,
+				69650EE31937925E002C1A4B /* StateSample.cpp in Sources */,
 				69650EE9193792BE002C1A4B /* pugixml.cpp in Sources */,
 				69650EF119379304002C1A4B /* GEAudioData.cpp in Sources */,
 				69650EF219379304002C1A4B /* GEContentData.cpp in Sources */,

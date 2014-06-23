@@ -6,23 +6,23 @@
 //
 //  Sample application
 //
-//  --- SceneSample.cpp ---
+//  --- StateSample.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#include "SceneSample.h"
+#include "StateSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEConstants.h"
 
 #include "banana.h"
 
-GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
-   : GEScene(Render, Audio, GlobalData)
+GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
+   : GEState(Render, Audio, GlobalData)
 {
 }
 
-void GESceneSample::internalInit()
+void GEStateSample::internalInit()
 {
    cRender->setBackgroundColor(GEColor(0.1f, 0.1f, 0.2f));
    
@@ -59,13 +59,13 @@ void GESceneSample::internalInit()
    bMoveBulb = false;
 }
 
-void GESceneSample::update(float DeltaTime)
+void GEStateSample::update(float DeltaTime)
 {
    float fRotation = -DeltaTime * 0.001f;
    cMeshBanana->rotate(fRotation, fRotation, fRotation);
 }
 
-void GESceneSample::render()
+void GEStateSample::render()
 {
    // camera
    cRender->set3D();
@@ -81,7 +81,7 @@ void GESceneSample::render()
    cRender->renderSprite(cSpriteBulb);
 }
 
-void GESceneSample::release()
+void GEStateSample::release()
 {
    // release objects
    delete cCamera;
@@ -89,7 +89,7 @@ void GESceneSample::release()
    delete cSpriteBulb;
 }     
 
-void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
 {
    if(ID > 0)
       return;
@@ -104,7 +104,7 @@ void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
       bMoveBulb = true;
 }
 
-void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
+void GEStateSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
 {
    if(!bMoveBulb || ID > 0)
       return;
@@ -115,7 +115,7 @@ void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const
    cSpriteBulb->setPosition(vBulbPosition);
 }
 
-void GESceneSample::inputTouchEnd(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchEnd(int ID, const GEVector2& Point)
 {
    if(ID == 0)
       bMoveBulb = false;

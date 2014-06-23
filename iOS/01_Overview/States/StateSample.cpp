@@ -6,20 +6,20 @@
 //
 //  Sample application
 //
-//  --- SceneSample.cpp ---
+//  --- StateSample.cpp ---
 //
 //////////////////////////////////////////////////////////////////
 
 
-#include "SceneSample.h"
+#include "StateSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEDevice.h"
 
 #include "banana.h"
 #include "cube.h"
 
-GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
-   : GEScene(Render, Audio, GlobalData)
+GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
+   : GEState(Render, Audio, GlobalData)
    , fMeshCubeR(1.0f)
    , fMeshCubeRInc(-0.01f)
    , fMeshCubeG(0.5f)
@@ -29,7 +29,7 @@ GESceneSample::GESceneSample(GERendering* Render, GEAudio* Audio, void* GlobalDa
 {
 }
 
-void GESceneSample::internalInit()
+void GEStateSample::internalInit()
 { 
    cRender->setBackgroundColor(GEColor(0.1f, 0.1f, 0.3f));
    
@@ -98,7 +98,7 @@ void GESceneSample::internalInit()
    cText->setOpacity(0.0f);
 }
 
-void GESceneSample::update(float DeltaTime)
+void GEStateSample::update(float DeltaTime)
 {
    updateCube();
    updateBanana();
@@ -106,18 +106,18 @@ void GESceneSample::update(float DeltaTime)
    updateText();
 }
 
-void GESceneSample::updateText()
+void GEStateSample::updateText()
 {
    if(cText->getOpacity() < 1.0f)   
       cText->setOpacity(cText->getOpacity() + 0.005f);
 }
 
-void GESceneSample::updateBanana()
+void GEStateSample::updateBanana()
 {
    cMeshBanana->rotate(-0.01f, -0.01f, -0.01f);
 }
 
-void GESceneSample::updateCube()
+void GEStateSample::updateCube()
 {
    cMeshCube->rotate(0.01f, 0.01f, 0.01f);
    cMeshCube->setColor(GEColor(fMeshCubeR, fMeshCubeG, fMeshCubeB));
@@ -160,7 +160,7 @@ void GESceneSample::updateCube()
    }
 }
 
-void GESceneSample::updateBall()
+void GEStateSample::updateBall()
 {
    // get ball position
    vBallPosition = cSpriteBall->getPosition();
@@ -203,7 +203,7 @@ void GESceneSample::updateBall()
    cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);
 }
 
-void GESceneSample::render()
+void GEStateSample::render()
 {
    // background
    cRender->set2D();
@@ -234,7 +234,7 @@ void GESceneSample::render()
    cRender->renderLabel(cText);
 }
 
-void GESceneSample::release()
+void GEStateSample::release()
 {
    // stop audio sources and release sounds
    cAudio->stop(Sounds.Music);
@@ -255,7 +255,7 @@ void GESceneSample::release()
    delete cText;
 }
 
-void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
 {
    cAudio->playSound(Sounds.Touch, 0);
 
@@ -264,7 +264,7 @@ void GESceneSample::inputTouchBegin(int ID, const GEVector2& Point)
    cSpriteInfo[ID]->show();
 }
 
-void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
+void GEStateSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
 {
    if(ID == 0)
    {
@@ -277,12 +277,12 @@ void GESceneSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const
    cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y);
 }
 
-void GESceneSample::inputTouchEnd(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchEnd(int ID, const GEVector2& Point)
 {
    cSpriteInfo[ID]->hide();
 }
 
-void GESceneSample::updateAccelerometerStatus(const GEVector3& Status)
+void GEStateSample::updateAccelerometerStatus(const GEVector3& Status)
 {
    vBallVelocity.X += Status.X * ACC_SCALE;
    vBallVelocity.Y += Status.Y * ACC_SCALE;
