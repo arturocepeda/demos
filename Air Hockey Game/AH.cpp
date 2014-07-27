@@ -13,6 +13,7 @@
 #include <iostream>
 #include <stdlib.h>
 
+using namespace GE::Core;
 
 //
 //  AHVector functions
@@ -96,8 +97,8 @@ void AHGame::create(float CenterX, float CenterY, float TableWidth, float TableH
     fRenderRatioX = fRenderTableWidth / fTableWidth;
     fRenderRatioY = fRenderTableHeight / fTableHeight;
 
-    cRandomPosX = new GERandFloat(-AH_TABLE_WIDTH / 4.0f, AH_TABLE_WIDTH / 4.0f);
-    cRandomPosY = new GERandFloat(AH_TABLE_HEIGHT / 8.0f, AH_TABLE_HEIGHT / 2.0f - AH_TABLE_HEIGHT / 8.0f);
+    cRandomPosX = new RandFloat(-AH_TABLE_WIDTH / 4.0f, AH_TABLE_WIDTH / 4.0f);
+    cRandomPosY = new RandFloat(AH_TABLE_HEIGHT / 8.0f, AH_TABLE_HEIGHT / 2.0f - AH_TABLE_HEIGHT / 8.0f);
 }
 
 void AHGame::initialize()

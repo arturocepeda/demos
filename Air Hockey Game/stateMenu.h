@@ -43,11 +43,11 @@
 #define KINECT_MAXDIST_MIN  1500.0f
 #define KINECT_MAXDIST_MAX  4000.0f
 
-class CStateMenu : public GEState
+class CStateMenu : public GE::States::State
 {
 private:
-    GERendering* cRender;
-    GEAudio* cAudio;
+    GE::Rendering::RenderSystem* cRender;
+    GE::Audio::AudioSystem* cAudio;
 
     // global data
     SGlobal* sGlobal;
@@ -69,18 +69,18 @@ private:
     static char sKinectInfo[];
 
     // camera
-    GECamera* cCamera;
+    GE::Rendering::Camera* cCamera;
     float fCameraOrbitTheta;
 
     // meshes (background)
-    GEMesh* mMeshMallet1;
-    GEMesh* mMeshMallet2;
-    GEMesh* mMeshTable;
-    GEMesh* mMeshRoom;
+    GE::Rendering::Mesh* mMeshMallet1;
+    GE::Rendering::Mesh* mMeshMallet2;
+    GE::Rendering::Mesh* mMeshTable;
+    GE::Rendering::Mesh* mMeshRoom;
 
     // color
-    GEColor cColorOption;
-    GEColor cColorSelected;
+    GE::Color cColorOption;
+    GE::Color cColorSelected;
     bool bColorSelectedInc;
 
     // fonts
@@ -89,8 +89,8 @@ private:
     unsigned int iFontText;
 
     // labels
-    GELabel* lLabelOption[MAX_OPTIONS];
-    GELabel* lLabelKinectInfo;
+    GE::Rendering::Label* lLabelOption[MAX_OPTIONS];
+    GE::Rendering::Label* lLabelKinectInfo;
 
     void playSounds();
 
@@ -108,7 +108,7 @@ private:
     void calculateDifficultyValues();
 
 public:
-    CStateMenu(GERendering* Render, GEAudio* Audio, void* GlobalData);
+    CStateMenu(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
     ~CStateMenu();
 
     void internalInit();

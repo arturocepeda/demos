@@ -197,7 +197,7 @@ class AHAIStatePrepareShot : public AHAIState
 {
 private:
     AHPoint pPuckFuturePosition;
-    GELine* cShotLine;
+    GE::Core::Line* cShotLine;
 
     float fTimeForThePuckToCome;
     float fDistanceToTarget;

@@ -10,11 +10,11 @@
 #include "main.h"
 #include "States/GEState.h"
 
-class CStateFacing : public GEState
+class CStateFacing : public GE::States::State
 {
 private:
     // camera
-    GECamera* cCamera;
+    GE::Rendering::Camera* cCamera;
     float fPitch;
     float fYaw;
 
@@ -24,23 +24,23 @@ private:
     bool bMovingRight;
 
     // meshes
-    GEMesh* mMeshGuy;
-    GEMesh* mMeshRoom;
+    GE::Rendering::Mesh* mMeshGuy;
+    GE::Rendering::Mesh* mMeshRoom;
 
     // color
-    GEColor cColorOption;
-    GEColor cColorSelected;
+    GE::Color cColorOption;
+    GE::Color cColorSelected;
     bool bColorSelectedInc;
 
     // fonts
     unsigned int iFontText;
 
     // labels
-    GELabel* cLabelDebug;
+    GE::Rendering::Label* cLabelDebug;
     char sMessage[256];
 
     // data
-    GEVector3 vGuyForward;
+    GE::Vector3 vGuyForward;
     float fDeltaTime;
 
     void playSounds();
@@ -57,7 +57,7 @@ private:
     void updateGuyDirection();
 
 public:
-    CStateFacing(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   CStateFacing(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
     ~CStateFacing();
 
     void internalInit();

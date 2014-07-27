@@ -9,8 +9,14 @@
 #include <stdio.h>
 #include <cmath>
 
-CStateFacing::CStateFacing(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEState(Render, Audio, GlobalData)
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Core;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
+CStateFacing::CStateFacing(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+    : State(Render, Audio, GlobalData)
     , bMovingForward(false)
     , bMovingBackward(false)
     , bMovingLeft(false)
@@ -32,11 +38,11 @@ void CStateFacing::internalInit()
 void CStateFacing::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLightColor(GEColor((byte)255, 255, 255));
+    cRender->setAmbientLightColor(Color((byte)255, 255, 255));
 
     // camera
     cRender->createCamera(&cCamera);
-    cCamera->setPosition(GEVector3(-5.0f, 2.0f, 0.0f));
+    cCamera->setPosition(Vector3(-5.0f, 2.0f, 0.0f));
     fPitch = 0.5f;
     fYaw = -0.8f;
 
@@ -61,7 +67,7 @@ void CStateFacing::initRenderObjects()
     bColorSelectedInc = false;
 
     // labels
-    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, GEVector2(1024.0f, 128.0f), "");
+    cRender->createLabel(&cLabelDebug, iFontText, Alignment::TopCenter, Vector2(1024.0f, 128.0f), "");
     cLabelDebug->setPosition(0.0f, 24.0f);
 }
 
@@ -191,8 +197,8 @@ void CStateFacing::moveCameraForward(float Quantity)
     float fCameraY = cCamera->getPosition().Y;
     cCamera->moveForward(Quantity);
     
-    GEVector3 vCameraNewPosition = cCamera->getPosition();
-    cCamera->setPosition(GEVector3(vCameraNewPosition.X, fCameraY, vCameraNewPosition.Z));
+    Vector3 vCameraNewPosition = cCamera->getPosition();
+    cCamera->setPosition(Vector3(vCameraNewPosition.X, fCameraY, vCameraNewPosition.Z));
 }
 
 void CStateFacing::moveCameraMouse()
@@ -208,7 +214,7 @@ void CStateFacing::moveCameraMouse()
     float fForwardBack = fInThePlane * cosf(fYaw);
     float fLeftRight = fInThePlane * sinf(fYaw);
 
-    cCamera->lookAt(cCamera->getPosition() + GEVector3(fLeftRight, fVertical, fForwardBack));
+    cCamera->lookAt(cCamera->getPosition() + Vector3(fLeftRight, fVertical, fForwardBack));
 }
 
 void CStateFacing::updateGuyDirection()
@@ -216,16 +222,16 @@ void CStateFacing::updateGuyDirection()
     static const float AngleNear = 0.0001f;
     static const float AngleStep = 2.0f;
 
-    GEVector3 vCameraPosition = cCamera->getPosition();
-    GEVector3 vGuyPosition = mMeshGuy->getPosition();
+    Vector3 vCameraPosition = cCamera->getPosition();
+    Vector3 vGuyPosition = mMeshGuy->getPosition();
 
-    GEVector3 vGuyTargetForward = vCameraPosition - vGuyPosition;
+    Vector3 vGuyTargetForward = vCameraPosition - vGuyPosition;
     vGuyTargetForward.Y = 0.0f;
     vGuyTargetForward.normalize();
 
-    float fTargetRotation = getSimplifiedAngle(-atan2f(vGuyTargetForward.Z, vGuyTargetForward.X) - HALFPI);
+    float fTargetRotation = getSimplifiedAngle(-atan2f(vGuyTargetForward.Z, vGuyTargetForward.X) - GE_HALFPI);
 
-    GEVector3 vCurrentGuyRotation = mMeshGuy->getRotation();
+    Vector3 vCurrentGuyRotation = mMeshGuy->getRotation();
     float fAngleDifference = getSimplifiedAngle(vCurrentGuyRotation.Y - fTargetRotation);
 
     sprintf(sMessage, "Angle: %.2f Rad\nTarget: %.2f Rad", vCurrentGuyRotation.Y, fTargetRotation);

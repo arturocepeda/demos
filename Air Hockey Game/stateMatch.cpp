@@ -13,8 +13,14 @@
 #include <stdio.h>
 #include <climits>
 
-CStateMatch::CStateMatch(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEState(Render, Audio, GlobalData)
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+using namespace GE::Multiplayer;
+
+CStateMatch::CStateMatch(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+    : State(Render, Audio, GlobalData)
 {
     sGlobal = (SGlobal*)GlobalData;
     iSleepFrame = UINT_MAX - SLEEP_FRAMES;
@@ -73,7 +79,7 @@ void CStateMatch::internalInit()
             // I am the server
             if(sGlobal->bServer)
             {
-                cServer = new GEServerWinSock2();
+                cServer = new ServerWinSock2();
                 cServer->activeServer(sGlobal->iPort);
                 bClientReady = false;
             }
@@ -81,7 +87,7 @@ void CStateMatch::internalInit()
             // I am the client
             else
             {
-                cClient = new GEClientWinSock2();
+                cClient = new ClientWinSock2();
                 cClient->connectToServer(sGlobal->sIPServer, sGlobal->iPort);
                 bServerReady = false;
 
@@ -136,8 +142,8 @@ void CStateMatch::internalInit()
 void CStateMatch::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLightColor(GEColor((byte)100, 100, 100));
-    iLightRoom = cRender->createDirectionalLight(GEColor(0.3f, 0.3f, 0.3f), 1.0f, GEVector3(0.3f, -1.0f, 0.4f));
+    cRender->setAmbientLightColor(Color((byte)100, 100, 100));
+    iLightRoom = cRender->createDirectionalLight(Color(0.3f, 0.3f, 0.3f), 1.0f, Vector3(0.3f, -1.0f, 0.4f));
     cRender->switchLight(iLightRoom, true);
 
     // cameras
@@ -224,12 +230,12 @@ void CStateMatch::initRenderObjects()
     cColorDebug.set((byte)255, 255, 255);
 
     // labels
-    cRender->createLabel(&lLabelMessage, iFontText, GEAlignment::CenterCenter,
-                         GEVector2((float)sGlobal->ScreenSizeX, (float)120));
+    cRender->createLabel(&lLabelMessage, iFontText, Alignment::CenterCenter,
+                         Vector2((float)sGlobal->ScreenSizeX, (float)120));
     lLabelMessage->setColor(cColorMessage);
 
-    cRender->createLabel(&lLabelDebug, iFontDebug, GEAlignment::TopLeft,
-                         GEVector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY));
+    cRender->createLabel(&lLabelDebug, iFontDebug, Alignment::TopLeft,
+                         Vector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY));
     lLabelDebug->setColor(cColorDebug);
 }
 
@@ -322,7 +328,7 @@ void CStateMatch::initSoundObjects()
     }
 
     // listener position (player 1)
-    cAudio->setListenerPosition(GEVector3(0.0f, 2.5f / AUDIO_RATIO, -3.7f / AUDIO_RATIO));
+    cAudio->setListenerPosition(Vector3(0.0f, 2.5f / AUDIO_RATIO, -3.7f / AUDIO_RATIO));
 }
 
 void CStateMatch::releaseSoundObjects()
@@ -774,8 +780,8 @@ void CStateMatch::render()
     cRender->renderMesh(mMeshMallet1);
 
 #ifdef _DEBUG
-    GEVector3 vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
-    GEVector3 vDebug;
+    Vector3 vPlayer1(pPlayer1Position.x, 0.0f, -pPlayer1Position.y);
+    Vector3 vDebug;
     cRender->worldToScreen(&vPlayer1, &vDebug);
     lLabelDebug->setPosition(vDebug.X, vDebug.Y);
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer1.X, vPlayer1.Y, vPlayer1.Z);
@@ -789,7 +795,7 @@ void CStateMatch::render()
     cRender->renderMesh(mMeshMallet2);
 
 #ifdef _DEBUG
-    GEVector3 vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
+    Vector3 vPlayer2(pPlayer2Position.x, 0.0f, -pPlayer2Position.y);
     cRender->worldToScreen(&vPlayer2, &vDebug);
     lLabelDebug->setPosition(vDebug.X, vDebug.Y);
     sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPlayer2.X, vPlayer2.Y, vPlayer2.Z);
@@ -805,7 +811,7 @@ void CStateMatch::render()
         cRender->renderMesh(mMeshPuck);
 
 #ifdef _DEBUG
-        GEVector3 vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
+        Vector3 vPuck(pPuckPosition.x, 0.0f, -pPuckPosition.y);
         cRender->worldToScreen(&vPuck, &vDebug);
         lLabelDebug->setPosition(vDebug.X, vDebug.Y);
         sprintf(sBuffer, "(%.2f, %.2f, %.2f)", vPuck.X, vPuck.Y, vPuck.Z);
@@ -1034,7 +1040,7 @@ void CStateMatch::renderReplay()
 
 void CStateMatch::playSounds(int iEvent)
 {
-    GEVector3 vPosition;
+    Vector3 vPosition;
 
     switch(iEvent)
     {

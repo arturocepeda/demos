@@ -18,15 +18,15 @@
 
 #define NEAR  0.05f
 
-class GEStateSample : public GEState
+class GEStateSample : public GE::States::State
 {
 private:
-   GECamera* cCamera;
-   GEMesh* cMeshBanana;
-   GESprite* cSpriteBulb;
+   GE::Rendering::Camera* cCamera;
+   GE::Rendering::Mesh* cMeshBanana;
+   GE::Rendering::Sprite* cSpriteBulb;
    
    bool bMoveBulb;
-   GEVector3 vBulbPosition;
+   GE::Vector3 vBulbPosition;
 
    struct
    {
@@ -35,16 +35,16 @@ private:
    Textures;
    
 public:
-   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
    
    void internalInit();
    void release();
    void update(float DeltaTime);
    void render();
    
-   void inputTouchBegin(int ID, const GEVector2& Point);
-   void inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint);
-   void inputTouchEnd(int ID, const GEVector2& Point);
+   void inputTouchBegin(int ID, const GE::Vector2& Point);
+   void inputTouchMove(int ID, const GE::Vector2& PreviousPoint, const GE::Vector2& CurrentPoint);
+   void inputTouchEnd(int ID, const GE::Vector2& Point);
 };
 
 #endif

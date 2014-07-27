@@ -18,8 +18,13 @@
 #include "banana.h"
 #include "cube.h"
 
-GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
-   : GEState(Render, Audio, GlobalData)
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
+GEStateSample::GEStateSample(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+   : State(Render, Audio, GlobalData)
    , fMeshCubeR(1.0f)
    , fMeshCubeRInc(-0.01f)
    , fMeshCubeG(0.5f)
@@ -31,19 +36,19 @@ GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalDa
 
 void GEStateSample::internalInit()
 { 
-   cRender->setBackgroundColor(GEColor(0.1f, 0.1f, 0.3f));
+   cRender->setBackgroundColor(Color(0.1f, 0.1f, 0.3f));
    
    // lighting
-   cRender->setAmbientLightColor(GEColor(1.0f, 1.0f, 1.0f));
+   cRender->setAmbientLightColor(Color(1.0f, 1.0f, 1.0f));
    cRender->setAmbientLightIntensity(0.25f);
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition((unsigned int)GELights::PointLight1, GEVector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor((unsigned int)GELights::PointLight1, GEColor(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity((unsigned int)GELights::PointLight1, 0.6f);
+   cRender->setLightPosition((unsigned int)Lights::PointLight1, Vector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor((unsigned int)Lights::PointLight1, Color(1.0f, 1.0f, 1.0f));
+   cRender->setLightIntensity((unsigned int)Lights::PointLight1, 0.6f);
    
    // cameras
-   cCamera = new GECamera();
+   cCamera = new Camera();
    cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
@@ -62,22 +67,22 @@ void GEStateSample::internalInit()
    cMeshCube->loadFromArrays(cubeNumVerts, cubeVerts, cubeNormals);
    cMeshCube->setPosition(0.0f, -1.5f, 0.0f);
    cMeshCube->scale(0.75f, 0.75f, 0.75f);
-   cMeshCube->setColor(GEColor(1.0f, 0.5f, 0.2f));
+   cMeshCube->setColor(Color(1.0f, 0.5f, 0.2f));
 
    // sprites
    cRender->createSprite(&cSpriteBackground);
    cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
-   cSpriteBackground->setSize(GEVector2(2.0f, 3.0f));
+   cSpriteBackground->setSize(Vector2(2.0f, 3.0f));
    
    cRender->createSprite(&cSpriteBall);
    cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
-   cSpriteBall->setSize(GEVector2(0.4f, 0.4f));
+   cSpriteBall->setSize(Vector2(0.4f, 0.4f));
    
    for(int i = 0; i < FINGERS; i++)
    {
       cRender->createSprite(&cSpriteInfo[i]);
       cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
-      cSpriteInfo[i]->setSize(GEVector2(0.25f, 0.25f));
+      cSpriteInfo[i]->setSize(Vector2(0.25f, 0.25f));
       cSpriteInfo[i]->setVisible(false);
    }
    
@@ -92,9 +97,9 @@ void GEStateSample::internalInit()
    cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cText, 0, GEAlignment::CenterCenter, GEVector2(0.16f, 0.16f), "Game Engine");
+   cRender->createLabel(&cText, 0, Alignment::CenterCenter, Vector2(0.16f, 0.16f), "Game Engine");
    cText->setPosition(0.0f, 1.15f);
-   cText->setColor(GEColor(1.0f, 0.25f, 0.25f));
+   cText->setColor(Color(1.0f, 0.25f, 0.25f));
    cText->setOpacity(0.0f);
 }
 
@@ -120,7 +125,7 @@ void GEStateSample::updateBanana()
 void GEStateSample::updateCube()
 {
    cMeshCube->rotate(0.01f, 0.01f, 0.01f);
-   cMeshCube->setColor(GEColor(fMeshCubeR, fMeshCubeG, fMeshCubeB));
+   cMeshCube->setColor(Color(fMeshCubeR, fMeshCubeG, fMeshCubeB));
    
    fMeshCubeR += fMeshCubeRInc;
    fMeshCubeG += fMeshCubeGInc;
@@ -207,7 +212,7 @@ void GEStateSample::render()
 {
    // background
    cRender->set2D();
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
 
    // camera
@@ -215,14 +220,14 @@ void GEStateSample::render()
    cRender->useCamera(cCamera);
 
    // meshes
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshColor);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::MeshColor);
    cRender->renderMesh(cMeshCube);
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::MeshTexture);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::MeshTexture);
    cRender->renderMesh(cMeshBanana);
 
    // sprites
    cRender->set2D();
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBall);
     
    for(int i = 0; i < FINGERS; i++)
@@ -230,7 +235,7 @@ void GEStateSample::render()
 
    // text
    cRender->set2D();
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::Text);
    cRender->renderLabel(cText);
 }
 
@@ -255,16 +260,16 @@ void GEStateSample::release()
    delete cText;
 }
 
-void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
    cAudio->playSound(Sounds.Touch, 0);
 
-   GEVector2 vScreenPosition = cRender->pixelToScreen(Point);
+   Vector2 vScreenPosition = cRender->pixelToScreen(Point);
    cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y, 0.0f);
    cSpriteInfo[ID]->show();
 }
 
-void GEStateSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint)
+void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const Vector2& CurrentPoint)
 {
    if(ID == 0)
    {
@@ -273,16 +278,16 @@ void GEStateSample::inputTouchMove(int ID, const GEVector2& PreviousPoint, const
                     0.0f);
    }
    
-   GEVector2 vScreenPosition = cRender->pixelToScreen(CurrentPoint);
+   Vector2 vScreenPosition = cRender->pixelToScreen(CurrentPoint);
    cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y);
 }
 
-void GEStateSample::inputTouchEnd(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchEnd(int ID, const Vector2& Point)
 {
    cSpriteInfo[ID]->hide();
 }
 
-void GEStateSample::updateAccelerometerStatus(const GEVector3& Status)
+void GEStateSample::updateAccelerometerStatus(const Vector3& Status)
 {
    vBallVelocity.X += Status.X * ACC_SCALE;
    vBallVelocity.Y += Status.Y * ACC_SCALE;

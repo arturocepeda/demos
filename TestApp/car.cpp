@@ -9,6 +9,9 @@
 #include "Core/GEUtils.h"
 #include <algorithm>
 
+using namespace GE;
+using namespace GE::Core;
+
 const float CloseEnough = 0.2f;
 const float AngleDifferenceWeight = 2.5f;
 const float MaxRotationSpeed = 0.02f;
@@ -19,7 +22,7 @@ const float MaxSpeed = 2.0f;
 const float MaxReverseSpeed = 0.5f;
 
 CCar::CCar()
-    : vPosition(GEVector3(0.0f, 0.0f, 0.0f))
+    : vPosition(Vector3(0.0f, 0.0f, 0.0f))
     , fAngle(0.0f)
     , fSpeed(0.0f)
     , fRotation(0.0f)
@@ -32,7 +35,7 @@ CCar::~CCar()
 {
 }
 
-void CCar::update(float DeltaTime, GEVector3& TargetPoint)
+void CCar::update(float DeltaTime, Vector3& TargetPoint)
 {
     calculateSteering(DeltaTime, TargetPoint);
     updateStatus(DeltaTime);
@@ -43,14 +46,14 @@ void CCar::updateStatus(float fDeltaTime)
     fSpeed += fAcceleration;
     fAngle += fRotation;
 
-    vForward = GEVector3(sinf(fAngle), 0.0f, cosf(fAngle));
+    vForward = Vector3(sinf(fAngle), 0.0f, cosf(fAngle));
     vPosition += vForward * fDeltaTime * fSpeed;
 }
 
-void CCar::calculateSteering(float fDeltaTime, GEVector3& vTargetPoint)
+void CCar::calculateSteering(float fDeltaTime, Vector3& vTargetPoint)
 {
     // target vector and distance
-    GEVector3 vTargetVector = vTargetPoint - vPosition;
+    Vector3 vTargetVector = vTargetPoint - vPosition;
     float fDistance = vTargetVector.getLength();
 
     if(fDistance < CloseEnough)
@@ -74,12 +77,12 @@ void CCar::calculateSteering(float fDeltaTime, GEVector3& vTargetPoint)
 
     if(!bReverse)
     {
-        if(fabs(fAngleDifference) > HALFPI)
+        if(fabs(fAngleDifference) > GE_HALFPI)
             bReverse = true;
     }
     else
     {
-        if(fabs(fAngleDifference) < (HALFPI * 0.33f))
+        if(fabs(fAngleDifference) < (GE_HALFPI * 0.33f))
         {
             fSpeed = 0.0f;
             bReverse = false;
@@ -107,7 +110,7 @@ void CCar::calculateSteering(float fDeltaTime, GEVector3& vTargetPoint)
     }
 }
 
-const GEVector3& CCar::getPosition()
+const Vector3& CCar::getPosition()
 {
     return vPosition;
 }

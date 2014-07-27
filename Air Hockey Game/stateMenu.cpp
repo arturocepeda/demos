@@ -12,6 +12,11 @@
 
 #define PI 3.141592f
 
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
 #ifdef _KINECT_OPENNI_
 char CStateMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
                                   "1) When the message \"Waiting for player\" appears, wave to\n"
@@ -37,8 +42,8 @@ char CStateMenu::sKinectInfo[] = {"KINECT SENSOR INFORMATION\n\n"
                                   "Press any key to start..."};
 #endif
 
-CStateMenu::CStateMenu(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEState(Render, Audio, GlobalData)
+CStateMenu::CStateMenu(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+    : State(Render, Audio, GlobalData)
 {
     cRender = Render;
     cAudio = Audio;
@@ -65,7 +70,7 @@ void CStateMenu::internalInit()
 void CStateMenu::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLightColor(GEColor((byte)100, 100, 100));
+    cRender->setAmbientLightColor(Color((byte)100, 100, 100));
 
     // camera
     cRender->createCamera(&cCamera);
@@ -97,14 +102,14 @@ void CStateMenu::initRenderObjects()
     bColorSelectedInc = false;
 
     // labels
-    cRender->createLabel(&lLabelKinectInfo, iFontText, GEAlignment::CenterCenter,
-                         GEVector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY), sKinectInfo);
+    cRender->createLabel(&lLabelKinectInfo, iFontText, Alignment::CenterCenter,
+                         Vector2((float)sGlobal->ScreenSizeX, (float)sGlobal->ScreenSizeY), sKinectInfo);
     lLabelKinectInfo->setColor(cColorOption);
 
     for(int i = 0; i < MAX_OPTIONS; i++)
     {
-        cRender->createLabel(&lLabelOption[i], iFontOption, GEAlignment::CenterCenter,
-                             GEVector2((float)sGlobal->ScreenSizeX, sGlobal->ScreenSizeY / 12.0f));
+        cRender->createLabel(&lLabelOption[i], iFontOption, Alignment::CenterCenter,
+                             Vector2((float)sGlobal->ScreenSizeX, sGlobal->ScreenSizeY / 12.0f));
     }
 }
 
@@ -129,7 +134,7 @@ void CStateMenu::update(float DeltaTime)
 void CStateMenu::render()
 {
     // background
-    GEVector3 vRefPoint(0.0f, -0.5f, 0.0f);
+    Vector3 vRefPoint(0.0f, -0.5f, 0.0f);
     cCamera->orbit(vRefPoint, 6.0f, fCameraOrbitTheta, (PI * 0.5f) + 0.5f);
     cCamera->use();
 

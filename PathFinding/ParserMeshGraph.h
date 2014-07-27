@@ -16,9 +16,9 @@
 class ParserMeshGraph
 {
 private:
-    std::string loadTextContents(std::string filename);
-    std::vector<std::string> splitString(const std::string& str, char delimiter);
+   std::string loadTextContents(std::string filename);
+   std::vector<std::string> splitString(const std::string& str, char delimiter);
 
 public:
-    void loadUnreachableNodesFromFile(GEMeshGraph* meshGraph, std::string filename);
+   void loadUnreachableNodesFromFile(GE::Pathfinding::MeshGraph* meshGraph, std::string filename);
 };

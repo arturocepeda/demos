@@ -16,8 +16,8 @@
 
 #include "States/GEState.h"
 
-#define BOUNDS_TOP      (GEDevice::getAspectRatio() * 0.89f)
-#define BOUNDS_BOTTOM   (-GEDevice::getAspectRatio() * 0.89f)
+#define BOUNDS_TOP      (GE::Core::Device::getAspectRatio() * 0.89f)
+#define BOUNDS_BOTTOM   (-GE::Core::Device::getAspectRatio() * 0.89f)
 #define BOUNDS_LEFT     (-1.0f * 0.83f)
 #define BOUNDS_RIGHT    (1.0f * 0.83f)
 
@@ -28,13 +28,13 @@
 #define BOUNCE       0.55f
 #define ROTATION     2.8f
 
-class GEStateSample : public GEState
+class GEStateSample : public GE::States::State
 {
 private:
-   GECamera* cCamera;
+   GE::Rendering::Camera* cCamera;
    
-   GEMesh* cMeshBanana;
-   GEMesh* cMeshCube;
+   GE::Rendering::Mesh* cMeshBanana;
+   GE::Rendering::Mesh* cMeshCube;
    
    float fMeshCubeR;
    float fMeshCubeRInc;
@@ -43,14 +43,14 @@ private:
    float fMeshCubeB;
    float fMeshCubeBInc;
    
-   GESprite* cSpriteBackground;
-   GESprite* cSpriteBall;
-   GESprite* cSpriteInfo[FINGERS];
+   GE::Rendering::Sprite* cSpriteBackground;
+   GE::Rendering::Sprite* cSpriteBall;
+   GE::Rendering::Sprite* cSpriteInfo[FINGERS];
    
-   GELabel* cText;
+   GE::Rendering::Label* cText;
    
-   GEVector3 vBallPosition;
-   GEVector3 vBallVelocity;
+   GE::Vector3 vBallPosition;
+   GE::Vector3 vBallVelocity;
    
    struct
    {
@@ -70,7 +70,7 @@ private:
    void updateBall();
    
 public:
-   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
    
    void internalInit();
    void release();
@@ -78,11 +78,11 @@ public:
    void update(float DeltaTime);
    void render();
    
-   void inputTouchBegin(int ID, const GEVector2& Point);
-   void inputTouchMove(int ID, const GEVector2& PreviousPoint, const GEVector2& CurrentPoint);
-   void inputTouchEnd(int ID, const GEVector2& Point);
+   void inputTouchBegin(int ID, const GE::Vector2& Point);
+   void inputTouchMove(int ID, const GE::Vector2& PreviousPoint, const GE::Vector2& CurrentPoint);
+   void inputTouchEnd(int ID, const GE::Vector2& Point);
    
-   void updateAccelerometerStatus(const GEVector3& Status);
+   void updateAccelerometerStatus(const GE::Vector3& Status);
 };
 
 #endif

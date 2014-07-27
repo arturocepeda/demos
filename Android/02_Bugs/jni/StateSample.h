@@ -18,8 +18,8 @@
 #include "Core/GERand.h"
 #include <vector>
 
-#define BOUNDS_TOP      GEDevice::getAspectRatio()
-#define BOUNDS_BOTTOM  -GEDevice::getAspectRatio()
+#define BOUNDS_TOP      GE::Core::Device::getAspectRatio()
+#define BOUNDS_BOTTOM  -GE::Core::Device::getAspectRatio()
 #define BOUNDS_LEFT    -1.0f
 #define BOUNDS_RIGHT    1.0f
 
@@ -34,9 +34,9 @@
 
 struct SBug
 {
-   GEVector3 Position;
-   GEVector3 Destiny;
-   GEVector3 Direction;
+   GE::Vector3 Position;
+   GE::Vector3 Destiny;
+   GE::Vector3 Direction;
    
    int Type;
    float Speed;
@@ -47,14 +47,14 @@ struct SBug
    int CurrentStep;
 };
 
-class GEStateSample : public GEState
+class GEStateSample : public GE::States::State
 {
 private:
-   GESprite* cSpriteBackground;
-   GESprite* cSpriteBug[BUG_TYPES][BUG_STEPS];
+   GE::Rendering::Sprite* cSpriteBackground;
+   GE::Rendering::Sprite* cSpriteBug[BUG_TYPES][BUG_STEPS];
    
-   GELabel* cTextEscaped;
-   GELabel* cTextSmashed;
+   GE::Rendering::Label* cTextEscaped;
+   GE::Rendering::Label* cTextSmashed;
    char sTextBuffer[32];
    
    int iEscaped;
@@ -67,22 +67,22 @@ private:
    int iProbability;
 
    // random generators
-   GERandEvent cRandEvent;
-   GERandInt cRandBugType;
-   GERandFloat cRandBugSize;
-   GERandFloat cRandBugSpeed;
+   GE::Core::RandEvent cRandEvent;
+   GE::Core::RandInt cRandBugType;
+   GE::Core::RandFloat cRandBugSize;
+   GE::Core::RandFloat cRandBugSpeed;
    
    void generateBug();
    
 public:
-   GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData);
+   GEStateSample(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
    
    void internalInit();
    void update(float DeltaTime);
    void render();
    void release();
    
-   void inputTouchBegin(int ID, const GEVector2& Point);
+   void inputTouchBegin(int ID, const GE::Vector2& Point);
 };
 
 #endif

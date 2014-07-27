@@ -13,10 +13,10 @@
 class CCar
 {
 private:
-    GEVector3 vPosition;
+    GE::Vector3 vPosition;
     float fAngle;
 
-    GEVector3 vForward;
+    GE::Vector3 vForward;
     float fSpeed;
 
     float fRotation;
@@ -25,14 +25,14 @@ private:
     bool bReverse;
 
     void updateStatus(float fDeltaTime);
-    void calculateSteering(float fDeltaTime, GEVector3& vTargetPoint);
+    void calculateSteering(float fDeltaTime, GE::Vector3& vTargetPoint);
 
 public:
     CCar();
     ~CCar();
 
-    void update(float DeltaTime, GEVector3& TargetPoint);
+    void update(float DeltaTime, GE::Vector3& TargetPoint);
 
-    const GEVector3& getPosition();
+    const GE::Vector3& getPosition();
     float getAngle();
 };

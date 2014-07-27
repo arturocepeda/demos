@@ -13,6 +13,8 @@
 #include <iostream>
 #include <stdlib.h>
 
+using namespace GE::Core;
+
 //
 //  AHAIData
 //
@@ -24,9 +26,9 @@ bool AHAIData::targetPositionReached()
 float AHAIData::predictPositionX(float Y)
 {
     double dX;
-    GELine cLine(pPuckPosition.x, pPuckPosition.y,
-             pPuckPosition.x + vPuckVelocity.x,
-             pPuckPosition.y + vPuckVelocity.y);
+    Line cLine(pPuckPosition.x, pPuckPosition.y,
+               pPuckPosition.x + vPuckVelocity.x,
+               pPuckPosition.y + vPuckVelocity.y);
 
     if(!cLine.can_calculate_x())
         return pMyPosition.x;
@@ -556,7 +558,7 @@ void AHAIStatePrepareShot::enter()
     pPuckFuturePosition.x = sData->predictPositionX(pPuckFuturePosition.y);
 
     // shot line
-    cShotLine = new GELine(sData->pShotPoint.x, sData->pShotPoint.y, pPuckFuturePosition.x, pPuckFuturePosition.y);
+    cShotLine = new Line(sData->pShotPoint.x, sData->pShotPoint.y, pPuckFuturePosition.x, pPuckFuturePosition.y);
     sData->pTargetPosition = sData->pMyPosition;
 
     if(cShotLine->can_calculate_x())

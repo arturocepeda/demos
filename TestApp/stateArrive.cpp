@@ -9,8 +9,13 @@
 #include <stdio.h>
 #include <cmath>
 
-CStateArrive::CStateArrive(GERendering* Render, GEAudio* Audio, void* GlobalData)
-    : GEState(Render, Audio, GlobalData)
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
+CStateArrive::CStateArrive(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+    : State(Render, Audio, GlobalData)
     , bMovingForward(false)
     , bMovingBackward(false)
     , bMovingLeft(false)
@@ -32,11 +37,11 @@ void CStateArrive::internalInit()
 void CStateArrive::initRenderObjects()
 {
     // lighting
-    cRender->setAmbientLightColor(GEColor((byte)255, 255, 255));
+    cRender->setAmbientLightColor(Color((byte)255, 255, 255));
 
     // camera
     cRender->createCamera(&cCamera);
-    cCamera->setPosition(GEVector3(-5.0f, 2.0f, 0.0f));
+    cCamera->setPosition(Vector3(-5.0f, 2.0f, 0.0f));
     fPitch = 0.5f;
     fYaw = -0.8f;
 
@@ -67,7 +72,7 @@ void CStateArrive::initRenderObjects()
     bColorSelectedInc = false;
 
     // labels
-    cRender->createLabel(&cLabelDebug, iFontText, GEAlignment::TopCenter, GEVector2(1024.0f, 128.0f), "");
+    cRender->createLabel(&cLabelDebug, iFontText, Alignment::TopCenter, Vector2(1024.0f, 128.0f), "");
     cLabelDebug->setPosition(0.0f, 24.0f);
 }
 
@@ -93,7 +98,7 @@ void CStateArrive::update(float DeltaTime)
     // car
     cCar.update(fDeltaTime, vTargetPoint);
     mMeshCar->setPosition(cCar.getPosition());
-    mMeshCar->setRotation(0.0f, cCar.getAngle() + PI, 0.0f);
+    mMeshCar->setRotation(0.0f, cCar.getAngle() + GE_PI, 0.0f);
 
     // selected color animation
     cColorSelected.R += (bColorSelectedInc ? fDeltaTime : -fDeltaTime) * 0.001f;
@@ -198,7 +203,7 @@ void CStateArrive::inputKeyRelease(char Key)
 
 void CStateArrive::inputMouseLeftButton()
 {
-    vTargetPoint = GEVector3(getRand() * 5.0f, 0.0f, getRand() * 5.0f);
+    vTargetPoint = Vector3(getRand() * 5.0f, 0.0f, getRand() * 5.0f);
 
     mMeshTarget->setPosition(vTargetPoint);
     mMeshTarget->setVisible(true);
@@ -227,5 +232,5 @@ void CStateArrive::moveCameraMouse()
     float fForwardBack = fInThePlane * cosf(fYaw);
     float fLeftRight = fInThePlane * sinf(fYaw);
 
-    cCamera->lookAt(cCamera->getPosition() + GEVector3(fLeftRight, fVertical, fForwardBack));
+    cCamera->lookAt(cCamera->getPosition() + Vector3(fLeftRight, fVertical, fForwardBack));
 }

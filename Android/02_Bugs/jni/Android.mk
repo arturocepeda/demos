@@ -1,6 +1,8 @@
 LOCAL_PATH := $(call my-dir)
 
-include $(LOCAL_PATH)/../../GameEnginePrebuiltDebug.mk
+BUILD_CONFIG := Debug
+
+include $(LOCAL_PATH)/../../GameEngine.mk
 include $(CLEAR_VARS)
 
 LOCAL_MODULE            := Bugs

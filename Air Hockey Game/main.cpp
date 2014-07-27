@@ -14,12 +14,12 @@
 #include "main.h"
 
 #include "Core/GETimer.h"
-#include "Rendering/GERendering.h"
-#include "Audio/GEAudio.h"
+#include "Rendering/GERenderSystem.h"
+#include "Audio/GEAudioSystem.h"
 #include "States/GEState.h"
 
-#include "Rendering/Direct3D/GERenderingD3D9.h"
-#include "Audio/FMOD/GEAudioFMOD.h"
+#include "Rendering/Direct3D/GERenderSystemD3D9.h"
+#include "Audio/FMOD/GEAudioSystemFMOD.h"
 
 #include "stateMenu.h"
 #include "stateMatch.h"
@@ -30,13 +30,19 @@
 #pragma comment(lib, "..\\..\\SDK\\FMOD\\api\\lib\\fmodex_vc.lib")
 #pragma comment(lib, "ws2_32.lib")
 
+using namespace GE;
+using namespace GE::Core;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+using namespace GE::States;
+
 SGlobal sGlobal;                    // global data
-GERendering* cRender;               // rendering system
-GEAudio* cAudio;                    // audio system
+RenderSystem* cRender;              // rendering system
+AudioSystem* cAudio;                // audio system
 bool bEnd;                          // loop ending flag
 
 // states
-GEState* cCurrentState;
+State* cCurrentState;
 CStateMenu* cStateMenu;
 CStateMatch* cStateMatch;
 
@@ -88,13 +94,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
     // initialize rendering and sound systems
 #ifndef _DEBUG
-    cRender = new GERenderingD3D9(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new RenderSystemD3D9(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #else
-    cRender = new GERenderingD3D9(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new RenderSystemD3D9(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #endif
-    cAudio = new GEAudioFMOD();
+    cAudio = new AudioSystemFMOD();
     cAudio->init();
-    cAudio->setListenerPosition(GEVector3(0.0f, 0.0f, 0.0f));
+    cAudio->setListenerPosition(Vector3(0.0f, 0.0f, 0.0f));
 
     // hide the mouse pointer
     ShowCursor(false);
@@ -106,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     DefaultSettings();
 
     // timer
-    GETimer cTimer;
+    Timer cTimer;
     cTimer.start();
 
     bEnd = false;
@@ -210,13 +216,13 @@ void StateChange(unsigned int iNewState)
     // menu
     case STATE_MENU:
         cStateMenu = new CStateMenu(cRender, cAudio, &sGlobal);
-        cCurrentState = (GEState*)cStateMenu;
+        cCurrentState = (State*)cStateMenu;
         break;
 
     // match
     case STATE_MATCH:
         cStateMatch = new CStateMatch(cRender, cAudio, &sGlobal);
-        cCurrentState = (GEState*)cStateMatch;
+        cCurrentState = (State*)cStateMatch;
         break;
     }
 

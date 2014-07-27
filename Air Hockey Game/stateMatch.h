@@ -59,7 +59,7 @@ struct SReplayFrame
     bool Interpolate;
 };
 
-class CStateMatch : public GEState
+class CStateMatch : public GE::States::State
 {
 private:
     // global data
@@ -91,10 +91,10 @@ private:
     bool bPlayAgain;
 
     // multiplayer
-    GEServer* cServer;
-    GEClient* cClient;
+    GE::Multiplayer::Server* cServer;
+    GE::Multiplayer::Client* cClient;
+    GE::Multiplayer::SRemoteAddress sClientAddress;
     char sUDPBuffer[MSG_SIZE];
-    SRemoteAddress sClientAddress;
     bool bClientReady;
     bool bServerReady;
 
@@ -115,30 +115,30 @@ private:
     unsigned int iLightRoom;
 
     // cameras
-    GECamera* mCameraPlayer1;
-    GECamera* mCameraPlayer2;
-    GECamera* mCameraReplay[REPLAY_CAMERAS];
+    GE::Rendering::Camera* mCameraPlayer1;
+    GE::Rendering::Camera* mCameraPlayer2;
+    GE::Rendering::Camera* mCameraReplay[REPLAY_CAMERAS];
         
     // meshes
-    GEMesh* mMeshMallet1;
-    GEMesh* mMeshMallet2;
-    GEMesh* mMeshPuck;
-    GEMesh* mMeshTable;
-    GEMesh* mMeshRoom;
+    GE::Rendering::Mesh* mMeshMallet1;
+    GE::Rendering::Mesh* mMeshMallet2;
+    GE::Rendering::Mesh* mMeshPuck;
+    GE::Rendering::Mesh* mMeshTable;
+    GE::Rendering::Mesh* mMeshRoom;
     bool bPuckVisible;
 
     // sprites
-    GESprite* sDisplay[10];
-    GESprite* sDisplaySeparator;
-    GESprite* sFrame;
+    GE::Rendering::Sprite* sDisplay[10];
+    GE::Rendering::Sprite* sDisplaySeparator;
+    GE::Rendering::Sprite* sFrame;
 
     // fonts
     unsigned int iFontText;
     unsigned int iFontDebug;
 
     // labels
-    GELabel* lLabelMessage;
-    GELabel* lLabelDebug;
+    GE::Rendering::Label* lLabelMessage;
+    GE::Rendering::Label* lLabelDebug;
 
     // view ports (split)
     unsigned int iPortFullScreen;
@@ -153,8 +153,8 @@ private:
     static char sKinectInfo[512];
 
     // colors
-    GEColor cColorMessage;
-    GEColor cColorDebug;
+    GE::Color cColorMessage;
+    GE::Color cColorDebug;
 
     // sound handlers
     unsigned int iChannelMallet1;
@@ -191,7 +191,7 @@ private:
     void endOfTheMatch();
 
 public:
-    CStateMatch(GERendering* Render, GEAudio* Audio, void* GlobalData);
+    CStateMatch(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
     ~CStateMatch();
 
     void internalInit();

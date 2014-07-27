@@ -17,24 +17,30 @@
 #include <typeinfo>
 
 #include "config.h"
-#include "Rendering/OpenGL/GERenderingES20.h"
-#include "Audio/OpenSL/GEAudioOpenSL.h"
+#include "Rendering/OpenGL/GERenderSystemES20.h"
+#include "Audio/OpenSL/GEAudioSystemOpenSL.h"
 #include "Core/GEDevice.h"
 #include "States/GEState.h"
 #include "Core/GETimer.h"
 
 #include "StateSample.h"
 
-GERendering* cRender;
-GEAudio* cAudio;
-GEState* cStates[NUM_STATES];
+using namespace GE;
+using namespace GE::Core;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+using namespace GE::States;
 
-GETimer cTimer;
+RenderSystem* cRender;
+AudioSystem* cAudio;
+State* cStates[NUM_STATES];
+
+Timer cTimer;
 double dTime;
 
 int iCurrentState;
 int iFingerID[MAX_FINGERS];
-GEVector2 vFingerPosition[MAX_FINGERS];
+Vector2 vFingerPosition[MAX_FINGERS];
 
 extern "C"
 {
@@ -51,21 +57,19 @@ extern "C"
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNIEnv* env, jobject obj, jint width, jint height)
 {
    // screen size
-   GEDevice::ScreenWidth = width;
-   GEDevice::ScreenHeight = height;
-
-   __android_log_print(ANDROID_LOG_VERBOSE, "GameEngine", "Width: %d - Height: %d", width, height);
+   Device::ScreenWidth = width;
+   Device::ScreenHeight = height;
 
    // IDs for touch management
    for(int i = 0; i < MAX_FINGERS; i++)
       iFingerID[i] = -1;
    
     // initialize rendering system
-   cRender = new GERenderingES20();
-   cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
+   cRender = new RenderSystemES20();
+   cRender->setBackgroundColor(Color(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
-   cAudio = new GEAudioOpenSL();
+   cAudio = new AudioSystemOpenSL();
    cAudio->init();
    
    // create states
@@ -129,7 +133,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputTouchMove
    {
       if(iFingerID[i] == index)
       {
-         GEVector2 vPreviousPosition(vFingerPosition[i]);
+         Vector2 vPreviousPosition(vFingerPosition[i]);
          vFingerPosition[i].X = x;
          vFingerPosition[i].Y = y;
          cStates[iCurrentState]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);
@@ -168,5 +172,5 @@ const float AccelFactor = 0.01f;
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z)
 {
    if(cStates[iCurrentState])
-      cStates[iCurrentState]->updateAccelerometerStatus(GEVector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
+      cStates[iCurrentState]->updateAccelerometerStatus(Vector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
 }

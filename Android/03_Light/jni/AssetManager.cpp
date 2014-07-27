@@ -13,6 +13,8 @@
 #include <android/asset_manager_jni.h>
 #include "Core/GEDevice.h"
 
+using namespace GE::Core;
+
 static AAssetManager* NativeAssetManager = 0;
 
 extern "C"
@@ -23,7 +25,7 @@ extern "C"
    }
 };
 
-unsigned int GEDevice::getFileLength(const char* Filename)
+unsigned int Device::getFileLength(const char* Filename)
 {
     AAsset* aAsset = AAssetManager_open(NativeAssetManager, Filename, AASSET_MODE_UNKNOWN);
     
@@ -37,7 +39,7 @@ unsigned int GEDevice::getFileLength(const char* Filename)
     return 0;
 }
 
-unsigned int GEDevice::readFile(const char* Filename, unsigned char* ReadBuffer, unsigned int BufferSize)
+unsigned int Device::readFile(const char* Filename, unsigned char* ReadBuffer, unsigned int BufferSize)
 {
     AAsset* aAsset = AAssetManager_open(NativeAssetManager, Filename, AASSET_MODE_UNKNOWN);
     

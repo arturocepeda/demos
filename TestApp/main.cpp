@@ -14,13 +14,13 @@
 #include "main.h"
 
 #include "Core/GETimer.h"
-#include "Rendering/GERendering.h"
-#include "Audio/GEAudio.h"
+#include "Rendering/GERenderSystem.h"
+#include "Audio/GEAudioSystem.h"
 #include "States/GEState.h"
 
 #include "Core/GETimer.h"
-#include "Rendering/Direct3D/GERenderingD3D9.h"
-#include "Audio/FMOD/GEAudioFMOD.h"
+#include "Rendering/Direct3D/GERenderSystemD3D9.h"
+#include "Audio/FMOD/GEAudioSystemFMOD.h"
 
 #include "stateFacing.h"
 #include "stateArrive.h"
@@ -30,15 +30,21 @@
 #pragma comment(lib, "..\\..\\SDK\\DirectX\\Lib\\x86\\d3dx9.lib")
 #pragma comment(lib, "..\\..\\SDK\\FMOD\\api\\lib\\fmodex_vc.lib")
 
+using namespace GE;
+using namespace GE::Core;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
 SGlobal sGlobal;                    // global data
-GERendering* cRender;               // rendering system
-GEAudio* cAudio;                    // audio system
+RenderSystem* cRender;              // rendering system
+AudioSystem* cAudio;                // audio system
 bool bEnd;                          // loop ending flag
 
 // states
-GEState* cCurrentState;
-GEState* cStateFacing;
-GEState* cStateArrive;
+State* cCurrentState;
+State* cStateFacing;
+State* cStateArrive;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, int iCmdShow)
 {
@@ -88,13 +94,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
 
     // initialize rendering and sound systems
 #ifndef _DEBUG
-    cRender = new GERenderingD3D9(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new RenderSystemD3D9(hWnd, false, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #else
-    cRender = new GERenderingD3D9(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
+    cRender = new RenderSystemD3D9(hWnd, true, sGlobal.ScreenSizeX, sGlobal.ScreenSizeY);
 #endif
-    cAudio = new GEAudioFMOD();
+    cAudio = new AudioSystemFMOD();
     cAudio->init();
-    cAudio->setListenerPosition(GEVector3(0.0f, 0.0f, 0.0f));
+    cAudio->setListenerPosition(Vector3(0.0f, 0.0f, 0.0f));
 
     // hide the mouse pointer
     ShowCursor(false);
@@ -103,7 +109,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     sGlobal.iFPS = 60;
 
     // timer
-    GETimer cTimer;
+    Timer cTimer;
     cTimer.start();
 
     bEnd = false;
@@ -117,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     
     // initialize States
     cCurrentState = NULL;
-    StateChange(STATE_FACING);
+    StateChange(STATE_ARRIVE);
 
     // game loop
     while(!bEnd)

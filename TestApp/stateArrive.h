@@ -11,11 +11,11 @@
 #include "States/GEState.h"
 #include "car.h"
 
-class CStateArrive : public GEState
+class CStateArrive : public GE::States::State
 {
 private:
     // camera
-    GECamera* cCamera;
+    GE::Rendering::Camera* cCamera;
     float fPitch;
     float fYaw;
 
@@ -25,25 +25,25 @@ private:
     bool bMovingRight;
 
     // meshes
-    GEMesh* mMeshCar;
-    GEMesh* mMeshRoom;
-    GEMesh* mMeshTarget;
+    GE::Rendering::Mesh* mMeshCar;
+    GE::Rendering::Mesh* mMeshRoom;
+    GE::Rendering::Mesh* mMeshTarget;
 
     // color
-    GEColor cColorOption;
-    GEColor cColorSelected;
+    GE::Color cColorOption;
+    GE::Color cColorSelected;
     bool bColorSelectedInc;
 
     // fonts
     unsigned int iFontText;
 
     // labels
-    GELabel* cLabelDebug;
+    GE::Rendering::Label* cLabelDebug;
     char sMessage[256];
 
     // data
     CCar cCar;
-    GEVector3 vTargetPoint;
+    GE::Vector3 vTargetPoint;
     float fDeltaTime;
 
     void playSounds();
@@ -60,7 +60,7 @@ private:
     float getRand();
 
 public:
-    CStateArrive(GERendering* Render, GEAudio* Audio, void* GlobalData);
+    CStateArrive(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
     ~CStateArrive();
 
     void internalInit();

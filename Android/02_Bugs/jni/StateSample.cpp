@@ -19,8 +19,13 @@
 #include "Core/GEConstants.h"
 #include "Core/GEDevice.h"
 
-GEStateSample::GEStateSample(GERendering* Render, GEAudio* Audio, void* GlobalData)
-   : GEState(Render, Audio, GlobalData)
+using namespace GE;
+using namespace GE::States;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+
+GEStateSample::GEStateSample(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
+   : State(Render, Audio, GlobalData)
    , cRandEvent(0.0f)
    , cRandBugType(0, BUG_TYPES - 1)
    , cRandBugSize(BUG_SIZE_MIN * 0.01f, BUG_SIZE_MAX * 0.01f)
@@ -45,7 +50,7 @@ void GEStateSample::internalInit()
    // sprites
    cRender->createSprite(&cSpriteBackground);
    cSpriteBackground->setTexture(cRender->getTexture(0));
-   cSpriteBackground->setSize(GEVector2(4.0f, 4.0f));
+   cSpriteBackground->setSize(Vector2(4.0f, 4.0f));
    
    for(unsigned int i = 0; i < BUG_TYPES; i++)
    {
@@ -62,14 +67,14 @@ void GEStateSample::internalInit()
    cRender->defineFont(0, "Test", 24.0f);
     
    // text
-   cRender->createLabel(&cTextSmashed, 0, TopLeft, GEVector2(0.1f, 0.1f), "Smashed: 0");
+   cRender->createLabel(&cTextSmashed, 0, TopLeft, Vector2(0.1f, 0.1f), "Smashed: 0");
    cTextSmashed->setPosition(-0.9f, 1.3f);
-   cTextSmashed->setColor(GEColor(0.5f, 0.5f, 0.8f));
+   cTextSmashed->setColor(Color(0.5f, 0.5f, 0.8f));
    cTextSmashed->setHorizontalSpacing(0.1f);
    
-   cRender->createLabel(&cTextEscaped, 0, TopLeft, GEVector2(0.1f, 0.1f), "Escaped: 0");
+   cRender->createLabel(&cTextEscaped, 0, TopLeft, Vector2(0.1f, 0.1f), "Escaped: 0");
    cTextEscaped->setPosition(0.09f, 1.3f);
-   cTextEscaped->setColor(GEColor(0.8f, 0.5f, 0.5f));
+   cTextEscaped->setColor(Color(0.8f, 0.5f, 0.5f));
    cTextEscaped->setHorizontalSpacing(0.1f);
    
    // sound
@@ -168,8 +173,8 @@ void GEStateSample::generateBug()
    sBug.Opacity = 1.0f;
    sBug.CurrentStep = 0;
    
-   memset(&sBug.Position, 0, sizeof(GEVector3));
-   memset(&sBug.Destiny, 0, sizeof(GEVector3));
+   memset(&sBug.Position, 0, sizeof(Vector3));
+   memset(&sBug.Destiny, 0, sizeof(Vector3));
    
    // line
    int iType = rand() % 4;
@@ -220,10 +225,10 @@ void GEStateSample::generateBug()
 void GEStateSample::render()
 {
    unsigned int i;
-   GESprite* cSprite;
+   Sprite* cSprite;
    
    // background
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::HUD);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::HUD);
    cRender->renderSprite(cSpriteBackground);
    
    // running bugs
@@ -231,7 +236,7 @@ void GEStateSample::render()
    {
       cSprite = cSpriteBug[vBugs[i].Type][vBugs[i].CurrentStep];
       cSprite->setPosition(vBugs[i].Position.X, vBugs[i].Position.Y);
-      cSprite->setSize(GEVector2(vBugs[i].Size, vBugs[i].Size));
+      cSprite->setSize(Vector2(vBugs[i].Size, vBugs[i].Size));
       cSprite->setRotation(0.0f, 0.0f, vBugs[i].Angle);
       cSprite->setOpacity(1.0f);
       cRender->renderSprite(cSprite);
@@ -242,19 +247,19 @@ void GEStateSample::render()
    {
       cSprite = cSpriteBug[vBugsSmashed[i].Type][vBugsSmashed[i].CurrentStep];
       cSprite->setPosition(vBugsSmashed[i].Position.X, vBugsSmashed[i].Position.Y);
-      cSprite->setSize(GEVector2(vBugsSmashed[i].Size, vBugsSmashed[i].Size));
+      cSprite->setSize(Vector2(vBugsSmashed[i].Size, vBugsSmashed[i].Size));
       cSprite->setRotation(0.0f, 0.0f, vBugsSmashed[i].Angle);
       cSprite->setOpacity(vBugsSmashed[i].Opacity);
       cRender->renderSprite(cSprite);
    }
    
    // text
-   cRender->useShaderProgram((unsigned int)GEShaderPrograms::Text);
+   cRender->useShaderProgram((unsigned int)ShaderPrograms::Text);
    cRender->renderLabel(cTextSmashed);
    cRender->renderLabel(cTextEscaped);
 }
 
-void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
+void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
    // just one finger at the same time!
    if(ID > 0)
@@ -264,7 +269,7 @@ void GEStateSample::inputTouchBegin(int ID, const GEVector2& Point)
    cAudio->playSound(0, 0);
    
    // get finger position
-   GEVector2 vFinger = cRender->pixelToScreen(Point);
+   Vector2 vFinger = cRender->pixelToScreen(Point);
    
    // check if a bug has been smashed
    for(unsigned int i = 0; i < vBugs.size(); i++)

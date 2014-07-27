@@ -75,8 +75,8 @@ private:
     AHVector vMouseRatio;
 
     // random generators
-    GERandFloat* cRandomPosX;
-    GERandFloat* cRandomPosY;
+    GE::Core::RandFloat* cRandomPosX;
+    GE::Core::RandFloat* cRandomPosY;
 
     void create(float fCenterX, float fCenterY, float fTableWidth, float fTableHeight);
     void initialize();
