@@ -1,0 +1,2 @@
+set solib-search-path ./obj/local/armeabi-v7a
+directory C:/NVPACK/android-ndk-r9d/platforms/android-9/arch-arm/usr/include jni jni/../../../../../GameEngine jni/../../../source/01_Overview C:/NVPACK/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include C:/NVPACK/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/libs/armeabi-v7a/include C:/NVPACK/android-ndk-r9d/sources/cxx-stl/gnu-libstdc++/4.8/include/backward

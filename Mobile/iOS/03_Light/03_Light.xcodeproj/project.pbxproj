@@ -1,0 +1,636 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		69310D9216A8CA8A006C16F8 /* bulb.png in Resources */ = {isa = PBXBuildFile; fileRef = 69310D9116A8CA8A006C16F8 /* bulb.png */; };
+		69650F471937B447002C1A4B /* GERenderingES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F441937B447002C1A4B /* GERenderingES20.cpp */; };
+		69650F481937B447002C1A4B /* GERenderingObjectsES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F451937B447002C1A4B /* GERenderingObjectsES20.cpp */; };
+		69650F491937B447002C1A4B /* GERenderingShadersES20.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F461937B447002C1A4B /* GERenderingShadersES20.cpp */; };
+		69650F511937B454002C1A4B /* GEAudioData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F4B1937B454002C1A4B /* GEAudioData.cpp */; };
+		69650F521937B454002C1A4B /* GEContentData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F4D1937B454002C1A4B /* GEContentData.cpp */; };
+		69650F531937B454002C1A4B /* GEImageData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F4F1937B454002C1A4B /* GEImageData.cpp */; };
+		69650F641937B45E002C1A4B /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F581937B45E002C1A4B /* pugixml.cpp */; };
+		69650F661937B45E002C1A4B /* stb_image.c in Sources */ = {isa = PBXBuildFile; fileRef = 69650F5F1937B45E002C1A4B /* stb_image.c */; };
+		69650F6B1937B4A6002C1A4B /* mesh_color.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69650F671937B48B002C1A4B /* mesh_color.fsh */; };
+		69650F6C1937B4A6002C1A4B /* mesh_color.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 69650F681937B48B002C1A4B /* mesh_color.vsh */; };
+		69650F6E1937B57D002C1A4B /* StateSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 69650F6D1937B57D002C1A4B /* StateSample.cpp */; };
+		6969B6761912B32B0020E764 /* GEAudio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6421912B32B0020E764 /* GEAudio.cpp */; };
+		6969B6771912B32B0020E764 /* GEAudioOpenAL.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6461912B32B0020E764 /* GEAudioOpenAL.mm */; };
+		6969B6781912B32B0020E764 /* GETimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6491912B32B0020E764 /* GETimer.cpp */; };
+		6969B6791912B32B0020E764 /* GEUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B64C1912B32B0020E764 /* GEUtils.cpp */; };
+		6969B67A1912B32B0020E764 /* GEDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6501912B32B0020E764 /* GEDevice.mm */; };
+		6969B67F1912B32B0020E764 /* GEGraphicsDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B65C1912B32B0020E764 /* GEGraphicsDevice.cpp */; };
+		6969B6801912B32B0020E764 /* GERendering.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B65E1912B32B0020E764 /* GERendering.cpp */; };
+		6969B6811912B32B0020E764 /* GERenderingObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6601912B32B0020E764 /* GERenderingObjects.cpp */; };
+		6969B68D1912B32B0020E764 /* GEState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B6731912B32B0020E764 /* GEState.cpp */; };
+		6969B68E1912B36A0020E764 /* hud.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6321912B31C0020E764 /* hud.fsh */; };
+		6969B68F1912B36A0020E764 /* hud.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6331912B31C0020E764 /* hud.vsh */; };
+		6969B6901912B36A0020E764 /* mesh_texture.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6341912B31C0020E764 /* mesh_texture.fsh */; };
+		6969B6911912B36A0020E764 /* mesh_texture.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6351912B31C0020E764 /* mesh_texture.vsh */; };
+		6969B6921912B36A0020E764 /* text.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6361912B31C0020E764 /* text.fsh */; };
+		6969B6931912B36A0020E764 /* text.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6969B6371912B31C0020E764 /* text.vsh */; };
+		CEE0D4121874FEA10055FA21 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE0D4111874FEA10055FA21 /* Default-568h@2x.png */; };
+		CEE0D4181874FF2C0055FA21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE0D4141874FF2C0055FA21 /* AppDelegate.m */; };
+		CEE0D4191874FF2C0055FA21 /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE0D4151874FF2C0055FA21 /* iPad.storyboard */; };
+		CEE0D41A1874FF2C0055FA21 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEE0D4161874FF2C0055FA21 /* iPhone.storyboard */; };
+		CEE0D41B1874FF2C0055FA21 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE0D4171874FF2C0055FA21 /* main.m */; };
+		CEE82F6C16679399004FBB96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6B16679399004FBB96 /* UIKit.framework */; };
+		CEE82F6E16679399004FBB96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6D16679399004FBB96 /* Foundation.framework */; };
+		CEE82F7016679399004FBB96 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F6F16679399004FBB96 /* CoreGraphics.framework */; };
+		CEE82F7216679399004FBB96 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F7116679399004FBB96 /* GLKit.framework */; };
+		CEE82F7416679399004FBB96 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F7316679399004FBB96 /* OpenGLES.framework */; };
+		CEE82F7A16679399004FBB96 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEE82F7816679399004FBB96 /* InfoPlist.strings */; };
+		CEE82F8D16679399004FBB96 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEE82F8C16679399004FBB96 /* ViewController.mm */; };
+		CEE82F98166794A2004FBB96 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F97166794A2004FBB96 /* CoreAudio.framework */; };
+		CEE82F9B166794AA004FBB96 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F9A166794AA004FBB96 /* OpenAL.framework */; };
+		CEE82F9D166794B4004FBB96 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE82F9C166794B4004FBB96 /* AudioToolbox.framework */; };
+		CEE82FAD166797EF004FBB96 /* banana.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEE82FA9166797EF004FBB96 /* banana.jpg */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		69310D9116A8CA8A006C16F8 /* bulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bulb.png; path = Resources/Textures/bulb.png; sourceTree = "<group>"; };
+		69650F441937B447002C1A4B /* GERenderingES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingES20.cpp; sourceTree = "<group>"; };
+		69650F451937B447002C1A4B /* GERenderingObjectsES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingObjectsES20.cpp; sourceTree = "<group>"; };
+		69650F461937B447002C1A4B /* GERenderingShadersES20.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingShadersES20.cpp; sourceTree = "<group>"; };
+		69650F4B1937B454002C1A4B /* GEAudioData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEAudioData.cpp; sourceTree = "<group>"; };
+		69650F4C1937B454002C1A4B /* GEAudioData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudioData.h; sourceTree = "<group>"; };
+		69650F4D1937B454002C1A4B /* GEContentData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEContentData.cpp; sourceTree = "<group>"; };
+		69650F4E1937B454002C1A4B /* GEContentData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEContentData.h; sourceTree = "<group>"; };
+		69650F4F1937B454002C1A4B /* GEImageData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEImageData.cpp; sourceTree = "<group>"; };
+		69650F501937B454002C1A4B /* GEImageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEImageData.h; sourceTree = "<group>"; };
+		69650F561937B45E002C1A4B /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
+		69650F581937B45E002C1A4B /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
+		69650F591937B45E002C1A4B /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
+		69650F5C1937B45E002C1A4B /* stb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb.h; sourceTree = "<group>"; };
+		69650F5D1937B45E002C1A4B /* stb_divide.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_divide.h; sourceTree = "<group>"; };
+		69650F5E1937B45E002C1A4B /* stb_dxt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_dxt.h; sourceTree = "<group>"; };
+		69650F5F1937B45E002C1A4B /* stb_image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stb_image.c; sourceTree = "<group>"; };
+		69650F601937B45E002C1A4B /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		69650F611937B45E002C1A4B /* stb_image_write.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_write.h; sourceTree = "<group>"; };
+		69650F621937B45E002C1A4B /* stb_perlin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_perlin.h; sourceTree = "<group>"; };
+		69650F671937B48B002C1A4B /* mesh_color.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.fsh; sourceTree = "<group>"; };
+		69650F681937B48B002C1A4B /* mesh_color.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_color.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_color.vsh; sourceTree = "<group>"; };
+		69650F6D1937B57D002C1A4B /* StateSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StateSample.cpp; path = ../../source/03_Light/StateSample.cpp; sourceTree = "<group>"; };
+		6969B6321912B31C0020E764 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
+		6969B6331912B31C0020E764 /* hud.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/hud.vsh; sourceTree = "<group>"; };
+		6969B6341912B31C0020E764 /* mesh_texture.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.fsh; sourceTree = "<group>"; };
+		6969B6351912B31C0020E764 /* mesh_texture.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = mesh_texture.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/mesh_texture.vsh; sourceTree = "<group>"; };
+		6969B6361912B31C0020E764 /* text.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.fsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.fsh; sourceTree = "<group>"; };
+		6969B6371912B31C0020E764 /* text.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = text.vsh; path = ../../../GameEngine/Rendering/OpenGL/Shaders/text.vsh; sourceTree = "<group>"; };
+		6969B6421912B32B0020E764 /* GEAudio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEAudio.cpp; sourceTree = "<group>"; };
+		6969B6431912B32B0020E764 /* GEAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudio.h; sourceTree = "<group>"; };
+		6969B6451912B32B0020E764 /* GEAudioOpenAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAudioOpenAL.h; sourceTree = "<group>"; };
+		6969B6461912B32B0020E764 /* GEAudioOpenAL.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GEAudioOpenAL.mm; sourceTree = "<group>"; };
+		6969B6481912B32B0020E764 /* GEConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEConstants.h; sourceTree = "<group>"; };
+		6969B6491912B32B0020E764 /* GETimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GETimer.cpp; sourceTree = "<group>"; };
+		6969B64A1912B32B0020E764 /* GETimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETimer.h; sourceTree = "<group>"; };
+		6969B64B1912B32B0020E764 /* GETypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETypes.h; sourceTree = "<group>"; };
+		6969B64C1912B32B0020E764 /* GEUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEUtils.cpp; sourceTree = "<group>"; };
+		6969B64D1912B32B0020E764 /* GEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEUtils.h; sourceTree = "<group>"; };
+		6969B64F1912B32B0020E764 /* GEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDevice.h; sourceTree = "<group>"; };
+		6969B6501912B32B0020E764 /* GEDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GEDevice.mm; sourceTree = "<group>"; };
+		6969B65C1912B32B0020E764 /* GEGraphicsDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEGraphicsDevice.cpp; sourceTree = "<group>"; };
+		6969B65D1912B32B0020E764 /* GEGraphicsDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEGraphicsDevice.h; sourceTree = "<group>"; };
+		6969B65E1912B32B0020E764 /* GERendering.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERendering.cpp; sourceTree = "<group>"; };
+		6969B65F1912B32B0020E764 /* GERendering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERendering.h; sourceTree = "<group>"; };
+		6969B6601912B32B0020E764 /* GERenderingObjects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingObjects.cpp; sourceTree = "<group>"; };
+		6969B6611912B32B0020E764 /* GERenderingObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingObjects.h; sourceTree = "<group>"; };
+		6969B6631912B32B0020E764 /* GERenderingES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingES20.h; sourceTree = "<group>"; };
+		6969B6651912B32B0020E764 /* GERenderingObjectsES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingObjectsES20.h; sourceTree = "<group>"; };
+		6969B6671912B32B0020E764 /* GERenderingShadersES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingShadersES20.h; sourceTree = "<group>"; };
+		6969B6731912B32B0020E764 /* GEState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEState.cpp; sourceTree = "<group>"; };
+		6969B6741912B32B0020E764 /* GEState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEState.h; sourceTree = "<group>"; };
+		6995DCA5187E095800CF404B /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Prefix.pch; path = ../../common/Prefix.pch; sourceTree = "<group>"; };
+		CEC1A80816937F75006E3F90 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ../../source/03_Light/config.h; sourceTree = "<group>"; };
+		CEE0D4111874FEA10055FA21 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../common/Default-568h@2x.png"; sourceTree = "<group>"; };
+		CEE0D4131874FF2C0055FA21 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../common/AppDelegate.h; sourceTree = "<group>"; };
+		CEE0D4141874FF2C0055FA21 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../common/AppDelegate.m; sourceTree = "<group>"; };
+		CEE0D4151874FF2C0055FA21 /* iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iPad.storyboard; path = ../../common/iPad.storyboard; sourceTree = "<group>"; };
+		CEE0D4161874FF2C0055FA21 /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iPhone.storyboard; path = ../../common/iPhone.storyboard; sourceTree = "<group>"; };
+		CEE0D4171874FF2C0055FA21 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ../../common/main.m; sourceTree = "<group>"; };
+		CEE82F6716679399004FBB96 /* 03_Light.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 03_Light.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEE82F6B16679399004FBB96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CEE82F6D16679399004FBB96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CEE82F6F16679399004FBB96 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CEE82F7116679399004FBB96 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		CEE82F7316679399004FBB96 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		CEE82F7716679399004FBB96 /* 03_Light-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "03_Light-Info.plist"; sourceTree = "<group>"; };
+		CEE82F7916679399004FBB96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CEE82F8B16679399004FBB96 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		CEE82F8C16679399004FBB96 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		CEE82F97166794A2004FBB96 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		CEE82F9A166794AA004FBB96 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		CEE82F9C166794B4004FBB96 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CEE82FA5166797DB004FBB96 /* banana.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = banana.h; path = Resources/Models/banana.h; sourceTree = "<group>"; };
+		CEE82FA9166797EF004FBB96 /* banana.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = banana.jpg; path = Resources/Textures/banana.jpg; sourceTree = "<group>"; };
+		CEE82FB216679817004FBB96 /* StateSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StateSample.h; path = ../../source/03_Light/StateSample.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEE82F6416679399004FBB96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEE82F9D166794B4004FBB96 /* AudioToolbox.framework in Frameworks */,
+				CEE82F9B166794AA004FBB96 /* OpenAL.framework in Frameworks */,
+				CEE82F98166794A2004FBB96 /* CoreAudio.framework in Frameworks */,
+				CEE82F6C16679399004FBB96 /* UIKit.framework in Frameworks */,
+				CEE82F6E16679399004FBB96 /* Foundation.framework in Frameworks */,
+				CEE82F7016679399004FBB96 /* CoreGraphics.framework in Frameworks */,
+				CEE82F7216679399004FBB96 /* GLKit.framework in Frameworks */,
+				CEE82F7416679399004FBB96 /* OpenGLES.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		69650F4A1937B454002C1A4B /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				69650F4B1937B454002C1A4B /* GEAudioData.cpp */,
+				69650F4C1937B454002C1A4B /* GEAudioData.h */,
+				69650F4D1937B454002C1A4B /* GEContentData.cpp */,
+				69650F4E1937B454002C1A4B /* GEContentData.h */,
+				69650F4F1937B454002C1A4B /* GEImageData.cpp */,
+				69650F501937B454002C1A4B /* GEImageData.h */,
+			);
+			name = Content;
+			path = ../../../GameEngine/Content;
+			sourceTree = "<group>";
+		};
+		69650F541937B45E002C1A4B /* Externals */ = {
+			isa = PBXGroup;
+			children = (
+				69650F551937B45E002C1A4B /* pugixml */,
+				69650F5A1937B45E002C1A4B /* stblib */,
+			);
+			name = Externals;
+			path = ../../../GameEngine/Externals;
+			sourceTree = "<group>";
+		};
+		69650F551937B45E002C1A4B /* pugixml */ = {
+			isa = PBXGroup;
+			children = (
+				69650F561937B45E002C1A4B /* pugiconfig.hpp */,
+				69650F581937B45E002C1A4B /* pugixml.cpp */,
+				69650F591937B45E002C1A4B /* pugixml.hpp */,
+			);
+			path = pugixml;
+			sourceTree = "<group>";
+		};
+		69650F5A1937B45E002C1A4B /* stblib */ = {
+			isa = PBXGroup;
+			children = (
+				69650F5C1937B45E002C1A4B /* stb.h */,
+				69650F5D1937B45E002C1A4B /* stb_divide.h */,
+				69650F5E1937B45E002C1A4B /* stb_dxt.h */,
+				69650F5F1937B45E002C1A4B /* stb_image.c */,
+				69650F601937B45E002C1A4B /* stb_image.h */,
+				69650F611937B45E002C1A4B /* stb_image_write.h */,
+				69650F621937B45E002C1A4B /* stb_perlin.h */,
+			);
+			path = stblib;
+			sourceTree = "<group>";
+		};
+		6969B6301912B2ED0020E764 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				69650F671937B48B002C1A4B /* mesh_color.fsh */,
+				69650F681937B48B002C1A4B /* mesh_color.vsh */,
+				6969B6321912B31C0020E764 /* hud.fsh */,
+				6969B6331912B31C0020E764 /* hud.vsh */,
+				6969B6341912B31C0020E764 /* mesh_texture.fsh */,
+				6969B6351912B31C0020E764 /* mesh_texture.vsh */,
+				6969B6361912B31C0020E764 /* text.fsh */,
+				6969B6371912B31C0020E764 /* text.vsh */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
+		6969B6311912B2FD0020E764 /* Game Engine */ = {
+			isa = PBXGroup;
+			children = (
+				6969B63E1912B32B0020E764 /* Audio */,
+				69650F4A1937B454002C1A4B /* Content */,
+				6969B6471912B32B0020E764 /* Core */,
+				69650F541937B45E002C1A4B /* Externals */,
+				6969B6541912B32B0020E764 /* Rendering */,
+				6969B6721912B32B0020E764 /* States */,
+			);
+			name = "Game Engine";
+			sourceTree = "<group>";
+		};
+		6969B63E1912B32B0020E764 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				6969B6421912B32B0020E764 /* GEAudio.cpp */,
+				6969B6431912B32B0020E764 /* GEAudio.h */,
+				6969B6441912B32B0020E764 /* OpenAL */,
+			);
+			name = Audio;
+			path = ../../../GameEngine/Audio;
+			sourceTree = "<group>";
+		};
+		6969B6441912B32B0020E764 /* OpenAL */ = {
+			isa = PBXGroup;
+			children = (
+				6969B6451912B32B0020E764 /* GEAudioOpenAL.h */,
+				6969B6461912B32B0020E764 /* GEAudioOpenAL.mm */,
+			);
+			path = OpenAL;
+			sourceTree = "<group>";
+		};
+		6969B6471912B32B0020E764 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				6969B6481912B32B0020E764 /* GEConstants.h */,
+				6969B6491912B32B0020E764 /* GETimer.cpp */,
+				6969B64A1912B32B0020E764 /* GETimer.h */,
+				6969B64B1912B32B0020E764 /* GETypes.h */,
+				6969B64C1912B32B0020E764 /* GEUtils.cpp */,
+				6969B64D1912B32B0020E764 /* GEUtils.h */,
+				6969B64E1912B32B0020E764 /* iOS */,
+			);
+			name = Core;
+			path = ../../../GameEngine/Core;
+			sourceTree = "<group>";
+		};
+		6969B64E1912B32B0020E764 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6969B64F1912B32B0020E764 /* GEDevice.h */,
+				6969B6501912B32B0020E764 /* GEDevice.mm */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		6969B6541912B32B0020E764 /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				6969B65C1912B32B0020E764 /* GEGraphicsDevice.cpp */,
+				6969B65D1912B32B0020E764 /* GEGraphicsDevice.h */,
+				6969B65E1912B32B0020E764 /* GERendering.cpp */,
+				6969B65F1912B32B0020E764 /* GERendering.h */,
+				6969B6601912B32B0020E764 /* GERenderingObjects.cpp */,
+				6969B6611912B32B0020E764 /* GERenderingObjects.h */,
+				6969B6621912B32B0020E764 /* OpenGL */,
+			);
+			name = Rendering;
+			path = ../../../GameEngine/Rendering;
+			sourceTree = "<group>";
+		};
+		6969B6621912B32B0020E764 /* OpenGL */ = {
+			isa = PBXGroup;
+			children = (
+				69650F441937B447002C1A4B /* GERenderingES20.cpp */,
+				69650F451937B447002C1A4B /* GERenderingObjectsES20.cpp */,
+				69650F461937B447002C1A4B /* GERenderingShadersES20.cpp */,
+				6969B6631912B32B0020E764 /* GERenderingES20.h */,
+				6969B6651912B32B0020E764 /* GERenderingObjectsES20.h */,
+				6969B6671912B32B0020E764 /* GERenderingShadersES20.h */,
+			);
+			path = OpenGL;
+			sourceTree = "<group>";
+		};
+		6969B6721912B32B0020E764 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				6969B6731912B32B0020E764 /* GEState.cpp */,
+				6969B6741912B32B0020E764 /* GEState.h */,
+			);
+			name = States;
+			path = ../../../GameEngine/States;
+			sourceTree = "<group>";
+		};
+		CEE82F5C16679399004FBB96 = {
+			isa = PBXGroup;
+			children = (
+				CEE0D4111874FEA10055FA21 /* Default-568h@2x.png */,
+				CEE82F7516679399004FBB96 /* Main */,
+				6969B6311912B2FD0020E764 /* Game Engine */,
+				CEE82FB1166797FD004FBB96 /* States */,
+				CEE82F9E166797AE004FBB96 /* Resources */,
+				CEE82F6A16679399004FBB96 /* Frameworks */,
+				CEE82F6816679399004FBB96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CEE82F6816679399004FBB96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEE82F6716679399004FBB96 /* 03_Light.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEE82F6A16679399004FBB96 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEE82F9C166794B4004FBB96 /* AudioToolbox.framework */,
+				CEE82F9A166794AA004FBB96 /* OpenAL.framework */,
+				CEE82F97166794A2004FBB96 /* CoreAudio.framework */,
+				CEE82F6B16679399004FBB96 /* UIKit.framework */,
+				CEE82F6D16679399004FBB96 /* Foundation.framework */,
+				CEE82F6F16679399004FBB96 /* CoreGraphics.framework */,
+				CEE82F7116679399004FBB96 /* GLKit.framework */,
+				CEE82F7316679399004FBB96 /* OpenGLES.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CEE82F7516679399004FBB96 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				CEE0D4131874FF2C0055FA21 /* AppDelegate.h */,
+				CEE0D4141874FF2C0055FA21 /* AppDelegate.m */,
+				CEE0D4151874FF2C0055FA21 /* iPad.storyboard */,
+				CEE0D4161874FF2C0055FA21 /* iPhone.storyboard */,
+				CEE0D4171874FF2C0055FA21 /* main.m */,
+				CEC1A80816937F75006E3F90 /* config.h */,
+				CEE82F8B16679399004FBB96 /* ViewController.h */,
+				CEE82F8C16679399004FBB96 /* ViewController.mm */,
+				CEE82F7616679399004FBB96 /* Supporting Files */,
+			);
+			path = Main;
+			sourceTree = SOURCE_ROOT;
+		};
+		CEE82F7616679399004FBB96 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6995DCA5187E095800CF404B /* Prefix.pch */,
+				CEE82F7716679399004FBB96 /* 03_Light-Info.plist */,
+				CEE82F7816679399004FBB96 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEE82F9E166797AE004FBB96 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6969B6301912B2ED0020E764 /* Shaders */,
+				CEE82FA7166797E4004FBB96 /* Textures */,
+				CEE82F9F166797B7004FBB96 /* Models */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		CEE82F9F166797B7004FBB96 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CEE82FA5166797DB004FBB96 /* banana.h */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		CEE82FA7166797E4004FBB96 /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				69310D9116A8CA8A006C16F8 /* bulb.png */,
+				CEE82FA9166797EF004FBB96 /* banana.jpg */,
+			);
+			name = Textures;
+			sourceTree = "<group>";
+		};
+		CEE82FB1166797FD004FBB96 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				69650F6D1937B57D002C1A4B /* StateSample.cpp */,
+				CEE82FB216679817004FBB96 /* StateSample.h */,
+			);
+			name = States;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEE82F6616679399004FBB96 /* 03_Light */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEE82F9016679399004FBB96 /* Build configuration list for PBXNativeTarget "03_Light" */;
+			buildPhases = (
+				CEE82F6316679399004FBB96 /* Sources */,
+				CEE82F6416679399004FBB96 /* Frameworks */,
+				CEE82F6516679399004FBB96 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = 03_Light;
+			productName = 01_Overview;
+			productReference = CEE82F6716679399004FBB96 /* 03_Light.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEE82F5E16679399004FBB96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
+			buildConfigurationList = CEE82F6116679399004FBB96 /* Build configuration list for PBXProject "03_Light" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CEE82F5C16679399004FBB96;
+			productRefGroup = CEE82F6816679399004FBB96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEE82F6616679399004FBB96 /* 03_Light */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEE82F6516679399004FBB96 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69650F6B1937B4A6002C1A4B /* mesh_color.fsh in Resources */,
+				69650F6C1937B4A6002C1A4B /* mesh_color.vsh in Resources */,
+				6969B68E1912B36A0020E764 /* hud.fsh in Resources */,
+				6969B68F1912B36A0020E764 /* hud.vsh in Resources */,
+				6969B6901912B36A0020E764 /* mesh_texture.fsh in Resources */,
+				6969B6911912B36A0020E764 /* mesh_texture.vsh in Resources */,
+				6969B6921912B36A0020E764 /* text.fsh in Resources */,
+				6969B6931912B36A0020E764 /* text.vsh in Resources */,
+				CEE82F7A16679399004FBB96 /* InfoPlist.strings in Resources */,
+				CEE82FAD166797EF004FBB96 /* banana.jpg in Resources */,
+				69310D9216A8CA8A006C16F8 /* bulb.png in Resources */,
+				CEE0D4121874FEA10055FA21 /* Default-568h@2x.png in Resources */,
+				CEE0D4191874FF2C0055FA21 /* iPad.storyboard in Resources */,
+				CEE0D41A1874FF2C0055FA21 /* iPhone.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEE82F6316679399004FBB96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEE82F8D16679399004FBB96 /* ViewController.mm in Sources */,
+				CEE0D4181874FF2C0055FA21 /* AppDelegate.m in Sources */,
+				CEE0D41B1874FF2C0055FA21 /* main.m in Sources */,
+				6969B6761912B32B0020E764 /* GEAudio.cpp in Sources */,
+				6969B6771912B32B0020E764 /* GEAudioOpenAL.mm in Sources */,
+				6969B6781912B32B0020E764 /* GETimer.cpp in Sources */,
+				6969B6791912B32B0020E764 /* GEUtils.cpp in Sources */,
+				6969B67A1912B32B0020E764 /* GEDevice.mm in Sources */,
+				6969B67F1912B32B0020E764 /* GEGraphicsDevice.cpp in Sources */,
+				6969B6801912B32B0020E764 /* GERendering.cpp in Sources */,
+				6969B6811912B32B0020E764 /* GERenderingObjects.cpp in Sources */,
+				6969B68D1912B32B0020E764 /* GEState.cpp in Sources */,
+				69650F471937B447002C1A4B /* GERenderingES20.cpp in Sources */,
+				69650F481937B447002C1A4B /* GERenderingObjectsES20.cpp in Sources */,
+				69650F491937B447002C1A4B /* GERenderingShadersES20.cpp in Sources */,
+				69650F511937B454002C1A4B /* GEAudioData.cpp in Sources */,
+				69650F521937B454002C1A4B /* GEContentData.cpp in Sources */,
+				69650F531937B454002C1A4B /* GEImageData.cpp in Sources */,
+				69650F641937B45E002C1A4B /* pugixml.cpp in Sources */,
+				69650F661937B45E002C1A4B /* stb_image.c in Sources */,
+				69650F6E1937B57D002C1A4B /* StateSample.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CEE82F7816679399004FBB96 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEE82F7916679399004FBB96 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEE82F8E16679399004FBB96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COMPRESS_PNG_FILES = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CEE82F8F16679399004FBB96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				COMPRESS_PNG_FILES = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEE82F9116679399004FBB96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../common/Prefix.pch;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = (
+					"\"../../../GameEngine\"",
+					"\"../../../GameEngine/Externals\"",
+				);
+				INFOPLIST_FILE = "Main/03_Light-Info.plist";
+				PRODUCT_NAME = 03_Light;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CEE82F9216679399004FBB96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ../common/Prefix.pch;
+				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = (
+					"\"../../../GameEngine\"",
+					"\"../../../GameEngine/Externals\"",
+				);
+				INFOPLIST_FILE = "Main/03_Light-Info.plist";
+				PRODUCT_NAME = 03_Light;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEE82F6116679399004FBB96 /* Build configuration list for PBXProject "03_Light" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEE82F8E16679399004FBB96 /* Debug */,
+				CEE82F8F16679399004FBB96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEE82F9016679399004FBB96 /* Build configuration list for PBXNativeTarget "03_Light" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEE82F9116679399004FBB96 /* Debug */,
+				CEE82F9216679399004FBB96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CEE82F5E16679399004FBB96 /* Project object */;
+}
