@@ -34,6 +34,7 @@ using namespace GE::States;
 RenderSystem* cRender;
 AudioSystem* cAudio;
 State* cStates[NUM_STATES];
+bool bInitialized = false;
 
 Timer cTimer;
 double dTime;
@@ -56,6 +57,9 @@ extern "C"
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNIEnv* env, jobject obj, jint width, jint height)
 {
+   if(bInitialized)
+      return;
+
    // screen size
    Device::ScreenWidth = width;
    Device::ScreenHeight = height;
@@ -84,6 +88,9 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNI
    // start the timer
    cTimer.start();
    dTime = 0.0;
+
+   // set the initialized flag
+   bInitialized = true;
 }
 
 void selectState(unsigned int State)

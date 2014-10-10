@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<TextureAtlas imagePath="atlas.png" width="128" height="128">
+    <sprite n="bugA1.png" x="2" y="2" w="32" h="32"/>
+    <sprite n="bugA2.png" x="36" y="2" w="32" h="32"/>
+    <sprite n="bugA3.png" x="70" y="2" w="32" h="32"/>
+    <sprite n="bugB1.png" x="2" y="36" w="32" h="32"/>
+    <sprite n="bugB2.png" x="36" y="36" w="32" h="32"/>
+    <sprite n="bugB3.png" x="70" y="36" w="32" h="32"/>
+    <sprite n="bugC1.png" x="2" y="70" w="32" h="32"/>
+    <sprite n="bugC2.png" x="36" y="70" w="32" h="32"/>
+    <sprite n="bugC3.png" x="70" y="70" w="32" h="32"/>
+</TextureAtlas>

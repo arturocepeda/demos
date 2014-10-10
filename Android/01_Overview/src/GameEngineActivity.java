@@ -72,7 +72,6 @@ public class GameEngineActivity extends Activity implements SensorEventListener
    protected void onPause()
    {
       super.onPause();
-      view.onPause();
 
       if(UseAccelerometer)
          mSensorManager.unregisterListener(this);
@@ -82,10 +81,9 @@ public class GameEngineActivity extends Activity implements SensorEventListener
    protected void onResume()
    {
       super.onResume();
-      view.onResume();
 
       if(UseAccelerometer)
-         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
    }
 
    @Override
