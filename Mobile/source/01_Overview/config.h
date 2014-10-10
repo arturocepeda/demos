@@ -45,7 +45,7 @@
 // accelerometer settings
 //
 #define USE_ACCELEROMETER
-//#define ACCELEROMETER_UPDATE 0.05
+#define ACCELEROMETER_UPDATE 0.05
 
 
 #endif

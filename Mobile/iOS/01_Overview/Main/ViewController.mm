@@ -2,9 +2,9 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
-//  Sample application
+//  iOS
 //
 //  --- ViewController.mm ---
 //
@@ -13,25 +13,34 @@
 
 #import "ViewController.h"
 
-#import "GERenderingES20.h"
-#import "GEAudioOpenAL.h"
+#import "GERenderSystemES20.h"
+#import "GEAudioSystemOpenAL.h"
 #import "GEState.h"
 #import "GETimer.h"
+
+#import "config.h"
 
 #import "StateSample.h"
 
 
+using namespace GE;
+using namespace GE::Core;
+using namespace GE::Rendering;
+using namespace GE::Audio;
+using namespace GE::States;
+
+
 @interface ViewController () <UIAccelerometerDelegate>
 {
-   // Rendering system
-   GERendering* cRender;
+   // Render system
+   RenderSystemES20* cRender;
    
    // Audio system
-   GEAudio* cAudio;
+   AudioSystemOpenAL* cAudio;
    unsigned int iAudioUpdateFrame;
    
    // State management
-   GEState* cStates[NUM_STATES];
+   State* cStates[NUM_STATES];
    int iCurrentState;
    
    // Input management
@@ -39,7 +48,7 @@
    UIAccelerometer* uiAccel;
    
    // Timer
-   GETimer cTimer;
+   Timer cTimer;
    double dTime;
 }
 
@@ -100,16 +109,16 @@
 #endif
    
    // initialize rendering system
-   cRender = new GERenderingES20();
-   cRender->setBackgroundColor(GEColor(0.5f, 0.5f, 1.0f));
+   cRender = new RenderSystemES20();
+   cRender->setBackgroundColor(Color(0.5f, 0.5f, 1.0f));
    
    // initialize audio system
-   cAudio = new GEAudioOpenAL();
+   cAudio = new AudioSystemOpenAL();
    cAudio->init();
    iAudioUpdateFrame = 0;
    
    // create states
-   cStates[0] = (GEState*)new GEStateSample(cRender, cAudio, NULL);
+   cStates[0] = (State*)new GEStateSample(cRender, cAudio, NULL);
    // ...
    // ...
    
@@ -170,7 +179,7 @@
 
 -(void) accelerometer:(UIAccelerometer*)accelerometer didAccelerate:(UIAcceleration*)acceleration
 {
-   cStates[iCurrentState]->updateAccelerometerStatus(GEVector3(acceleration.x, acceleration.y, acceleration.z));
+   cStates[iCurrentState]->updateAccelerometerStatus(Vector3(acceleration.x, acceleration.y, acceleration.z));
 }
 
 -(void) selectState:(unsigned int)iState
@@ -193,7 +202,7 @@
    // audio system update
    iAudioUpdateFrame++;
    
-   if(iAudioUpdateFrame == AUDIO_UPDATE_FRAMES)
+   if(iAudioUpdateFrame == GE_AUDIO_UPDATE_FRAMES)
    {
       iAudioUpdateFrame = 0;
       cAudio->update();
@@ -224,7 +233,7 @@
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
             iFingerID[i] = (int)uiTouch;
-            cStates[iCurrentState]->inputTouchBegin(i, GEVector2(cgPoint.x, cgPoint.y));
+            cStates[iCurrentState]->inputTouchBegin(i, Vector2(cgPoint.x, cgPoint.y));
             
             break;
          }
@@ -246,8 +255,8 @@
             CGPoint cgCurrentPoint = [uiTouch locationInView: self.view];
             
             cStates[iCurrentState]->inputTouchMove(i,
-                                                   GEVector2(cgPreviousPoint.x, cgPreviousPoint.y),
-                                                   GEVector2(cgCurrentPoint.x, cgCurrentPoint.y));            
+                                                   Vector2(cgPreviousPoint.x, cgPreviousPoint.y),
+                                                   Vector2(cgCurrentPoint.x, cgCurrentPoint.y));            
             break;
          }
       }
@@ -267,7 +276,7 @@
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
             iFingerID[i] = 0;
-            cStates[iCurrentState]->inputTouchEnd(i, GEVector2(cgPoint.x, cgPoint.y));
+            cStates[iCurrentState]->inputTouchEnd(i, Vector2(cgPoint.x, cgPoint.y));
             
             break;
          }
