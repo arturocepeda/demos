@@ -116,13 +116,13 @@ using namespace GE::States;
    // pixel space to screen space
    if(Device::Orientation == DOPortrait)
    {
-      cPixelToScreenX = new Line(0.0f, -1.0f, Device::getScreenWidth(), 1.0f);
-      cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::getScreenHeight(), -Device::getAspectRatio());
+      cPixelToScreenX = new Line(0.0f, -1.0f, Device::getTouchPadWidth(), 1.0f);
+      cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::getTouchPadHeight(), -Device::getAspectRatio());
    }
    else
    {
-      cPixelToScreenX = new Line(0.0f, -1.0f, Device::getScreenHeight(), 1.0f);
-      cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::getScreenWidth(), -Device::getAspectRatio());
+      cPixelToScreenX = new Line(0.0f, -1.0f, Device::getTouchPadHeight(), 1.0f);
+      cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::getTouchPadWidth(), -Device::getAspectRatio());
    }
    
 #ifdef GE_USE_ACCELEROMETER
