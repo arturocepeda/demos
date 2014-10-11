@@ -55,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6904B98B19E984D000B5045B /* GEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDevice.h; sourceTree = "<group>"; };
 		69310D9116A8CA8A006C16F8 /* bulb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bulb.png; path = Resources/Textures/bulb.png; sourceTree = "<group>"; };
 		69614B1B19E83BF20042F316 /* GERenderSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderSystem.cpp; sourceTree = "<group>"; };
 		69614B1C19E83BF20042F316 /* GERenderSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderSystem.h; sourceTree = "<group>"; };
@@ -100,7 +101,6 @@
 		6969B64B1912B32B0020E764 /* GETypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETypes.h; sourceTree = "<group>"; };
 		6969B64C1912B32B0020E764 /* GEUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEUtils.cpp; sourceTree = "<group>"; };
 		6969B64D1912B32B0020E764 /* GEUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEUtils.h; sourceTree = "<group>"; };
-		6969B64F1912B32B0020E764 /* GEDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDevice.h; sourceTree = "<group>"; };
 		6969B6501912B32B0020E764 /* GEDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GEDevice.mm; sourceTree = "<group>"; };
 		6969B65C1912B32B0020E764 /* GEGraphicsDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEGraphicsDevice.cpp; sourceTree = "<group>"; };
 		6969B65D1912B32B0020E764 /* GEGraphicsDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEGraphicsDevice.h; sourceTree = "<group>"; };
@@ -252,6 +252,7 @@
 		6969B6471912B32B0020E764 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				6904B98B19E984D000B5045B /* GEDevice.h */,
 				6969B6481912B32B0020E764 /* GEConstants.h */,
 				6969B6491912B32B0020E764 /* GETimer.cpp */,
 				6969B64A1912B32B0020E764 /* GETimer.h */,
@@ -267,7 +268,6 @@
 		6969B64E1912B32B0020E764 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				6969B64F1912B32B0020E764 /* GEDevice.h */,
 				6969B6501912B32B0020E764 /* GEDevice.mm */,
 			);
 			path = iOS;
