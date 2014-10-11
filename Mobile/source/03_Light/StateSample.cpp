@@ -105,7 +105,7 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
    if(ID > 0)
       return;
    
-   Vector2 vDelta = cRender->pixelToScreen(Point);
+   Vector2 vDelta = Point;
    vDelta.X -= vBulbPosition.X;
    vDelta.X *= vDelta.X;
    vDelta.Y -= vBulbPosition.Y;
@@ -120,10 +120,9 @@ void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const V
    if(!bMoveBulb || ID > 0)
       return;
    
-   Vector2 vScreen = cRender->pixelToScreen(CurrentPoint);   
-   cRender->setLightPosition((unsigned int)Lights::PointLight1, Vector3(vScreen.X, vScreen.Y, 1.0f));
-   cMeshLight->setPosition(Vector3(vScreen.X, vScreen.Y, 1.0f));
-   vBulbPosition.set(vScreen.X, vScreen.Y, 0.0f);
+   cRender->setLightPosition((unsigned int)Lights::PointLight1, Vector3(CurrentPoint.X, CurrentPoint.Y, 1.0f));
+   cMeshLight->setPosition(Vector3(CurrentPoint.X, CurrentPoint.Y, 1.0f));
+   vBulbPosition.set(CurrentPoint.X, CurrentPoint.Y, 0.0f);
    cSpriteBulb->setPosition(vBulbPosition);
 }
 

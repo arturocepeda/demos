@@ -261,8 +261,7 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
    cAudio->playSound(Sounds.Touch, 0);
 
-   Vector2 vScreenPosition = cRender->pixelToScreen(Point);
-   cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y, 0.0f);
+   cSpriteInfo[ID]->setPosition(Point.X, Point.Y, 0.0f);
    cSpriteInfo[ID]->show();
 }
 
@@ -271,12 +270,11 @@ void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const V
    if(ID == 0)
    {
       cCamera->move((CurrentPoint.X - PreviousPoint.X) * TOUCH_SCALE,
-                    (-CurrentPoint.Y + PreviousPoint.Y) * TOUCH_SCALE,
+                    (CurrentPoint.Y - PreviousPoint.Y) * TOUCH_SCALE,
                     0.0f);
    }
    
-   Vector2 vScreenPosition = cRender->pixelToScreen(CurrentPoint);
-   cSpriteInfo[ID]->setPosition(vScreenPosition.X, vScreenPosition.Y);
+   cSpriteInfo[ID]->setPosition(CurrentPoint.X, CurrentPoint.Y);
 }
 
 void GEStateSample::inputTouchEnd(int ID, const Vector2& Point)

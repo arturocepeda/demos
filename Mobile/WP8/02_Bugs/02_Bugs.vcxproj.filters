@@ -58,11 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="..\..\source\02_Bugs\StateSample.cpp" />
+    <ClCompile Include="..\..\source\02_Bugs\StateSample.cpp">
+      <Filter>States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppMain.h" />
-    <ClInclude Include="..\..\source\02_Bugs\StateSample.h" />
+    <ClInclude Include="..\..\source\02_Bugs\StateSample.h">
+      <Filter>States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="WMAppManifest.xml" />

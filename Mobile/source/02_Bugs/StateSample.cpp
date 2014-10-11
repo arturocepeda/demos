@@ -65,7 +65,7 @@ void GEStateSample::internalInit()
    // font
    //cRender->defineFont(0, "Papyrus", 24.0f);
    cRender->defineFont(0, "Test", 24.0f);
-    
+   
    // text
    cRender->createLabel(&cTextSmashed, 0, TopLeft, Vector2(0.1f, 0.1f), "Smashed: 0");
    cTextSmashed->setPosition(-0.9f, 1.3f);
@@ -269,13 +269,10 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
    // hit sound
    cAudio->playSound(0, 0);
    
-   // get finger position
-   Vector2 vFinger = cRender->pixelToScreen(Point);
-   
    // check if a bug has been smashed
    for(unsigned int i = 0; i < vBugs.size(); i++)
    {
-      if((pow(vFinger.X - vBugs[i].Position.X, 2) + pow(vFinger.Y - vBugs[i].Position.Y, 2)) < pow(vBugs[i].Size, 2))
+      if((pow(Point.X - vBugs[i].Position.X, 2) + pow(Point.Y - vBugs[i].Position.Y, 2)) < pow(vBugs[i].Size, 2))
       {
          // add the bug to the smashed list and increment the number of smashed bugs
          vBugsSmashed.push_back(vBugs[i]);

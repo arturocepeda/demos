@@ -37,7 +37,7 @@ AppMain::AppMain()
    , bWindowClosed(false)
    , bWindowVisible(true)
 {
-   for(int i = 0; i < MAX_FINGERS; i++)
+   for(int i = 0; i < GE_MAX_FINGERS; i++)
       iFingerID[i] = -1;
 }
 
@@ -72,21 +72,20 @@ void AppMain::SetWindow(CoreWindow^ window)
       ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &AppMain::OnPointerReleased);
 
    // orientation settings
-   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::None
-#ifdef PORTRAIT_UP
-      | Windows::Graphics::Display::DisplayOrientations::Portrait
+#ifdef GE_ORIENTATION_PORTRAIT
+   Device::Orientation = DOPortrait;
+   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Portrait;
+#else
+   Device::Orientation = DOLandscape;
+   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
 #endif
-#ifdef LANDSCAPE_HOME_LEFT
-      | Windows::Graphics::Display::DisplayOrientations::Landscape
-#endif
-#ifdef LANDSCAPE_HOME_RIGHT
-      | Windows::Graphics::Display::DisplayOrientations::LandscapeFlipped
-#endif
-      ;
 
    // set screen size
    Device::ScreenWidth = convertDipsToPixels(window->Bounds.Width);
    Device::ScreenHeight = convertDipsToPixels(window->Bounds.Height);
+
+   cPixelToScreenX = new Line(0.0f, -1.0f, Device::ScreenWidth, 1.0f);
+   cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::ScreenHeight, -Device::getAspectRatio());
 
    // create render system
    cRender = new RenderSystemDX11(CoreWindow::GetForCurrentThread());
@@ -97,7 +96,7 @@ void AppMain::SetWindow(CoreWindow^ window)
    cAudio->init();
 
    // create states
-   cStates[0] = new GEStateSample(cRender, cAudio, (void*)0);
+   cStates.push_back(new GEStateSample(cRender, cAudio, (void*)0));
    // ...
    // ...
 
@@ -105,20 +104,13 @@ void AppMain::SetWindow(CoreWindow^ window)
    iCurrentState = 0;
    cStates[0]->init();
 
+#ifdef GE_USE_ACCELEROMETER
    // initialize accelerometer
-   try
-   {
-      wpAccelerometer = Accelerometer::GetDefault();
-   }
-   catch(Platform::Exception^ e)
-   {
-   }
-
-   if(wpAccelerometer)
-   {
-      wpAccelerometer->ReadingChanged +=
-         ref new TypedEventHandler<Accelerometer^, AccelerometerReadingChangedEventArgs^>(this, &AppMain::OnAccelerometerReading);
-   }
+   wpAccelerometer = Accelerometer::GetDefault();
+   wpAccelerometer->ReportInterval = (unsigned int)(GE_ACCELEROMETER_UPDATE * 1000.0f);
+   wpAccelerometer->ReadingChanged +=
+      ref new TypedEventHandler<Accelerometer^, AccelerometerReadingChangedEventArgs^>(this, &AppMain::OnAccelerometerReading);
+#endif
 }
 
 void AppMain::Load(Platform::String^ entryPoint)
@@ -182,15 +174,21 @@ void AppMain::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
    bWindowClosed = true;
 }
 
+GE::Vector2 AppMain::PixelToScreen(const GE::Vector2& vPixelPosition)
+{
+   return Device::Orientation == DOPortrait
+      ? GE::Vector2((float)cPixelToScreenX->y(vPixelPosition.X), (float)cPixelToScreenY->y(vPixelPosition.Y))
+      : GE::Vector2((float)-cPixelToScreenY->y(vPixelPosition.Y), (float)cPixelToScreenX->y(vPixelPosition.X));
+}
+
 void AppMain::OnPointerPressed(CoreWindow^ sender, PointerEventArgs^ args)
 {
-   for(int i = 0; i < MAX_FINGERS; i++)
+   for(int i = 0; i < GE_MAX_FINGERS; i++)
    {
       if(iFingerID[i] == -1)
       {
          iFingerID[i] = (int)args->CurrentPoint->PointerId;
-         vFingerPosition[i].X = args->CurrentPoint->Position.X;
-         vFingerPosition[i].Y = args->CurrentPoint->Position.Y;
+         vFingerPosition[i] = PixelToScreen(GE::Vector2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y));
          cStates[iCurrentState]->inputTouchBegin(i, vFingerPosition[i]);
          break;
       }
@@ -199,13 +197,12 @@ void AppMain::OnPointerPressed(CoreWindow^ sender, PointerEventArgs^ args)
 
 void AppMain::OnPointerMoved(CoreWindow^ sender, PointerEventArgs^ args)
 {
-   for(int i = 0; i < MAX_FINGERS; i++)
+   for(int i = 0; i < GE_MAX_FINGERS; i++)
    {
       if(iFingerID[i] == (int)args->CurrentPoint->PointerId)
       {
-         GE::Vector2 vPreviousPosition(vFingerPosition[i]);
-         vFingerPosition[i].X = args->CurrentPoint->Position.X;
-         vFingerPosition[i].Y = args->CurrentPoint->Position.Y;
+         GE::Vector2 vPreviousPosition = vFingerPosition[i];
+         vFingerPosition[i] = PixelToScreen(GE::Vector2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y));
          cStates[iCurrentState]->inputTouchMove(i, vPreviousPosition, vFingerPosition[i]);
          break;
       }
@@ -214,13 +211,12 @@ void AppMain::OnPointerMoved(CoreWindow^ sender, PointerEventArgs^ args)
 
 void AppMain::OnPointerReleased(CoreWindow^ sender, PointerEventArgs^ args)
 {
-   for(int i = 0; i < MAX_FINGERS; i++)
+   for(int i = 0; i < GE_MAX_FINGERS; i++)
    {
       if(iFingerID[i] == (int)args->CurrentPoint->PointerId)
       {
          iFingerID[i] = -1;
-         vFingerPosition[i].X = args->CurrentPoint->Position.X;
-         vFingerPosition[i].Y = args->CurrentPoint->Position.Y;
+         vFingerPosition[i] = PixelToScreen(GE::Vector2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y));
          cStates[iCurrentState]->inputTouchEnd(i, vFingerPosition[i]);
          break;
       }

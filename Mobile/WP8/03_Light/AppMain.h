@@ -12,6 +12,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "Rendering/DX11/GERenderSystemDX11.h"
 #include "Audio/XAudio2/GEAudioSystemXAudio2.h"
 #include "States/GEState.h"
@@ -45,18 +47,24 @@ protected:
 private:
    GE::Rendering::RenderSystemDX11* cRender;
    GE::Audio::AudioSystemXAudio2* cAudio;
-   GE::States::State* cStates[NUM_STATES];
    GE::Core::Timer cTimer;
+
+   std::vector<GE::States::State*> cStates;
 
    bool bWindowClosed;
    bool bWindowVisible;
 
    int iCurrentState;
 
-   int iFingerID[MAX_FINGERS];
-   GE::Vector2 vFingerPosition[MAX_FINGERS];
+   int iFingerID[GE_MAX_FINGERS];
+   GE::Vector2 vFingerPosition[GE_MAX_FINGERS];
+
+   GE::Core::Line* cPixelToScreenX;
+   GE::Core::Line* cPixelToScreenY;
 
    Windows::Devices::Sensors::Accelerometer^ wpAccelerometer;
+
+   GE::Vector2 PixelToScreen(const GE::Vector2& vPixelPosition);
 };
 
 ref class Direct3DApplicationSource sealed : Windows::ApplicationModel::Core::IFrameworkViewSource

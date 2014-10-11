@@ -14,7 +14,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AndroidManifest.xml" />
+    <None Include="AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="build.xml" />
     <None Include="jni\Android.mk" />
     <None Include="jni\Application.mk" />

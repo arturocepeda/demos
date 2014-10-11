@@ -15,37 +15,29 @@
 #define _CONFIG_H_
 
 //
-// set frames per seconds
+//  set frames per second
 //
-#define FPS 60
+#define GE_FPS  60
 
 
 //
-// set number of states
+//  set device orientation
 //
-#define NUM_STATES 1
+#define GE_ORIENTATION_PORTRAIT
+//#define GE_ORIENTATION_LANDSCAPE
 
 
 //
-// set supported orientations
+//  set number of fingers
 //
-#define PORTRAIT_UP
-//#define PORTRAIT_DOWN
-//#define LANDSCAPE_HOME_LEFT
-//#define LANDSCAPE_HOME_RIGHT
+#define GE_MAX_FINGERS  5
 
 
 //
-// set number of fingers
+//  accelerometer settings
 //
-#define MAX_FINGERS 5
-
-
-//
-// accelerometer settings
-//
-//#define USE_ACCELEROMETER
-//#define ACCELEROMETER_UPDATE 0.05
+//#define GE_USE_ACCELEROMETER
+//#define GE_ACCELEROMETER_UPDATE  0.05
 
 
 #endif
