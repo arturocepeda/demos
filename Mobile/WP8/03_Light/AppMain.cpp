@@ -71,21 +71,26 @@ void AppMain::SetWindow(CoreWindow^ window)
    window->PointerReleased +=
       ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &AppMain::OnPointerReleased);
 
-   // orientation settings
+   // screen settings
 #ifdef GE_ORIENTATION_PORTRAIT
-   Device::Orientation = DOPortrait;
-   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Portrait;
-#else
-   Device::Orientation = DOLandscape;
-   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
-#endif
-
-   // set screen size
    Device::ScreenWidth = convertDipsToPixels(window->Bounds.Width);
    Device::ScreenHeight = convertDipsToPixels(window->Bounds.Height);
+   Device::Orientation = DOPortrait;
 
    cPixelToScreenX = new Line(0.0f, -1.0f, Device::ScreenWidth, 1.0f);
    cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::ScreenHeight, -Device::getAspectRatio());
+
+   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Portrait;
+#else
+   Device::ScreenWidth = convertDipsToPixels(window->Bounds.Height);
+   Device::ScreenHeight = convertDipsToPixels(window->Bounds.Width);
+   Device::Orientation = DOLandscape;
+
+   cPixelToScreenX = new Line(0.0f, -Device::getAspectRatio(), Device::ScreenHeight, Device::getAspectRatio());
+   cPixelToScreenY = new Line(0.0f, 1.0f, Device::ScreenWidth, -1.0f);
+
+   DisplayProperties::AutoRotationPreferences = Windows::Graphics::Display::DisplayOrientations::Landscape;
+#endif
 
    // create render system
    cRender = new RenderSystemDX11(CoreWindow::GetForCurrentThread());
