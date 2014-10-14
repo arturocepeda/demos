@@ -12,11 +12,12 @@
 
 
 #include <jni.h>
-#include <android/log.h>
 #include <stdio.h>
 #include <memory>
 #include <typeinfo>
 #include <vector>
+
+#include <cpu-features.h>
 
 #include "config.h"
 #include "Rendering/OpenGL/GERenderSystemES20.h"
@@ -52,6 +53,8 @@ extern "C"
 {
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNIEnv* env, jobject obj, jint width, jint height);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateFrame(JNIEnv* env, jobject obj);
+   JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Pause(JNIEnv* env, jobject obj);
+   JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Resume(JNIEnv* env, jobject obj);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputTouchDown(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputTouchMove(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputTouchUp(JNIEnv* env, jclass clazz, jint index, jfloat x, jfloat y);
@@ -134,6 +137,21 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateFrame(JN
    cStates[iCurrentState]->render();
 }
 
+JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Pause(JNIEnv* env, jobject obj)
+{
+   cTimer.stop();
+   cStates[iCurrentState]->pause();
+}
+
+JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Resume(JNIEnv* env, jobject obj)
+{
+   if(!bInitialized)
+      return;
+
+   cTimer.start();
+   cStates[iCurrentState]->resume();
+}
+
 GE::Vector2 pixelToScreen(const GE::Vector2& vPixelPosition)
 {
    return GE::Vector2((float)cPixelToScreenX->y(vPixelPosition.X), (float)cPixelToScreenY->y(vPixelPosition.Y));
@@ -195,6 +213,11 @@ const float AccelFactor = 0.01f;
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z)
 {
-   if(cStates.size() > iCurrentState && cStates[iCurrentState])
+   if(bInitialized)
       cStates[iCurrentState]->updateAccelerometerStatus(Vector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
+}
+
+int Device::getNumberOfCPUCores()
+{
+   return android_getCpuCount();
 }

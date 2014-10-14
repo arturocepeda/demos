@@ -23,7 +23,9 @@ public class GameEngineLib
       
    public static native void Initialize(int width, int height);
    public static native void UpdateFrame();
-    
+   public static native void Pause();
+   public static native void Resume();
+
    public static native void CreateAssetManager(AssetManager assetManager);
 
    public static native void InputTouchDown(int index, float x, float y);

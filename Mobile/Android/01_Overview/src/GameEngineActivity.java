@@ -75,6 +75,8 @@ public class GameEngineActivity extends Activity implements SensorEventListener
 
       if(UseAccelerometer)
          mSensorManager.unregisterListener(this);
+
+      GameEngineLib.Pause();
    }
 
    @Override
@@ -84,6 +86,8 @@ public class GameEngineActivity extends Activity implements SensorEventListener
 
       if(UseAccelerometer)
          mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+
+      GameEngineLib.Resume();
    }
 
    @Override
