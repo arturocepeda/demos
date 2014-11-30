@@ -62,11 +62,14 @@ public class GameEngineActivity extends Activity implements SensorEventListener
    {
       mSensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
       mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+      mRotationVector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
       mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
+      mSensorManager.registerListener(this, mRotationVector, SensorManager.SENSOR_DELAY_FASTEST);
    }
    
    private SensorManager mSensorManager;
    private Sensor mAccelerometer;
+   private Sensor mRotationVector;
 
    @Override
    protected void onPause()
@@ -124,7 +127,19 @@ public class GameEngineActivity extends Activity implements SensorEventListener
    @Override
    public final void onSensorChanged(SensorEvent event)
    {
-      GameEngineLib.UpdateAccelerometerStatus(event.values[0], event.values[1], event.values[2]);
+      // accelerometer
+      if(event.sensor == mAccelerometer)
+      {
+         GameEngineLib.UpdateAccelerometerStatus(event.values[0], event.values[1], event.values[2]);
+      }
+
+      // rotation vector
+      else
+      {
+         float[] qQuaternion = new float[4];
+         SensorManager.getQuaternionFromVector(qQuaternion, event.values);
+         GameEngineLib.UpdateDeviceRotationVector(qQuaternion[1], qQuaternion[2], qQuaternion[3], qQuaternion[0]);
+      }
    }
 
    public GameEngineActivity()

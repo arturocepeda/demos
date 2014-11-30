@@ -34,4 +34,5 @@ public class GameEngineLib
    public static native void InputButtonDown(int button);
    public static native void InputButtonUp(int button);
    public static native void UpdateAccelerometerStatus(float x, float y, float z);
+   public static native void UpdateDeviceRotationVector(float x, float y, float z, float w);
 }

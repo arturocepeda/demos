@@ -61,6 +61,7 @@ extern "C"
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputButtonDown(JNIEnv* env, jclass clazz, jint button);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_InputButtonUp(JNIEnv* env, jclass clazz, jint button);
    JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateAccelerometerStatus(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z);
+   JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateDeviceRotationVector(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z, jfloat w);
 };
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNIEnv* env, jobject obj, jint width, jint height)
@@ -134,7 +135,8 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateFrame(JN
       
    // render
    cRender->renderBegin();
-   cStates[iCurrentState]->render();
+   cRender->renderFrame();
+   cRender->clearRenderingQueues();
 }
 
 JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Pause(JNIEnv* env, jobject obj)
@@ -215,6 +217,17 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateAccelero
 {
    if(bInitialized)
       cStates[iCurrentState]->updateAccelerometerStatus(Vector3(x * -AccelFactor, y * -AccelFactor, z * AccelFactor));
+}
+
+JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateDeviceRotationVector(JNIEnv* env, jclass clazz, jfloat x, jfloat y, jfloat z, jfloat w)
+{
+   if(bInitialized)
+   {
+      Device::Rotation.X = x;
+      Device::Rotation.Y = y;
+      Device::Rotation.Z = z;
+      Device::Rotation.W = w;
+   }
 }
 
 int Device::getNumberOfCPUCores()

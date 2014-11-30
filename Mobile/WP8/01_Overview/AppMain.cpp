@@ -13,6 +13,7 @@
 
 #include "AppMain.h"
 #include <ppltasks.h>
+#include <csignal>
 
 #include "Core/GEDevice.h"
 
@@ -43,6 +44,10 @@ AppMain::AppMain()
 
 void AppMain::Initialize(CoreApplicationView^ applicationView)
 {
+#ifndef NDEBUG
+   signal(SIGABRT, [](int){ __debugbreak(); }); 
+#endif
+
    applicationView->Activated +=
       ref new TypedEventHandler<CoreApplicationView^, IActivatedEventArgs^>(this, &AppMain::OnActivated);
    CoreApplication::Suspending +=
@@ -155,8 +160,9 @@ void AppMain::Run()
 
          // render
          cRender->renderBegin();
-         cStates[iCurrentState]->render();
+         cRender->renderFrame();
          cRender->renderEnd();
+         cRender->clearRenderingQueues();
       }
       else
       {

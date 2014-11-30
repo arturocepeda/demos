@@ -15,6 +15,7 @@
 #define _STATESAMPLE_H_
 
 #include "States/GEState.h"
+#include "Core/GEScene.h"
 
 #define BOUNDS_TOP      (GE::Core::Device::getAspectRatio() * 0.89f)
 #define BOUNDS_BOTTOM   (-GE::Core::Device::getAspectRatio() * 0.89f)
@@ -31,10 +32,8 @@
 class GEStateSample : public GE::States::State
 {
 private:
-   GE::Rendering::Camera* cCamera;
-   
-   GE::Rendering::Mesh* cMeshBanana;
-   GE::Rendering::Mesh* cMeshCube;
+   GE::Core::Scene* cScene;
+   GE::Core::Entity* cEntitiesInfo[FINGERS];
    
    float fMeshCubeR;
    float fMeshCubeRInc;
@@ -42,12 +41,6 @@ private:
    float fMeshCubeGInc;
    float fMeshCubeB;
    float fMeshCubeBInc;
-   
-   GE::Rendering::Sprite* cSpriteBackground;
-   GE::Rendering::Sprite* cSpriteBall;
-   GE::Rendering::Sprite* cSpriteInfo[FINGERS];
-   
-   GE::Rendering::Label* cText;
    
    GE::Vector3 vBallPosition;
    GE::Vector3 vBallVelocity;

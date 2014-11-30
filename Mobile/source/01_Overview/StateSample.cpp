@@ -16,9 +16,18 @@
 #include "Core/GEDevice.h"
 
 using namespace GE;
+using namespace GE::Core;
 using namespace GE::States;
 using namespace GE::Rendering;
 using namespace GE::Audio;
+
+ObjectName _Camera_("Camera");
+ObjectName _Background_("Background");
+ObjectName _Bananas_("Bananas");
+ObjectName _Cube_("Cube");
+ObjectName _Ball_("Ball");
+ObjectName _Info_("Info");
+ObjectName _Title_("Title");
 
 GEStateSample::GEStateSample(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
    : State(Render, Audio, GlobalData)
@@ -43,46 +52,13 @@ void GEStateSample::internalInit()
    cRender->setLightPosition((unsigned int)Lights::PointLight1, Vector3(0.0f, 0.0f, 1.0f));
    cRender->setLightColor((unsigned int)Lights::PointLight1, Color(1.0f, 1.0f, 1.0f));
    cRender->setLightIntensity((unsigned int)Lights::PointLight1, 0.6f);
-   
-   // cameras
-   cCamera = new Camera();
-   cCamera->setPosition(0.0f, 0.0f, -4.0f);
 
    // textures
    cRender->loadTexture(Textures.Background, "background", "jpg");
    cRender->loadTexture(Textures.Banana, "banana", "jpg");
    cRender->loadTexture(Textures.Info, "info", "png");
    cRender->loadTexture(Textures.Basketball, "basketball", "png");
-   
-   // meshes
-   cRender->createMesh(&cMeshBanana);
-   cMeshBanana->loadFromFile("banana");
-   cMeshBanana->setTexture(cRender->getTexture(Textures.Banana));
-   cMeshBanana->scale(2.0f, 2.0f, 2.0f);
-
-   cRender->createMesh(&cMeshCube);
-   cMeshCube->loadFromFile("cube");
-   cMeshCube->setPosition(0.0f, -1.5f, 0.0f);
-   cMeshCube->scale(0.5f, 0.5f, 0.5f);
-   cMeshCube->setColor(Color(1.0f, 0.5f, 0.2f));
-
-   // sprites
-   cRender->createSprite(&cSpriteBackground);
-   cSpriteBackground->setTexture(cRender->getTexture(Textures.Background));
-   cSpriteBackground->setSize(Vector2(2.0f, 4.0f));
-   
-   cRender->createSprite(&cSpriteBall);
-   cSpriteBall->setTexture(cRender->getTexture(Textures.Basketball));
-   cSpriteBall->setSize(Vector2(0.4f, 0.4f));
-   
-   for(int i = 0; i < FINGERS; i++)
-   {
-      cRender->createSprite(&cSpriteInfo[i]);
-      cSpriteInfo[i]->setTexture(cRender->getTexture(Textures.Info));
-      cSpriteInfo[i]->setSize(Vector2(0.25f, 0.25f));
-      cSpriteInfo[i]->setVisible(false);
-   }
-   
+      
    // sounds
    //cAudio->loadSound(Sounds.Music, "song", "caf");
    cAudio->loadSound(Sounds.Touch, "touch", "wav");
@@ -92,12 +68,85 @@ void GEStateSample::internalInit()
    // font
    //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
    cRender->defineFont(0, "Test", 24.0f);
-    
+
+   // scene
+   cScene = new Scene("Scene");
+
+   Entity* cEntity = 0;
+   ComponentTransform* cTransform = 0;
+   ComponentCamera* cCamera = 0;
+   ComponentMesh* cMesh = 0;
+   ComponentSprite* cSprite = 0;
+   ComponentUILabel* cLabel = 0;
+
+   // camera
+   cEntity = new Entity(_Camera_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setPosition(0.0f, 0.0f, -4.0f);
+   cCamera = cEntity->addComponent<ComponentCamera>();
+   cScene->addEntity(cEntity);
+   cRender->setActiveCamera(cCamera);
+
+   // meshes
+   cEntity = new Entity(_Bananas_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->scale(2.0f, 2.0f, 2.0f);
+   cMesh = cEntity->addComponent<ComponentMesh>();
+   cMesh->loadFromFile("banana");
+   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
+   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Banana);
+   cScene->addEntity(cEntity);
+
+   cEntity = new Entity(_Cube_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setPosition(0.0f, -1.5f, 0.0f);
+   cTransform->scale(0.5f, 0.5f, 0.5f);
+   cMesh = cEntity->addComponent<ComponentMesh>();
+   cMesh->loadFromFile("cube");
+   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshColor;
+   cMesh->getMaterial().DiffuseColor = Color(1.0f, 0.5f, 0.2f);
+   cScene->addEntity(cEntity);
+
+   // sprites
+   cEntity = new Entity(_Background_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cSprite = cEntity->addComponent<ComponentSprite>();
+   cSprite->setLayer(SpriteLayer::Pre3D);
+   cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Background);
+   cSprite->setSize(Vector2(2.0f, 4.0f));
+   cScene->addEntity(cEntity);
+
+   cEntity = new Entity(_Ball_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cSprite = cEntity->addComponent<ComponentSprite>();
+   cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
+   cSprite->setSize(Vector2(0.4f, 0.4f));
+   cScene->addEntity(cEntity);
+
+   for(int i = 0; i < FINGERS; i++)
+   {
+      cEntity = new Entity(_Info_);
+      cEntitiesInfo[i] = cEntity;
+      cTransform = cEntity->addComponent<ComponentTransform>();
+      cSprite = cEntity->addComponent<ComponentSprite>();
+      cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
+      cSprite->setSize(Vector2(0.25f, 0.25f));
+      cSprite->setVisible(false);
+      cScene->addEntity(cEntity);
+   }
+
    // text
-   cRender->createLabel(&cText, 0, Alignment::CenterCenter, Vector2(0.16f, 0.16f), "Game Engine");
-   cText->setPosition(0.0f, 1.15f);
-   cText->setColor(Color(1.0f, 0.25f, 0.25f));
-   cText->setOpacity(0.0f);
+   cEntity = new Entity(_Title_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setPosition(0.0f, 1.15f);
+   cLabel = cEntity->addComponent<ComponentUILabel>();
+   cLabel->getMaterial().DiffuseColor = Color(1.0f, 0.25f, 0.25f);
+   cLabel->getMaterial().DiffuseColor.setOpacity(0.0f);
+   cLabel->setFont(0);
+   cLabel->setAligment(Alignment::CenterCenter);
+   cLabel->setCharacterSize(Vector2(0.16f, 0.16f));
+   cLabel->setText("Game Engine");
+   cScene->addEntity(cEntity);
 }
 
 void GEStateSample::update(float DeltaTime)
@@ -106,23 +155,36 @@ void GEStateSample::update(float DeltaTime)
    updateBanana();
    updateBall();
    updateText();
+
+   cScene->render();
 }
 
 void GEStateSample::updateText()
 {
-   if(cText->getOpacity() < 1.0f)   
-      cText->setOpacity(cText->getOpacity() + 0.005f);
+   Entity* cText = cScene->getEntity(_Title_);
+   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cText->getComponent(ComponentType::Renderable));
+   Material& sMaterial = cRenderable->getMaterial();
+
+   if(sMaterial.DiffuseColor.getOpacity() < 1.0f)   
+      sMaterial.DiffuseColor.setOpacity(sMaterial.DiffuseColor.getOpacity() + 0.005f);
 }
 
 void GEStateSample::updateBanana()
 {
-   cMeshBanana->rotate(-0.01f, -0.01f, -0.01f);
+   Entity* cBanana = cScene->getEntity(_Bananas_);
+   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBanana->getComponent(ComponentType::Transform));
+
+   cTransform->rotate(-0.01f, -0.01f, -0.01f);
 }
 
 void GEStateSample::updateCube()
 {
-   cMeshCube->rotate(0.01f, 0.01f, 0.01f);
-   cMeshCube->setColor(Color(fMeshCubeR, fMeshCubeG, fMeshCubeB));
+   Entity* cCube = cScene->getEntity(_Cube_);
+   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cCube->getComponent(ComponentType::Transform));
+   cTransform->rotate(0.01f, 0.01f, 0.01f);
+
+   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cCube->getComponent(ComponentType::Renderable));
+   cRenderable->getMaterial().DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
    
    fMeshCubeR += fMeshCubeRInc;
    fMeshCubeG += fMeshCubeGInc;
@@ -164,8 +226,11 @@ void GEStateSample::updateCube()
 
 void GEStateSample::updateBall()
 {
+   Entity* cBall = cScene->getEntity(_Ball_);
+   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBall->getComponent(ComponentType::Transform));
+
    // get ball position
-   vBallPosition = cSpriteBall->getPosition();
+   vBallPosition = cTransform->getPosition();
    
    // bounds control (left/right)
    if((vBallPosition.X < BOUNDS_LEFT) ||
@@ -177,7 +242,7 @@ void GEStateSample::updateBall()
       else
          vBallPosition.X = BOUNDS_RIGHT;
       
-      cSpriteBall->setPosition(vBallPosition);
+      cTransform->setPosition(vBallPosition);
       
       // bounce
       vBallVelocity.X = (fabs(vBallVelocity.X) > STOPPED)? -vBallVelocity.X * BOUNCE: 0.0f;
@@ -193,47 +258,16 @@ void GEStateSample::updateBall()
       else
          vBallPosition.Y = BOUNDS_TOP;
       
-      cSpriteBall->setPosition(vBallPosition);
+      cTransform->setPosition(vBallPosition);
       
       // bounce
       vBallVelocity.Y = (fabs(vBallVelocity.Y) > STOPPED)? -vBallVelocity.Y * BOUNCE: 0.0f;
    }
    
    // move and rotate the ball
-   cSpriteBall->move(vBallVelocity);
-   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.Y < 0.0f)? -1: 1) * vBallVelocity.X * ROTATION);
-   cSpriteBall->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);
-}
-
-void GEStateSample::render()
-{
-   // background
-   cRender->set2D();
-   cRender->useShaderProgram((unsigned int)ShaderPrograms::HUD);
-   cRender->renderSprite(cSpriteBackground);
-
-   // camera
-   cRender->set3D();
-   cRender->useCamera(cCamera);
-
-   // meshes
-   cRender->useShaderProgram((unsigned int)ShaderPrograms::MeshColor);
-   cRender->renderMesh(cMeshCube);
-   cRender->useShaderProgram((unsigned int)ShaderPrograms::MeshTexture);
-   cRender->renderMesh(cMeshBanana);
-
-   // sprites
-   cRender->set2D();
-   cRender->useShaderProgram((unsigned int)ShaderPrograms::HUD);
-   cRender->renderSprite(cSpriteBall);
-    
-   for(int i = 0; i < FINGERS; i++)
-      cRender->renderSprite(cSpriteInfo[i]);
-
-   // text
-   cRender->set2D();
-   cRender->useShaderProgram((unsigned int)ShaderPrograms::Text);
-   cRender->renderLabel(cText);
+   cTransform->move(vBallVelocity);
+   cTransform->rotate(0.0f, 0.0f, ((vBallPosition.Y < 0.0f)? -1: 1) * vBallVelocity.X * ROTATION);
+   cTransform->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);
 }
 
 void GEStateSample::release()
@@ -242,44 +276,42 @@ void GEStateSample::release()
    //cAudio->stop(Sounds.Music);
    cAudio->stop(Sounds.Touch);
    cAudio->unloadAllSounds();
-   
-   // release objects
-   delete cCamera;
-   delete cMeshBanana;
-   delete cMeshCube;
 
-   delete cSpriteBackground;
-   delete cSpriteBall;
-   
-   for(int i = 0; i < FINGERS; i++)
-      delete cSpriteInfo[i];
-
-   delete cText;
+   // release scene
+   delete cScene;
 }
 
 void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
    cAudio->playSound(Sounds.Touch, 0);
 
-   cSpriteInfo[ID]->setPosition(Point.X, Point.Y, 0.0f);
-   cSpriteInfo[ID]->show();
+   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cEntitiesInfo[ID]->getComponent(ComponentType::Transform));
+   cTransform->setPosition(Point.X, Point.Y);
+
+   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cEntitiesInfo[ID]->getComponent(ComponentType::Renderable));
+   cRenderable->show();
 }
 
 void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const Vector2& CurrentPoint)
 {
    if(ID == 0)
    {
-      cCamera->move((CurrentPoint.X - PreviousPoint.X) * TOUCH_SCALE,
-                    (CurrentPoint.Y - PreviousPoint.Y) * TOUCH_SCALE,
-                    0.0f);
+      Entity* cCamera = cScene->getEntity(_Camera_);
+      ComponentTransform* cTransform = static_cast<ComponentTransform*>(cCamera->getComponent(ComponentType::Transform));
+
+      cTransform->move((CurrentPoint.X - PreviousPoint.X) * TOUCH_SCALE,
+                       (CurrentPoint.Y - PreviousPoint.Y) * TOUCH_SCALE,
+                       0.0f);
    }
-   
-   cSpriteInfo[ID]->setPosition(CurrentPoint.X, CurrentPoint.Y);
+
+   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cEntitiesInfo[ID]->getComponent(ComponentType::Transform));
+   cTransform->setPosition(CurrentPoint.X, CurrentPoint.Y);
 }
 
 void GEStateSample::inputTouchEnd(int ID, const Vector2& Point)
 {
-   cSpriteInfo[ID]->hide();
+   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cEntitiesInfo[ID]->getComponent(ComponentType::Renderable));
+   cRenderable->hide();
 }
 
 void GEStateSample::updateAccelerometerStatus(const Vector3& Status)
