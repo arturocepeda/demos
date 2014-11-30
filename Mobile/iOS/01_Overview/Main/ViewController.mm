@@ -45,7 +45,7 @@ using namespace GE::States;
    int iCurrentState;
    
    // Input management
-   int iFingerID[GE_MAX_FINGERS];
+   UITouch* iFingerID[GE_MAX_FINGERS];
    UIAccelerometer* uiAccel;
    
    Line* cPixelToScreenX;
@@ -272,7 +272,7 @@ using namespace GE::States;
          {
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
-            iFingerID[i] = *(int*)uiTouch;
+            iFingerID[i] = uiTouch;
             cStates[iCurrentState]->inputTouchBegin(i, [self pixelToScreen: Vector2(cgPoint.x, cgPoint.y)]);
             
             break;
@@ -289,7 +289,7 @@ using namespace GE::States;
    {
       for(int i = 0; i < GE_MAX_FINGERS; i++)
       {
-         if(iFingerID[i] == *(int*)uiTouch)
+         if(iFingerID[i] == uiTouch)
          {
             CGPoint cgPreviousPoint = [uiTouch previousLocationInView: self.view];
             CGPoint cgCurrentPoint = [uiTouch locationInView: self.view];
@@ -311,7 +311,7 @@ using namespace GE::States;
    {
       for(int i = 0; i < GE_MAX_FINGERS; i++)
       {
-         if(iFingerID[i] == *(int*)uiTouch)
+         if(iFingerID[i] == uiTouch)
          {
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
