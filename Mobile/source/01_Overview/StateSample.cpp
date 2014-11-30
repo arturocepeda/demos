@@ -14,6 +14,8 @@
 #include "StateSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEDevice.h"
+#include "Rendering/GERenderSystem.h"
+#include "Audio/GEAudioSystem.h"
 
 using namespace GE;
 using namespace GE::Core;
@@ -29,8 +31,10 @@ ObjectName _Ball_("Ball");
 ObjectName _Info_("Info");
 ObjectName _Title_("Title");
 
-GEStateSample::GEStateSample(RenderSystem* Render, AudioSystem* Audio, void* GlobalData)
-   : State(Render, Audio, GlobalData)
+const float RotationSpeedFactor = 0.0005f;
+
+GEStateSample::GEStateSample(void* GlobalData)
+   : State(GlobalData)
    , fMeshCubeR(1.0f)
    , fMeshCubeRInc(-0.01f)
    , fMeshCubeG(0.5f)
@@ -42,6 +46,9 @@ GEStateSample::GEStateSample(RenderSystem* Render, AudioSystem* Audio, void* Glo
 
 void GEStateSample::internalInit()
 { 
+   RenderSystem* cRender = RenderSystem::getInstance();
+   AudioSystem* cAudio = AudioSystem::getInstance();
+
    cRender->setBackgroundColor(Color(0.1f, 0.1f, 0.3f));
    
    // lighting
@@ -151,17 +158,18 @@ void GEStateSample::internalInit()
 
 void GEStateSample::update(float DeltaTime)
 {
-   updateCube();
-   updateBanana();
-   updateBall();
-   updateText();
+   updateCube(DeltaTime);
+   updateBanana(DeltaTime);
+   updateBall(DeltaTime);
+   updateText(DeltaTime);
 
    cScene->render();
 }
 
-void GEStateSample::updateText()
+void GEStateSample::updateText(float fDeltaTime)
 {
    Entity* cText = cScene->getEntity(_Title_);
+
    ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cText->getComponent(ComponentType::Renderable));
    Material& sMaterial = cRenderable->getMaterial();
 
@@ -169,19 +177,22 @@ void GEStateSample::updateText()
       sMaterial.DiffuseColor.setOpacity(sMaterial.DiffuseColor.getOpacity() + 0.005f);
 }
 
-void GEStateSample::updateBanana()
+void GEStateSample::updateBanana(float fDeltaTime)
 {
+   float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
+
    Entity* cBanana = cScene->getEntity(_Bananas_);
    ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBanana->getComponent(ComponentType::Transform));
-
-   cTransform->rotate(-0.01f, -0.01f, -0.01f);
+   cTransform->rotate(-fRotationSpeed, -fRotationSpeed, -fRotationSpeed);
 }
 
-void GEStateSample::updateCube()
+void GEStateSample::updateCube(float fDeltaTime)
 {
+   float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
+
    Entity* cCube = cScene->getEntity(_Cube_);
    ComponentTransform* cTransform = static_cast<ComponentTransform*>(cCube->getComponent(ComponentType::Transform));
-   cTransform->rotate(0.01f, 0.01f, 0.01f);
+   cTransform->rotate(fRotationSpeed, fRotationSpeed, fRotationSpeed);
 
    ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cCube->getComponent(ComponentType::Renderable));
    cRenderable->getMaterial().DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
@@ -224,7 +235,7 @@ void GEStateSample::updateCube()
    }
 }
 
-void GEStateSample::updateBall()
+void GEStateSample::updateBall(float fDeltaTime)
 {
    Entity* cBall = cScene->getEntity(_Ball_);
    ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBall->getComponent(ComponentType::Transform));
@@ -272,6 +283,8 @@ void GEStateSample::updateBall()
 
 void GEStateSample::release()
 {
+   AudioSystem* cAudio = AudioSystem::getInstance();
+
    // stop audio sources and release sounds
    //cAudio->stop(Sounds.Music);
    cAudio->stop(Sounds.Touch);
@@ -283,6 +296,7 @@ void GEStateSample::release()
 
 void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
+   AudioSystem* cAudio = AudioSystem::getInstance();
    cAudio->playSound(Sounds.Touch, 0);
 
    ComponentTransform* cTransform = static_cast<ComponentTransform*>(cEntitiesInfo[ID]->getComponent(ComponentType::Transform));

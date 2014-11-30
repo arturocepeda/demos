@@ -45,6 +45,7 @@ AppMain::AppMain()
 void AppMain::Initialize(CoreApplicationView^ applicationView)
 {
 #ifndef NDEBUG
+   // break whenever an assertion fails
    signal(SIGABRT, [](int){ __debugbreak(); }); 
 #endif
 
@@ -106,7 +107,7 @@ void AppMain::SetWindow(CoreWindow^ window)
    cAudio->init();
 
    // create states
-   cStates.push_back(new GEStateSample(cRender, cAudio, (void*)0));
+   cStates.push_back(new GEStateSample((void*)0));
    // ...
    // ...
 

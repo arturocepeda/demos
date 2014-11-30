@@ -96,7 +96,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNI
    cAudio->init();
    
    // create states
-   cStates.push_back(new GEStateSample(cRender, cAudio, (void*)0));
+   cStates.push_back(new GEStateSample((void*)0));
    // ...
    // ...
    

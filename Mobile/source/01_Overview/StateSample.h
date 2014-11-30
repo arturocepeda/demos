@@ -57,13 +57,13 @@ private:
    }
    Sounds;
    
-   void updateText();
-   void updateBanana();
-   void updateCube();
-   void updateBall();
+   void updateText(float fDeltaTime);
+   void updateBanana(float fDeltaTime);
+   void updateCube(float fDeltaTime);
+   void updateBall(float fDeltaTime);
    
 public:
-   GEStateSample(GE::Rendering::RenderSystem* Render, GE::Audio::AudioSystem* Audio, void* GlobalData);
+   GEStateSample(void* GlobalData);
    
    void internalInit();
    void release();
