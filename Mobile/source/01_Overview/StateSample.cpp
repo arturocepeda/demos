@@ -98,6 +98,7 @@ void GEStateSample::internalInit()
    cEntity = new Entity(_Bananas_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->scale(2.0f, 2.0f, 2.0f);
+   cTransform->setRotation(0.0f, 0.5f, 0.0f);
    cMesh = cEntity->addComponent<ComponentMesh>();
    cMesh->loadFromFile("banana");
    cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
@@ -128,6 +129,32 @@ void GEStateSample::internalInit()
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
    cSprite->setSize(Vector2(0.4f, 0.4f));
+
+Entity* child = new Entity(_Info_);
+cTransform = child->addComponent<ComponentTransform>();
+cTransform->setPosition(0.0f, 0.4f);
+cSprite = child->addComponent<ComponentSprite>();
+cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
+cSprite->setSize(Vector2(0.25f, 0.25f));
+
+Entity* childA = new Entity(_Info_);
+cTransform = childA->addComponent<ComponentTransform>();
+cTransform->setPosition(-0.2f,0.25f);
+cSprite = childA->addComponent<ComponentSprite>();
+cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
+cSprite->setSize(Vector2(0.125f, 0.125f));
+child->addChild(childA);
+
+Entity* childB = new Entity(_Info_);
+cTransform = childB->addComponent<ComponentTransform>();
+cTransform->setPosition(0.2f,0.25f);
+cSprite = childB->addComponent<ComponentSprite>();
+cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
+cSprite->setSize(Vector2(0.125f, 0.125f));
+child->addChild(childB);
+
+cEntity->addChild(child);
+
    cScene->addEntity(cEntity);
 
    for(int i = 0; i < FINGERS; i++)
@@ -170,7 +197,7 @@ void GEStateSample::updateText(float fDeltaTime)
 {
    Entity* cText = cScene->getEntity(_Title_);
 
-   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cText->getComponent(ComponentType::Renderable));
+   ComponentRenderable* cRenderable = cText->getComponent<ComponentRenderable>();
    Material& sMaterial = cRenderable->getMaterial();
 
    if(sMaterial.DiffuseColor.getOpacity() < 1.0f)   
@@ -182,7 +209,7 @@ void GEStateSample::updateBanana(float fDeltaTime)
    float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
 
    Entity* cBanana = cScene->getEntity(_Bananas_);
-   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBanana->getComponent(ComponentType::Transform));
+   ComponentTransform* cTransform = cBanana->getComponent<ComponentTransform>();
    cTransform->rotate(-fRotationSpeed, -fRotationSpeed, -fRotationSpeed);
 }
 
@@ -191,10 +218,10 @@ void GEStateSample::updateCube(float fDeltaTime)
    float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
 
    Entity* cCube = cScene->getEntity(_Cube_);
-   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cCube->getComponent(ComponentType::Transform));
+   ComponentTransform* cTransform = cCube->getComponent<ComponentTransform>();
    cTransform->rotate(fRotationSpeed, fRotationSpeed, fRotationSpeed);
 
-   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cCube->getComponent(ComponentType::Renderable));
+   ComponentRenderable* cRenderable = cCube->getComponent<ComponentRenderable>();
    cRenderable->getMaterial().DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
    
    fMeshCubeR += fMeshCubeRInc;
@@ -238,7 +265,7 @@ void GEStateSample::updateCube(float fDeltaTime)
 void GEStateSample::updateBall(float fDeltaTime)
 {
    Entity* cBall = cScene->getEntity(_Ball_);
-   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cBall->getComponent(ComponentType::Transform));
+   ComponentTransform* cTransform = cBall->getComponent<ComponentTransform>();
 
    // get ball position
    vBallPosition = cTransform->getPosition();
@@ -299,10 +326,10 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
    AudioSystem* cAudio = AudioSystem::getInstance();
    cAudio->playSound(Sounds.Touch, 0);
 
-   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cEntitiesInfo[ID]->getComponent(ComponentType::Transform));
+   ComponentTransform* cTransform = cEntitiesInfo[ID]->getComponent<ComponentTransform>();
    cTransform->setPosition(Point.X, Point.Y);
 
-   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cEntitiesInfo[ID]->getComponent(ComponentType::Renderable));
+   ComponentRenderable* cRenderable = cEntitiesInfo[ID]->getComponent<ComponentRenderable>();
    cRenderable->show();
 }
 
@@ -311,20 +338,20 @@ void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const V
    if(ID == 0)
    {
       Entity* cCamera = cScene->getEntity(_Camera_);
-      ComponentTransform* cTransform = static_cast<ComponentTransform*>(cCamera->getComponent(ComponentType::Transform));
+      ComponentTransform* cTransform = cCamera->getComponent<ComponentTransform>();
 
       cTransform->move((CurrentPoint.X - PreviousPoint.X) * TOUCH_SCALE,
                        (CurrentPoint.Y - PreviousPoint.Y) * TOUCH_SCALE,
                        0.0f);
    }
 
-   ComponentTransform* cTransform = static_cast<ComponentTransform*>(cEntitiesInfo[ID]->getComponent(ComponentType::Transform));
+   ComponentTransform* cTransform = cEntitiesInfo[ID]->getComponent<ComponentTransform>();
    cTransform->setPosition(CurrentPoint.X, CurrentPoint.Y);
 }
 
 void GEStateSample::inputTouchEnd(int ID, const Vector2& Point)
 {
-   ComponentRenderable* cRenderable = static_cast<ComponentRenderable*>(cEntitiesInfo[ID]->getComponent(ComponentType::Renderable));
+   ComponentRenderable* cRenderable = cEntitiesInfo[ID]->getComponent<ComponentRenderable>();
    cRenderable->hide();
 }
 

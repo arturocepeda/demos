@@ -81,7 +81,7 @@ void AppMain::SetWindow(CoreWindow^ window)
 #ifdef GE_ORIENTATION_PORTRAIT
    Device::ScreenWidth = convertDipsToPixels(window->Bounds.Width);
    Device::ScreenHeight = convertDipsToPixels(window->Bounds.Height);
-   Device::Orientation = DOPortrait;
+   Device::Orientation = DeviceOrientation::Portrait;
 
    cPixelToScreenX = new Line(0.0f, -1.0f, Device::ScreenWidth, 1.0f);
    cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::ScreenHeight, -Device::getAspectRatio());
@@ -90,7 +90,7 @@ void AppMain::SetWindow(CoreWindow^ window)
 #else
    Device::ScreenWidth = convertDipsToPixels(window->Bounds.Height);
    Device::ScreenHeight = convertDipsToPixels(window->Bounds.Width);
-   Device::Orientation = DOLandscape;
+   Device::Orientation = DeviceOrientation::Landscape;
 
    cPixelToScreenX = new Line(0.0f, -Device::getAspectRatio(), Device::ScreenHeight, Device::getAspectRatio());
    cPixelToScreenY = new Line(0.0f, 1.0f, Device::ScreenWidth, -1.0f);
@@ -188,7 +188,7 @@ void AppMain::OnWindowClosed(CoreWindow^ sender, CoreWindowEventArgs^ args)
 
 GE::Vector2 AppMain::PixelToScreen(const GE::Vector2& vPixelPosition)
 {
-   return Device::Orientation == DOPortrait
+   return Device::Orientation == DeviceOrientation::Portrait
       ? GE::Vector2((float)cPixelToScreenX->y(vPixelPosition.X), (float)cPixelToScreenY->y(vPixelPosition.Y))
       : GE::Vector2((float)-cPixelToScreenY->y(vPixelPosition.Y), (float)cPixelToScreenX->y(vPixelPosition.X));
 }

@@ -75,9 +75,9 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNI
 
    // device orientation
 #ifdef GE_ORIENTATION_PORTRAIT
-   Device::Orientation = DOPortrait;
+   Device::Orientation = DeviceOrientation::Portrait;
 #else
-   Device::Orientation = DOLandscape;
+   Device::Orientation = DeviceOrientation::Landscape;
 #endif
 
    // IDs for touch management
