@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		695A77701A2B7FB5004782D7 /* GEComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77621A2B7FB5004782D7 /* GEComponent.cpp */; };
+		695A77711A2B7FB5004782D7 /* GEComponentCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */; };
+		695A77721A2B7FB5004782D7 /* GEComponentMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77661A2B7FB5004782D7 /* GEComponentMesh.cpp */; };
+		695A77731A2B7FB5004782D7 /* GEComponentRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77681A2B7FB5004782D7 /* GEComponentRenderable.cpp */; };
+		695A77741A2B7FB5004782D7 /* GEComponentSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A776A1A2B7FB5004782D7 /* GEComponentSprite.cpp */; };
+		695A77751A2B7FB5004782D7 /* GEComponentTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A776C1A2B7FB5004782D7 /* GEComponentTransform.cpp */; };
+		695A77761A2B7FB5004782D7 /* GEComponentUILabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A776E1A2B7FB5004782D7 /* GEComponentUILabel.cpp */; };
+		695A77811A2B7FC7004782D7 /* GEEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77771A2B7FC7004782D7 /* GEEntity.cpp */; };
+		695A77821A2B7FC7004782D7 /* GEObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77791A2B7FC7004782D7 /* GEObject.cpp */; };
+		695A77831A2B7FC7004782D7 /* GERand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A777B1A2B7FC7004782D7 /* GERand.cpp */; };
+		695A77841A2B7FC7004782D7 /* GEScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A777D1A2B7FC7004782D7 /* GEScene.cpp */; };
 		69614AE719E7FC0B0042F316 /* banana.gem in Resources */ = {isa = PBXBuildFile; fileRef = 69614AE519E7FC0B0042F316 /* banana.gem */; };
 		69614AE819E7FC0B0042F316 /* cube.gem in Resources */ = {isa = PBXBuildFile; fileRef = 69614AE619E7FC0B0042F316 /* cube.gem */; };
 		69614AF919E7FC5B0042F316 /* hud.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 69614AE919E7FC480042F316 /* hud.fsh */; };
@@ -36,7 +47,6 @@
 		6969B6131912B1B80020E764 /* GEUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5E61912B1B80020E764 /* GEUtils.cpp */; };
 		6969B6141912B1B80020E764 /* GEDevice.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5EA1912B1B80020E764 /* GEDevice.mm */; };
 		6969B6191912B1B80020E764 /* GEGraphicsDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5F61912B1B80020E764 /* GEGraphicsDevice.cpp */; };
-		6969B61B1912B1B80020E764 /* GERenderingObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B5FA1912B1B80020E764 /* GERenderingObjects.cpp */; };
 		6969B6271912B1B80020E764 /* GEState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6969B60D1912B1B80020E764 /* GEState.cpp */; };
 		CEE0D4101874FE670055FA21 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE0D40F1874FE670055FA21 /* Default-568h@2x.png */; };
 		CEE0D42A187500390055FA21 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE0D426187500390055FA21 /* AppDelegate.m */; };
@@ -61,6 +71,30 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		695A77621A2B7FB5004782D7 /* GEComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponent.cpp; sourceTree = "<group>"; };
+		695A77631A2B7FB5004782D7 /* GEComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponent.h; sourceTree = "<group>"; };
+		695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentCamera.cpp; sourceTree = "<group>"; };
+		695A77651A2B7FB5004782D7 /* GEComponentCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentCamera.h; sourceTree = "<group>"; };
+		695A77661A2B7FB5004782D7 /* GEComponentMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentMesh.cpp; sourceTree = "<group>"; };
+		695A77671A2B7FB5004782D7 /* GEComponentMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentMesh.h; sourceTree = "<group>"; };
+		695A77681A2B7FB5004782D7 /* GEComponentRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentRenderable.cpp; sourceTree = "<group>"; };
+		695A77691A2B7FB5004782D7 /* GEComponentRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentRenderable.h; sourceTree = "<group>"; };
+		695A776A1A2B7FB5004782D7 /* GEComponentSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentSprite.cpp; sourceTree = "<group>"; };
+		695A776B1A2B7FB5004782D7 /* GEComponentSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentSprite.h; sourceTree = "<group>"; };
+		695A776C1A2B7FB5004782D7 /* GEComponentTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentTransform.cpp; sourceTree = "<group>"; };
+		695A776D1A2B7FB5004782D7 /* GEComponentTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentTransform.h; sourceTree = "<group>"; };
+		695A776E1A2B7FB5004782D7 /* GEComponentUILabel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentUILabel.cpp; sourceTree = "<group>"; };
+		695A776F1A2B7FB5004782D7 /* GEComponentUILabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentUILabel.h; sourceTree = "<group>"; };
+		695A77771A2B7FC7004782D7 /* GEEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEEntity.cpp; sourceTree = "<group>"; };
+		695A77781A2B7FC7004782D7 /* GEEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEEntity.h; sourceTree = "<group>"; };
+		695A77791A2B7FC7004782D7 /* GEObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEObject.cpp; sourceTree = "<group>"; };
+		695A777A1A2B7FC7004782D7 /* GEObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEObject.h; sourceTree = "<group>"; };
+		695A777B1A2B7FC7004782D7 /* GERand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERand.cpp; sourceTree = "<group>"; };
+		695A777C1A2B7FC7004782D7 /* GERand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERand.h; sourceTree = "<group>"; };
+		695A777D1A2B7FC7004782D7 /* GEScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEScene.cpp; sourceTree = "<group>"; };
+		695A777E1A2B7FC7004782D7 /* GEScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScene.h; sourceTree = "<group>"; };
+		695A777F1A2B7FC7004782D7 /* GESingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GESingleton.h; sourceTree = "<group>"; };
+		695A77801A2B7FC7004782D7 /* GEThreads.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEThreads.h; sourceTree = "<group>"; };
 		69614AE519E7FC0B0042F316 /* banana.gem */ = {isa = PBXFileReference; lastKnownFileType = file; name = banana.gem; path = Resources/Models/banana.gem; sourceTree = "<group>"; };
 		69614AE619E7FC0B0042F316 /* cube.gem */ = {isa = PBXFileReference; lastKnownFileType = file; name = cube.gem; path = Resources/Models/cube.gem; sourceTree = "<group>"; };
 		69614AE919E7FC480042F316 /* hud.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = hud.fsh; path = ../../../../GameEngine/Rendering/OpenGL/Shaders/hud.fsh; sourceTree = "<group>"; };
@@ -112,7 +146,6 @@
 		6969B5EA1912B1B80020E764 /* GEDevice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GEDevice.mm; sourceTree = "<group>"; };
 		6969B5F61912B1B80020E764 /* GEGraphicsDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEGraphicsDevice.cpp; sourceTree = "<group>"; };
 		6969B5F71912B1B80020E764 /* GEGraphicsDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEGraphicsDevice.h; sourceTree = "<group>"; };
-		6969B5FA1912B1B80020E764 /* GERenderingObjects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GERenderingObjects.cpp; sourceTree = "<group>"; };
 		6969B5FB1912B1B80020E764 /* GERenderingObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingObjects.h; sourceTree = "<group>"; };
 		6969B5FF1912B1B80020E764 /* GERenderingObjectsES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingObjectsES20.h; sourceTree = "<group>"; };
 		6969B6011912B1B80020E764 /* GERenderingShadersES20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderingShadersES20.h; sourceTree = "<group>"; };
@@ -272,6 +305,30 @@
 		6969B5E11912B1B80020E764 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				695A77771A2B7FC7004782D7 /* GEEntity.cpp */,
+				695A77781A2B7FC7004782D7 /* GEEntity.h */,
+				695A77791A2B7FC7004782D7 /* GEObject.cpp */,
+				695A777A1A2B7FC7004782D7 /* GEObject.h */,
+				695A777B1A2B7FC7004782D7 /* GERand.cpp */,
+				695A777C1A2B7FC7004782D7 /* GERand.h */,
+				695A777D1A2B7FC7004782D7 /* GEScene.cpp */,
+				695A777E1A2B7FC7004782D7 /* GEScene.h */,
+				695A777F1A2B7FC7004782D7 /* GESingleton.h */,
+				695A77801A2B7FC7004782D7 /* GEThreads.h */,
+				695A77621A2B7FB5004782D7 /* GEComponent.cpp */,
+				695A77631A2B7FB5004782D7 /* GEComponent.h */,
+				695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */,
+				695A77651A2B7FB5004782D7 /* GEComponentCamera.h */,
+				695A77661A2B7FB5004782D7 /* GEComponentMesh.cpp */,
+				695A77671A2B7FB5004782D7 /* GEComponentMesh.h */,
+				695A77681A2B7FB5004782D7 /* GEComponentRenderable.cpp */,
+				695A77691A2B7FB5004782D7 /* GEComponentRenderable.h */,
+				695A776A1A2B7FB5004782D7 /* GEComponentSprite.cpp */,
+				695A776B1A2B7FB5004782D7 /* GEComponentSprite.h */,
+				695A776C1A2B7FB5004782D7 /* GEComponentTransform.cpp */,
+				695A776D1A2B7FB5004782D7 /* GEComponentTransform.h */,
+				695A776E1A2B7FB5004782D7 /* GEComponentUILabel.cpp */,
+				695A776F1A2B7FB5004782D7 /* GEComponentUILabel.h */,
 				69650EE119378C2C002C1A4B /* GEDevice.h */,
 				6969B5E21912B1B80020E764 /* GEConstants.h */,
 				6969B5E31912B1B80020E764 /* GETimer.cpp */,
@@ -300,7 +357,6 @@
 				69614B0819E7FD960042F316 /* GERenderSystem.h */,
 				6969B5F61912B1B80020E764 /* GEGraphicsDevice.cpp */,
 				6969B5F71912B1B80020E764 /* GEGraphicsDevice.h */,
-				6969B5FA1912B1B80020E764 /* GERenderingObjects.cpp */,
 				6969B5FB1912B1B80020E764 /* GERenderingObjects.h */,
 				6969B5FC1912B1B80020E764 /* OpenGL */,
 			);
@@ -469,7 +525,7 @@
 		CEE82F5E16679399004FBB96 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0610;
 			};
 			buildConfigurationList = CEE82F6116679399004FBB96 /* Build configuration list for PBXProject "01_Overview" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -527,22 +583,32 @@
 			files = (
 				CEE82F8D16679399004FBB96 /* ViewController.mm in Sources */,
 				CEE0D42A187500390055FA21 /* AppDelegate.m in Sources */,
+				695A77741A2B7FB5004782D7 /* GEComponentSprite.cpp in Sources */,
 				CEE0D42D187500390055FA21 /* main.m in Sources */,
 				6969B6121912B1B80020E764 /* GETimer.cpp in Sources */,
 				6969B6131912B1B80020E764 /* GEUtils.cpp in Sources */,
+				695A77711A2B7FB5004782D7 /* GEComponentCamera.cpp in Sources */,
 				6969B6141912B1B80020E764 /* GEDevice.mm in Sources */,
+				695A77751A2B7FB5004782D7 /* GEComponentTransform.cpp in Sources */,
 				6969B6191912B1B80020E764 /* GEGraphicsDevice.cpp in Sources */,
-				6969B61B1912B1B80020E764 /* GERenderingObjects.cpp in Sources */,
+				695A77721A2B7FB5004782D7 /* GEComponentMesh.cpp in Sources */,
+				695A77831A2B7FC7004782D7 /* GERand.cpp in Sources */,
+				695A77811A2B7FC7004782D7 /* GEEntity.cpp in Sources */,
 				6969B6271912B1B80020E764 /* GEState.cpp in Sources */,
+				695A77701A2B7FB5004782D7 /* GEComponent.cpp in Sources */,
 				69650EDF193789C0002C1A4B /* GERenderingObjectsES20.cpp in Sources */,
 				69650EE0193789C0002C1A4B /* GERenderingShadersES20.cpp in Sources */,
 				69650EE31937925E002C1A4B /* StateSample.cpp in Sources */,
 				69650EE9193792BE002C1A4B /* pugixml.cpp in Sources */,
 				69650EF119379304002C1A4B /* GEAudioData.cpp in Sources */,
 				69650EF219379304002C1A4B /* GEContentData.cpp in Sources */,
+				695A77841A2B7FC7004782D7 /* GEScene.cpp in Sources */,
+				695A77761A2B7FB5004782D7 /* GEComponentUILabel.cpp in Sources */,
+				695A77731A2B7FB5004782D7 /* GEComponentRenderable.cpp in Sources */,
 				69650EFA1937962C002C1A4B /* GEImageData.cpp in Sources */,
 				69650F031937964E002C1A4B /* stb_image.c in Sources */,
 				69614B0319E7FD7C0042F316 /* GEAudioSystem.cpp in Sources */,
+				695A77821A2B7FC7004782D7 /* GEObject.cpp in Sources */,
 				69614B0619E7FD840042F316 /* GEAudioSystemOpenAL.mm in Sources */,
 				69614B0919E7FD960042F316 /* GERenderSystem.cpp in Sources */,
 				69614B0C19E7FDA50042F316 /* GERenderSystemES20.cpp in Sources */,
@@ -567,14 +633,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -584,10 +653,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -597,18 +670,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COMPRESS_PNG_FILES = NO;
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

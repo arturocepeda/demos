@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BFA6D07E-04CA-4ABA-9D9D-44DA8DC7CED0</string>
+	<key>IDESourceControlProjectName</key>
+	<string>01_Overview</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8BC14291ECF4E558F2591ADB2A492D6A1AA38542</key>
+		<string>https://github.com/arturocepeda/GameEngine.git</string>
+		<key>CB4800634375EE6069376959DF306D8FA20297DF</key>
+		<string>https://github.com/arturocepeda/demos.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Mobile/iOS/01_Overview/01_Overview.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8BC14291ECF4E558F2591ADB2A492D6A1AA38542</key>
+		<string>../../../../../../GameEngine</string>
+		<key>CB4800634375EE6069376959DF306D8FA20297DF</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/arturocepeda/demos.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>CB4800634375EE6069376959DF306D8FA20297DF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CB4800634375EE6069376959DF306D8FA20297DF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>demos</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8BC14291ECF4E558F2591ADB2A492D6A1AA38542</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GameEngine</string>
+		</dict>
+	</array>
+</dict>
+</plist>

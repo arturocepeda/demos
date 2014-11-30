@@ -71,6 +71,11 @@ using namespace GE::States;
 @synthesize context = _context;
 @synthesize effect = _effect;
 
+-(BOOL) prefersStatusBarHidden
+{
+   return YES;
+}
+
 -(void) dealloc
 {
    [_context release];
@@ -108,13 +113,13 @@ using namespace GE::States;
    
    // device orientation
 #ifdef GE_ORIENTATION_PORTRAIT
-   Device::Orientation = DOPortrait;
+   Device::Orientation = DeviceOrientation::Portrait;
 #else
-   Device::Orientation = DOLandscape;
+   Device::Orientation = DeviceOrientation::Landscape;
 #endif
    
    // pixel space to screen space
-   if(Device::Orientation == DOPortrait)
+   if(Device::Orientation == DeviceOrientation::Portrait)
    {
       cPixelToScreenX = new Line(0.0f, -1.0f, Device::getTouchPadWidth(), 1.0f);
       cPixelToScreenY = new Line(0.0f, Device::getAspectRatio(), Device::getTouchPadHeight(), -Device::getAspectRatio());
@@ -142,7 +147,7 @@ using namespace GE::States;
    iAudioUpdateFrame = 0;
    
    // create states
-   cStates.push_back(new GEStateSample(cRender, cAudio, 0));
+   cStates.push_back(new GEStateSample(0));
    // ...
    // ...
    
@@ -245,8 +250,9 @@ using namespace GE::States;
 -(void) glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
    cRender->renderBegin();
-   cStates[iCurrentState]->render();
+   cRender->renderFrame();
    [self.context presentRenderbuffer:GL_RENDERBUFFER];
+   cRender->clearRenderingQueues();
 }
 
 -(Vector2) pixelToScreen:(const GE::Vector2&)pixelPosition
@@ -266,7 +272,7 @@ using namespace GE::States;
          {
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             
-            iFingerID[i] = (int)uiTouch;
+            iFingerID[i] = *(int*)uiTouch;
             cStates[iCurrentState]->inputTouchBegin(i, [self pixelToScreen: Vector2(cgPoint.x, cgPoint.y)]);
             
             break;
@@ -283,7 +289,7 @@ using namespace GE::States;
    {
       for(int i = 0; i < GE_MAX_FINGERS; i++)
       {
-         if(iFingerID[i] == (int)uiTouch)
+         if(iFingerID[i] == *(int*)uiTouch)
          {
             CGPoint cgPreviousPoint = [uiTouch previousLocationInView: self.view];
             CGPoint cgCurrentPoint = [uiTouch locationInView: self.view];
@@ -305,7 +311,7 @@ using namespace GE::States;
    {
       for(int i = 0; i < GE_MAX_FINGERS; i++)
       {
-         if(iFingerID[i] == (int)uiTouch)
+         if(iFingerID[i] == *(int*)uiTouch)
          {
             CGPoint cgPoint = [uiTouch locationInView: self.view];
             

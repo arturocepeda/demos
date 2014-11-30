@@ -69,7 +69,6 @@ public:
    void release();
    
    void update(float DeltaTime);
-   void render();
    
    void inputTouchBegin(int ID, const GE::Vector2& Point);
    void inputTouchMove(int ID, const GE::Vector2& PreviousPoint, const GE::Vector2& CurrentPoint);
