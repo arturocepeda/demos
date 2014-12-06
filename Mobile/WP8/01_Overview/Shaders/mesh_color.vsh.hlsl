@@ -20,9 +20,6 @@ cbuffer ConstantBuffer : register(b0)
    float4 vAmbientLightColor;   
    float4 vPointLight1Color;
    float3 vPointLight1Position;
-   float fAmbientLightIntensity;
-   float3 vUnused;
-   float fPointLight1Intensity;
 };
 
 struct VertexShaderInput
@@ -39,9 +36,7 @@ struct VertexShaderOutput
    float3 EyeSpaceVertexPosition : POSITION0;
    float3 EyeSpacePointLight1Position : POSITION1;
    float4 AmbientLightColor : COLOR1;
-   float AmbientLightIntensity : TEXCOORD0;
    float4 PointLight1Color : COLOR2;
-   float PointLight1Intensity : TEXCOORD1;
 };
 
 VertexShaderOutput main(VertexShaderInput input)
@@ -56,9 +51,7 @@ VertexShaderOutput main(VertexShaderInput input)
    output.EyeSpacePointLight1Position = mul(mWorldViewMatrix, float4(vPointLight1Position, 0.0f));
 
    output.AmbientLightColor = vAmbientLightColor;
-   output.AmbientLightIntensity = fAmbientLightIntensity;
    output.PointLight1Color = vPointLight1Color;
-   output.PointLight1Intensity = fPointLight1Intensity;
 
    return output;
 }

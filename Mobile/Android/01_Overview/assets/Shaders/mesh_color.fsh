@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Fragment shader (3D mesh without texture)
 //
@@ -18,10 +18,8 @@ varying vec4 varEyeSpaceVertexPosition;
 varying vec4 varEyeSpacePointLight1Position;
 
 uniform vec4 uObjectColor;
-uniform vec3 uAmbientLightColor;
-uniform float uAmbientLightIntensity;
-uniform vec3 uPointLight1Color;
-uniform float uPointLight1Intensity;
+uniform vec4 uAmbientLightColor;
+uniform vec4 uPointLight1Color;
 
 const float fSpecularExponent = 10.0;
 
@@ -41,13 +39,13 @@ void main()
    //   
    //  Add ambient light
    //
-   vColor = vMaterialDiffuseColor * uAmbientLightColor * uAmbientLightIntensity;
+   vColor = vMaterialDiffuseColor * uAmbientLightColor.xyz * uAmbientLightColor.w;
 
 
    //
    //  Add point light
    //   
-   vec3 vLightColor = uPointLight1Color * uPointLight1Intensity;
+   vec3 vLightColor = uPointLight1Color.xyz * uPointLight1Color.w;
    vec3 vLightDirection = normalize(varEyeSpacePointLight1Position - varEyeSpaceVertexPosition).xyz;
    vec3 vHalfPlane = normalize(vLightDirection + vCameraDirection);
       

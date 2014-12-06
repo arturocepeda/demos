@@ -2,7 +2,7 @@
 //////////////////////////////////////////////////////////////////
 //
 //  Arturo Cepeda Pérez
-//  iOS Game Engine
+//  Game Engine
 //
 //  Vertex shader (3D mesh with texture)
 //

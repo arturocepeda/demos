@@ -23,9 +23,7 @@ struct PixelShaderInput
    float3 EyeSpaceVertexPosition : POSITION0;
    float3 EyeSpacePointLight1Position : POSITION1;
    float4 AmbientLightColor : COLOR1;
-   float AmbientLightIntensity : TEXCOORD1;
    float4 PointLight1Color : COLOR2;
-   float PointLight1Intensity : TEXCOORD2;
 };
 
 float4 main(PixelShaderInput input) : SV_TARGET
@@ -45,12 +43,12 @@ float4 main(PixelShaderInput input) : SV_TARGET
    //   
    //  Add ambient light
    //
-   vColor = (vMaterialDiffuseColor * input.AmbientLightColor * input.AmbientLightIntensity).xyz;
+   vColor = (vMaterialDiffuseColor * input.AmbientLightColor).xyz * input.AmbientLightColor.w;
 
    //
    //  Add point light
    //   
-   float3 vLightColor = input.PointLight1Color * input.PointLight1Intensity;
+   float3 vLightColor = input.PointLight1Color.xyz * input.PointLight1Color.w;
    float3 vLightDirection = normalize(input.EyeSpacePointLight1Position - input.EyeSpaceVertexPosition).xyz;
    float3 vHalfPlane = normalize(vLightDirection + vCameraDirection);
       

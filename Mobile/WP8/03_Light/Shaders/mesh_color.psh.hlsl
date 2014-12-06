@@ -41,12 +41,12 @@ float4 main(PixelShaderInput input) : SV_TARGET
    //   
    //  Add ambient light
    //
-   vColor = (vMaterialDiffuseColor * input.AmbientLightColor * input.AmbientLightIntensity).xyz;
+   vColor = (vMaterialDiffuseColor * input.AmbientLightColor.xyz * input.AmbientLightIntensity).xyz;
 
    //
    //  Add point light
    //   
-   float3 vLightColor = input.PointLight1Color * input.PointLight1Intensity;
+   float3 vLightColor = input.PointLight1Color.xyz * input.PointLight1Intensity;
    float3 vLightDirection = normalize(input.EyeSpacePointLight1Position - input.EyeSpaceVertexPosition).xyz;
    float3 vHalfPlane = normalize(vLightDirection + vCameraDirection);
       
