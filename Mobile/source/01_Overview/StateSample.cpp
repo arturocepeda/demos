@@ -14,6 +14,7 @@
 #include "StateSample.h"
 #include "Core/GEUtils.h"
 #include "Core/GEDevice.h"
+#include "Core/GEEntity.h"
 #include "Rendering/GERenderSystem.h"
 #include "Audio/GEAudioSystem.h"
 
@@ -85,15 +86,14 @@ void GEStateSample::internalInit()
    ComponentUILabel* cLabel = 0;
 
    // camera
-   cEntity = new Entity(_Camera_);
+   cEntity = cScene->addEntity(_Camera_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->setPosition(0.0f, 0.0f, -4.0f);
    cCamera = cEntity->addComponent<ComponentCamera>();
-   cScene->addEntity(cEntity);
    cRender->setActiveCamera(cCamera);
 
    // meshes
-   cEntity = new Entity(_Bananas_);
+   cEntity = cScene->addEntity(_Bananas_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->scale(2.0f, 2.0f, 2.0f);
    cTransform->setRotation(0.0f, 0.5f, 0.0f);
@@ -101,9 +101,8 @@ void GEStateSample::internalInit()
    cMesh->loadFromFile("banana");
    cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
    cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Banana);
-   cScene->addEntity(cEntity);
 
-   cEntity = new Entity(_Cube_);
+   cEntity = cScene->addEntity(_Cube_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->setPosition(0.0f, -1.5f, 0.0f);
    cTransform->scale(0.5f, 0.5f, 0.5f);
@@ -111,64 +110,55 @@ void GEStateSample::internalInit()
    cMesh->loadFromFile("cube");
    cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshColor;
    cMesh->getMaterial().DiffuseColor = Color(1.0f, 0.5f, 0.2f);
-   cScene->addEntity(cEntity);
 
    // sprites
-   cEntity = new Entity(_Background_);
+   cEntity = cScene->addEntity(_Background_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->setLayer(SpriteLayer::Pre3D);
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Background);
    cSprite->setSize(Vector2(2.0f, 4.0f));
-   cScene->addEntity(cEntity);
 
-   cEntity = new Entity(_Ball_);
+   cEntity = cScene->addEntity(_Ball_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
    cSprite->setSize(Vector2(0.4f, 0.4f));
 
-Entity* child = new Entity(_Info_);
+Entity* child = cScene->addEntity(_Info_, cEntity);
 cTransform = child->addComponent<ComponentTransform>();
 cTransform->setPosition(0.0f, 0.4f);
 cSprite = child->addComponent<ComponentSprite>();
 cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
 cSprite->setSize(Vector2(0.25f, 0.25f));
 
-Entity* childA = new Entity(_Info_);
+Entity* childA = cScene->addEntity(_Info_, child);
 cTransform = childA->addComponent<ComponentTransform>();
 cTransform->setPosition(-0.2f,0.25f);
 cSprite = childA->addComponent<ComponentSprite>();
 cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
 cSprite->setSize(Vector2(0.125f, 0.125f));
-child->addChild(childA);
 
-Entity* childB = new Entity(_Info_);
+Entity* childB = cScene->addEntity(_Info_, child);
 cTransform = childB->addComponent<ComponentTransform>();
 cTransform->setPosition(0.2f,0.25f);
 cSprite = childB->addComponent<ComponentSprite>();
 cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
 cSprite->setSize(Vector2(0.125f, 0.125f));
-child->addChild(childB);
-
-cEntity->addChild(child);
-
-   cScene->addEntity(cEntity);
 
    for(int i = 0; i < FINGERS; i++)
    {
-      cEntity = new Entity(_Info_);
+      cEntity = cScene->addEntity(_Info_);
       cEntitiesInfo[i] = cEntity;
       cTransform = cEntity->addComponent<ComponentTransform>();
       cSprite = cEntity->addComponent<ComponentSprite>();
       cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
       cSprite->setSize(Vector2(0.25f, 0.25f));
       cSprite->setVisible(false);
-      cScene->addEntity(cEntity);
    }
 
    // text
-   cEntity = new Entity(_Title_);
+   cEntity = cScene->addEntity(_Title_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->setPosition(0.0f, 1.15f);
    cLabel = cEntity->addComponent<ComponentUILabel>();
@@ -178,7 +168,6 @@ cEntity->addChild(child);
    cLabel->setAligment(Alignment::CenterCenter);
    cLabel->setCharacterSize(Vector2(0.16f, 0.16f));
    cLabel->setText("Game Engine");
-   cScene->addEntity(cEntity);
 }
 
 void GEStateSample::update(float DeltaTime)
