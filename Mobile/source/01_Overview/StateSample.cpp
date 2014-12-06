@@ -125,21 +125,21 @@ void GEStateSample::internalInit()
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
    cSprite->setSize(Vector2(0.4f, 0.4f));
 
-Entity* child = cScene->addEntity(_Info_, cEntity);
+Entity* child = cScene->addEntity("BallChild", cEntity);
 cTransform = child->addComponent<ComponentTransform>();
 cTransform->setPosition(0.0f, 0.4f);
 cSprite = child->addComponent<ComponentSprite>();
 cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
 cSprite->setSize(Vector2(0.25f, 0.25f));
 
-Entity* childA = cScene->addEntity(_Info_, child);
+Entity* childA = cScene->addEntity("BallChildA", child);
 cTransform = childA->addComponent<ComponentTransform>();
 cTransform->setPosition(-0.2f,0.25f);
 cSprite = childA->addComponent<ComponentSprite>();
 cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
 cSprite->setSize(Vector2(0.125f, 0.125f));
 
-Entity* childB = cScene->addEntity(_Info_, child);
+Entity* childB = cScene->addEntity("BallChildB", child);
 cTransform = childB->addComponent<ComponentTransform>();
 cTransform->setPosition(0.2f,0.25f);
 cSprite = childB->addComponent<ComponentSprite>();
@@ -148,7 +148,9 @@ cSprite->setSize(Vector2(0.125f, 0.125f));
 
    for(int i = 0; i < FINGERS; i++)
    {
-      cEntity = cScene->addEntity(_Info_);
+      char sBuffer[8];
+      sprintf(sBuffer, "Info%02d", i + 1);
+      cEntity = cScene->addEntity(sBuffer);
       cEntitiesInfo[i] = cEntity;
       cTransform = cEntity->addComponent<ComponentTransform>();
       cSprite = cEntity->addComponent<ComponentSprite>();
