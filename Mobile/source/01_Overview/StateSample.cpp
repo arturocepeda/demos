@@ -52,13 +52,11 @@ void GEStateSample::internalInit()
    cRender->setBackgroundColor(Color(0.1f, 0.1f, 0.3f));
    
    // lighting
-   cRender->setAmbientLightColor(Color(1.0f, 1.0f, 1.0f));
-   cRender->setAmbientLightIntensity(0.25f);
+   cRender->setAmbientLightColor(Color(1.0f, 1.0f, 1.0f, 0.25f));
    
    cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition((unsigned int)Lights::PointLight1, Vector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor((unsigned int)Lights::PointLight1, Color(1.0f, 1.0f, 1.0f));
-   cRender->setLightIntensity((unsigned int)Lights::PointLight1, 0.6f);
+   cRender->setLightPosition((uint)Lights::PointLight1, Vector3(0.0f, 0.0f, 1.0f));
+   cRender->setLightColor((uint)Lights::PointLight1, Color(1.0f, 1.0f, 1.0f, 0.6f));
 
    // textures
    cRender->loadTexture(Textures.Background, "background", "jpg");
