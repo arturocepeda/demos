@@ -23,7 +23,7 @@
 #define BOUNDS_RIGHT    (1.0f * 0.83f)
 
 #define FINGERS      10
-#define TOUCH_SCALE  0.2f
+#define TOUCH_SCALE  1.0f
 #define ACC_SCALE    0.006f
 #define STOPPED      0.004f
 #define BOUNCE       0.55f
@@ -47,18 +47,17 @@ private:
    
    struct
    {
-      enum {Background, Banana, Info, Basketball};
+      enum { Background, Banana, Info, Basketball };
    } 
    Textures;
    
    struct
    {
-      enum {Music, Touch};
+      enum { Music, Touch };
    }
    Sounds;
    
    void updateText(float fDeltaTime);
-   void updateBanana(float fDeltaTime);
    void updateCube(float fDeltaTime);
    void updateBall(float fDeltaTime);
    

@@ -21,6 +21,12 @@
     <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\hud.vsh.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\text.psh.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\text.vsh.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
     <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\mesh_color.psh.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
@@ -31,12 +37,6 @@
       <Filter>Shaders</Filter>
     </FxCompile>
     <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\mesh_texture.vsh.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\text.psh.hlsl">
-      <Filter>Shaders</Filter>
-    </FxCompile>
-    <FxCompile Include="..\..\..\GameEngine\Rendering\DX11\Shaders\text.vsh.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

@@ -17,6 +17,7 @@
 #include "Core/GEEntity.h"
 #include "Rendering/GERenderSystem.h"
 #include "Audio/GEAudioSystem.h"
+#include "Rendering/GEPrimitives.h"
 
 using namespace GE;
 using namespace GE::Core;
@@ -25,9 +26,9 @@ using namespace GE::Rendering;
 using namespace GE::Audio;
 
 ObjectName _Camera_("Camera");
+ObjectName _Light_("Light");
 ObjectName _Background_("Background");
-ObjectName _Bananas_("Bananas");
-ObjectName _Cube_("Cube");
+ObjectName _CubeTexture_("CubeTexture");
 ObjectName _Ball_("Ball");
 ObjectName _Info_("Info");
 ObjectName _Title_("Title");
@@ -51,13 +52,7 @@ void GEStateSample::internalInit()
    AudioSystem* cAudio = AudioSystem::getInstance();
 
    cRender->setBackgroundColor(Color(0.1f, 0.1f, 0.3f));
-   
-   // lighting
-   cRender->setAmbientLightColor(Color(1.0f, 1.0f, 1.0f, 0.25f));
-   
-   cRender->setNumberOfActiveLights(1);
-   cRender->setLightPosition((uint)Lights::PointLight1, Vector3(0.0f, 0.0f, 1.0f));
-   cRender->setLightColor((uint)Lights::PointLight1, Color(1.0f, 1.0f, 1.0f, 0.6f));
+   cRender->setAmbientLightColor(Color(0.25f, 0.25f, 0.25f));
 
    // textures
    cRender->loadTexture(Textures.Background, "background", "jpg");
@@ -80,10 +75,20 @@ void GEStateSample::internalInit()
 
    Entity* cEntity = 0;
    ComponentTransform* cTransform = 0;
+   ComponentLight* cLight = 0;
    ComponentCamera* cCamera = 0;
    ComponentMesh* cMesh = 0;
    ComponentSprite* cSprite = 0;
    ComponentUILabel* cLabel = 0;
+
+   // light
+   cEntity = cScene->addEntity(_Light_);
+   cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setPosition(0.0f, 0.0f, 0.0f);
+   cLight = cEntity->addComponent<ComponentLight>();
+   cLight->setLightType(LightType::Directional);
+   cLight->setColor(Color(1.0f, 1.0f, 1.0f));
+   cLight->setLinearAttenuation(0.1f);
 
    // camera
    cEntity = cScene->addEntity(_Camera_);
@@ -93,23 +98,15 @@ void GEStateSample::internalInit()
    cRender->setActiveCamera(cCamera);
 
    // meshes
-   cEntity = cScene->addEntity(_Bananas_);
-   cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->scale(2.0f, 2.0f, 2.0f);
-   cTransform->setRotation(0.0f, 0.5f, 0.0f);
-   cMesh = cEntity->addComponent<ComponentMesh>();
-   cMesh->loadFromFile("banana");
-   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
-   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Banana);
+   Cube cCube(1.0f);
 
-   cEntity = cScene->addEntity(_Cube_);
+   cEntity = cScene->addEntity(_CubeTexture_);
    cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->setPosition(0.0f, -1.5f, 0.0f);
-   cTransform->scale(0.5f, 0.5f, 0.5f);
    cMesh = cEntity->addComponent<ComponentMesh>();
-   cMesh->loadFromFile("cube");
-   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshColor;
-   cMesh->getMaterial().DiffuseColor = Color(1.0f, 0.5f, 0.2f);
+   cMesh->loadFromArrays(cCube.getNumVertices(), (float*)cCube.getVertices(), (float*)cCube.getNormals(), (float*)cCube.getTexCoords(),
+      cCube.getNumIndices(), (ushort*)cCube.getIndices());
+   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
+   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
 
    // sprites
    cEntity = cScene->addEntity(_Background_);
@@ -124,27 +121,6 @@ void GEStateSample::internalInit()
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
    cSprite->setSize(Vector2(0.4f, 0.4f));
-
-Entity* child = cScene->addEntity("BallChild", cEntity);
-cTransform = child->addComponent<ComponentTransform>();
-cTransform->setPosition(0.0f, 0.4f);
-cSprite = child->addComponent<ComponentSprite>();
-cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
-cSprite->setSize(Vector2(0.25f, 0.25f));
-
-Entity* childA = cScene->addEntity("BallChildA", child);
-cTransform = childA->addComponent<ComponentTransform>();
-cTransform->setPosition(-0.2f,0.25f);
-cSprite = childA->addComponent<ComponentSprite>();
-cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
-cSprite->setSize(Vector2(0.125f, 0.125f));
-
-Entity* childB = cScene->addEntity("BallChildB", child);
-cTransform = childB->addComponent<ComponentTransform>();
-cTransform->setPosition(0.2f,0.25f);
-cSprite = childB->addComponent<ComponentSprite>();
-cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
-cSprite->setSize(Vector2(0.125f, 0.125f));
 
    for(int i = 0; i < FINGERS; i++)
    {
@@ -175,10 +151,8 @@ cSprite->setSize(Vector2(0.125f, 0.125f));
 void GEStateSample::update(float DeltaTime)
 {
    updateCube(DeltaTime);
-   updateBanana(DeltaTime);
    updateBall(DeltaTime);
    updateText(DeltaTime);
-
    cScene->render();
 }
 
@@ -193,20 +167,11 @@ void GEStateSample::updateText(float fDeltaTime)
       sMaterial.DiffuseColor.setOpacity(sMaterial.DiffuseColor.getOpacity() + 0.005f);
 }
 
-void GEStateSample::updateBanana(float fDeltaTime)
-{
-   float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
-
-   Entity* cBanana = cScene->getEntity(_Bananas_);
-   ComponentTransform* cTransform = cBanana->getComponent<ComponentTransform>();
-   cTransform->rotate(-fRotationSpeed, -fRotationSpeed, -fRotationSpeed);
-}
-
 void GEStateSample::updateCube(float fDeltaTime)
 {
    float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
 
-   Entity* cCube = cScene->getEntity(_Cube_);
+   Entity* cCube = cScene->getEntity(_CubeTexture_);
    ComponentTransform* cTransform = cCube->getComponent<ComponentTransform>();
    cTransform->rotate(fRotationSpeed, fRotationSpeed, fRotationSpeed);
 
@@ -320,6 +285,10 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 
    ComponentRenderable* cRenderable = cEntitiesInfo[ID]->getComponent<ComponentRenderable>();
    cRenderable->show();
+
+
+   Entity* cam = cScene->getEntity(_Camera_);
+   cam->getComponent<ComponentTransform>()->move(0.0f, 0.0f, 0.1f);
 }
 
 void GEStateSample::inputTouchMove(int ID, const Vector2& PreviousPoint, const Vector2& CurrentPoint)
