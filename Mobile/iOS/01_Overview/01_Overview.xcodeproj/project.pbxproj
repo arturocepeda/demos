@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		695080351A73E37600E637EC /* GEComponentLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695080331A73E37600E637EC /* GEComponentLight.cpp */; };
+		695080381A73E3A700E637EC /* GEPrimitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695080361A73E3A700E637EC /* GEPrimitives.cpp */; };
 		695A77701A2B7FB5004782D7 /* GEComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77621A2B7FB5004782D7 /* GEComponent.cpp */; };
 		695A77711A2B7FB5004782D7 /* GEComponentCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */; };
 		695A77721A2B7FB5004782D7 /* GEComponentMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 695A77661A2B7FB5004782D7 /* GEComponentMesh.cpp */; };
@@ -71,6 +73,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		695080331A73E37600E637EC /* GEComponentLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentLight.cpp; sourceTree = "<group>"; };
+		695080341A73E37600E637EC /* GEComponentLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponentLight.h; sourceTree = "<group>"; };
+		695080361A73E3A700E637EC /* GEPrimitives.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEPrimitives.cpp; sourceTree = "<group>"; };
+		695080371A73E3A700E637EC /* GEPrimitives.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEPrimitives.h; sourceTree = "<group>"; };
 		695A77621A2B7FB5004782D7 /* GEComponent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponent.cpp; sourceTree = "<group>"; };
 		695A77631A2B7FB5004782D7 /* GEComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEComponent.h; sourceTree = "<group>"; };
 		695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GEComponentCamera.cpp; sourceTree = "<group>"; };
@@ -319,6 +325,8 @@
 				695A77631A2B7FB5004782D7 /* GEComponent.h */,
 				695A77641A2B7FB5004782D7 /* GEComponentCamera.cpp */,
 				695A77651A2B7FB5004782D7 /* GEComponentCamera.h */,
+				695080331A73E37600E637EC /* GEComponentLight.cpp */,
+				695080341A73E37600E637EC /* GEComponentLight.h */,
 				695A77661A2B7FB5004782D7 /* GEComponentMesh.cpp */,
 				695A77671A2B7FB5004782D7 /* GEComponentMesh.h */,
 				695A77681A2B7FB5004782D7 /* GEComponentRenderable.cpp */,
@@ -358,6 +366,8 @@
 				6969B5F61912B1B80020E764 /* GEGraphicsDevice.cpp */,
 				6969B5F71912B1B80020E764 /* GEGraphicsDevice.h */,
 				6969B5FB1912B1B80020E764 /* GERenderingObjects.h */,
+				695080361A73E3A700E637EC /* GEPrimitives.cpp */,
+				695080371A73E3A700E637EC /* GEPrimitives.h */,
 				6969B5FC1912B1B80020E764 /* OpenGL */,
 			);
 			name = Rendering;
@@ -612,6 +622,8 @@
 				69614B0619E7FD840042F316 /* GEAudioSystemOpenAL.mm in Sources */,
 				69614B0919E7FD960042F316 /* GERenderSystem.cpp in Sources */,
 				69614B0C19E7FDA50042F316 /* GERenderSystemES20.cpp in Sources */,
+				695080351A73E37600E637EC /* GEComponentLight.cpp in Sources */,
+				695080381A73E3A700E637EC /* GEPrimitives.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
