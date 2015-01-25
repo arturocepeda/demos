@@ -17,6 +17,7 @@
 #import "GEAudioSystemOpenAL.h"
 #import "GEState.h"
 #import "GETimer.h"
+#import "GETime.h"
 #import "GEDevice.h"
 
 #import "config.h"
@@ -154,6 +155,7 @@ using namespace GE::States;
    // start the timer
    cTimer.start();
    dTime = 0.0;
+   Time::reset();
    
    // select the first state   
    iCurrentState = 0;
@@ -227,11 +229,12 @@ using namespace GE::States;
 {
    // delta time
    double dCurrentTime = cTimer.getTime();
-   float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
+   float fDeltaTime = (dCurrentTime - dTime) * 0.000001f;
    dTime = dCurrentTime;
    
    // state update
-   cStates[iCurrentState]->update(fDeltaTime);
+   Time::setDelta(fDeltaTime);
+   cStates[iCurrentState]->update();
    
    // audio system update
    iAudioUpdateFrame++;

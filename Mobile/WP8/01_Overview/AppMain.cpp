@@ -16,6 +16,7 @@
 #include <csignal>
 
 #include "Core/GEDevice.h"
+#include "Core/GETime.h"
 
 #include "StateSample.h"
 
@@ -131,6 +132,7 @@ void AppMain::Load(Platform::String^ entryPoint)
 void AppMain::Run()
 {
    cTimer.start();
+   Time::reset();
 
    double dCurrentTime = cTimer.getTime();
    double dPreviousTime = dCurrentTime;
@@ -157,7 +159,8 @@ void AppMain::Run()
          }
 
          // state update
-         cStates[iCurrentState]->update((float)dDeltaTime * 0.001f);
+         Time::setDelta((float)dDeltaTime * 0.000001f);
+         cStates[iCurrentState]->update();
 
          // render
          cRender->renderBegin();

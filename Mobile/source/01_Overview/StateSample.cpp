@@ -15,6 +15,7 @@
 #include "Core/GEUtils.h"
 #include "Core/GEDevice.h"
 #include "Core/GEEntity.h"
+#include "Core/GETime.h"
 #include "Rendering/GERenderSystem.h"
 #include "Audio/GEAudioSystem.h"
 #include "Rendering/GEPrimitives.h"
@@ -33,7 +34,7 @@ ObjectName _Ball_("Ball");
 ObjectName _Info_("Info");
 ObjectName _Title_("Title");
 
-const float RotationSpeedFactor = 0.0005f;
+const float RotationSpeedFactor = 0.5f;
 
 GEStateSample::GEStateSample(void* GlobalData)
    : State(GlobalData)
@@ -102,6 +103,7 @@ void GEStateSample::internalInit()
 
    cEntity = cScene->addEntity(_CubeTexture_);
    cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setPosition(0.0f, 0.0f, 0.0f);
    cMesh = cEntity->addComponent<ComponentMesh>();
    cMesh->loadFromArrays(cCube.getNumVertices(), (float*)cCube.getVertices(), (float*)cCube.getNormals(), (float*)cCube.getTexCoords(),
       cCube.getNumIndices(), (ushort*)cCube.getIndices());
@@ -148,15 +150,15 @@ void GEStateSample::internalInit()
    cLabel->setText("Game Engine");
 }
 
-void GEStateSample::update(float DeltaTime)
+void GEStateSample::update()
 {
-   updateCube(DeltaTime);
-   updateBall(DeltaTime);
-   updateText(DeltaTime);
+   updateCube();
+   updateBall();
+   updateText();
    cScene->render();
 }
 
-void GEStateSample::updateText(float fDeltaTime)
+void GEStateSample::updateText()
 {
    Entity* cText = cScene->getEntity(_Title_);
 
@@ -167,9 +169,9 @@ void GEStateSample::updateText(float fDeltaTime)
       sMaterial.DiffuseColor.setOpacity(sMaterial.DiffuseColor.getOpacity() + 0.005f);
 }
 
-void GEStateSample::updateCube(float fDeltaTime)
+void GEStateSample::updateCube()
 {
-   float fRotationSpeed = RotationSpeedFactor * fDeltaTime;
+   float fRotationSpeed = RotationSpeedFactor * Time::getDelta();
 
    Entity* cCube = cScene->getEntity(_CubeTexture_);
    ComponentTransform* cTransform = cCube->getComponent<ComponentTransform>();
@@ -216,7 +218,7 @@ void GEStateSample::updateCube(float fDeltaTime)
    }
 }
 
-void GEStateSample::updateBall(float fDeltaTime)
+void GEStateSample::updateBall()
 {
    Entity* cBall = cScene->getEntity(_Ball_);
    ComponentTransform* cTransform = cBall->getComponent<ComponentTransform>();
@@ -253,7 +255,7 @@ void GEStateSample::updateBall(float fDeltaTime)
       cTransform->setPosition(vBallPosition);
       
       // bounce
-      vBallVelocity.Y = (fabs(vBallVelocity.Y) > STOPPED)? -vBallVelocity.Y * BOUNCE: 0.0f;
+      vBallVelocity.Y = fabs(vBallVelocity.Y) > STOPPED ? -vBallVelocity.Y * BOUNCE : 0.0f;
    }
    
    // move and rotate the ball

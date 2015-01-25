@@ -20,6 +20,7 @@
 
 #include "Core/GEDevice.h"
 #include "Core/GETimer.h"
+#include "Core/GETime.h"
 #include "States/GEState.h"
 
 #include "Rendering/DX11/GERenderSystemDX11.h"
@@ -128,6 +129,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
     // timer
     Timer cTimer;
     cTimer.start();
+    Time::reset();
 
     bEnd = false;
 
@@ -212,8 +214,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR sCmdLine, 
             if(!cCurrentState)
                 continue;
 
+            Time::setDelta((float)dTimeDelta * 0.000001f);
+
             cCurrentState->inputMouse(pMouse.x, pMouse.y);
-            cCurrentState->update((float)dTimeDelta * 0.001f);
+            cCurrentState->update();
 
             cRender->renderBegin();
             cRender->renderFrame();

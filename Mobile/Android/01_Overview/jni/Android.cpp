@@ -25,6 +25,7 @@
 #include "Core/GEDevice.h"
 #include "States/GEState.h"
 #include "Core/GETimer.h"
+#include "Core/GETime.h"
 
 #include "StateSample.h"
 
@@ -107,6 +108,7 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_Initialize(JNI
    // start the timer
    cTimer.start();
    dTime = 0.0;
+   Time::reset();
 
    // set the initialized flag
    bInitialized = true;
@@ -123,11 +125,11 @@ JNIEXPORT void JNICALL Java_com_GameEngine_Overview_GameEngineLib_UpdateFrame(JN
 {
    // delta time
    double dCurrentTime = cTimer.getTime();
-   float fDeltaTime = (dCurrentTime - dTime) * 0.001f;
+   Time::setDelta((dCurrentTime - dTime) * 0.000001f);
    dTime = dCurrentTime;
 
    // update
-   cStates[iCurrentState]->update(fDeltaTime);
+   cStates[iCurrentState]->update();
     
    // state change request
    if(cStates[iCurrentState]->getNextState() >= 0)

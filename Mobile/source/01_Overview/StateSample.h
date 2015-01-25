@@ -57,9 +57,9 @@ private:
    }
    Sounds;
    
-   void updateText(float fDeltaTime);
-   void updateCube(float fDeltaTime);
-   void updateBall(float fDeltaTime);
+   void updateText();
+   void updateCube();
+   void updateBall();
    
 public:
    GEStateSample(void* GlobalData);
@@ -67,7 +67,7 @@ public:
    void internalInit();
    void release();
    
-   void update(float DeltaTime);
+   void update();
    
    void inputTouchBegin(int ID, const GE::Vector2& Point);
    void inputTouchMove(int ID, const GE::Vector2& PreviousPoint, const GE::Vector2& CurrentPoint);
