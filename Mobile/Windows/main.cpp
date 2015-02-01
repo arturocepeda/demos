@@ -21,7 +21,7 @@
 #include "Core/GEDevice.h"
 #include "Core/GETimer.h"
 #include "Core/GETime.h"
-#include "States/GEState.h"
+#include "Core/GEState.h"
 
 #include "Rendering/DX11/GERenderSystemDX11.h"
 #include "Audio/FMOD/GEAudioSystemFMOD.h"
@@ -34,7 +34,6 @@
 #pragma comment(lib, "../../../GameEngine/Externals/FMOD/lib/fmodex_vc.lib")
 
 using namespace GE::Core;
-using namespace GE::States;
 using namespace GE::Rendering;
 using namespace GE::Audio;
 

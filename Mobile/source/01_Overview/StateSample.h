@@ -14,7 +14,7 @@
 #ifndef _STATESAMPLE_H_
 #define _STATESAMPLE_H_
 
-#include "States/GEState.h"
+#include "Core/GEState.h"
 #include "Core/GEScene.h"
 
 #define BOUNDS_TOP      (GE::Core::Device::getAspectRatio() * 0.89f)
@@ -29,7 +29,7 @@
 #define BOUNCE       0.55f
 #define ROTATION     2.8f
 
-class GEStateSample : public GE::States::State
+class GEStateSample : public GE::Core::State
 {
 private:
    GE::Core::Scene* cScene;

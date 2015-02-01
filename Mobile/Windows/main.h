@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "Core/GETypes.h"
+#include "Types/GETypes.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>

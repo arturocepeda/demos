@@ -16,7 +16,7 @@
 
 #include "Rendering/DX11/GERenderSystemDX11.h"
 #include "Audio/XAudio2/GEAudioSystemXAudio2.h"
-#include "States/GEState.h"
+#include "Core/GEState.h"
 #include "Core/GETimer.h"
 
 #include "config.h"
@@ -49,7 +49,7 @@ private:
    GE::Audio::AudioSystemXAudio2* cAudio;
    GE::Core::Timer cTimer;
 
-   std::vector<GE::States::State*> cStates;
+   std::vector<GE::Core::State*> cStates;
 
    bool bWindowClosed;
    bool bWindowVisible;

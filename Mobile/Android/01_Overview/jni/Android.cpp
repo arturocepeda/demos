@@ -23,7 +23,7 @@
 #include "Rendering/OpenGL/GERenderSystemES20.h"
 #include "Audio/OpenSL/GEAudioSystemOpenSL.h"
 #include "Core/GEDevice.h"
-#include "States/GEState.h"
+#include "Core/GEState.h"
 #include "Core/GETimer.h"
 #include "Core/GETime.h"
 
@@ -33,7 +33,6 @@ using namespace GE;
 using namespace GE::Core;
 using namespace GE::Rendering;
 using namespace GE::Audio;
-using namespace GE::States;
 
 RenderSystem* cRender;
 AudioSystem* cAudio;

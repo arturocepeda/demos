@@ -22,7 +22,6 @@
 
 using namespace GE;
 using namespace GE::Core;
-using namespace GE::States;
 using namespace GE::Rendering;
 using namespace GE::Audio;
 
@@ -85,7 +84,6 @@ void GEStateSample::internalInit()
    // light
    cEntity = cScene->addEntity(_Light_);
    cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->setPosition(0.0f, 0.0f, 0.0f);
    cLight = cEntity->addComponent<ComponentLight>();
    cLight->setLightType(LightType::Directional);
    cLight->setColor(Color(1.0f, 1.0f, 1.0f));
@@ -175,7 +173,8 @@ void GEStateSample::updateCube()
 
    Entity* cCube = cScene->getEntity(_CubeTexture_);
    ComponentTransform* cTransform = cCube->getComponent<ComponentTransform>();
-   cTransform->rotate(fRotationSpeed, fRotationSpeed, fRotationSpeed);
+   Rotation cRotation(Vector3(0.0f, 1.0f, 0.0f), fRotationSpeed);
+   cTransform->rotate(cRotation);
 
    ComponentRenderable* cRenderable = cCube->getComponent<ComponentRenderable>();
    cRenderable->getMaterial().DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
@@ -260,8 +259,8 @@ void GEStateSample::updateBall()
    
    // move and rotate the ball
    cTransform->move(vBallVelocity);
-   cTransform->rotate(0.0f, 0.0f, ((vBallPosition.Y < 0.0f)? -1: 1) * vBallVelocity.X * ROTATION);
-   cTransform->rotate(0.0f, 0.0f, ((vBallPosition.X < 0.0f)? 1: -1) * vBallVelocity.Y * ROTATION);
+   cTransform->rotate(Rotation(Vector3::UnitZ, (vBallPosition.Y < 0.0f ? 1.0f : -1.0f) * vBallVelocity.X * ROTATION));
+   cTransform->rotate(Rotation(Vector3::UnitZ, (vBallPosition.X < 0.0f ? -1.0f : 1.0f) * vBallVelocity.Y * ROTATION));
 }
 
 void GEStateSample::release()
