@@ -23,7 +23,7 @@
 #define BOUNDS_RIGHT    (1.0f * 0.83f)
 
 #define FINGERS      10
-#define TOUCH_SCALE  1.0f
+#define TOUCH_SCALE  10.0f
 #define ACC_SCALE    0.006f
 #define STOPPED      0.004f
 #define BOUNCE       0.55f

@@ -92,21 +92,17 @@ void GEStateSample::internalInit()
    // camera
    cEntity = cScene->addEntity(_Camera_);
    cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->setPosition(0.0f, 0.0f, -4.0f);
+   cTransform->setPosition(0.0f, 70.0f, -300.0f);
    cCamera = cEntity->addComponent<ComponentCamera>();
    cRender->setActiveCamera(cCamera);
 
    // meshes
-   Cube cCube(1.0f);
-
    cEntity = cScene->addEntity(_CubeTexture_);
    cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->setPosition(0.0f, 0.0f, 0.0f);
    cMesh = cEntity->addComponent<ComponentMesh>();
-   cMesh->loadFromArrays(cCube.getNumVertices(), (float*)cCube.getVertices(), (float*)cCube.getNormals(), (float*)cCube.getTexCoords(),
-      cCube.getNumIndices(), (ushort*)cCube.getIndices());
+   cMesh->loadFromFile("humanoid");
    cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
-   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
+   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Banana);
 
    // sprites
    cEntity = cScene->addEntity(_Background_);
@@ -121,6 +117,10 @@ void GEStateSample::internalInit()
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
    cSprite->setSize(Vector2(0.4f, 0.4f));
+
+#if defined GE_PLATFORM_WINDOWS
+   cSprite->setVisible(false);
+#endif
 
    for(int i = 0; i < FINGERS; i++)
    {
