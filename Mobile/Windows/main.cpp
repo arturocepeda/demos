@@ -250,42 +250,46 @@ GE::Vector2 GetMouseScreenPosition()
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-    if(cCurrentState)
-    {
-        switch(iMsg)
-        {
-        case WM_CLOSE:
-           bEnd = true;
-           return 0;
+   if(cCurrentState)
+   {
+      switch(iMsg)
+      {
+      case WM_CLOSE:
+         bEnd = true;
+         return 0;
 
-        case WM_KEYDOWN:
-            cCurrentState->inputKeyPress((char)wParam);
-            return 0;
+      case WM_KEYDOWN:
+         cCurrentState->inputKeyPress((char)wParam);
+         return 0;
 
-        case WM_KEYUP:
-            cCurrentState->inputKeyRelease((char)wParam);
-            return 0;
+      case WM_KEYUP:
+         cCurrentState->inputKeyRelease((char)wParam);
+         return 0;
 
-        case WM_LBUTTONDOWN:
-            bMouseLeftButton = true;
-            vMouseLastPosition = GetMouseScreenPosition();
-            cCurrentState->inputMouseLeftButton();
-            cCurrentState->inputTouchBegin(0, vMouseLastPosition);
-            return 0;
+      case WM_LBUTTONDOWN:
+         bMouseLeftButton = true;
+         vMouseLastPosition = GetMouseScreenPosition();
+         cCurrentState->inputMouseLeftButton();
+         cCurrentState->inputTouchBegin(0, vMouseLastPosition);
+         return 0;
 
-        case WM_LBUTTONUP:
-            bMouseLeftButton = false;
-            vMouseLastPosition = GetMouseScreenPosition();
-            cCurrentState->inputTouchEnd(0, vMouseLastPosition);
-            return 0;
+      case WM_LBUTTONUP:
+         bMouseLeftButton = false;
+         vMouseLastPosition = GetMouseScreenPosition();
+         cCurrentState->inputTouchEnd(0, vMouseLastPosition);
+         return 0;
 
-        case WM_RBUTTONDOWN:
-            cCurrentState->inputMouseRightButton();
-            return 0;
-        }
-    }
+      case WM_RBUTTONDOWN:
+         cCurrentState->inputMouseRightButton();
+         return 0;
+
+      case WM_MOUSEWHEEL:
+         cCurrentState->inputMouseWheel(GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA);
+         return 0;
+      }
+   }
     
-    return DefWindowProc(hWnd, iMsg, wParam, lParam);
+   return DefWindowProc(hWnd, iMsg, wParam, lParam);
 }
 
 void StateChange(GE::uint iNewState)
