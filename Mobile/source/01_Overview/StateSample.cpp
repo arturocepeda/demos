@@ -46,8 +46,12 @@ GEStateSample::GEStateSample(void* GlobalData)
 {
 }
 
+#include "Core/GEObjectManager.h"
+
 void GEStateSample::internalInit()
 { 
+   ObjectManager<Entity> man;
+
    RenderSystem* cRender = RenderSystem::getInstance();
    AudioSystem* cAudio = AudioSystem::getInstance();
 
@@ -55,10 +59,10 @@ void GEStateSample::internalInit()
    cRender->setAmbientLightColor(Color(0.25f, 0.25f, 0.25f));
 
    // textures
-   cRender->loadTexture(Textures.Background, "background", "jpg");
-   cRender->loadTexture(Textures.Banana, "banana", "jpg");
-   cRender->loadTexture(Textures.Info, "info", "png");
-   cRender->loadTexture(Textures.Basketball, "basketball", "png");
+   cRender->loadTexture("TextureBackground", "background", "jpg");
+   cRender->loadTexture("TextureBanana", "banana", "jpg");
+   cRender->loadTexture("TextureInfo", "info", "png");
+   cRender->loadTexture("TextureBasketball", "basketball", "png");
       
    // sounds
    //cAudio->loadSound(Sounds.Music, "song", "caf");
@@ -68,7 +72,10 @@ void GEStateSample::internalInit()
    
    // font
    //cRender->defineFont(0, "Optima-ExtraBlack", 44.0f);
-   cRender->defineFont(0, "Test", 24.0f);
+   cRender->defineFont("FontTest", "Test", 24.0f);
+
+   // materials
+   cRender->loadMaterials("sample");
 
    // scene
    cScene = new Scene("Scene");
@@ -92,30 +99,31 @@ void GEStateSample::internalInit()
    // camera
    cEntity = cScene->addEntity(_Camera_);
    cTransform = cEntity->addComponent<ComponentTransform>();
-   cTransform->setPosition(0.0f, 70.0f, -300.0f);
+   cTransform->setPosition(0.0f, 5.0f, 15.0f);
+   cTransform->setForwardVector(Vector3(0.0f, 0.0f, -1.0f));
    cCamera = cEntity->addComponent<ComponentCamera>();
    cRender->setActiveCamera(cCamera);
 
    // meshes
    cEntity = cScene->addEntity(_CubeTexture_);
    cTransform = cEntity->addComponent<ComponentTransform>();
+   cTransform->setScale(0.05f, 0.05f, 0.05f);
    cMesh = cEntity->addComponent<ComponentMesh>();
    cMesh->loadFromFile("humanoid");
-   cMesh->getMaterial().ShaderProgram = ShaderPrograms::MeshTexture;
-   cMesh->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Banana);
+   cMesh->setMaterial(cRender->getMaterial("MaterialBanana"));
 
    // sprites
    cEntity = cScene->addEntity(_Background_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cSprite = cEntity->addComponent<ComponentSprite>();
    cSprite->setLayer(SpriteLayer::Pre3D);
-   cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Background);
+   cSprite->setMaterial(cRender->getMaterial("MaterialBackground"));
    cSprite->setSize(Vector2(2.0f, 4.0f));
 
    cEntity = cScene->addEntity(_Ball_);
    cTransform = cEntity->addComponent<ComponentTransform>();
    cSprite = cEntity->addComponent<ComponentSprite>();
-   cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Basketball);
+   cSprite->setMaterial(cRender->getMaterial("MaterialBasketball"));
    cSprite->setSize(Vector2(0.4f, 0.4f));
 
 #if defined GE_PLATFORM_WINDOWS
@@ -130,7 +138,7 @@ void GEStateSample::internalInit()
       cEntitiesInfo[i] = cEntity;
       cTransform = cEntity->addComponent<ComponentTransform>();
       cSprite = cEntity->addComponent<ComponentSprite>();
-      cSprite->getMaterial().DiffuseTexture = cRender->getTexture(Textures.Info);
+      cSprite->setMaterial(cRender->getMaterial("MaterialInfo"));
       cSprite->setSize(Vector2(0.25f, 0.25f));
       cSprite->setVisible(false);
    }
@@ -140,9 +148,9 @@ void GEStateSample::internalInit()
    cTransform = cEntity->addComponent<ComponentTransform>();
    cTransform->setPosition(0.0f, 1.15f);
    cLabel = cEntity->addComponent<ComponentUILabel>();
-   cLabel->getMaterial().DiffuseColor = Color(1.0f, 0.25f, 0.25f);
-   cLabel->getMaterial().DiffuseColor.setOpacity(0.0f);
-   cLabel->setFont(0);
+   cLabel->setMaterial(cRender->getMaterial("MaterialText"));
+   cLabel->getMaterial()->DiffuseColor = Color(1.0f, 0.25f, 0.25f, 0.0f);
+   cLabel->setFont(cRender->getFont("FontTest"));
    cLabel->setAligment(Alignment::CenterCenter);
    cLabel->setCharacterSize(Vector2(0.16f, 0.16f));
    cLabel->setText("Game Engine");
@@ -153,6 +161,7 @@ void GEStateSample::update()
    updateCube();
    updateBall();
    updateText();
+   cScene->update();
    cScene->render();
 }
 
@@ -161,10 +170,10 @@ void GEStateSample::updateText()
    Entity* cText = cScene->getEntity(_Title_);
 
    ComponentRenderable* cRenderable = cText->getComponent<ComponentRenderable>();
-   Material& sMaterial = cRenderable->getMaterial();
+   Material* sMaterial = cRenderable->getMaterial();
 
-   if(sMaterial.DiffuseColor.getOpacity() < 1.0f)   
-      sMaterial.DiffuseColor.setOpacity(sMaterial.DiffuseColor.getOpacity() + 0.005f);
+   if(sMaterial->DiffuseColor.getOpacity() < 1.0f)   
+      sMaterial->DiffuseColor.setOpacity(sMaterial->DiffuseColor.getOpacity() + 0.005f);
 }
 
 void GEStateSample::updateCube()
@@ -177,7 +186,7 @@ void GEStateSample::updateCube()
    cTransform->rotate(cRotation);
 
    ComponentRenderable* cRenderable = cCube->getComponent<ComponentRenderable>();
-   cRenderable->getMaterial().DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
+   cRenderable->getMaterial()->DiffuseColor = Color(fMeshCubeR, fMeshCubeG, fMeshCubeB);
    
    fMeshCubeR += fMeshCubeRInc;
    fMeshCubeG += fMeshCubeGInc;
@@ -276,6 +285,13 @@ void GEStateSample::release()
    delete cScene;
 }
 
+void GEStateSample::inputMouseWheel(int Delta)
+{
+   Entity* cCamera = cScene->getEntity(_Camera_);
+   ComponentTransform* cTransform = cCamera->getComponent<ComponentTransform>();
+   cTransform->move(cTransform->getForwardVector() * Time::getDelta() * (float)Delta * 100.0f);
+}
+
 void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 {
    AudioSystem* cAudio = AudioSystem::getInstance();
@@ -286,7 +302,6 @@ void GEStateSample::inputTouchBegin(int ID, const Vector2& Point)
 
    ComponentRenderable* cRenderable = cEntitiesInfo[ID]->getComponent<ComponentRenderable>();
    cRenderable->show();
-
 
    Entity* cam = cScene->getEntity(_Camera_);
    cam->getComponent<ComponentTransform>()->move(0.0f, 0.0f, 0.1f);

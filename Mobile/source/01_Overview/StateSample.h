@@ -47,12 +47,6 @@ private:
    
    struct
    {
-      enum { Background, Banana, Info, Basketball };
-   } 
-   Textures;
-   
-   struct
-   {
       enum { Music, Touch };
    }
    Sounds;
@@ -69,6 +63,8 @@ public:
    
    void update();
    
+   void inputMouseWheel(int Delta);
+
    void inputTouchBegin(int ID, const GE::Vector2& Point);
    void inputTouchMove(int ID, const GE::Vector2& PreviousPoint, const GE::Vector2& CurrentPoint);
    void inputTouchEnd(int ID, const GE::Vector2& Point);

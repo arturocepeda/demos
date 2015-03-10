@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Materials>
+  <Material name="MaterialText" shaderProgram="Text" />
+  <Material name="MaterialBackground" shaderProgram="HUD" diffuseTexture="TextureBackground" />
+  <Material name="MaterialInfo" shaderProgram="HUD" diffuseTexture="TextureInfo" />
+  <Material name="MaterialBasketball" shaderProgram="HUD" diffuseTexture="TextureBasketball" />
+  <Material name="MaterialCube" shaderProgram="MeshColor" />
+  <Material name="MaterialBanana" shaderProgram="MeshTexture" diffuseTexture="TextureBanana" />
+</Materials>
